@@ -74,7 +74,41 @@ Checks::is(
 	array( 'b' => array( 'sticky' => false ) )
 );
 
+// Regression protection for merge paths that are correct today but untested.
+// merge_configs() is hand-written logic and Tasks 4-9 build on it.
+Checks::is(
+	'merge_configs: recurses more than one level deep',
+	merge_configs(
+		array( 'a' => array( 'b' => array( 'c' => 1, 'd' => 2 ) ) ),
+		array( 'a' => array( 'b' => array( 'c' => 3 ) ) )
+	),
+	array( 'a' => array( 'b' => array( 'c' => 3, 'd' => 2 ) ) )
+);
+Checks::is(
+	'merge_configs: child-only key is added',
+	merge_configs( array( 'a' => 1 ), array( 'b' => 2 ) ),
+	array( 'a' => 1, 'b' => 2 )
+);
+Checks::is(
+	'merge_configs: child null replaces a parent array',
+	merge_configs( array( 'a' => array( 'x' => 1 ) ), array( 'a' => null ) ),
+	array( 'a' => null )
+);
+Checks::is(
+	'merge_configs: child assoc replaces a parent list',
+	merge_configs( array( 'a' => array( 'x', 'y' ) ), array( 'a' => array( 'k' => 'v' ) ) ),
+	array( 'a' => array( 'k' => 'v' ) )
+);
+Checks::is(
+	'merge_configs: child list replaces a parent assoc',
+	merge_configs( array( 'a' => array( 'k' => 'v' ) ), array( 'a' => array( 'x', 'y' ) ) ),
+	array( 'a' => array( 'x', 'y' ) )
+);
+
 // is_list_array() — the predicate the merge depends on.
+// The empty-array guard in is_list_array() is load-bearing, not defensive:
+// range( 0, -1 ) counts down and yields array( 0, -1 ), so without the guard
+// is_list_array( array() ) would return false.
 Checks::true( 'is_list_array: empty array is a list', is_list_array( array() ) );
 Checks::true( 'is_list_array: sequential from zero is a list', is_list_array( array( 'a', 'b' ) ) );
 Checks::is( 'is_list_array: string keys are not a list', is_list_array( array( 'k' => 'v' ) ), false );
