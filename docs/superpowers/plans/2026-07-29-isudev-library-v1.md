@@ -26,6 +26,7 @@ Każde zadanie implicite podlega tym regułom.
 - **Bloki `apiVersion: 3`.** W kodzie edytora nigdy globalny `document`/`window` — `element.ownerDocument` przez `useRefEffect`. **Wyjątek: `view.js` (frontend) używa globali legalnie — nie zmieniaj tego, view scripts nie są iframe'owane.**
 - **Nie używaj** `DimensionControl` (usunięty w WP 7.0) ani `__next40pxDefaultSize` (no-op w 7.1). Tylko stabilizowane nazwy z `@wordpress/components`.
 - **Nie używaj `_wp_array_get()`** (prywatne API rdzenia) ani `assert()`/`assert_options()` (deprecated w PHP 8.3+).
+- **Komentarze blokowe: tekst musi zaczynać się w nowej linii.** `/* --- opis --- */` z tekstem w pierwszej linii to **ERROR** `Squiz.Commenting.BlockComment.NoNewLine` i `phpcs` pada. Używaj formy `/*` / ` * opis` / ` */`. Sprawdzone empirycznie na tym repo.
 - **Nazwy parametrów nie mogą być słowami zarezerwowanymi PHP.** WPCS 3.x (przez PHPCSExtra) zgłasza `Universal.NamingConventions.NoReservedKeywordParameterNames`, a `phpcs` wychodzi wtedy z kodem 1 — `composer run lint:php` pada. Sprawdzone empirycznie na tym repo; odrzucane są m.in.: `$default`, `$parent`, `$namespace`, `$array`, `$class`, `$function`, `$list`, `$new`, `$print`, `$static`, `$string`, `$use`. Przyjęte zamienniki w tym projekcie: `$fallback`, `$parent_config`, `$child_config`, `$variation_namespace`. Dotyczy **wyłącznie parametrów** — zmienne lokalne i klucze `foreach` mogą nazywać się dowolnie (`foreach ( $x as $namespace => $y )` jest legalne).
 - **wp-cli nie ma dostępu do bazy tego Locala.** Nie pisz kroków weryfikacyjnych opartych na `wp eval`, `wp plugin`, `wp option`. Weryfikacja: plain-PHP checks + Playwright po HTTP na `http://isudev-library.local/`.
 - **Po każdej zmianie kodu:** `npm run lint:js`, `npm run lint:css`, `composer run lint:php` muszą być zielone przed commitem.
@@ -1051,9 +1052,9 @@ EOF
 Dodaj **na końcu** pliku:
 
 ```php
-/* ---------------------------------------------------------------------------
+/*
  * WordPress adapters. Everything below may call WordPress functions.
- * ------------------------------------------------------------------------ */
+ */
 
 /**
  * Locate a readable isudev.json in the child or parent theme.
@@ -1708,9 +1709,9 @@ EOF
 Dodaj jako ostatnie metody klasy, przed zamykającym `}`:
 
 ```php
-	/* -----------------------------------------------------------------------
+	/*
 	 * WordPress adapters. Everything below may call WordPress functions.
-	 * -------------------------------------------------------------------- */
+	 */
 
 	/**
 	 * Cache for descriptors().
@@ -2425,9 +2426,9 @@ function build_svg( string $path_d, int $size, string $class_attr ): string {
 	);
 }
 
-/* ---------------------------------------------------------------------------
+/*
  * WordPress adapters.
- * ------------------------------------------------------------------------ */
+ */
 
 /**
  * Return an inline SVG icon for the given slug.
