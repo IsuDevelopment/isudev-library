@@ -60,9 +60,17 @@ $config = array(
 	'isudev/site-header' => array(
 		'sticky'     => true,
 		'ariaLabel'  => 'Main',
+		// Present at block level, holds null. Pins the sentinel in the block branch.
+		'nullish'    => null,
 		'variations' => array(
-			'compact' => array( 'sticky' => false ),
+			'compact' => array(
+				'sticky' => false,
+				// Present at variation level, holds null. Pins the sentinel in the
+				// variation branch: it must win over the block value below.
+				'winner' => null,
+			),
 		),
+		'winner'     => 'block-value',
 	),
 );
 Checks::is( 'resolve: block-level value', resolve_block_value( $config, 'isudev/site-header', array( 'sticky' ), 'fb' ), true );
@@ -71,3 +79,9 @@ Checks::is( 'resolve: variation falls back to block value', resolve_block_value(
 Checks::is( 'resolve: unknown key returns fallback', resolve_block_value( $config, 'isudev/site-header', array( 'nope' ), 'fb' ), 'fb' );
 Checks::is( 'resolve: unknown block returns fallback', resolve_block_value( $config, 'isudev/nope', array( 'sticky' ), 'fb' ), 'fb' );
 Checks::is( 'resolve: unknown variation falls back to block value', resolve_block_value( $config, 'isudev/site-header', array( 'sticky' ), 'fb', 'ghost' ), true );
+
+// The two checks below are why resolve_block_value() uses a sentinel object
+// instead of `??` or a `!== null` test. Without them the sentinel could be
+// removed and every other check in this file would still pass.
+Checks::is( 'resolve: block key holding null returns null, not the fallback', resolve_block_value( $config, 'isudev/site-header', array( 'nullish' ), 'fb' ), null );
+Checks::is( 'resolve: variation key holding null wins over the block value', resolve_block_value( $config, 'isudev/site-header', array( 'winner' ), 'fb', 'compact' ), null );
