@@ -12,6 +12,8 @@ declare( strict_types = 1 );
 
 namespace IsuDevLibrary;
 
+use IsuDevLibrary\Config;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -195,5 +197,136 @@ class Registry {
 			'source'  => 'default',
 			'locked'  => false,
 		);
+	}
+
+	/*
+	 * WordPress adapters. Everything below may call WordPress functions.
+	 */
+
+	/**
+	 * Cache for descriptors().
+	 *
+	 * @var array|null
+	 */
+	private static $descriptors_cache = null;
+
+	/**
+	 * Cache for blocks().
+	 *
+	 * @var array|null
+	 */
+	private static $blocks_cache = null;
+
+	/**
+	 * Discover and normalize every block descriptor.
+	 *
+	 * Descriptors are read from src/, not build/: PHP needs no compilation, so
+	 * editing it takes effect without a rebuild.
+	 *
+	 * @return array slug => normalized descriptor.
+	 */
+	public static function descriptors(): array {
+		if ( null !== self::$descriptors_cache ) {
+			return self::$descriptors_cache;
+		}
+
+		$descriptors = array();
+		$files       = \glob( PATH . 'src/blocks/*/block.php' );
+		$files       = \is_array( $files ) ? $files : array();
+
+		\sort( $files );
+
+		foreach ( $files as $file ) {
+			$raw = require $file;
+
+			if ( ! \is_array( $raw ) ) {
+				\_doing_it_wrong(
+					__METHOD__,
+					\esc_html( \sprintf( 'Block descriptor %s must return an array.', $file ) ),
+					'1.0.0'
+				);
+				continue;
+			}
+
+			$descriptor = self::normalize_descriptor( $raw );
+
+			if ( null === $descriptor ) {
+				\_doing_it_wrong(
+					__METHOD__,
+					\esc_html( \sprintf( 'Block descriptor %s must define non-empty "slug" and "name".', $file ) ),
+					'1.0.0'
+				);
+				continue;
+			}
+
+			$expected_slug = \basename( \dirname( $file ) );
+			if ( $descriptor['slug'] !== $expected_slug ) {
+				\_doing_it_wrong(
+					__METHOD__,
+					\esc_html( \sprintf( 'Block descriptor %1$s declares slug "%2$s" but lives in directory "%3$s".', $file, $descriptor['slug'], $expected_slug ) ),
+					'1.0.0'
+				);
+				continue;
+			}
+
+			$descriptors[ $descriptor['slug'] ] = $descriptor;
+		}
+
+		self::$descriptors_cache = $descriptors;
+
+		return $descriptors;
+	}
+
+	/**
+	 * Descriptors decorated with resolved state and dependents.
+	 *
+	 * @return array slug => descriptor + enabled/source/locked/dependents.
+	 */
+	public static function blocks(): array {
+		if ( null !== self::$blocks_cache ) {
+			return self::$blocks_cache;
+		}
+
+		$descriptors = self::descriptors();
+		$option      = \get_option( self::OPTION, array() );
+		$option      = \is_array( $option ) ? $option : array();
+
+		$states     = self::resolve_states( $descriptors, Config\get_config(), $option );
+		$dependents = self::build_dependents( $descriptors );
+
+		$blocks = array();
+		foreach ( $descriptors as $slug => $descriptor ) {
+			$blocks[ $slug ] = \array_merge(
+				$descriptor,
+				$states[ $slug ],
+				array( 'dependents' => $dependents[ $slug ] ?? array() )
+			);
+		}
+
+		self::$blocks_cache = $blocks;
+
+		return $blocks;
+	}
+
+	/**
+	 * Whether a block is enabled.
+	 *
+	 * @param string $slug Block slug.
+	 * @return bool
+	 */
+	public static function is_enabled( string $slug ): bool {
+		$blocks = self::blocks();
+
+		return isset( $blocks[ $slug ] ) && $blocks[ $slug ]['enabled'];
+	}
+
+	/**
+	 * Clear the per-request caches.
+	 *
+	 * @return void
+	 */
+	public static function flush(): void {
+		self::$descriptors_cache = null;
+		self::$blocks_cache      = null;
 	}
 }

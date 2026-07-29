@@ -30,6 +30,10 @@ define( 'IsuDevLibrary\\URL', plugin_dir_url( __FILE__ ) );
 
 require_once PATH . 'includes/utils/array.php';
 require_once PATH . 'includes/config.php';
+require_once PATH . 'includes/class-registry.php';
+require_once PATH . 'includes/class-loader.php';
+
+Loader::boot();
 
 /**
  * Load the plugin text domain for PHP translations.
