@@ -763,7 +763,41 @@ Checks::is(
 	array( 'b' => array( 'sticky' => false ) )
 );
 
+// Regression protection for merge paths that are correct today but untested.
+// merge_configs() is hand-written logic and Tasks 4-9 build on it.
+Checks::is(
+	'merge_configs: recurses more than one level deep',
+	merge_configs(
+		array( 'a' => array( 'b' => array( 'c' => 1, 'd' => 2 ) ) ),
+		array( 'a' => array( 'b' => array( 'c' => 3 ) ) )
+	),
+	array( 'a' => array( 'b' => array( 'c' => 3, 'd' => 2 ) ) )
+);
+Checks::is(
+	'merge_configs: child-only key is added',
+	merge_configs( array( 'a' => 1 ), array( 'b' => 2 ) ),
+	array( 'a' => 1, 'b' => 2 )
+);
+Checks::is(
+	'merge_configs: child null replaces a parent array',
+	merge_configs( array( 'a' => array( 'x' => 1 ) ), array( 'a' => null ) ),
+	array( 'a' => null )
+);
+Checks::is(
+	'merge_configs: child assoc replaces a parent list',
+	merge_configs( array( 'a' => array( 'x', 'y' ) ), array( 'a' => array( 'k' => 'v' ) ) ),
+	array( 'a' => array( 'k' => 'v' ) )
+);
+Checks::is(
+	'merge_configs: child list replaces a parent assoc',
+	merge_configs( array( 'a' => array( 'k' => 'v' ) ), array( 'a' => array( 'x', 'y' ) ) ),
+	array( 'a' => array( 'x', 'y' ) )
+);
+
 // is_list_array() — the predicate the merge depends on.
+// The empty-array guard in is_list_array() is load-bearing, not defensive:
+// range( 0, -1 ) counts down and yields array( 0, -1 ), so without the guard
+// is_list_array( array() ) would return false.
 Checks::true( 'is_list_array: empty array is a list', is_list_array( array() ) );
 Checks::true( 'is_list_array: sequential from zero is a list', is_list_array( array( 'a', 'b' ) ) );
 Checks::is( 'is_list_array: string keys are not a list', is_list_array( array( 'k' => 'v' ) ), false );
@@ -975,7 +1009,7 @@ function resolve_block_value( array $config, string $block_name, array $key_path
 npm run test:php
 ```
 
-Oczekiwane: `35 passed, 0 failed (2 check files)`, exit 0.
+Oczekiwane: `40 passed, 0 failed (2 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1191,7 +1225,7 @@ Adaptery są w tym samym pliku co funkcje czyste, ale ich ciała nie wykonują s
 npm run test:php
 ```
 
-Oczekiwane: `35 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
+Oczekiwane: `40 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1642,7 +1676,7 @@ class Registry {
 npm run test:php
 ```
 
-Oczekiwane: `51 passed, 0 failed (3 check files)`, exit 0.
+Oczekiwane: `56 passed, 0 failed (3 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1943,7 +1977,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `51 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
+Oczekiwane: `56 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
 
 - [ ] **Step 5: Zweryfikuj, że plugin się aktywuje bez błędów**
 
@@ -2265,7 +2299,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `59 passed, 0 failed (4 check files)`, exit 0.
+Oczekiwane: `64 passed, 0 failed (4 check files)`, exit 0.
 
 - [ ] **Step 6: Lint i commit**
 
@@ -2453,7 +2487,7 @@ require_once PATH . 'includes/config.php';
 npm run test:php
 ```
 
-Oczekiwane: `70 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
+Oczekiwane: `75 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
 
 - [ ] **Step 6: Potwierdź, że nie zostały placeholdery**
 
@@ -2614,7 +2648,7 @@ Oczekiwane: `No syntax errors detected` dla każdego pliku; phpcs bez błędów.
 npm run test:php
 ```
 
-Oczekiwane: `70 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
+Oczekiwane: `75 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
 
 - [ ] **Step 9: Commit**
 
