@@ -26,6 +26,7 @@ Każde zadanie implicite podlega tym regułom.
 - **Bloki `apiVersion: 3`.** W kodzie edytora nigdy globalny `document`/`window` — `element.ownerDocument` przez `useRefEffect`. **Wyjątek: `view.js` (frontend) używa globali legalnie — nie zmieniaj tego, view scripts nie są iframe'owane.**
 - **Nie używaj** `DimensionControl` (usunięty w WP 7.0) ani `__next40pxDefaultSize` (no-op w 7.1). Tylko stabilizowane nazwy z `@wordpress/components`.
 - **Nie używaj `_wp_array_get()`** (prywatne API rdzenia) ani `assert()`/`assert_options()` (deprecated w PHP 8.3+).
+- **Nie nazywaj parametru `$default`.** WPCS 3.x (przez PHPCSExtra) zgłasza `Universal.NamingConventions.NoReservedKeywordParameterNames` i `phpcs` wychodzi z kodem 1, więc `composer run lint:php` pada. Używaj `$fallback`. Sprawdzone empirycznie na tym repo.
 - **wp-cli nie ma dostępu do bazy tego Locala.** Nie pisz kroków weryfikacyjnych opartych na `wp eval`, `wp plugin`, `wp option`. Weryfikacja: plain-PHP checks + Playwright po HTTP na `http://isudev-library.local/`.
 - **Po każdej zmianie kodu:** `npm run lint:js`, `npm run lint:css`, `composer run lint:php` muszą być zielone przed commitem.
 - **Nigdy nie uruchamiaj** `npm start` / watchera w automatyzacji. Tylko jednorazowy `npm run build`.
@@ -515,7 +516,12 @@ Zamiennik prywatnego `_wp_array_get()` z rdzenia.
 
 **Interfaces:**
 - Consumes: `Checks` z Task 1.
-- Produces: `IsuDevLibrary\Utils\array_get( array $data, array $path, $default = null )` → mixed. Czysta. Zwraca `$default` gdy którykolwiek segment `$path` nie istnieje lub gdy trafi na wartość nie-tablicową przed końcem ścieżki. Pusta `$path` zwraca `$data`.
+- Produces: `IsuDevLibrary\Utils\array_get( array $data, array $path, $fallback = null )` → mixed. Czysta. Zwraca `$fallback` gdy którykolwiek segment `$path` nie istnieje lub gdy trafi na wartość nie-tablicową przed końcem ścieżki. Pusta `$path` zwraca `$data`.
+
+**Nie nazywaj parametru `$default`.** WPCS 3.x (przez PHPCSExtra) zgłasza
+`Universal.NamingConventions.NoReservedKeywordParameterNames` dla `$default`,
+a `phpcs` wychodzi wtedy z kodem 1 — `composer run lint:php` pada. Sprawdzone
+empirycznie na tym repo. Ta sama reguła obowiązuje w każdym zadaniu.
 
 - [ ] **Step 1: Napisz failing check**
 
@@ -592,19 +598,19 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array $data    Source array.
  * @param array $path    Ordered list of keys to walk.
- * @param mixed $default Value returned when the path does not resolve.
- * @return mixed Resolved value, or $default.
+ * @param mixed $fallback Value returned when the path does not resolve.
+ * @return mixed Resolved value, or $fallback.
  */
-function array_get( array $data, array $path, $default = null ) {
+function array_get( array $data, array $path, $fallback = null ) {
 	$current = $data;
 
 	foreach ( $path as $segment ) {
 		if ( ! \is_string( $segment ) && ! \is_int( $segment ) ) {
-			return $default;
+			return $fallback;
 		}
 
 		if ( ! \is_array( $current ) || ! \array_key_exists( $segment, $current ) ) {
-			return $default;
+			return $fallback;
 		}
 
 		$current = $current[ $segment ];
@@ -2736,7 +2742,7 @@ tymczasowej implementacji, którą następne zadanie i tak by podmieniło.
 **Interfaces:**
 - Consumes: `Registry::blocks()`, `Registry::flush()`, `Registry::OPTION`, `Config\config_sources()`.
 - Produces:
-  - `IsuDevLibrary\Settings\OPTION` = `'isudev_library_settings'`; `Settings\boot(): void`; `Settings\get( string $key, $default = null )`. Schemat opcji: `{ loadBaseTokens: bool }`, default `true`.
+  - `IsuDevLibrary\Settings\OPTION` = `'isudev_library_settings'`; `Settings\boot(): void`; `Settings\get( string $key, $fallback = null )`. Schemat opcji: `{ loadBaseTokens: bool }`, default `true`.
   - `IsuDevLibrary\Admin\MENU_SLUG` = `'isudev-library'`; `Admin\boot(): void`; `Admin\capability(): string` (filtr `isudev_library/settings/capability`, default `'manage_options'`); `Admin\show_admin(): bool` (filtr `isudev_library/settings/show_admin`, default `current_user_can( capability() )`); `Admin\enqueue( string $hook_suffix ): void`.
   - `IsuDevLibrary\REST\boot(): void`; `REST\permission_check(): bool` — zwraca `Admin\show_admin()`, więc ukrycie panelu zamyka też endpointy.
   - `GET /wp-json/isudev-library/v1/blocks` → `{ blocks: [...], diagnostics: {...} }`. Element `blocks[]`: `slug`, `name`, `title`, `description`, `icon`, `enabled`, `source`, `locked`, `requires`, `dependents`. `diagnostics`: `version`, `discovered` (int), `registered` (int), `configParent` (string), `configChild` (string).
@@ -2822,15 +2828,15 @@ function sanitize( $value ): array {
 /**
  * Read a single option key.
  *
- * @param string $key     Option key.
- * @param mixed  $default Value returned when the key is absent.
+ * @param string $key      Option key.
+ * @param mixed  $fallback Value returned when the key is absent.
  * @return mixed
  */
-function get( string $key, $default = null ) {
+function get( string $key, $fallback = null ) {
 	$option = \get_option( OPTION, defaults() );
 	$option = \is_array( $option ) ? $option : defaults();
 
-	return $option[ $key ] ?? $default;
+	return $option[ $key ] ?? $fallback;
 }
 ```
 
