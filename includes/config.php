@@ -57,14 +57,52 @@ function extract_library( array $raw ): array {
 }
 
 /**
+ * Whether an array is a list: keys are sequential integers starting at zero. Pure.
+ *
+ * Hand-rolled because `array_is_list()` needs PHP 8.1 and this plugin supports 7.4.
+ *
+ * @param array $value Array to inspect.
+ * @return bool True for lists and for the empty array.
+ */
+function is_list_array( array $value ): bool {
+	if ( array() === $value ) {
+		return true;
+	}
+
+	return \array_keys( $value ) === \range( 0, \count( $value ) - 1 );
+}
+
+/**
  * Merge a child theme config over a parent theme config. Pure.
+ *
+ * Associative arrays merge recursively. Lists are replaced wholesale, so a child
+ * theme can shorten one. This is deliberately NOT `array_replace_recursive()`:
+ * that merges lists index by index, which makes it impossible for a child theme
+ * to restrict `allowedBlocks` or `template` — the very thing isudev.json exists
+ * for. Verified: parent `[a, b, c]` with child `[a]` yields `[a, b, c]` under
+ * `array_replace_recursive()`.
  *
  * @param array $parent_config Parent theme subtree.
  * @param array $child_config  Child theme subtree.
  * @return array Merged config; child wins.
  */
 function merge_configs( array $parent_config, array $child_config ): array {
-	return \array_replace_recursive( $parent_config, $child_config );
+	$merged = $parent_config;
+
+	foreach ( $child_config as $key => $child_value ) {
+		$parent_value = $merged[ $key ] ?? null;
+
+		$both_assoc = \is_array( $child_value )
+			&& \is_array( $parent_value )
+			&& ! is_list_array( $child_value )
+			&& ! is_list_array( $parent_value );
+
+		$merged[ $key ] = $both_assoc
+			? merge_configs( $parent_value, $child_value )
+			: $child_value;
+	}
+
+	return $merged;
 }
 
 /**

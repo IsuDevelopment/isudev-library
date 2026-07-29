@@ -11,6 +11,7 @@ require_once dirname( __DIR__, 2 ) . '/includes/config.php';
 
 use function IsuDevLibrary\Config\decode;
 use function IsuDevLibrary\Config\extract_library;
+use function IsuDevLibrary\Config\is_list_array;
 use function IsuDevLibrary\Config\merge_configs;
 use function IsuDevLibrary\Config\resolve_block_value;
 
@@ -44,6 +45,41 @@ $parent = array(
 $child = array(
 	'isudev/site-header' => array( 'sticky' => false ),
 );
+// Lists are replaced wholesale so a child theme can RESTRICT one. Under
+// array_replace_recursive() these three would merge index-by-index and the
+// child could never shorten allowedBlocks or template — the main reason
+// isudev.json exists. Each of these fails against array_replace_recursive().
+Checks::is(
+	'merge_configs: child list replaces the parent list wholesale',
+	merge_configs(
+		array( 'b' => array( 'allowedBlocks' => array( 'core/paragraph', 'core/image', 'core/button' ) ) ),
+		array( 'b' => array( 'allowedBlocks' => array( 'core/paragraph' ) ) )
+	),
+	array( 'b' => array( 'allowedBlocks' => array( 'core/paragraph' ) ) )
+);
+Checks::is(
+	'merge_configs: child empty list clears the parent list',
+	merge_configs(
+		array( 'b' => array( 'template' => array( array( 'core/heading' ), array( 'core/paragraph' ) ) ) ),
+		array( 'b' => array( 'template' => array() ) )
+	),
+	array( 'b' => array( 'template' => array() ) )
+);
+Checks::is(
+	'merge_configs: child scalar replaces a parent array',
+	merge_configs(
+		array( 'b' => array( 'sticky' => array( 'desktop' => true ) ) ),
+		array( 'b' => array( 'sticky' => false ) )
+	),
+	array( 'b' => array( 'sticky' => false ) )
+);
+
+// is_list_array() — the predicate the merge depends on.
+Checks::true( 'is_list_array: empty array is a list', is_list_array( array() ) );
+Checks::true( 'is_list_array: sequential from zero is a list', is_list_array( array( 'a', 'b' ) ) );
+Checks::is( 'is_list_array: string keys are not a list', is_list_array( array( 'k' => 'v' ) ), false );
+Checks::is( 'is_list_array: gap in integer keys is not a list', is_list_array( array( 0 => 'a', 2 => 'b' ) ), false );
+
 Checks::is(
 	'merge_configs: child overrides parent key, keeps siblings',
 	merge_configs( $parent, $child ),
