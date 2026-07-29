@@ -1044,7 +1044,7 @@ EOF
   - `get_config(): array` — scalony `library` subtree, cache statyczny na request, filtry `isudev_library/config/raw` i `isudev_library/config`.
   - `get_block_config( string $block_name, $key, $fallback = null, string $variation_namespace = '' )` — `$key` jako string z kropkami lub tablica.
   - `config_sources(): array` — `[ 'parent' => string, 'child' => string ]`, ścieżki znalezionych plików (`''` gdy brak). Dla diagnostyki w panelu.
-  - `get_config_uncached(): array` — odczyt pomijający cache statyczny.
+  - `get_config_uncached(): array` — odczyt z dysku pomijający cache; jedyne miejsce czytające plik i stosujące filtry.
 
 - [ ] **Step 1: Dopisz adaptery do `includes/config.php`**
 
@@ -1083,67 +1083,26 @@ function config_sources(): array {
 }
 
 /**
- * Read the merged `library` config from the active theme.
+ * Read the merged config from disk, bypassing the per-request cache.
  *
- * Parent theme first, child theme on top. Cached per request.
- *
- * @return array The merged `library` subtree.
- */
-function get_config(): array {
-	static $config = null;
-
-	if ( null === $config ) {
-		$raw = array();
-
-		/**
-		 * Filters whether to inherit isudev.json from the parent theme.
-		 *
-		 * @param bool $should_inherit Default true.
-		 */
-		$inherit = (bool) \apply_filters( 'isudev_library/config/inherit_from_parent', true );
-
-		// get_template_directory() vs get_stylesheet_directory() instead of
-		// is_child_theme(), which is not reliable this early.
-		if ( $inherit && \get_template_directory() !== \get_stylesheet_directory() ) {
-			$parent_path = config_file_path( true );
-			if ( '' !== $parent_path ) {
-				$raw = decode( (string) \file_get_contents( $parent_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
-			}
-		}
-
-		$child_path = config_file_path();
-		if ( '' !== $child_path ) {
-			$child_raw = decode( (string) \file_get_contents( $child_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
-			$raw       = merge_configs( $raw, $child_raw );
-		}
-
-		/**
-		 * Filters the whole decoded isudev.json, before this plugin's key is extracted.
-		 *
-		 * @param array $raw Full decoded file contents.
-		 */
-		$raw = (array) \apply_filters( 'isudev_library/config/raw', $raw );
-
-		/**
-		 * Filters this plugin's `library` subtree.
-		 *
-		 * @param array $config The `library` subtree.
-		 */
-		$config = (array) \apply_filters( 'isudev_library/config', extract_library( $raw ) );
-	}
-
-	return $config;
-}
-
-/**
- * Read the merged config bypassing the per-request cache.
+ * Parent theme first, child theme on top. This is the only place that touches
+ * the filesystem; get_config() is a caching wrapper around it.
  *
  * @return array The merged `library` subtree.
  */
 function get_config_uncached(): array {
 	$raw = array();
 
-	if ( \get_template_directory() !== \get_stylesheet_directory() ) {
+	/**
+	 * Filters whether to inherit isudev.json from the parent theme.
+	 *
+	 * @param bool $should_inherit Default true.
+	 */
+	$inherit = (bool) \apply_filters( 'isudev_library/config/inherit_from_parent', true );
+
+	// get_template_directory() vs get_stylesheet_directory() instead of
+	// is_child_theme(), which is not reliable this early.
+	if ( $inherit && \get_template_directory() !== \get_stylesheet_directory() ) {
 		$parent_path = config_file_path( true );
 		if ( '' !== $parent_path ) {
 			$raw = decode( (string) \file_get_contents( $parent_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
@@ -1152,10 +1111,38 @@ function get_config_uncached(): array {
 
 	$child_path = config_file_path();
 	if ( '' !== $child_path ) {
-		$raw = merge_configs( $raw, decode( (string) \file_get_contents( $child_path ) ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
+		$child_raw = decode( (string) \file_get_contents( $child_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
+		$raw       = merge_configs( $raw, $child_raw );
 	}
 
-	return extract_library( (array) \apply_filters( 'isudev_library/config/raw', $raw ) );
+	/**
+	 * Filters the whole decoded isudev.json, before this plugin's key is extracted.
+	 *
+	 * @param array $raw Full decoded file contents.
+	 */
+	$raw = (array) \apply_filters( 'isudev_library/config/raw', $raw );
+
+	/**
+	 * Filters this plugin's `library` subtree.
+	 *
+	 * @param array $config The `library` subtree.
+	 */
+	return (array) \apply_filters( 'isudev_library/config', extract_library( $raw ) );
+}
+
+/**
+ * Read the merged `library` config from the active theme, cached per request.
+ *
+ * @return array The merged `library` subtree.
+ */
+function get_config(): array {
+	static $config = null;
+
+	if ( null === $config ) {
+		$config = get_config_uncached();
+	}
+
+	return $config;
 }
 
 /**
@@ -1174,7 +1161,9 @@ function get_block_config( string $block_name, $key, $fallback = null, string $v
 }
 ```
 
-Po dopisaniu sekcja adapterów ma zawierać, w tej kolejności: `config_file_path()`, `config_sources()`, `get_config()`, `get_config_uncached()`, `get_block_config()`. Nic więcej — nie dodawaj funkcji, dla której nie ma wołającego.
+Po dopisaniu sekcja adapterów ma zawierać, w tej kolejności: `config_file_path()`, `config_sources()`, `get_config_uncached()`, `get_config()`, `get_block_config()`. Nic więcej — nie dodawaj funkcji, dla której nie ma wołającego.
+
+`get_config_uncached()` jest **jedynym** miejscem czytającym z dysku i stosującym filtry; `get_config()` to tylko cache statyczny wokół niego. Nie duplikuj logiki odczytu w obu — kolejność w pliku ma znaczenie, bo `get_config()` woła `get_config_uncached()`.
 
 - [ ] **Step 2: Dodaj `require_once` w `isudev-library.php`**
 
