@@ -1329,6 +1329,19 @@ Checks::is(
 	)
 );
 
+// The map's keys must be exactly the known slugs. Inventing a key for an unknown
+// requires target would put a block that does not exist into the map, and
+// anything later iterating those keys would read a phantom entry.
+Checks::is(
+	'dependents: a requires entry naming an unknown slug creates no phantom key',
+	Registry::build_dependents(
+		array(
+			'orphan' => Registry::normalize_descriptor( array( 'slug' => 'orphan', 'name' => 'isudev/orphan', 'requires' => array( 'ghost' ) ) ),
+		)
+	),
+	array( 'orphan' => array() )
+);
+
 // resolve_states() — spec §7 precedence table.
 $simple = array(
 	'site-header' => Registry::normalize_descriptor( array( 'slug' => 'site-header', 'name' => 'isudev/site-header' ) ),
@@ -1419,6 +1432,25 @@ Checks::is(
 			'bento-card' => Registry::normalize_descriptor( array( 'slug' => 'bento-card', 'name' => 'isudev/bento-card', 'requires' => array( 'bento-grid' ), 'always_on' => true ) ),
 		),
 		array(),
+		array( 'bento-grid' => false )
+	),
+	array(
+		'bento-grid' => array( 'enabled' => false, 'source' => 'panel', 'locked' => false ),
+		'bento-card' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+	)
+);
+
+// Row 1 also beats row 3. The cascade's guard skips only slugs already resolved
+// to `dependency`, so a `code`-locked state must still be overwritten. Special
+// casing `code` in that guard would ship silently without this check.
+Checks::is(
+	'resolve: dependency beats an isudev.json-forced enabled child',
+	Registry::resolve_states(
+		array(
+			'bento-grid' => Registry::normalize_descriptor( array( 'slug' => 'bento-grid', 'name' => 'isudev/bento-grid' ) ),
+			'bento-card' => Registry::normalize_descriptor( array( 'slug' => 'bento-card', 'name' => 'isudev/bento-card', 'requires' => array( 'bento-grid' ) ) ),
+		),
+		array( 'isudev/bento-card' => array( 'enabled' => true ) ),
 		array( 'bento-grid' => false )
 	),
 	array(
@@ -1569,6 +1601,10 @@ class Registry {
 	/**
 	 * Invert `requires` into a slug => dependents map. Pure.
 	 *
+	 * The returned keys are exactly the slugs present in $descriptors — every one
+	 * of them, and no others. A `requires` entry naming an unknown slug is
+	 * ignored here rather than inventing a key for a block that does not exist.
+	 *
 	 * @param array $descriptors Normalized descriptors, keyed by slug.
 	 * @return array slug => list of slugs that require it.
 	 */
@@ -1581,9 +1617,16 @@ class Registry {
 
 		foreach ( $descriptors as $slug => $descriptor ) {
 			foreach ( $descriptor['requires'] as $required ) {
+				/*
+				 * A requires entry naming an unknown slug creates no key, so the
+				 * map's keys are exactly the known slugs and nothing downstream
+				 * can read a phantom entry. resolve_states() already treats the
+				 * unknown requirement as unmet, so the block ends as `dependency`.
+				 */
 				if ( ! isset( $dependents[ $required ] ) ) {
-					$dependents[ $required ] = array();
+					continue;
 				}
+
 				$dependents[ $required ][] = $slug;
 			}
 		}
@@ -1689,7 +1732,7 @@ class Registry {
 npm run test:php
 ```
 
-Oczekiwane: `59 passed, 0 failed (3 check files)`, exit 0.
+Oczekiwane: `61 passed, 0 failed (3 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1990,7 +2033,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `59 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
+Oczekiwane: `61 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
 
 - [ ] **Step 5: Zweryfikuj, że plugin się aktywuje bez błędów**
 
@@ -2312,7 +2355,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `67 passed, 0 failed (4 check files)`, exit 0.
+Oczekiwane: `69 passed, 0 failed (4 check files)`, exit 0.
 
 - [ ] **Step 6: Lint i commit**
 
@@ -2500,7 +2543,7 @@ require_once PATH . 'includes/config.php';
 npm run test:php
 ```
 
-Oczekiwane: `78 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
+Oczekiwane: `80 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
 
 - [ ] **Step 6: Potwierdź, że nie zostały placeholdery**
 
@@ -2661,7 +2704,7 @@ Oczekiwane: `No syntax errors detected` dla każdego pliku; phpcs bez błędów.
 npm run test:php
 ```
 
-Oczekiwane: `78 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
+Oczekiwane: `80 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
 
 - [ ] **Step 9: Commit**
 
