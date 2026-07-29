@@ -26,7 +26,7 @@ Każde zadanie implicite podlega tym regułom.
 - **Bloki `apiVersion: 3`.** W kodzie edytora nigdy globalny `document`/`window` — `element.ownerDocument` przez `useRefEffect`. **Wyjątek: `view.js` (frontend) używa globali legalnie — nie zmieniaj tego, view scripts nie są iframe'owane.**
 - **Nie używaj** `DimensionControl` (usunięty w WP 7.0) ani `__next40pxDefaultSize` (no-op w 7.1). Tylko stabilizowane nazwy z `@wordpress/components`.
 - **Nie używaj `_wp_array_get()`** (prywatne API rdzenia) ani `assert()`/`assert_options()` (deprecated w PHP 8.3+).
-- **Nie nazywaj parametru `$default`.** WPCS 3.x (przez PHPCSExtra) zgłasza `Universal.NamingConventions.NoReservedKeywordParameterNames` i `phpcs` wychodzi z kodem 1, więc `composer run lint:php` pada. Używaj `$fallback`. Sprawdzone empirycznie na tym repo.
+- **Nazwy parametrów nie mogą być słowami zarezerwowanymi PHP.** WPCS 3.x (przez PHPCSExtra) zgłasza `Universal.NamingConventions.NoReservedKeywordParameterNames`, a `phpcs` wychodzi wtedy z kodem 1 — `composer run lint:php` pada. Sprawdzone empirycznie na tym repo; odrzucane są m.in.: `$default`, `$parent`, `$namespace`, `$array`, `$class`, `$function`, `$list`, `$new`, `$print`, `$static`, `$string`, `$use`. Przyjęte zamienniki w tym projekcie: `$fallback`, `$parent_config`, `$child_config`, `$variation_namespace`. Dotyczy **wyłącznie parametrów** — zmienne lokalne i klucze `foreach` mogą nazywać się dowolnie (`foreach ( $x as $namespace => $y )` jest legalne).
 - **wp-cli nie ma dostępu do bazy tego Locala.** Nie pisz kroków weryfikacyjnych opartych na `wp eval`, `wp plugin`, `wp option`. Weryfikacja: plain-PHP checks + Playwright po HTTP na `http://isudev-library.local/`.
 - **Po każdej zmianie kodu:** `npm run lint:js`, `npm run lint:css`, `composer run lint:php` muszą być zielone przed commitem.
 - **Nigdy nie uruchamiaj** `npm start` / watchera w automatyzacji. Tylko jednorazowy `npm run build`.
@@ -678,8 +678,8 @@ EOF
   - `const CONFIG_KEY = 'library';`
   - `decode( string $json ): array` — `[]` przy błędzie JSON lub gdy top-level nie jest tablicą.
   - `extract_library( array $raw ): array` — zwraca `$raw['library']`, `[]` gdy brak lub nie-tablica.
-  - `merge_configs( array $parent, array $child ): array` — `array_replace_recursive`, child wygrywa.
-  - `resolve_block_value( array $config, string $block_name, array $key_path, $fallback = null, string $namespace = '' )` — łańcuch: `<block>.variations.<ns>.<key_path>` → `<block>.<key_path>` → `$fallback`.
+  - `merge_configs( array $parent_config, array $child_config ): array` — `array_replace_recursive`, child wygrywa.
+  - `resolve_block_value( array $config, string $block_name, array $key_path, $fallback = null, string $variation_namespace = '' )` — łańcuch: `<block>.variations.<ns>.<key_path>` → `<block>.<key_path>` → `$fallback`.
 
 - [ ] **Step 1: Napisz failing check**
 
@@ -748,9 +748,17 @@ $config = array(
 	'isudev/site-header' => array(
 		'sticky'     => true,
 		'ariaLabel'  => 'Main',
+		// Present at block level, holds null. Pins the sentinel in the block branch.
+		'nullish'    => null,
 		'variations' => array(
-			'compact' => array( 'sticky' => false ),
+			'compact' => array(
+				'sticky' => false,
+				// Present at variation level, holds null. Pins the sentinel in the
+				// variation branch: it must win over the block value below.
+				'winner' => null,
+			),
 		),
+		'winner'     => 'block-value',
 	),
 );
 Checks::is( 'resolve: block-level value', resolve_block_value( $config, 'isudev/site-header', array( 'sticky' ), 'fb' ), true );
@@ -759,6 +767,12 @@ Checks::is( 'resolve: variation falls back to block value', resolve_block_value(
 Checks::is( 'resolve: unknown key returns fallback', resolve_block_value( $config, 'isudev/site-header', array( 'nope' ), 'fb' ), 'fb' );
 Checks::is( 'resolve: unknown block returns fallback', resolve_block_value( $config, 'isudev/nope', array( 'sticky' ), 'fb' ), 'fb' );
 Checks::is( 'resolve: unknown variation falls back to block value', resolve_block_value( $config, 'isudev/site-header', array( 'sticky' ), 'fb', 'ghost' ), true );
+
+// The two checks below are why resolve_block_value() uses a sentinel object
+// instead of `??` or a `!== null` test. Without them the sentinel could be
+// removed and every other check in this file would still pass.
+Checks::is( 'resolve: block key holding null returns null, not the fallback', resolve_block_value( $config, 'isudev/site-header', array( 'nullish' ), 'fb' ), null );
+Checks::is( 'resolve: variation key holding null wins over the block value', resolve_block_value( $config, 'isudev/site-header', array( 'winner' ), 'fb', 'compact' ), null );
 ```
 
 - [ ] **Step 2: Uruchom check — musi się wywalić**
@@ -835,12 +849,12 @@ function extract_library( array $raw ): array {
 /**
  * Merge a child theme config over a parent theme config. Pure.
  *
- * @param array $parent Parent theme subtree.
- * @param array $child  Child theme subtree.
+ * @param array $parent_config Parent theme subtree.
+ * @param array $child_config  Child theme subtree.
  * @return array Merged config; child wins.
  */
-function merge_configs( array $parent, array $child ): array {
-	return \array_replace_recursive( $parent, $child );
+function merge_configs( array $parent_config, array $child_config ): array {
+	return \array_replace_recursive( $parent_config, $child_config );
 }
 
 /**
@@ -848,20 +862,20 @@ function merge_configs( array $parent, array $child ): array {
  *
  * Lookup order: variation value, then block value, then $fallback.
  *
- * @param array  $config     The `library` subtree.
- * @param string $block_name Full block name, e.g. `isudev/site-header`.
- * @param array  $key_path   Ordered key path below the block (or variation).
- * @param mixed  $fallback   Value returned when nothing resolves.
- * @param string $namespace  Variation namespace; '' to skip variation lookup.
+ * @param array  $config              The `library` subtree.
+ * @param string $block_name          Full block name, e.g. `isudev/site-header`.
+ * @param array  $key_path            Ordered key path below the block (or variation).
+ * @param mixed  $fallback            Value returned when nothing resolves.
+ * @param string $variation_namespace Variation namespace; '' to skip variation lookup.
  * @return mixed Resolved value.
  */
-function resolve_block_value( array $config, string $block_name, array $key_path, $fallback = null, string $namespace = '' ) {
+function resolve_block_value( array $config, string $block_name, array $key_path, $fallback = null, string $variation_namespace = '' ) {
 	$sentinel = new \stdClass();
 
-	if ( '' !== $namespace ) {
+	if ( '' !== $variation_namespace ) {
 		$variation_value = array_get(
 			$config,
-			\array_merge( array( $block_name, 'variations', $namespace ), $key_path ),
+			\array_merge( array( $block_name, 'variations', $variation_namespace ), $key_path ),
 			$sentinel
 		);
 
@@ -886,7 +900,7 @@ function resolve_block_value( array $config, string $block_name, array $key_path
 npm run test:php
 ```
 
-Oczekiwane: `26 passed, 0 failed (2 check files)`, exit 0.
+Oczekiwane: `28 passed, 0 failed (2 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -919,7 +933,7 @@ EOF
 - Produces, w namespace `IsuDevLibrary\Config`:
   - `config_file_path( bool $parent_theme = false ): string` — ścieżka do czytelnego `isudev.json` albo `''`.
   - `get_config(): array` — scalony `library` subtree, cache statyczny na request, filtry `isudev_library/config/raw` i `isudev_library/config`.
-  - `get_block_config( string $block_name, $key, $fallback = null, string $namespace = '' )` — `$key` jako string z kropkami lub tablica.
+  - `get_block_config( string $block_name, $key, $fallback = null, string $variation_namespace = '' )` — `$key` jako string z kropkami lub tablica.
   - `config_sources(): array` — `[ 'parent' => string, 'child' => string ]`, ścieżki znalezionych plików (`''` gdy brak). Dla diagnostyki w panelu.
   - `get_config_uncached(): array` — odczyt pomijający cache statyczny.
 
@@ -1038,16 +1052,16 @@ function get_config_uncached(): array {
 /**
  * Resolve a config value for a block.
  *
- * @param string       $block_name Full block name, e.g. `isudev/site-header`.
- * @param string|array $key        Dot-notation key or ordered key path.
- * @param mixed        $fallback   Value returned when nothing resolves.
- * @param string       $namespace  Variation namespace; '' to skip.
+ * @param string       $block_name          Full block name, e.g. `isudev/site-header`.
+ * @param string|array $key                 Dot-notation key or ordered key path.
+ * @param mixed        $fallback            Value returned when nothing resolves.
+ * @param string       $variation_namespace Variation namespace; '' to skip.
  * @return mixed Resolved value.
  */
-function get_block_config( string $block_name, $key, $fallback = null, string $namespace = '' ) {
+function get_block_config( string $block_name, $key, $fallback = null, string $variation_namespace = '' ) {
 	$key_path = \is_array( $key ) ? $key : \explode( '.', (string) $key );
 
-	return resolve_block_value( get_config(), $block_name, $key_path, $fallback, $namespace );
+	return resolve_block_value( get_config(), $block_name, $key_path, $fallback, $variation_namespace );
 }
 ```
 
@@ -1102,7 +1116,7 @@ Adaptery są w tym samym pliku co funkcje czyste, ale ich ciała nie wykonują s
 npm run test:php
 ```
 
-Oczekiwane: `26 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
+Oczekiwane: `28 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1553,7 +1567,7 @@ class Registry {
 npm run test:php
 ```
 
-Oczekiwane: `42 passed, 0 failed (3 check files)`, exit 0.
+Oczekiwane: `44 passed, 0 failed (3 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1854,7 +1868,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `42 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
+Oczekiwane: `44 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
 
 - [ ] **Step 5: Zweryfikuj, że plugin się aktywuje bez błędów**
 
@@ -2176,7 +2190,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `50 passed, 0 failed (4 check files)`, exit 0.
+Oczekiwane: `52 passed, 0 failed (4 check files)`, exit 0.
 
 - [ ] **Step 6: Lint i commit**
 
@@ -2364,7 +2378,7 @@ require_once PATH . 'includes/config.php';
 npm run test:php
 ```
 
-Oczekiwane: `61 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
+Oczekiwane: `63 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
 
 - [ ] **Step 6: Potwierdź, że nie zostały placeholdery**
 
@@ -2525,7 +2539,7 @@ Oczekiwane: `No syntax errors detected` dla każdego pliku; phpcs bez błędów.
 npm run test:php
 ```
 
-Oczekiwane: `61 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
+Oczekiwane: `63 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
 
 - [ ] **Step 9: Commit**
 
