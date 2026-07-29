@@ -74,6 +74,10 @@ class Registry {
 	/**
 	 * Invert `requires` into a slug => dependents map. Pure.
 	 *
+	 * The returned keys are exactly the slugs present in $descriptors — every one
+	 * of them, and no others. A `requires` entry naming an unknown slug is
+	 * ignored here rather than inventing a key for a block that does not exist.
+	 *
 	 * @param array $descriptors Normalized descriptors, keyed by slug.
 	 * @return array slug => list of slugs that require it.
 	 */
@@ -86,9 +90,16 @@ class Registry {
 
 		foreach ( $descriptors as $slug => $descriptor ) {
 			foreach ( $descriptor['requires'] as $required ) {
+				/*
+				 * A requires entry naming an unknown slug creates no key, so the
+				 * map's keys are exactly the known slugs and nothing downstream
+				 * can read a phantom entry. resolve_states() already treats the
+				 * unknown requirement as unmet, so the block ends as `dependency`.
+				 */
 				if ( ! isset( $dependents[ $required ] ) ) {
-					$dependents[ $required ] = array();
+					continue;
 				}
+
 				$dependents[ $required ][] = $slug;
 			}
 		}

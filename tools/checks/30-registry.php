@@ -69,6 +69,19 @@ Checks::is(
 	)
 );
 
+// The map's keys must be exactly the known slugs. Inventing a key for an unknown
+// requires target would put a block that does not exist into the map, and
+// anything later iterating those keys would read a phantom entry.
+Checks::is(
+	'dependents: a requires entry naming an unknown slug creates no phantom key',
+	Registry::build_dependents(
+		array(
+			'orphan' => Registry::normalize_descriptor( array( 'slug' => 'orphan', 'name' => 'isudev/orphan', 'requires' => array( 'ghost' ) ) ),
+		)
+	),
+	array( 'orphan' => array() )
+);
+
 // resolve_states() — spec §7 precedence table.
 $simple = array(
 	'site-header' => Registry::normalize_descriptor( array( 'slug' => 'site-header', 'name' => 'isudev/site-header' ) ),
@@ -159,6 +172,25 @@ Checks::is(
 			'bento-card' => Registry::normalize_descriptor( array( 'slug' => 'bento-card', 'name' => 'isudev/bento-card', 'requires' => array( 'bento-grid' ), 'always_on' => true ) ),
 		),
 		array(),
+		array( 'bento-grid' => false )
+	),
+	array(
+		'bento-grid' => array( 'enabled' => false, 'source' => 'panel', 'locked' => false ),
+		'bento-card' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+	)
+);
+
+// Row 1 also beats row 3. The cascade's guard skips only slugs already resolved
+// to `dependency`, so a `code`-locked state must still be overwritten. Special
+// casing `code` in that guard would ship silently without this check.
+Checks::is(
+	'resolve: dependency beats an isudev.json-forced enabled child',
+	Registry::resolve_states(
+		array(
+			'bento-grid' => Registry::normalize_descriptor( array( 'slug' => 'bento-grid', 'name' => 'isudev/bento-grid' ) ),
+			'bento-card' => Registry::normalize_descriptor( array( 'slug' => 'bento-card', 'name' => 'isudev/bento-card', 'requires' => array( 'bento-grid' ) ) ),
+		),
+		array( 'isudev/bento-card' => array( 'enabled' => true ) ),
 		array( 'bento-grid' => false )
 	),
 	array(
