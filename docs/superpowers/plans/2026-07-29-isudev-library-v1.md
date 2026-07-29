@@ -27,6 +27,7 @@ Każde zadanie implicite podlega tym regułom.
 - **Nie używaj** `DimensionControl` (usunięty w WP 7.0) ani `__next40pxDefaultSize` (no-op w 7.1). Tylko stabilizowane nazwy z `@wordpress/components`.
 - **Nie używaj `_wp_array_get()`** (prywatne API rdzenia) ani `assert()`/`assert_options()` (deprecated w PHP 8.3+).
 - **Komentarze blokowe: tekst musi zaczynać się w nowej linii.** `/* --- opis --- */` z tekstem w pierwszej linii to **ERROR** `Squiz.Commenting.BlockComment.NoNewLine` i `phpcs` pada. Używaj formy `/*` / ` * opis` / ` */`. Sprawdzone empirycznie na tym repo.
+- **Długi opis w docblocku musi zaczynać się wielką literą.** `Generic.Commenting.DocComment.LongNotCapital` to **ERROR**, więc akapit rozpoczynający się od nazwy funkcji (`build_variations() is pure…`) wywala lint. Przeformułuj (`The build_variations() function is pure…`). Sprawdzone empirycznie na tym repo.
 - **Nazwy parametrów nie mogą być słowami zarezerwowanymi PHP.** WPCS 3.x (przez PHPCSExtra) zgłasza `Universal.NamingConventions.NoReservedKeywordParameterNames`, a `phpcs` wychodzi wtedy z kodem 1 — `composer run lint:php` pada. Sprawdzone empirycznie na tym repo; odrzucane są m.in.: `$default`, `$parent`, `$namespace`, `$array`, `$class`, `$function`, `$list`, `$new`, `$print`, `$static`, `$string`, `$use`. Przyjęte zamienniki w tym projekcie: `$fallback`, `$parent_config`, `$child_config`, `$variation_namespace`. Dotyczy **wyłącznie parametrów** — zmienne lokalne i klucze `foreach` mogą nazywać się dowolnie (`foreach ( $x as $namespace => $y )` jest legalne).
 - **wp-cli nie ma dostępu do bazy tego Locala.** Nie pisz kroków weryfikacyjnych opartych na `wp eval`, `wp plugin`, `wp option`. Weryfikacja: plain-PHP checks + Playwright po HTTP na `http://isudev-library.local/`.
 - **Po każdej zmianie kodu:** `npm run lint:js`, `npm run lint:css`, `composer run lint:php` muszą być zielone przed commitem.
@@ -1944,8 +1945,8 @@ class Loader {
 	/**
 	 * Absolute path to a block's compiled metadata directory.
 	 *
-	 * src/blocks/<slug>/ maps to build/blocks/<slug>/ because wp-scripts derives
-	 * the entry name from the path relative to the source directory.
+	 * This maps `src/blocks/<slug>/` to `build/blocks/<slug>/` because wp-scripts
+	 * derives the entry name from the path relative to the source directory.
 	 *
 	 * @param string $slug Block slug.
 	 * @return string
@@ -2255,7 +2256,7 @@ Oczekiwane: fatal error, brak `includes/variations.php`.
  * Registering in PHP rather than JS keeps variations visible to PHP hooks, so
  * they can be filtered per post type and render.php can read `_namespace`.
  *
- * build_variations() is pure — no WP calls.
+ * The build_variations() function is pure — no WP calls.
  *
  * @package IsuDevLibrary
  */
@@ -2444,7 +2445,7 @@ Skopiuj trzy ciągi `d` **dosłownie** z `/Users/lukaszbiedron/Other Projects/is
 /**
  * Inline SVG icon registry. No external icon dependency.
  *
- * default_icon_paths() and build_svg() are pure — no WP calls.
+ * The default_icon_paths() and build_svg() functions are pure — no WP calls.
  *
  * @package IsuDevLibrary
  */
