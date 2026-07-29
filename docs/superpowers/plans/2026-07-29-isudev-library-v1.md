@@ -1455,6 +1455,29 @@ Checks::is(
 		'c' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
 	)
 );
+
+// Same chain, declared in REVERSE dependency order. This is the check that
+// actually pins the stabilizing while loop: with descriptors ordered c, b, a a
+// single ordered pass sees c before b is demoted, so c stays enabled and the
+// cascade silently stops one level short. The check above passes even without
+// the loop, because a, b, c happen to be in dependency order already.
+Checks::is(
+	'resolve: transitive cascade holds when descriptors are declared in reverse order',
+	Registry::resolve_states(
+		array(
+			'c' => Registry::normalize_descriptor( array( 'slug' => 'c', 'name' => 'isudev/c', 'requires' => array( 'b' ) ) ),
+			'b' => Registry::normalize_descriptor( array( 'slug' => 'b', 'name' => 'isudev/b', 'requires' => array( 'a' ) ) ),
+			'a' => Registry::normalize_descriptor( array( 'slug' => 'a', 'name' => 'isudev/a' ) ),
+		),
+		array(),
+		array( 'a' => false )
+	),
+	array(
+		'c' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+		'b' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+		'a' => array( 'enabled' => false, 'source' => 'panel', 'locked' => false ),
+	)
+);
 ```
 
 - [ ] **Step 2: Uruchom check — musi się wywalić**
@@ -1666,7 +1689,7 @@ class Registry {
 npm run test:php
 ```
 
-Oczekiwane: `56 passed, 0 failed (3 check files)`, exit 0.
+Oczekiwane: `59 passed, 0 failed (3 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1967,7 +1990,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `56 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
+Oczekiwane: `59 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
 
 - [ ] **Step 5: Zweryfikuj, że plugin się aktywuje bez błędów**
 
@@ -2289,7 +2312,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `64 passed, 0 failed (4 check files)`, exit 0.
+Oczekiwane: `67 passed, 0 failed (4 check files)`, exit 0.
 
 - [ ] **Step 6: Lint i commit**
 
@@ -2477,7 +2500,7 @@ require_once PATH . 'includes/config.php';
 npm run test:php
 ```
 
-Oczekiwane: `75 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
+Oczekiwane: `78 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
 
 - [ ] **Step 6: Potwierdź, że nie zostały placeholdery**
 
@@ -2638,7 +2661,7 @@ Oczekiwane: `No syntax errors detected` dla każdego pliku; phpcs bez błędów.
 npm run test:php
 ```
 
-Oczekiwane: `75 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
+Oczekiwane: `78 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
 
 - [ ] **Step 9: Commit**
 
