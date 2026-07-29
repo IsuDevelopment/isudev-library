@@ -552,6 +552,9 @@ $data = array(
 		),
 	),
 	'scalar'  => 'not-an-array',
+	// Present, but holds null. Pins array_key_exists() vs isset(): isset() is the
+	// only case where a stored null is indistinguishable from a missing key.
+	'nullish' => null,
 );
 
 Checks::is( 'array_get: empty path returns whole array', array_get( $data, array() ), $data );
@@ -561,8 +564,18 @@ Checks::is( 'array_get: deep hit on false value', array_get( $data, array( 'libr
 Checks::is( 'array_get: nested variation', array_get( $data, array( 'library', 'isudev/site-header', 'variations', 'compact', 'title' ) ), 'Compact' );
 Checks::is( 'array_get: missing key returns default', array_get( $data, array( 'library', 'nope' ), 'fallback' ), 'fallback' );
 Checks::is( 'array_get: default is null when omitted', array_get( $data, array( 'nope' ) ), null );
-Checks::is( 'array_get: traversing through a scalar returns default', array_get( $data, array( 'scalar', 'deeper' ), 'fallback' ), 'fallback' );
-Checks::is( 'array_get: non-string segment returns default', array_get( $data, array( 0 ), 'fallback' ), 'fallback' );
+Checks::is( 'array_get: traversing through a scalar returns fallback', array_get( $data, array( 'scalar', 'deeper' ), 'fallback' ), 'fallback' );
+Checks::is( 'array_get: absent integer key returns fallback', array_get( $data, array( 0 ), 'fallback' ), 'fallback' );
+
+// A key that EXISTS but holds null must return null, not the fallback. This is
+// the whole reason the implementation uses array_key_exists() and not isset():
+// swapping in isset() would still pass every other check in this file.
+Checks::is( 'array_get: existing key holding null returns null, not fallback', array_get( $data, array( 'nullish' ), 'fallback' ), null );
+
+// Exercises the segment type guard for real. An array is neither string nor int,
+// so it must return the fallback rather than raising a PHP 8 TypeError inside
+// array_key_exists(). Without this, the guard could be deleted and stay green.
+Checks::is( 'array_get: array as a path segment returns fallback', array_get( $data, array( array( 'nope' ) ), 'fallback' ), 'fallback' );
 ```
 
 - [ ] **Step 2: Uruchom check — musi się wywalić**
@@ -626,9 +639,14 @@ function array_get( array $data, array $path, $fallback = null ) {
 npm run test:php
 ```
 
-Oczekiwane: `9 passed, 0 failed (1 check files)`, exit 0.
+Oczekiwane: `11 passed, 0 failed (1 check files)`, exit 0.
 
-Uwaga: check `non-string segment returns default` przekazuje `0` (int), które implementacja akceptuje jako typ, ale klucz `0` nie istnieje w `$data`, więc zwraca `'fallback'`. To zamierzone — int-owe klucze są legalne w PHP.
+Uwaga do dwóch checków, które łatwo źle zrozumieć:
+
+- `absent integer key returns fallback` przekazuje `0` (int). Implementacja **akceptuje** int jako typ klucza — zwraca `'fallback'` tylko dlatego, że klucz `0` nie istnieje w `$data`. Ten check **nie** testuje guardu typu; int-owe klucze są w PHP legalne i mają działać.
+- Guard typu testuje dopiero `array as a path segment returns fallback`. Bez niego można usunąć całą gałąź `! is_string && ! is_int` i suite zostanie zielony.
+
+Podobnie `existing key holding null returns null, not fallback` jest jedynym checkiem, który przypina `array_key_exists()` — podmiana na `isset()` przechodzi wszystkie pozostałe.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -868,7 +886,7 @@ function resolve_block_value( array $config, string $block_name, array $key_path
 npm run test:php
 ```
 
-Oczekiwane: `24 passed, 0 failed (2 check files)`, exit 0.
+Oczekiwane: `26 passed, 0 failed (2 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1084,7 +1102,7 @@ Adaptery są w tym samym pliku co funkcje czyste, ale ich ciała nie wykonują s
 npm run test:php
 ```
 
-Oczekiwane: `24 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
+Oczekiwane: `26 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1535,7 +1553,7 @@ class Registry {
 npm run test:php
 ```
 
-Oczekiwane: `40 passed, 0 failed (3 check files)`, exit 0.
+Oczekiwane: `42 passed, 0 failed (3 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1836,7 +1854,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `40 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
+Oczekiwane: `42 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
 
 - [ ] **Step 5: Zweryfikuj, że plugin się aktywuje bez błędów**
 
@@ -2158,7 +2176,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `48 passed, 0 failed (4 check files)`, exit 0.
+Oczekiwane: `50 passed, 0 failed (4 check files)`, exit 0.
 
 - [ ] **Step 6: Lint i commit**
 
@@ -2346,7 +2364,7 @@ require_once PATH . 'includes/config.php';
 npm run test:php
 ```
 
-Oczekiwane: `59 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
+Oczekiwane: `61 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
 
 - [ ] **Step 6: Potwierdź, że nie zostały placeholdery**
 
@@ -2507,7 +2525,7 @@ Oczekiwane: `No syntax errors detected` dla każdego pliku; phpcs bez błędów.
 npm run test:php
 ```
 
-Oczekiwane: `59 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
+Oczekiwane: `61 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
 
 - [ ] **Step 9: Commit**
 
