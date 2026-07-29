@@ -195,3 +195,26 @@ Checks::is(
 		'c' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
 	)
 );
+
+// Same chain, declared in REVERSE dependency order. This is the check that
+// actually pins the stabilizing while loop: with descriptors ordered c, b, a a
+// single ordered pass sees c before b is demoted, so c stays enabled and the
+// cascade silently stops one level short. The check above passes even without
+// the loop, because a, b, c happen to be in dependency order already.
+Checks::is(
+	'resolve: transitive cascade holds when descriptors are declared in reverse order',
+	Registry::resolve_states(
+		array(
+			'c' => Registry::normalize_descriptor( array( 'slug' => 'c', 'name' => 'isudev/c', 'requires' => array( 'b' ) ) ),
+			'b' => Registry::normalize_descriptor( array( 'slug' => 'b', 'name' => 'isudev/b', 'requires' => array( 'a' ) ) ),
+			'a' => Registry::normalize_descriptor( array( 'slug' => 'a', 'name' => 'isudev/a' ) ),
+		),
+		array(),
+		array( 'a' => false )
+	),
+	array(
+		'c' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+		'b' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+		'a' => array( 'enabled' => false, 'source' => 'panel', 'locked' => false ),
+	)
+);
