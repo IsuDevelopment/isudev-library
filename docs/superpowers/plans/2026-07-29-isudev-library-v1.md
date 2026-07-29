@@ -2013,19 +2013,18 @@ class Loader {
 
 - [ ] **Step 3: Zaktualizuj `isudev-library.php`**
 
-Zamień blok `require_once` na:
+Zamień blok `require_once` **dokładnie na to** — cztery pliki, nie pięć:
 
 ```php
 require_once PATH . 'includes/utils/array.php';
 require_once PATH . 'includes/config.php';
-require_once PATH . 'includes/variations.php';
 require_once PATH . 'includes/class-registry.php';
 require_once PATH . 'includes/class-loader.php';
 
 Loader::boot();
 ```
 
-`includes/variations.php` powstaje w Task 7 — do tego czasu `Loader::register()` nie wywoła `Variations\attach()`, bo żaden blok jeszcze nie istnieje. **Nie dodawaj `require_once` dla variations.php w tym kroku** — dodasz go w Task 7. Na teraz wpisz tylko cztery pozostałe `require_once` i `Loader::boot();`.
+`includes/variations.php` **nie wchodzi tutaj** — powstaje w Task 7, który dopisze swój `require_once` w tej samej kolejności (przed `class-registry.php`). To bezpieczne: `Loader::register()` woła `Variations\attach()` tylko dla bloku z `'variations' => true`, a pierwszy blok pojawia się dopiero w Task 9 — długo po tym, jak Task 7 doda ten plik.
 
 - [ ] **Step 4: Sprawdź, że checki nadal przechodzą**
 
