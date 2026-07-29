@@ -20,8 +20,7 @@
 		"@wordpress/element": "^6.46.0",
 		"@wordpress/i18n": "^6.17.0",
 		"@wordpress/prettier-config": "^4.49.0",
-		"@wordpress/scripts": "^31.8.0",
-		"typescript": "^5.9.3"
+		"@wordpress/scripts": "^31.8.0"
 	},
 	"prettier": "@wordpress/prettier-config",
 	"scripts": {
