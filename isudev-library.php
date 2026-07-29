@@ -29,6 +29,7 @@ define( 'IsuDevLibrary\\PATH', plugin_dir_path( __FILE__ ) );
 define( 'IsuDevLibrary\\URL', plugin_dir_url( __FILE__ ) );
 
 require_once PATH . 'includes/utils/array.php';
+require_once PATH . 'includes/config.php';
 
 /**
  * Load the plugin text domain for PHP translations.

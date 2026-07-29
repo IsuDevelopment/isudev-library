@@ -140,3 +140,112 @@ function resolve_block_value( array $config, string $block_name, array $key_path
 
 	return $fallback;
 }
+
+/*
+ * WordPress adapters. Everything below may call WordPress functions.
+ */
+
+/**
+ * Locate a readable isudev.json in the child or parent theme.
+ *
+ * @param bool $parent_theme Whether to look in the parent (template) theme.
+ * @return string Absolute path, or '' when not readable.
+ */
+function config_file_path( bool $parent_theme = false ): string {
+	$root      = $parent_theme ? \get_template_directory() : \get_stylesheet_directory();
+	$candidate = $root . '/' . CONFIG_FILE;
+
+	return \is_readable( $candidate ) ? $candidate : '';
+}
+
+/**
+ * Paths of the isudev.json files that were found, for diagnostics.
+ *
+ * @return array{parent:string,child:string} Absolute paths; '' when absent.
+ */
+function config_sources(): array {
+	$is_child = \get_template_directory() !== \get_stylesheet_directory();
+
+	return array(
+		'parent' => $is_child ? config_file_path( true ) : '',
+		'child'  => config_file_path(),
+	);
+}
+
+/**
+ * Read the merged config from disk, bypassing the per-request cache.
+ *
+ * Parent theme first, child theme on top. This is the only place that touches
+ * the filesystem; get_config() is a caching wrapper around it.
+ *
+ * @return array The merged `library` subtree.
+ */
+function get_config_uncached(): array {
+	$raw = array();
+
+	/**
+	 * Filters whether to inherit isudev.json from the parent theme.
+	 *
+	 * @param bool $should_inherit Default true.
+	 */
+	$inherit = (bool) \apply_filters( 'isudev_library/config/inherit_from_parent', true );
+
+	// get_template_directory() vs get_stylesheet_directory() instead of
+	// is_child_theme(), which is not reliable this early.
+	if ( $inherit && \get_template_directory() !== \get_stylesheet_directory() ) {
+		$parent_path = config_file_path( true );
+		if ( '' !== $parent_path ) {
+			$raw = decode( (string) \file_get_contents( $parent_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
+		}
+	}
+
+	$child_path = config_file_path();
+	if ( '' !== $child_path ) {
+		$child_raw = decode( (string) \file_get_contents( $child_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
+		$raw       = merge_configs( $raw, $child_raw );
+	}
+
+	/**
+	 * Filters the whole decoded isudev.json, before this plugin's key is extracted.
+	 *
+	 * @param array $raw Full decoded file contents.
+	 */
+	$raw = (array) \apply_filters( 'isudev_library/config/raw', $raw );
+
+	/**
+	 * Filters this plugin's `library` subtree.
+	 *
+	 * @param array $config The `library` subtree.
+	 */
+	return (array) \apply_filters( 'isudev_library/config', extract_library( $raw ) );
+}
+
+/**
+ * Read the merged `library` config from the active theme, cached per request.
+ *
+ * @return array The merged `library` subtree.
+ */
+function get_config(): array {
+	static $config = null;
+
+	if ( null === $config ) {
+		$config = get_config_uncached();
+	}
+
+	return $config;
+}
+
+/**
+ * Resolve a config value for a block.
+ *
+ * @param string       $block_name          Full block name, e.g. `isudev/site-header`.
+ * @param string|array $key                 Dot-notation key or ordered key path.
+ * @param mixed        $fallback            Value returned when nothing resolves.
+ * @param string       $variation_namespace Variation namespace; '' to skip.
+ * @return mixed Resolved value.
+ */
+function get_block_config( string $block_name, $key, $fallback = null, string $variation_namespace = '' ) {
+	$key_path = \is_array( $key ) ? $key : \explode( '.', (string) $key );
+
+	return resolve_block_value( get_config(), $block_name, $key_path, $fallback, $variation_namespace );
+}

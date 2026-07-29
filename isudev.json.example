@@ -1,0 +1,21 @@
+{
+  "library": {
+    "isudev/site-header": {
+      "enabled": true,
+      "sticky": false,
+      "ariaLabel": "Główna nawigacja",
+      "variations": {
+        "compact": {
+          "name": "compact",
+          "title": "Compact header",
+          "icon": "menu",
+          "description": "Header bez slotu akcji.",
+          "attributes": {
+            "sticky": false,
+            "logoSource": "site"
+          }
+        }
+      }
+    }
+  }
+}
