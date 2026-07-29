@@ -678,7 +678,8 @@ EOF
   - `const CONFIG_KEY = 'library';`
   - `decode( string $json ): array` — `[]` przy błędzie JSON lub gdy top-level nie jest tablicą.
   - `extract_library( array $raw ): array` — zwraca `$raw['library']`, `[]` gdy brak lub nie-tablica.
-  - `merge_configs( array $parent_config, array $child_config ): array` — `array_replace_recursive`, child wygrywa.
+  - `is_list_array( array $value ): bool` — czy tablica jest listą (kolejne klucze całkowite od zera). Pusta tablica to lista. Własna implementacja, bo `array_is_list()` wymaga PHP 8.1, a plugin wspiera 7.4.
+  - `merge_configs( array $parent_config, array $child_config ): array` — child wygrywa. Tablice asocjacyjne scalane rekurencyjnie, **listy podmieniane w całości**, żeby child theme mógł skrócić `allowedBlocks` lub `template`. Świadomie **nie** `array_replace_recursive()` — ta scala listy indeks po indeksie, więc parent `[a, b, c]` z child `[a]` daje `[a, b, c]` i ograniczenie listy jest niemożliwe.
   - `resolve_block_value( array $config, string $block_name, array $key_path, $fallback = null, string $variation_namespace = '' )` — łańcuch: `<block>.variations.<ns>.<key_path>` → `<block>.<key_path>` → `$fallback`.
 
 - [ ] **Step 1: Napisz failing check**
@@ -699,6 +700,7 @@ require_once dirname( __DIR__, 2 ) . '/includes/config.php';
 
 use function IsuDevLibrary\Config\decode;
 use function IsuDevLibrary\Config\extract_library;
+use function IsuDevLibrary\Config\is_list_array;
 use function IsuDevLibrary\Config\merge_configs;
 use function IsuDevLibrary\Config\resolve_block_value;
 
@@ -732,6 +734,41 @@ $parent = array(
 $child = array(
 	'isudev/site-header' => array( 'sticky' => false ),
 );
+// Lists are replaced wholesale so a child theme can RESTRICT one. Under
+// array_replace_recursive() these three would merge index-by-index and the
+// child could never shorten allowedBlocks or template — the main reason
+// isudev.json exists. Each of these fails against array_replace_recursive().
+Checks::is(
+	'merge_configs: child list replaces the parent list wholesale',
+	merge_configs(
+		array( 'b' => array( 'allowedBlocks' => array( 'core/paragraph', 'core/image', 'core/button' ) ) ),
+		array( 'b' => array( 'allowedBlocks' => array( 'core/paragraph' ) ) )
+	),
+	array( 'b' => array( 'allowedBlocks' => array( 'core/paragraph' ) ) )
+);
+Checks::is(
+	'merge_configs: child empty list clears the parent list',
+	merge_configs(
+		array( 'b' => array( 'template' => array( array( 'core/heading' ), array( 'core/paragraph' ) ) ) ),
+		array( 'b' => array( 'template' => array() ) )
+	),
+	array( 'b' => array( 'template' => array() ) )
+);
+Checks::is(
+	'merge_configs: child scalar replaces a parent array',
+	merge_configs(
+		array( 'b' => array( 'sticky' => array( 'desktop' => true ) ) ),
+		array( 'b' => array( 'sticky' => false ) )
+	),
+	array( 'b' => array( 'sticky' => false ) )
+);
+
+// is_list_array() — the predicate the merge depends on.
+Checks::true( 'is_list_array: empty array is a list', is_list_array( array() ) );
+Checks::true( 'is_list_array: sequential from zero is a list', is_list_array( array( 'a', 'b' ) ) );
+Checks::is( 'is_list_array: string keys are not a list', is_list_array( array( 'k' => 'v' ) ), false );
+Checks::is( 'is_list_array: gap in integer keys is not a list', is_list_array( array( 0 => 'a', 2 => 'b' ) ), false );
+
 Checks::is(
 	'merge_configs: child overrides parent key, keeps siblings',
 	merge_configs( $parent, $child ),
@@ -847,14 +884,52 @@ function extract_library( array $raw ): array {
 }
 
 /**
+ * Whether an array is a list: keys are sequential integers starting at zero. Pure.
+ *
+ * Hand-rolled because `array_is_list()` needs PHP 8.1 and this plugin supports 7.4.
+ *
+ * @param array $value Array to inspect.
+ * @return bool True for lists and for the empty array.
+ */
+function is_list_array( array $value ): bool {
+	if ( array() === $value ) {
+		return true;
+	}
+
+	return \array_keys( $value ) === \range( 0, \count( $value ) - 1 );
+}
+
+/**
  * Merge a child theme config over a parent theme config. Pure.
+ *
+ * Associative arrays merge recursively. Lists are replaced wholesale, so a child
+ * theme can shorten one. This is deliberately NOT `array_replace_recursive()`:
+ * that merges lists index by index, which makes it impossible for a child theme
+ * to restrict `allowedBlocks` or `template` — the very thing isudev.json exists
+ * for. Verified: parent `[a, b, c]` with child `[a]` yields `[a, b, c]` under
+ * `array_replace_recursive()`.
  *
  * @param array $parent_config Parent theme subtree.
  * @param array $child_config  Child theme subtree.
  * @return array Merged config; child wins.
  */
 function merge_configs( array $parent_config, array $child_config ): array {
-	return \array_replace_recursive( $parent_config, $child_config );
+	$merged = $parent_config;
+
+	foreach ( $child_config as $key => $child_value ) {
+		$parent_value = $merged[ $key ] ?? null;
+
+		$both_assoc = \is_array( $child_value )
+			&& \is_array( $parent_value )
+			&& ! is_list_array( $child_value )
+			&& ! is_list_array( $parent_value );
+
+		$merged[ $key ] = $both_assoc
+			? merge_configs( $parent_value, $child_value )
+			: $child_value;
+	}
+
+	return $merged;
 }
 
 /**
@@ -900,7 +975,7 @@ function resolve_block_value( array $config, string $block_name, array $key_path
 npm run test:php
 ```
 
-Oczekiwane: `28 passed, 0 failed (2 check files)`, exit 0.
+Oczekiwane: `35 passed, 0 failed (2 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1116,7 +1191,7 @@ Adaptery są w tym samym pliku co funkcje czyste, ale ich ciała nie wykonują s
 npm run test:php
 ```
 
-Oczekiwane: `28 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
+Oczekiwane: `35 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1567,7 +1642,7 @@ class Registry {
 npm run test:php
 ```
 
-Oczekiwane: `44 passed, 0 failed (3 check files)`, exit 0.
+Oczekiwane: `51 passed, 0 failed (3 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1868,7 +1943,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `44 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
+Oczekiwane: `51 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
 
 - [ ] **Step 5: Zweryfikuj, że plugin się aktywuje bez błędów**
 
@@ -2190,7 +2265,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `52 passed, 0 failed (4 check files)`, exit 0.
+Oczekiwane: `59 passed, 0 failed (4 check files)`, exit 0.
 
 - [ ] **Step 6: Lint i commit**
 
@@ -2378,7 +2453,7 @@ require_once PATH . 'includes/config.php';
 npm run test:php
 ```
 
-Oczekiwane: `63 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
+Oczekiwane: `70 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
 
 - [ ] **Step 6: Potwierdź, że nie zostały placeholdery**
 
@@ -2539,7 +2614,7 @@ Oczekiwane: `No syntax errors detected` dla każdego pliku; phpcs bez błędów.
 npm run test:php
 ```
 
-Oczekiwane: `63 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
+Oczekiwane: `70 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
 
 - [ ] **Step 9: Commit**
 
