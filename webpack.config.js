@@ -21,6 +21,6 @@ module.exports = {
 		// The admin panel lands in a later task than the first build, so this entry
 		// is added only once its source exists. Without the guard, webpack fails
 		// the whole build on an unresolved entry and emits nothing at all.
-		...(fs.existsSync(adminEntry) ? { admin: adminEntry } : {}),
+		...(fs.existsSync(adminEntry) ? { 'admin/index': adminEntry } : {}),
 	},
 };
