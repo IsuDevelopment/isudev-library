@@ -295,7 +295,10 @@ const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 /**
  * External dependencies
  */
+const fs = require('fs');
 const path = require('path');
+
+const adminEntry = path.resolve(__dirname, 'src/admin/index.js');
 
 module.exports = {
 	...defaultConfig,
@@ -304,10 +307,19 @@ module.exports = {
 		...(typeof defaultConfig.entry === 'function'
 			? defaultConfig.entry()
 			: defaultConfig.entry),
-		admin: path.resolve(__dirname, 'src/admin/index.js'),
+		// The admin panel lands in a later task than the first build, so this entry
+		// is added only once its source exists. Without the guard, webpack fails
+		// the whole build on an unresolved entry and emits nothing at all.
+		...(fs.existsSync(adminEntry) ? { admin: adminEntry } : {}),
 	},
 };
 ```
+
+**Entry `admin` musi być warunkowy.** `src/admin/index.js` powstaje dopiero
+w Task 13, a pierwszy `npm run build` leci w Task 10 — bezwarunkowy entry wywala
+cały build z `Field 'browser' doesn't contain a valid alias configuration` i nie
+emituje **żadnego** pliku, także bloków. Nie twórz zaślepki `src/admin/index.js`,
+żeby to obejść.
 
 - [ ] **Step 9: Napisz `isudev-library.php`**
 
@@ -2879,6 +2891,46 @@ EOF
 **Interfaces:**
 - Consumes: deskryptor z Task 9, `Loader::block_build_path()`.
 - Produces: skompilowany blok w `build/blocks/site-header/` oraz `build/blocks-manifest.php` z kluczem `site-header`.
+
+- [ ] **Step 0: Napraw warunkowy entry w `webpack.config.js`**
+
+Task 1 zapisał ten plik z **bezwarunkowym** entry `admin` wskazującym na
+`src/admin/index.js`, a ten plik powstaje dopiero w Task 13. Task 10 jest
+pierwszym buildem w całym planie, więc dopiero tutaj to wybucha: webpack
+przerywa cały build i **nie emituje niczego**, także bloków.
+
+Zamień blok `entry` w `webpack.config.js` na wersję warunkową:
+
+```js
+const fs = require('fs');
+const path = require('path');
+
+const adminEntry = path.resolve(__dirname, 'src/admin/index.js');
+
+module.exports = {
+	...defaultConfig,
+	entry: {
+		...(typeof defaultConfig.entry === 'function'
+			? defaultConfig.entry()
+			: defaultConfig.entry),
+		// The admin panel lands in a later task than the first build, so this entry
+		// is added only once its source exists. Without the guard, webpack fails
+		// the whole build on an unresolved entry and emits nothing at all.
+		...(fs.existsSync(adminEntry) ? { admin: adminEntry } : {}),
+	},
+};
+```
+
+**Nie twórz zaślepki `src/admin/index.js`.** Task 13 tworzy ten plik naprawdę
+i wtedy entry włącza się samo; jego Step 7 (`ls build/admin/`) to weryfikuje.
+
+Potwierdź, że build w ogóle startuje, zanim przejdziesz dalej:
+
+```bash
+node -e "console.log(Object.keys(require('./webpack.config.js').entry))"
+```
+
+Oczekiwane: tablica **bez** `admin` (bo `src/admin/` jeszcze nie istnieje).
 
 - [ ] **Step 1: Skopiuj pliki źródłowe**
 
