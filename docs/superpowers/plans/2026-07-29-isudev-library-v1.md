@@ -3077,13 +3077,160 @@ EOF
 ### Task 11: Suite e2e dla bloku
 
 **Files:**
+- Create: `tools/mu-plugins/isudev-library-dev-fixture.php`
 - Create: `playwright.config.js`
 - Create: `e2e/utils.js`, `e2e/header.spec.js`, `e2e/header.a11y.spec.js`, `e2e/README.md`
-- Source: `/Users/lukaszbiedron/Other Projects/isudev-header/{playwright.config.js,e2e/*}`
+- Source: `/Users/lukaszbiedron/Other Projects/isudev-header/{bin/dev-mu-loader.php,playwright.config.js,e2e/*}`
 
 **Interfaces:**
 - Consumes: zbudowany blok z Task 10.
 - Produces: `e2e/utils.js` eksportuje `tabToFocus( page, locator, max = 30 )` i `outlineOf( locator )`.
+
+**Dlaczego fikstura jest obowiązkowa, a nie wygodna.** Suite ma bramki
+`test.skip` na „brak rodzica z podmenu w menu". Bez zasianego menu testy
+dostępności **przechodzą zielono, nie testując niczego** — a to gorsze niż
+awaria. Fikstura tworzy dokładnie trzy przypadki, które suite rozróżnia:
+
+| Pozycja menu | URL | Oczekiwany markup |
+| --- | --- | --- |
+| rodzic bez linku | `#` | czysty `<button>` disclosure |
+| rodzic z linkiem | `/solutions` | `<a>` + osobny `<button>` toggle |
+| liść | `/pricing` | tylko `<a>` |
+
+Plus strona z blokiem i wewnętrznym `core/buttons`, co ćwiczy
+`InnerBlocks.Content` i `$content` w `render.php`.
+
+- [ ] **Step 0: Napisz fiksturę dev i podmień symlink w mu-plugins**
+
+Stan wyjściowy tej instalacji: `wp-content/mu-plugins/idl-dev-loader.php` jest
+symlinkiem do `~/Other Projects/isudev-header/bin/dev-mu-loader.php`, który zasiał
+stronę główną **starym** blokiem `idl/site-header`. Front page renderuje dziś
+`class="idl-header … wp-block-idl-site-header"`. Suite szuka `.isudev-header`,
+więc bez tego kroku nie znajdzie niczego.
+
+Napisz `tools/mu-plugins/isudev-library-dev-fixture.php`:
+
+```php
+<?php
+/**
+ * Plugin Name: IsuDev Library — dev fixture (Local only)
+ * Description: Force-activates isudev-library and seeds an e2e demo on this Local dev site. NOT for production.
+ *
+ * @package IsuDevLibrary
+ */
+
+declare( strict_types = 1 );
+
+defined( 'ABSPATH' ) || exit;
+
+/*
+ * Only ever symlinked into the local dev site. Bail on a positively-different
+ * HTTP host so it can never force-activate or reseed another install. An empty
+ * host means CLI or cron on this install, which is allowed.
+ */
+$isudev_dev_host = 'isudev-library.local';
+$isudev_req_host = (string) ( $_SERVER['HTTP_HOST'] ?? '' );
+if ( '' !== $isudev_req_host && false === strpos( $isudev_req_host, $isudev_dev_host ) ) {
+	return;
+}
+
+// Force-activate the plugin under test without writing to the DB.
+add_filter(
+	'option_active_plugins',
+	static function ( $plugins ) {
+		$slug = 'isudev-library/isudev-library.php';
+		if ( is_array( $plugins ) && ! in_array( $slug, $plugins, true ) ) {
+			$plugins[] = $slug;
+		}
+		return $plugins;
+	}
+);
+
+/*
+ * Seed the menu and front page once. Bump the seed version to force a reseed.
+ * The three menu shapes below are what the accessibility suite distinguishes:
+ * a label-only parent, a navigable parent, and plain leaves.
+ */
+add_action(
+	'init',
+	static function () {
+		$seed_version = 1;
+		if ( (int) get_option( 'isudev_library_dev_seed_version' ) === $seed_version ) {
+			return;
+		}
+
+		$old = get_term_by( 'name', 'isudev-demo', 'nav_menu' );
+		if ( $old ) {
+			wp_delete_nav_menu( $old->term_id );
+		}
+		$menu_id = wp_create_nav_menu( 'isudev-demo' );
+
+		// Label-only parent (URL '#') → pure disclosure button.
+		$products = wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Products', 'menu-item-url' => '#', 'menu-item-status' => 'publish' ) );
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Product A', 'menu-item-url' => '/product-a', 'menu-item-parent-id' => $products, 'menu-item-status' => 'publish' ) );
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Product B', 'menu-item-url' => '/product-b', 'menu-item-parent-id' => $products, 'menu-item-status' => 'publish', 'menu-item-description' => 'Second product' ) );
+
+		// Navigable parent (real URL) → link plus a split toggle.
+		$solutions = wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Solutions', 'menu-item-url' => '/solutions', 'menu-item-status' => 'publish' ) );
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Solution X', 'menu-item-url' => '/solution-x', 'menu-item-parent-id' => $solutions, 'menu-item-status' => 'publish' ) );
+
+		// Plain leaves.
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Pricing', 'menu-item-url' => '/pricing', 'menu-item-status' => 'publish' ) );
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'About', 'menu-item-url' => '/about', 'menu-item-status' => 'publish' ) );
+
+		$content = '<!-- wp:isudev/site-header {"menuRef":"id:' . (int) $menu_id . '","logoSource":"site"} -->'
+			. '<!-- wp:buttons --><div class="wp-block-buttons"><!-- wp:button -->'
+			. '<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/contact">Contact</a></div>'
+			. '<!-- /wp:button --></div><!-- /wp:buttons -->'
+			. '<!-- /wp:isudev/site-header -->';
+
+		$existing = get_page_by_path( 'isudev-demo' );
+		if ( $existing ) {
+			wp_delete_post( $existing->ID, true );
+		}
+		$page_id = wp_insert_post(
+			array(
+				'post_title'   => 'IsuDev Demo',
+				'post_name'    => 'isudev-demo',
+				'post_status'  => 'publish',
+				'post_type'    => 'page',
+				'post_content' => $content,
+			)
+		);
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $page_id );
+		update_option( 'isudev_library_dev_seed_version', $seed_version );
+	},
+	20
+);
+```
+
+Podmień symlink — stary loader musi odejść, żeby dwa dema nie walczyły o front page:
+
+```bash
+MU="/Users/lukaszbiedron/Local Sites/isudev-library/app/public/wp-content/mu-plugins"
+ls -l "$MU"
+rm -f "$MU/idl-dev-loader.php"
+ln -s "$(pwd)/tools/mu-plugins/isudev-library-dev-fixture.php" "$MU/isudev-library-dev-fixture.php"
+ls -l "$MU"
+```
+
+Stary plugin `isudev-header` **zostaje zainstalowany** — Task 16 usuwa go
+zgodnie z planem. Po tym kroku jego blok po prostu nie jest już nigdzie użyty.
+
+Zweryfikuj, że front page renderuje **nowy** blok:
+
+```bash
+curl -s http://isudev-library.local/ | grep -oE 'class="[^"]*(idl|isudev)-header[^"]*"' | head -3
+curl -s http://isudev-library.local/ | grep -c "wp-block-isudev-site-header"
+curl -s http://isudev-library.local/ | grep -qiE "(warning|fatal error|notice):" && echo "PHP NOTICES PRESENT" || echo "no PHP notices"
+```
+
+Oczekiwane: klasy `isudev-header…`, licznik `wp-block-isudev-site-header` większy
+od zera, brak notice'ów. **Jeśli wciąż widzisz `idl-header`, nie idź dalej** —
+albo symlink nie został podmieniony, albo `isudev_library_dev_seed_version` już
+istnieje z poprzedniego przebiegu i trzeba je skasować, żeby wymusić przesianie.
 
 - [ ] **Step 1: Skopiuj konfigurację i suite**
 
@@ -3127,19 +3274,32 @@ npm run test:e2e
 
 Oczekiwane: wszystkie testy zielone w projektach `desktop-chromium` i `mobile-chromium`.
 
-Jeśli testy nie znajdują headera: suite zakłada, że header jest na testowanym URL-u. Sprawdź w `e2e/header.spec.js`, do jakiej ścieżki nawiguje, i wstaw blok na tej stronie (dla `/` — dodaj blok do szablonu strony głównej w edytorze witryny). Jeśli suite zakłada obecność menu nawigacyjnego, utwórz menu w `Wygląd → Menu` i przypisz je do bloku.
+Suite nawiguje do `./`, czyli front page — którą Step 0 zasiał blokiem
+i menu, więc header i wszystkie trzy kształty pozycji menu są na miejscu.
 
-**To jest kryterium akceptacji spec §13 — nie idź dalej, dopóki suite nie jest zielony.** Jeśli jakiś test pada z powodu zmiany nazwy klasy, popraw selektor; jeśli pada z powodu regresji dostępności, popraw blok, nie test.
+**Policz pominięte testy i podaj liczbę w raporcie.** Bramki `test.skip`
+w tym suite wyłączają się przy braku rodzica z podmenu, więc duża liczba
+pominięć znaczy, że fikstura nie zadziałała i suite przechodzi, nie testując
+nic. Pominięcia zależne od viewportu (`desktop only`, `mobile only`) są
+normalne; pominięcia z komunikatem `no label-only parent in menu`,
+`no navigable parent in menu` albo `need two submenu parents` **nie są** i
+oznaczają, że trzeba wrócić do Step 0.
+
+**To jest kryterium akceptacji spec §13 — nie idź dalej, dopóki suite nie jest
+zielony.** Jeśli test pada z powodu zmienionej nazwy klasy, popraw selektor.
+Jeśli pada z powodu regresji dostępności, **popraw blok, nie test** — kontrakt
+a11y jest tym, czego ten suite pilnuje.
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add playwright.config.js e2e/
+git add playwright.config.js e2e/ tools/mu-plugins/
 git commit -m "$(cat <<'EOF'
-test: port the site-header Playwright and axe suite
+test: port the site-header Playwright and axe suite plus its dev fixture
 
 Accessibility contract from isudev-header must stay green after the migration
-(spec §13).
+(spec §13). The fixture seeds the three menu shapes the suite distinguishes;
+without it the skip guards make the suite pass while testing nothing.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 EOF
