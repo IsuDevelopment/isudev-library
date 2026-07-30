@@ -3336,6 +3336,114 @@ tymczasowej implementacji, którą następne zadanie i tak by podmieniło.
   - `POST /wp-json/isudev-library/v1/blocks/<slug>` z `{ "enabled": bool }` → zaktualizowany element `blocks[]`. `404` na nieznany slug, `403` gdy `locked`.
   - Punkt montowania panelu: `<div id="isudev-library-admin">` na stronie menu.
 
+- [ ] **Step 0: Rozszerz fiksturę dev o użytkownika e2e**
+
+Steps 5, 7 i 8 wymagają zalogowanego administratora. Nikt pracujący nad tym
+planem nie ma dostępu do wp-admin, a hasła nie wolno wpisywać do repo ani
+przekazywać w promptach. Rozwiązanie: fikstura z Task 11 — już host-guarded do
+`isudev-library.local` — provisionuje dedykowanego użytkownika i zapisuje losowe
+hasło do pliku ignorowanego przez git.
+
+Dopisz na końcu `tools/mu-plugins/isudev-library-dev-fixture.php`:
+
+```php
+/*
+ * Provision a dedicated e2e user and write its credentials to a gitignored file.
+ * Runs only on the dev host (guarded at the top of this file). The password is
+ * random, local-only, and never enters the repository or a prompt.
+ */
+add_action(
+	'init',
+	static function () {
+		$creds_file = __DIR__ . '/../.e2e-credentials.json';
+		$login      = 'isudev-e2e';
+		$user       = get_user_by( 'login', $login );
+
+		if ( $user && is_readable( $creds_file ) ) {
+			return;
+		}
+
+		$password = wp_generate_password( 24, true, true );
+
+		if ( $user ) {
+			wp_set_password( $password, $user->ID );
+		} else {
+			$user_id = wp_insert_user(
+				array(
+					'user_login'   => $login,
+					'user_pass'    => $password,
+					'user_email'   => 'isudev-e2e@isudev-library.local',
+					'display_name' => 'IsuDev E2E',
+					'role'         => 'administrator',
+				)
+			);
+
+			if ( is_wp_error( $user_id ) ) {
+				return;
+			}
+		}
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Local dev credentials file, not a WP filesystem operation.
+		file_put_contents( $creds_file, (string) wp_json_encode( array( 'user' => $login, 'pass' => $password ) ) );
+		@chmod( $creds_file, 0600 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Best-effort tightening; failure is not fatal.
+	},
+	21
+);
+```
+
+Dopisz do `.gitignore`:
+
+```gitignore
+/tools/.e2e-credentials.json
+```
+
+i do `.distignore`:
+
+```
+/tools/.e2e-credentials.json
+```
+
+Wywołaj stronę raz, żeby fikstura się wykonała, i potwierdź:
+
+```bash
+curl -s -m 10 -o /dev/null http://isudev-library.local/
+test -f tools/.e2e-credentials.json && echo "credentials file created" || echo "MISSING — fixture could not write to tools/"
+node -e "const c=require('./tools/.e2e-credentials.json'); console.log('user:', c.user, '| password length:', c.pass.length)"
+git status --porcelain tools/.e2e-credentials.json
+```
+
+Oczekiwane: plik istnieje, `user: isudev-e2e`, długość hasła 24, a `git status`
+**nic nie wypisuje** — plik jest ignorowany. Jeśli `git status` go pokazuje,
+`.gitignore` nie działa i **nie commituj**, dopóki tego nie naprawisz.
+
+Jeśli plik się nie utworzył, PHP nie ma prawa zapisu do `tools/` — zgłoś to,
+nie obchodź.
+
+Helper do logowania, użyjesz go w Steps 5, 7 i 8:
+
+```bash
+e2e_jar() {
+	local jar
+	jar=$(mktemp)
+	local u p
+	u=$(node -e "console.log(require('./tools/.e2e-credentials.json').user)")
+	p=$(node -e "console.log(require('./tools/.e2e-credentials.json').pass)")
+	curl -s -m 10 -c "$jar" -b "$jar" \
+		-d "log=$u&pwd=$p&wp-submit=Log+In&testcookie=1&redirect_to=http%3A%2F%2Fisudev-library.local%2Fwp-admin%2F" \
+		-o /dev/null "http://isudev-library.local/wp-login.php"
+	echo "$jar"
+}
+```
+
+Sprawdź, że logowanie działa, zanim pójdziesz dalej:
+
+```bash
+JAR=$(e2e_jar)
+curl -s -m 10 -b "$JAR" -o /dev/null -w "wp-admin as e2e user: %{http_code}\n" http://isudev-library.local/wp-admin/
+```
+
+Oczekiwane: `200`. Jeśli `302`, logowanie nie przeszło — nie zgadywaj, zgłoś.
+
 - [ ] **Step 1: Napisz `includes/settings.php`**
 
 ```php
@@ -3650,38 +3758,71 @@ Admin\boot();
 REST\boot();
 ```
 
-- [ ] **Step 5: Zweryfikuj, że menu istnieje**
+- [ ] **Step 5: Zweryfikuj, że strona menu się renderuje**
 
-Otwórz `http://isudev-library.local/wp-admin/admin.php?page=isudev-library` jako administrator.
+Użyj cookie jara z Step 0 — żadnego klikania w przeglądarce.
 
-Oczekiwane: strona się ładuje, w menu widać „IsuDev Library", treść jest pusta (panel React dochodzi w Task 13).
+```bash
+JAR=$(e2e_jar)
+curl -s -m 10 -b "$JAR" -o /dev/null -w "settings page: %{http_code}\n" \
+	"http://isudev-library.local/wp-admin/admin.php?page=isudev-library"
+curl -s -m 10 -b "$JAR" "http://isudev-library.local/wp-admin/admin.php?page=isudev-library" \
+	| grep -c 'id="isudev-library-admin"'
+curl -s -m 10 -b "$JAR" "http://isudev-library.local/wp-admin/" \
+	| grep -c "page=isudev-library"
+```
+
+Oczekiwane: `200`, licznik punktu montowania `1` (mount point istnieje, panel
+React dochodzi w Task 13), licznik linku w menu większy od zera.
 
 - [ ] **Step 6: Zweryfikuj GET jako niezalogowany — musi odmówić**
 
 ```bash
-curl -s -o /dev/null -w "anon GET: %{http_code}\n" http://isudev-library.local/wp-json/isudev-library/v1/blocks
+curl -s -m 10 -o /dev/null -w "anon GET: %{http_code}\n" http://isudev-library.local/wp-json/isudev-library/v1/blocks
 ```
 
-Oczekiwane: `401`.
+Oczekiwane: `401`. To jedyny krok, który nie potrzebuje uwierzytelnienia, i jest
+najważniejszy z trzech — potwierdza, że endpoint jest domknięty.
 
 - [ ] **Step 7: Zweryfikuj GET jako administrator**
 
-Zaloguj się w przeglądarce na `http://isudev-library.local/wp-admin/`, potem otwórz `http://isudev-library.local/wp-json/isudev-library/v1/blocks` w tej samej sesji.
+```bash
+JAR=$(e2e_jar)
+curl -s -m 10 -b "$JAR" http://isudev-library.local/wp-json/isudev-library/v1/blocks | node -e "
+const d = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+console.log('blocks:', d.blocks.length);
+console.log(JSON.stringify(d.blocks[0], null, 1));
+console.log('diagnostics:', JSON.stringify(d.diagnostics));
+"
+```
 
-Oczekiwane: JSON z `blocks` (jeden element, `slug: "site-header"`, `enabled: true`, `source: "default"`, `locked: false`, `title: "Site Header Block"`) i `diagnostics` (`discovered: 1`, `registered: 1`).
+Oczekiwane: jeden blok o `slug: "site-header"`, `name: "isudev/site-header"`,
+`enabled: true`, `source: "default"`, `locked: false`, `title: "Site Header Block"`,
+`requires: []`, `dependents: []`; oraz `diagnostics` z `discovered: 1`,
+`registered: 1`, `version: "1.0.0"` i dwoma pustymi ścieżkami configu (ten theme
+nie ma `isudev.json`).
 
 - [ ] **Step 8: Zweryfikuj, że opcja globalna jest w REST**
 
-W tej samej sesji otwórz `http://isudev-library.local/wp-json/wp/v2/settings` i znajdź `isudev_library_settings`.
+```bash
+JAR=$(e2e_jar)
+curl -s -m 10 -b "$JAR" http://isudev-library.local/wp-json/wp/v2/settings | node -e "
+const d = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+console.log('isudev_library_settings:', JSON.stringify(d.isudev_library_settings));
+"
+```
 
-Oczekiwane: `{"loadBaseTokens":true}`.
+Oczekiwane: `{"loadBaseTokens":true}`. Jeśli klucz jest nieobecny,
+`register_setting()` nie ma `show_in_rest`, a zakładka Settings w Task 13 nie
+będzie mogła nic zapisać.
 
 - [ ] **Step 9: Lint i commit**
 
 ```bash
 composer run lint:php
 npm run test:php
-git add includes/settings.php includes/admin.php includes/rest.php isudev-library.php
+git add includes/settings.php includes/admin.php includes/rest.php isudev-library.php \
+	tools/mu-plugins/isudev-library-dev-fixture.php .gitignore .distignore
 git commit -m "$(cat <<'EOF'
 feat: add admin screen, block toggle REST controller and global settings
 
@@ -4259,17 +4400,55 @@ Bez zaszytych danych logowania. Zmienne środowiskowe: `WP_ADMIN_USER`, `WP_ADMI
 /**
  * Admin login helper for panel specs.
  *
- * Credentials come from the environment only — never commit them:
- *   WP_ADMIN_USER=... WP_ADMIN_PASS=... npm run test:e2e
+ * Credentials resolve from the environment first, then from the file the dev
+ * fixture writes at tools/.e2e-credentials.json. That file is gitignored and
+ * holds a random, local-only password, so nothing secret is ever committed:
+ *   WP_ADMIN_USER=... WP_ADMIN_PASS=... npm run test:e2e   # explicit override
  */
 
 /**
- * Whether admin credentials are available in the environment.
+ * External dependencies
+ */
+const fs = require('fs');
+const path = require('path');
+
+/**
+ * Resolve admin credentials.
  *
- * @return {boolean} True when both variables are set.
+ * Prefers the environment, so CI can inject its own. Falls back to the file the
+ * dev fixture writes, which lets the suite run locally with no setup and keeps
+ * the password out of the repository and out of any prompt.
+ *
+ * @return {{user: string, pass: string}|null} Credentials, or null when none are available.
+ */
+function adminCredentials() {
+	if (process.env.WP_ADMIN_USER && process.env.WP_ADMIN_PASS) {
+		return {
+			user: process.env.WP_ADMIN_USER,
+			pass: process.env.WP_ADMIN_PASS,
+		};
+	}
+
+	try {
+		const file = path.join(__dirname, '..', 'tools', '.e2e-credentials.json');
+		const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+		if (parsed && parsed.user && parsed.pass) {
+			return { user: parsed.user, pass: parsed.pass };
+		}
+	} catch (error) {
+		// Fixture has not run yet, or the file is unreadable. Fall through.
+	}
+
+	return null;
+}
+
+/**
+ * Whether admin credentials are available at all.
+ *
+ * @return {boolean} True when credentials resolve.
  */
 function hasAdminCredentials() {
-	return Boolean(process.env.WP_ADMIN_USER && process.env.WP_ADMIN_PASS);
+	return adminCredentials() !== null;
 }
 
 /**
@@ -4283,16 +4462,18 @@ async function loginAsAdmin(page) {
 		return false;
 	}
 
+	const { user, pass } = adminCredentials();
+
 	await page.goto('/wp-login.php');
-	await page.fill('#user_login', process.env.WP_ADMIN_USER);
-	await page.fill('#user_pass', process.env.WP_ADMIN_PASS);
+	await page.fill('#user_login', user);
+	await page.fill('#user_pass', pass);
 	await page.click('#wp-submit');
 	await page.waitForURL(/wp-admin/);
 
 	return true;
 }
 
-module.exports = { hasAdminCredentials, loginAsAdmin };
+module.exports = { adminCredentials, hasAdminCredentials, loginAsAdmin };
 ```
 
 - [ ] **Step 2: Napisz `e2e/panel.spec.js`**
@@ -4313,7 +4494,7 @@ const PANEL = '/wp-admin/admin.php?page=isudev-library';
 test.describe('IsuDev Library admin panel', () => {
 	test.skip(
 		!hasAdminCredentials(),
-		'Set WP_ADMIN_USER and WP_ADMIN_PASS to run panel specs.'
+		'No admin credentials: run the dev fixture, or set WP_ADMIN_USER and WP_ADMIN_PASS.'
 	);
 
 	test.beforeEach(async ({ page }) => {
