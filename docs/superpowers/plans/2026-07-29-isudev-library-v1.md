@@ -2914,13 +2914,38 @@ Oczekiwane: `edit.js clean — iframe safe`.
 
 Ustaw `version` na `1.0.0` i `textdomain` na `isudev-library` (krok 2 już podmienił text domain, sprawdź). Pola `render`, `style`, `editorStyle`, `editorScript`, `viewScript` zostają bez zmian — są względne do katalogu bloku, który się nie zmienił.
 
+**Dodaj atrybut `_namespace`** jako pierwszy wpis w `attributes`:
+
+```json
+		"_namespace": {
+			"type": "string",
+			"default": "",
+			"description": "Variation identifier injected by IsuDevLibrary\\Variations. Must be declared here or isActive matching never resolves."
+		},
+```
+
+To **nie jest** kosmetyka. Deskryptor tego bloku ma `'variations' => true`, a
+`Variations\build_variations()` wstrzykuje `attributes._namespace` i ustawia
+`isActive: [ '_namespace' ]`. Jeśli `block.json` nie zadeklaruje tego atrybutu,
+nie przeżyje on inicjalizacji atrybutów w edytorze, `isActive` nigdy się nie
+dopasuje i **wariacja zarejestruje się, ale nigdy nie pokaże jako aktywna** —
+bez żadnego błędu ani ostrzeżenia. `bento-card` w `kormas-isu` deklaruje ten
+atrybut dokładnie z tego powodu; źródłowy `isudev-header` nie, bo nie miał
+wariacji z `isudev.json`.
+
 Sprawdź:
 
 ```bash
-grep -E '"(name|textdomain|version|render|apiVersion)"' src/blocks/site-header/block.json
+grep -E '"(name|textdomain|version|render|apiVersion|_namespace)"' src/blocks/site-header/block.json
 ```
 
-Oczekiwane: `"apiVersion": 3`, `"name": "isudev/site-header"`, `"textdomain": "isudev-library"`, `"version": "1.0.0"`, `"render": "file:./render.php"`.
+Oczekiwane: `"apiVersion": 3`, `"name": "isudev/site-header"`, `"textdomain": "isudev-library"`, `"version": "1.0.0"`, `"render": "file:./render.php"`, `"_namespace"`.
+
+Zweryfikuj też, że plik jest nadal poprawnym JSON-em:
+
+```bash
+node -e "JSON.parse(require('fs').readFileSync('src/blocks/site-header/block.json','utf8')); console.log('valid JSON')"
+```
 
 - [ ] **Step 6: Zbuduj**
 
