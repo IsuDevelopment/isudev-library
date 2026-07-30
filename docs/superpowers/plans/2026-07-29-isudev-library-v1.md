@@ -2781,15 +2781,31 @@ grep -rn "isudev_library/" src/blocks/site-header/
 
 Oczekiwane: dokładnie trzy nazwy hooków, każda z segmentem `site_header/`.
 
-- [ ] **Step 5: Podłącz `icon()` z wspólnych utils**
+- [ ] **Step 5: Podłącz `icon()` z wspólnych utils — w DWÓCH plikach**
 
-`render.php` wywołuje `icon( 'close', 24, 'isudev-header__close-icon' )`. Funkcja żyje teraz w `IsuDevLibrary\Utils`, a plik jest w namespace `IsuDevLibrary\Blocks\SiteHeader`, więc wywołanie bez importu nie zadziała.
+`icon()` żyje teraz w `IsuDevLibrary\Utils` (Task 8), a oba pliki są w namespace
+`IsuDevLibrary\Blocks\SiteHeader`. Bez importu wywołanie rozwiąże się na
+nieistniejące `IsuDevLibrary\Blocks\SiteHeader\icon()` i wywali fatal.
 
-W `src/blocks/site-header/render.php` dodaj pod deklaracją `namespace`:
+Dodaj pod deklaracją `namespace` w **każdym** z tych plików:
 
 ```php
 use function IsuDevLibrary\Utils\icon;
 ```
+
+- `src/blocks/site-header/render.php` — woła `icon( 'close', 24, … )`
+- `src/blocks/site-header/inc/class-nav-walker.php` — woła
+  `icon( 'chevronDown', 20, … )` przy renderze rozwijanego podmenu
+
+**Nie pomiń walkera.** Chevron pojawia się tylko w menu z dziećmi, więc brak
+importu daje fatal wyłącznie na stronach z podmenu — czyli dokładnie w tych
+przypadkach, które sprawdza suite a11y w Task 11. Potwierdź oba:
+
+```bash
+grep -n "use function IsuDevLibrary" src/blocks/site-header/render.php src/blocks/site-header/inc/class-nav-walker.php
+```
+
+Oczekiwane: dwie linie, jedna z każdego pliku.
 
 - [ ] **Step 6: Napisz deskryptor `src/blocks/site-header/block.php`**
 
