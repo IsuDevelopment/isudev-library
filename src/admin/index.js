@@ -7,7 +7,7 @@ import { createRoot } from '@wordpress/element';
  * Internal dependencies
  */
 import App from './app';
-import './style.scss';
+import './admin.scss';
 
 const mount = document.getElementById('isudev-library-admin');
 
