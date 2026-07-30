@@ -4070,7 +4070,7 @@ function enqueue( string $hook_suffix ): void {
 ### Task 13: Panel React
 
 **Files:**
-- Create: `src/admin/index.js`, `src/admin/app.js`, `src/admin/style.scss`
+- Create: `src/admin/index.js`, `src/admin/app.js`, `src/admin/admin.scss`
 - Create: `src/admin/components/{blocks-tab.js,block-card.js,settings-tab.js}`
 
 **Interfaces:**
@@ -4116,7 +4116,7 @@ import { createRoot } from '@wordpress/element';
  * Internal dependencies
  */
 import App from './app';
-import './style.scss';
+import './admin.scss';
 
 const mount = document.getElementById('isudev-library-admin');
 
@@ -4414,7 +4414,14 @@ export default function SettingsTab({ diagnostics }) {
 }
 ```
 
-- [ ] **Step 6: Napisz `src/admin/style.scss`**
+- [ ] **Step 6: Napisz `src/admin/admin.scss`**
+
+**Nazwa tego pliku ma znaczenie i nie może brzmieć `style.scss`.** `wp-scripts`
+wymusza prefiks `style-` dla plików nazwanych `style.*`, więc `style.scss`
+wyemitowałby `build/admin/style-index.css`, a `includes/admin.php` enqueue'uje
+`build/admin/index.css`. Styl skompilowałby się poprawnie i po prostu nigdy nie
+trafiłby na stronę. Widać to na bloku, który emituje oba pliki: `editor.scss` →
+`index.css`, `style.scss` → `style-index.css`.
 
 ```scss
 .isudev-admin {

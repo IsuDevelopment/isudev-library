@@ -94,7 +94,7 @@ isudev-library/
 │   │   ├── index.js              # createRoot
 │   │   ├── app.js                # TabPanel: Blocks / Settings
 │   │   ├── components/           # BlockCard, BlockList, SettingsPanel, Diagnostics
-│   │   └── style.scss
+│   │   └── admin.scss            # NOT style.scss — wp-scripts would emit style-index.css
 │   └── shared/                   # wspólne hooki JS (bez komponentów wizualnych)
 ├── build/                        # COMMITOWANY, + blocks-manifest.php
 ├── languages/
