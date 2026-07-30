@@ -3129,8 +3129,14 @@ defined( 'ABSPATH' ) || exit;
  * host means CLI or cron on this install, which is allowed.
  */
 $isudev_dev_host = 'isudev-library.local';
-$isudev_req_host = (string) ( $_SERVER['HTTP_HOST'] ?? '' );
-if ( '' !== $isudev_req_host && false === strpos( $isudev_req_host, $isudev_dev_host ) ) {
+$isudev_req_host = strtolower( (string) strtok( (string) ( $_SERVER['HTTP_HOST'] ?? '' ), ':' ) );
+
+/*
+ * Exact match, not a substring test. `strpos()` would accept a Host header like
+ * `isudev-library.local.attacker.tld`, which is not a guard at all. The port is
+ * stripped first so `isudev-library.local:8080` still matches.
+ */
+if ( '' !== $isudev_req_host && $isudev_dev_host !== $isudev_req_host ) {
 	return;
 }
 
@@ -4321,6 +4327,31 @@ test.describe('IsuDev Library admin panel', () => {
 
 		const toggle = page.getByRole('checkbox', { name: /Enabled|Disabled/ });
 		await expect(toggle).toBeEnabled();
+	});
+
+	// Task 11's fixture writes block markup straight into post_content, so it
+	// proves the server render but never touches the editor. This is the only
+	// test that proves the block is actually registered and discoverable in the
+	// inserter, and that edit.js loads in the editor canvas without throwing.
+	test('site-header is discoverable in the block inserter', async ({ page }) => {
+		const errors = [];
+		page.on('pageerror', (error) => errors.push(error.message));
+
+		await page.goto('/wp-admin/post-new.php?post_type=page');
+		await page.getByRole('button', { name: /Close|Zamknij/ }).click().catch(() => {});
+
+		await page
+			.getByRole('button', { name: /Block Inserter|Toggle block inserter/ })
+			.click();
+		await page
+			.getByRole('searchbox', { name: /Search/ })
+			.fill('Site Header');
+
+		await expect(
+			page.getByRole('option', { name: /Site Header/ })
+		).toBeVisible();
+
+		expect(errors).toEqual([]);
 	});
 
 	test('shows both tabs and diagnostics', async ({ page }) => {
