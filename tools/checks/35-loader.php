@@ -52,3 +52,29 @@ Checks::is(
 	Loader::contained_path( $plugin_root . 'no-such-dir/', 'check.php' ),
 	''
 );
+
+/*
+ * The separator in the prefix comparison is what stops a sibling directory whose
+ * name merely starts with the root's name from passing. `site-header` and
+ * `site-header-compact` are a plausible pair of block names in this library, so
+ * this is worth pinning. Needs a fixture: no such pair exists in the repo, and
+ * without it dropping DIRECTORY_SEPARATOR leaves every other check green.
+ */
+$fixture = \sys_get_temp_dir() . '/isudev-contained-path-check';
+$inside  = $fixture . '/site-header';
+$sibling = $fixture . '/site-header-evil';
+
+@\mkdir( $inside, 0777, true );   // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Fixture setup; failure surfaces as a failed check below.
+@\mkdir( $sibling, 0777, true );  // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Fixture setup; failure surfaces as a failed check below.
+\file_put_contents( $sibling . '/x.php', "<?php\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Local temp fixture, not a WP filesystem operation.
+
+Checks::is(
+	'contained_path: a sibling directory sharing the root name prefix is refused',
+	Loader::contained_path( $inside . '/', '../site-header-evil/x.php' ),
+	''
+);
+
+\unlink( $sibling . '/x.php' );
+\rmdir( $sibling );
+\rmdir( $inside );
+\rmdir( $fixture );
