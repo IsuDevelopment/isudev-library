@@ -4152,6 +4152,9 @@ export default function App() {
 			.then((response) => {
 				setBlocks(response.blocks);
 				setDiagnostics(response.diagnostics);
+				// Clear any earlier failure. Without this a transient error leaves a
+				// permanently visible banner that outlives the problem it described.
+				setError('');
 			})
 			.catch((err) => setError(err.message));
 	}, []);
@@ -4638,6 +4641,56 @@ test.describe('IsuDev Library admin panel', () => {
 	// proves the server render but never touches the editor. This is the only
 	// test that proves the block is actually registered and discoverable in the
 	// inserter, and that edit.js loads in the editor canvas without throwing.
+	// Task 13's Step 9 — disabling a block and watching it leave the inserter —
+	// was never carried out, so this is the only proof that a toggle actually
+	// deregisters the block rather than just flipping a database row.
+	test('toggling a block off removes it from the inserter, and back on restores it', async ({
+		page,
+	}) => {
+		const inserterHasSiteHeader = async () => {
+			await page.goto('/wp-admin/post-new.php?post_type=page');
+			await page
+				.getByRole('button', { name: /Close|Zamknij/ })
+				.click()
+				.catch(() => {});
+			await page
+				.getByRole('button', {
+					name: /Block Inserter|Toggle block inserter/,
+				})
+				.click();
+			await page.getByRole('searchbox', { name: /Search/ }).fill('Site Header');
+			return page
+				.getByRole('option', { name: /Site Header/ })
+				.isVisible()
+				.catch(() => false);
+		};
+
+		const setEnabled = async (enabled) => {
+			await page.goto(PANEL);
+			const toggle = page.getByRole('checkbox', {
+				name: /Enabled|Disabled/,
+			});
+			if (enabled) {
+				await toggle.check();
+			} else {
+				await toggle.uncheck();
+			}
+			await page.waitForResponse(
+				(response) =>
+					response.url().includes('/isudev-library/v1/blocks/') &&
+					response.request().method() === 'POST'
+			);
+		};
+
+		expect(await inserterHasSiteHeader()).toBe(true);
+
+		await setEnabled(false);
+		expect(await inserterHasSiteHeader()).toBe(false);
+
+		await setEnabled(true);
+		expect(await inserterHasSiteHeader()).toBe(true);
+	});
+
 	test('site-header is discoverable in the block inserter', async ({ page }) => {
 		const errors = [];
 		page.on('pageerror', (error) => errors.push(error.message));

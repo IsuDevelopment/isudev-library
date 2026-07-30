@@ -376,8 +376,13 @@ oraz wskaźnik pochodzenia stanu:
 | `default` | toggle aktywny |
 | `panel` | toggle aktywny |
 | `code` | 🔒 kłódka, toggle zablokowany, „zarządzane w `isudev.json`" |
-| `always_on` | brak toggle'a, „zawsze włączony" |
+| `always_on` | toggle zablokowany, „zawsze włączony" |
 | `dependency` | ⛓ toggle zablokowany, „wymaga: `<slug>`" |
+
+Wszystkie trzy stany zablokowane (`code`, `always_on`, `dependency`) renderują
+**wyszarzony toggle**, nie brak kontrolki. Wyszarzony przełącznik pokazuje
+aktualny stan bloku, którego sama etykieta nie pokazuje, i wszystkie trzy
+przypadki wyglądają wtedy jednakowo.
 
 Toggle bloku, który ma `dependents`, pokazuje potwierdzenie z listą bloków, które
 zostaną wyłączone razem z nim. Opis toggle'a zawiera ostrzeżenie z sekcji 7.
