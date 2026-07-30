@@ -4901,7 +4901,7 @@ EOF
 - Consumes: wszystko powyżej.
 - Produces: `languages/isudev-library.pot`.
 
-- [ ] **Step 1: Wygeneruj plik `.pot`**
+- [x] **Step 1: Wygeneruj plik `.pot`**
 
 ```bash
 mkdir -p languages && touch languages/.gitkeep
@@ -4920,7 +4920,7 @@ grep -n "IsuDev Library" languages/isudev-library.pot | head -3
 
 Oczekiwane: liczba `msgid` > 20, nazwa „IsuDev Library" obecna.
 
-- [ ] **Step 2: Napisz `README.md`**
+- [x] **Step 2: Napisz `README.md`**
 
 ```markdown
 # IsuDev Library
@@ -5019,7 +5019,7 @@ Block directory names must be globally unique: the generated
 GPL-2.0-or-later.
 ```
 
-- [ ] **Step 3: Napisz `CHANGELOG.md`**
+- [x] **Step 3: Napisz `CHANGELOG.md`**
 
 ```markdown
 # Changelog
@@ -5061,7 +5061,7 @@ Content containing `idl/site-header` will not render. Re-insert the block, or
 rewrite `post_content` before upgrading.
 ```
 
-- [ ] **Step 4: Napisz `AGENTS.md` i `CLAUDE.md`**
+- [x] **Step 4: Napisz `AGENTS.md` i `CLAUDE.md`**
 
 `AGENTS.md`:
 
@@ -5138,7 +5138,7 @@ and Playwright over HTTP against `http://isudev-library.local/`.
 use `./AGENTS.md` as the source of truth for agents working in this repo.
 ```
 
-- [ ] **Step 5: Przejdź kryteria akceptacji spec §15 jedno po drugim**
+- [x] **Step 5: Przejdź kryteria akceptacji spec §15 jedno po drugim**
 
 Sprawdź każde i zapisz wynik. Wszystkie muszą być spełnione.
 
@@ -5174,12 +5174,12 @@ Zainstaluj i aktywuj plugin „Plugin Check" z `http://isudev-library.local/wp-a
 
 Oczekiwane: brak błędów o `apiVersion` poniżej 3. Ostrzeżenia o braku `readme.txt` i nagłówków wymaganych w wordpress.org są dopuszczalne — plugin nie jest dystrybuowany przez katalog.
 
-- [ ] **Step 7: Odhacz wykonane kroki w tym planie**
+- [x] **Step 7: Odhacz wykonane kroki w tym planie**
 
 Zamień `- [ ]` na `- [x]` dla wszystkich ukończonych kroków w
 `docs/superpowers/plans/2026-07-29-isudev-library-v1.md`.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add languages/ README.md CHANGELOG.md AGENTS.md CLAUDE.md docs/
