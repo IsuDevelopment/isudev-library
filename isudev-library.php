@@ -29,6 +29,7 @@ define( 'IsuDevLibrary\\PATH', plugin_dir_path( __FILE__ ) );
 define( 'IsuDevLibrary\\URL', plugin_dir_url( __FILE__ ) );
 
 require_once PATH . 'includes/utils/array.php';
+require_once PATH . 'includes/utils/icon.php';
 require_once PATH . 'includes/config.php';
 require_once PATH . 'includes/variations.php';
 require_once PATH . 'includes/class-registry.php';
