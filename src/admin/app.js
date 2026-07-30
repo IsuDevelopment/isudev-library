@@ -22,6 +22,9 @@ export default function App() {
 			.then((response) => {
 				setBlocks(response.blocks);
 				setDiagnostics(response.diagnostics);
+				// Clear any earlier failure. Without this a transient error leaves a
+				// permanently visible banner that outlives the problem it described.
+				setError('');
 			})
 			.catch((err) => setError(err.message));
 	}, []);
