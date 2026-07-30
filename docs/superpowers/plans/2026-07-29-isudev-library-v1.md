@@ -3373,7 +3373,14 @@ add_action(
 			return;
 		}
 
-		$password = wp_generate_password( 24, true, true );
+		/*
+		 * Alphanumeric only, and longer to compensate. wp_generate_password()'s
+		 * special-character set includes `&` and `=`, which silently break any
+		 * form-encoded login that interpolates the password into a query string —
+		 * a failure that appears or disappears depending on what the generator drew.
+		 * 32 alphanumeric characters is far more entropy than a local dev account needs.
+		 */
+		$password = wp_generate_password( 32, false, false );
 
 		if ( $user ) {
 			wp_set_password( $password, $user->ID );
@@ -3438,8 +3445,15 @@ e2e_jar() {
 	local u p
 	u=$(node -e "console.log(require('./tools/.e2e-credentials.json').user)")
 	p=$(node -e "console.log(require('./tools/.e2e-credentials.json').pass)")
+	# --data-urlencode per field, never one interpolated string: a password
+	# containing `&` or `=` would otherwise split into extra form fields and the
+	# login would fail for reasons that look random.
 	curl -s -m 10 -c "$jar" -b "$jar" \
-		-d "log=$u&pwd=$p&wp-submit=Log+In&testcookie=1&redirect_to=http%3A%2F%2Fisudev-library.local%2Fwp-admin%2F" \
+		--data-urlencode "log=$u" \
+		--data-urlencode "pwd=$p" \
+		--data-urlencode "wp-submit=Log In" \
+		--data-urlencode "testcookie=1" \
+		--data-urlencode "redirect_to=http://isudev-library.local/wp-admin/" \
 		-o /dev/null "http://isudev-library.local/wp-login.php"
 	echo "$jar"
 }
