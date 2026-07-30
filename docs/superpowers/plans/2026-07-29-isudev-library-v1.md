@@ -3419,7 +3419,7 @@ Oczekiwane: plik istnieje, `user: isudev-e2e`, długość hasła 24, a `git stat
 Jeśli plik się nie utworzył, PHP nie ma prawa zapisu do `tools/` — zgłoś to,
 nie obchodź.
 
-Helper do logowania, użyjesz go w Steps 5, 7 i 8:
+Dwa helpery, użyjesz ich w Steps 5, 7 i 8:
 
 ```bash
 e2e_jar() {
@@ -3433,16 +3433,39 @@ e2e_jar() {
 		-o /dev/null "http://isudev-library.local/wp-login.php"
 	echo "$jar"
 }
+
+# WordPress REST cookie auth ALSO requires an X-WP-Nonce header. A cookie jar
+# alone gets you `rest_cookie_invalid_nonce` with status 403.
+e2e_nonce() {
+	local jar=$1
+	# The nonce must come from a page that enqueues wp-api-fetch, which prints it
+	# via createNonceMiddleware(). A plain /wp-admin/ page does NOT, and the other
+	# `"nonce":"…"` values in admin HTML are different nonces that the REST API
+	# rejects. The block editor always enqueues it; once Task 13 builds the panel,
+	# admin.php?page=isudev-library works too.
+	curl -s -m 20 -b "$jar" "http://isudev-library.local/wp-admin/post-new.php?post_type=page" \
+		| grep -oE 'createNonceMiddleware\( *"[a-f0-9]+"' \
+		| head -1 | grep -oE '"[a-f0-9]+"' | tr -d '"'
+}
 ```
 
-Sprawdź, że logowanie działa, zanim pójdziesz dalej:
+Sprawdź oba, zanim pójdziesz dalej:
 
 ```bash
 JAR=$(e2e_jar)
 curl -s -m 10 -b "$JAR" -o /dev/null -w "wp-admin as e2e user: %{http_code}\n" http://isudev-library.local/wp-admin/
+NONCE=$(e2e_nonce "$JAR")
+echo "rest nonce: ${NONCE:-NOT FOUND}"
 ```
 
-Oczekiwane: `200`. Jeśli `302`, logowanie nie przeszło — nie zgadywaj, zgłoś.
+Oczekiwane: `200` i niepusty nonce. Jeśli `302`, logowanie nie przeszło; jeśli
+nonce jest pusty, wziąłeś go ze złej strony. W obu przypadkach nie zgaduj, zgłoś.
+
+Każde uwierzytelnione wywołanie REST-a potrzebuje **obu**:
+
+```bash
+curl -s -m 10 -b "$JAR" -H "X-WP-Nonce: $NONCE" <url>
+```
 
 - [ ] **Step 1: Napisz `includes/settings.php`**
 
@@ -3788,7 +3811,8 @@ najważniejszy z trzech — potwierdza, że endpoint jest domknięty.
 
 ```bash
 JAR=$(e2e_jar)
-curl -s -m 10 -b "$JAR" http://isudev-library.local/wp-json/isudev-library/v1/blocks | node -e "
+NONCE=$(e2e_nonce "$JAR")
+curl -s -m 10 -b "$JAR" -H "X-WP-Nonce: $NONCE" http://isudev-library.local/wp-json/isudev-library/v1/blocks | node -e "
 const d = JSON.parse(require('fs').readFileSync(0, 'utf8'));
 console.log('blocks:', d.blocks.length);
 console.log(JSON.stringify(d.blocks[0], null, 1));
@@ -3797,8 +3821,8 @@ console.log('diagnostics:', JSON.stringify(d.diagnostics));
 ```
 
 Oczekiwane: jeden blok o `slug: "site-header"`, `name: "isudev/site-header"`,
-`enabled: true`, `source: "default"`, `locked: false`, `title: "Site Header Block"`,
-`requires: []`, `dependents: []`; oraz `diagnostics` z `discovered: 1`,
+`enabled: true`, `locked: false`, `title: "Site Header Block"`,
+`requires: []`, `dependents: []`; `source` to `default`, dopóki nic nie zapisało opcji, i `panel` po pierwszym POST-cie — oba są poprawne; oraz `diagnostics` z `discovered: 1`,
 `registered: 1`, `version: "1.0.0"` i dwoma pustymi ścieżkami configu (ten theme
 nie ma `isudev.json`).
 
@@ -3806,7 +3830,8 @@ nie ma `isudev.json`).
 
 ```bash
 JAR=$(e2e_jar)
-curl -s -m 10 -b "$JAR" http://isudev-library.local/wp-json/wp/v2/settings | node -e "
+NONCE=$(e2e_nonce "$JAR")
+curl -s -m 10 -b "$JAR" -H "X-WP-Nonce: $NONCE" http://isudev-library.local/wp-json/wp/v2/settings | node -e "
 const d = JSON.parse(require('fs').readFileSync(0, 'utf8'));
 console.log('isudev_library_settings:', JSON.stringify(d.isudev_library_settings));
 "
