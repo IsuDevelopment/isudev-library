@@ -3363,6 +3363,16 @@ add_action(
 			return;
 		}
 
+		/*
+		 * Without a writable target the password would be set and immediately
+		 * lost, and this block would regenerate it on every single request.
+		 * Bail before touching the account.
+		 */
+		if ( ! is_writable( dirname( $creds_file ) ) ) {
+			error_log( 'isudev-library dev fixture: cannot write ' . $creds_file . ' — e2e user not provisioned.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Dev-only fixture.
+			return;
+		}
+
 		$password = wp_generate_password( 24, true, true );
 
 		if ( $user ) {
@@ -3590,6 +3600,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
 
+use const IsuDevLibrary\PATH;
 use const IsuDevLibrary\VERSION;
 
 defined( 'ABSPATH' ) || exit;
@@ -3651,21 +3662,51 @@ function register_routes(): void {
 }
 
 /**
+ * Metadata from the compiled manifest, keyed by block directory name.
+ *
+ * The block type registry only holds blocks that were registered, and a disabled
+ * block is never registered, so this is the only place its real title, icon and
+ * description can come from.
+ *
+ * @return array slug => decoded block.json contents.
+ */
+function manifest_metadata(): array {
+	static $manifest = null;
+
+	if ( null === $manifest ) {
+		$file     = PATH . 'build/blocks-manifest.php';
+		$manifest = \is_readable( $file ) ? (array) require $file : array();
+	}
+
+	return $manifest;
+}
+
+/**
  * Shape one block for the REST response.
  *
  * @param array $block Decorated descriptor from Registry::blocks().
  * @return array
  */
 function prepare_block( array $block ): array {
-	$type  = \WP_Block_Type_Registry::get_instance()->get_registered( $block['name'] );
-	$title = $type && $type->title ? $type->title : $block['slug'];
+	$type = \WP_Block_Type_Registry::get_instance()->get_registered( $block['name'] );
+	$meta = manifest_metadata()[ $block['slug'] ] ?? array();
+
+	/*
+	 * Prefer the registered type, which reflects anything a filter changed at
+	 * registration time. Fall back to the manifest, because a disabled block is
+	 * never registered and would otherwise report its slug as its title — the
+	 * panel would lose the name of every block the user just switched off.
+	 */
+	$title       = $type && $type->title ? $type->title : ( $meta['title'] ?? $block['slug'] );
+	$description = $type && $type->description ? $type->description : ( $meta['description'] ?? '' );
+	$icon        = $type && \is_string( $type->icon ) ? $type->icon : $meta['icon'] ?? 'block-default';
 
 	return array(
 		'slug'        => $block['slug'],
 		'name'        => $block['name'],
 		'title'       => (string) $title,
-		'description' => $type && $type->description ? (string) $type->description : '',
-		'icon'        => $type && \is_string( $type->icon ) ? $type->icon : 'block-default',
+		'description' => (string) $description,
+		'icon'        => \is_string( $icon ) ? $icon : 'block-default',
 		'enabled'     => (bool) $block['enabled'],
 		'source'      => (string) $block['source'],
 		'locked'      => (bool) $block['locked'],
