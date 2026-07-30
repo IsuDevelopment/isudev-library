@@ -114,6 +114,16 @@ add_action(
 			return;
 		}
 
+		/*
+		 * Without a writable target the password would be set and immediately
+		 * lost, and this block would regenerate it on every single request.
+		 * Bail before touching the account.
+		 */
+		if ( ! is_writable( dirname( $creds_file ) ) ) {
+			error_log( 'isudev-library dev fixture: cannot write ' . $creds_file . ' — e2e user not provisioned.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Dev-only fixture.
+			return;
+		}
+
 		$password = wp_generate_password( 24, true, true );
 
 		if ( $user ) {
