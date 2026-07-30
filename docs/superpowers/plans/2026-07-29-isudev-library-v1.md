@@ -1733,7 +1733,7 @@ class Registry {
 npm run test:php
 ```
 
-Oczekiwane: `68 passed, 0 failed (4 check files)`, exit 0.
+Oczekiwane: `61 passed, 0 failed (3 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
