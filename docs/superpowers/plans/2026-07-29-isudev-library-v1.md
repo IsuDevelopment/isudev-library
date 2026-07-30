@@ -1208,7 +1208,7 @@ require_once PATH . 'includes/config.php';
 }
 ```
 
-- [ ] **Step 4: Sprawdź, że checki nadal przechodzą**
+- [ ] **Step 5: Uruchom checki**
 
 Adaptery są w tym samym pliku co funkcje czyste, ale ich ciała nie wykonują się przy `require`.
 
@@ -1733,7 +1733,7 @@ class Registry {
 npm run test:php
 ```
 
-Oczekiwane: `61 passed, 0 failed (3 check files)`, exit 0.
+Oczekiwane: `68 passed, 0 failed (4 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1759,6 +1759,7 @@ EOF
 - Modify: `includes/class-registry.php` (dopisz sekcję adapterów)
 - Create: `includes/class-loader.php`
 - Modify: `isudev-library.php` (`require_once` + `boot()`)
+- Test: `tools/checks/35-loader.php`
 
 **Interfaces:**
 - Consumes: `Registry::normalize_descriptor()`, `Registry::build_dependents()`, `Registry::resolve_states()`, `IsuDevLibrary\Config\get_config()`.
@@ -1974,15 +1975,33 @@ class Loader {
 				continue;
 			}
 
+			$build_path = self::block_build_path( $slug );
+
+			/*
+			 * Bail before running any of the block's side effects. Requiring its
+			 * bootstrap files or attaching its variations for a block that then
+			 * cannot be registered would leave half-initialised state behind:
+			 * a bootstrap file that adds a REST route or a filter assuming its
+			 * own block type exists would still have run.
+			 */
+			if ( ! \is_readable( $build_path . '/block.json' ) ) {
+				\_doing_it_wrong(
+					__METHOD__,
+					\esc_html( \sprintf( 'Block "%s" has no compiled metadata. Run npm run build.', $slug ) ),
+					'1.0.0'
+				);
+				continue;
+			}
+
 			$block_dir = PATH . 'src/blocks/' . $slug . '/';
 
 			foreach ( $block['bootstrap'] as $relative ) {
-				$file = $block_dir . \ltrim( $relative, '/' );
+				$file = self::contained_path( $block_dir, $relative );
 
-				if ( ! \is_readable( $file ) ) {
+				if ( '' === $file ) {
 					\_doing_it_wrong(
 						__METHOD__,
-						\esc_html( \sprintf( 'Block "%1$s" declares a missing bootstrap file: %2$s', $slug, $relative ) ),
+						\esc_html( \sprintf( 'Block "%1$s" declares a bootstrap file that is missing or outside its own directory: %2$s', $slug, $relative ) ),
 						'1.0.0'
 					);
 					continue;
@@ -1995,24 +2014,110 @@ class Loader {
 				Variations\attach( $block['name'] );
 			}
 
-			$build_path = self::block_build_path( $slug );
-
-			if ( ! \is_readable( $build_path . '/block.json' ) ) {
-				\_doing_it_wrong(
-					__METHOD__,
-					\esc_html( \sprintf( 'Block "%s" has no compiled metadata. Run npm run build.', $slug ) ),
-					'1.0.0'
-				);
-				continue;
-			}
-
 			\register_block_type( $build_path );
 		}
+	}
+
+	/**
+	 * Resolve a path relative to a directory, refusing anything that escapes it.
+	 *
+	 * Descriptor `bootstrap` entries are first-party, so this is not a security
+	 * boundary — anyone who can edit `block.php` can already run code. It exists
+	 * to catch a mistyped relative path, which would otherwise silently load a
+	 * different block's file.
+	 *
+	 * Public because it is exercised directly by tools/checks/35-loader.php.
+	 *
+	 * @param string $root     Absolute directory the path must stay inside, with trailing slash.
+	 * @param string $relative Path declared in the descriptor, relative to $root.
+	 * @return string Absolute readable path, or '' when missing or out of bounds.
+	 */
+	public static function contained_path( string $root, string $relative ): string {
+		$resolved = \realpath( $root . \ltrim( $relative, '/' ) );
+		$base     = \realpath( $root );
+
+		if ( false === $resolved || false === $base ) {
+			return '';
+		}
+
+		// The separator matters: it stops `blocks/site-header-evil` from passing
+		// a prefix test against `blocks/site-header`.
+		if ( 0 !== \strpos( $resolved, $base . \DIRECTORY_SEPARATOR ) ) {
+			return '';
+		}
+
+		return \is_readable( $resolved ) ? $resolved : '';
 	}
 }
 ```
 
-- [ ] **Step 3: Zaktualizuj `isudev-library.php`**
+- [ ] **Step 3: Napisz `tools/checks/35-loader.php`**
+
+`contained_path()` jest jedyną logiką w `Loader`, którą da się przetestować bez
+WordPressa — `realpath()`, `strpos()` i `is_readable()` to czysty PHP. Fixtures
+to istniejące katalogi repo, więc check nie tworzy plików tymczasowych.
+
+Numer `35` mieści się między `30-registry.php` i `40-variations.php`, więc nie
+koliduje z plikiem z Task 7.
+
+```php
+<?php
+/**
+ * Checks for IsuDevLibrary\Loader::contained_path().
+ *
+ * @package IsuDevLibrary
+ */
+
+declare( strict_types = 1 );
+
+require_once dirname( __DIR__, 2 ) . '/includes/class-loader.php';
+
+use IsuDevLibrary\Loader;
+
+$plugin_root = dirname( __DIR__, 2 ) . '/';
+$tools_dir   = $plugin_root . 'tools/';
+
+Checks::is(
+	'contained_path: a file inside the directory resolves to its real path',
+	Loader::contained_path( $tools_dir, 'check.php' ),
+	realpath( $tools_dir . 'check.php' )
+);
+Checks::is(
+	'contained_path: a nested file inside the directory resolves',
+	Loader::contained_path( $tools_dir, 'checks/10-array.php' ),
+	realpath( $tools_dir . 'checks/10-array.php' )
+);
+Checks::is(
+	'contained_path: a missing file returns empty string',
+	Loader::contained_path( $tools_dir, 'does-not-exist.php' ),
+	''
+);
+
+// The point of the function: a mistyped relative path must not silently load a
+// file from somewhere else in the plugin.
+Checks::is(
+	'contained_path: parent traversal is refused even though the file exists',
+	Loader::contained_path( $tools_dir, '../composer.json' ),
+	''
+);
+Checks::is(
+	'contained_path: traversal buried mid-path is refused',
+	Loader::contained_path( $tools_dir, 'checks/../../composer.json' ),
+	''
+);
+Checks::is(
+	'contained_path: an absolute-looking path is still resolved under the root',
+	Loader::contained_path( $tools_dir, '/check.php' ),
+	realpath( $tools_dir . 'check.php' )
+);
+Checks::is(
+	'contained_path: a nonexistent root returns empty string',
+	Loader::contained_path( $plugin_root . 'no-such-dir/', 'check.php' ),
+	''
+);
+```
+
+- [ ] **Step 4: Zaktualizuj `isudev-library.php`**
 
 Zamień blok `require_once` **dokładnie na to** — cztery pliki, nie pięć:
 
@@ -2027,15 +2132,15 @@ Loader::boot();
 
 `includes/variations.php` **nie wchodzi tutaj** — powstaje w Task 7, który dopisze swój `require_once` w tej samej kolejności (przed `class-registry.php`). To bezpieczne: `Loader::register()` woła `Variations\attach()` tylko dla bloku z `'variations' => true`, a pierwszy blok pojawia się dopiero w Task 9 — długo po tym, jak Task 7 doda ten plik.
 
-- [ ] **Step 4: Sprawdź, że checki nadal przechodzą**
+- [ ] **Step 5: Uruchom checki**
 
 ```bash
 npm run test:php
 ```
 
-Oczekiwane: `61 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
+Oczekiwane: `68 passed, 0 failed (4 check files)`. Adaptery nie wykonują się przy `require`.
 
-- [ ] **Step 5: Zweryfikuj, że plugin się aktywuje bez błędów**
+- [ ] **Step 6: Zweryfikuj, że plugin się aktywuje bez błędów**
 
 Bloków jeszcze nie ma, więc `Registry::descriptors()` zwróci `[]` i `register()` nic nie zrobi. Aktywuj plugin ręcznie w `http://isudev-library.local/wp-admin/plugins.php`, potem sprawdź, że strona główna wciąż zwraca 200 i nie zawiera notice'ów PHP:
 
@@ -2046,11 +2151,11 @@ curl -s http://isudev-library.local/ | grep -icE "(warning|fatal error|notice):"
 
 Oczekiwane: `home: 200` i `no PHP notices`.
 
-- [ ] **Step 6: Lint i commit**
+- [ ] **Step 7: Lint i commit**
 
 ```bash
 composer run lint:php
-git add includes/class-registry.php includes/class-loader.php isudev-library.php
+git add includes/class-registry.php includes/class-loader.php isudev-library.php tools/checks/35-loader.php
 git commit -m "$(cat <<'EOF'
 feat: add descriptor discovery and the single block registration point
 
@@ -2355,7 +2460,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `69 passed, 0 failed (4 check files)`, exit 0.
+Oczekiwane: `76 passed, 0 failed (5 check files)`, exit 0.
 
 - [ ] **Step 6: Lint i commit**
 
@@ -2543,7 +2648,7 @@ require_once PATH . 'includes/config.php';
 npm run test:php
 ```
 
-Oczekiwane: `80 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
+Oczekiwane: `87 passed, 0 failed (6 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
 
 - [ ] **Step 6: Potwierdź, że nie zostały placeholdery**
 
@@ -2704,7 +2809,7 @@ Oczekiwane: `No syntax errors detected` dla każdego pliku; phpcs bez błędów.
 npm run test:php
 ```
 
-Oczekiwane: `80 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
+Oczekiwane: `87 passed, 0 failed (6 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
 
 - [ ] **Step 9: Commit**
 
