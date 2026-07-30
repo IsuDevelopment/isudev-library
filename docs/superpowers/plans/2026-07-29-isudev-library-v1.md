@@ -2115,6 +2115,32 @@ Checks::is(
 	Loader::contained_path( $plugin_root . 'no-such-dir/', 'check.php' ),
 	''
 );
+
+/*
+ * The separator in the prefix comparison is what stops a sibling directory whose
+ * name merely starts with the root's name from passing. `site-header` and
+ * `site-header-compact` are a plausible pair of block names in this library, so
+ * this is worth pinning. Needs a fixture: no such pair exists in the repo, and
+ * without it dropping DIRECTORY_SEPARATOR leaves every other check green.
+ */
+$fixture = \sys_get_temp_dir() . '/isudev-contained-path-check';
+$inside  = $fixture . '/site-header';
+$sibling = $fixture . '/site-header-evil';
+
+@\mkdir( $inside, 0777, true );   // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Fixture setup; failure surfaces as a failed check below.
+@\mkdir( $sibling, 0777, true );  // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Fixture setup; failure surfaces as a failed check below.
+\file_put_contents( $sibling . '/x.php', "<?php\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Local temp fixture, not a WP filesystem operation.
+
+Checks::is(
+	'contained_path: a sibling directory sharing the root name prefix is refused',
+	Loader::contained_path( $inside . '/', '../site-header-evil/x.php' ),
+	''
+);
+
+\unlink( $sibling . '/x.php' );
+\rmdir( $sibling );
+\rmdir( $inside );
+\rmdir( $fixture );
 ```
 
 - [ ] **Step 4: Zaktualizuj `isudev-library.php`**
@@ -2138,7 +2164,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `68 passed, 0 failed (4 check files)`. Adaptery nie wykonują się przy `require`.
+Oczekiwane: `69 passed, 0 failed (4 check files)`. Adaptery nie wykonują się przy `require`.
 
 - [ ] **Step 6: Zweryfikuj, że plugin się aktywuje bez błędów**
 
@@ -2460,7 +2486,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `76 passed, 0 failed (5 check files)`, exit 0.
+Oczekiwane: `77 passed, 0 failed (5 check files)`, exit 0.
 
 - [ ] **Step 6: Lint i commit**
 
@@ -2648,7 +2674,7 @@ require_once PATH . 'includes/config.php';
 npm run test:php
 ```
 
-Oczekiwane: `87 passed, 0 failed (6 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
+Oczekiwane: `88 passed, 0 failed (6 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
 
 - [ ] **Step 6: Potwierdź, że nie zostały placeholdery**
 
@@ -2809,7 +2835,7 @@ Oczekiwane: `No syntax errors detected` dla każdego pliku; phpcs bez błędów.
 npm run test:php
 ```
 
-Oczekiwane: `87 passed, 0 failed (6 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
+Oczekiwane: `88 passed, 0 failed (6 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
 
 - [ ] **Step 9: Commit**
 
