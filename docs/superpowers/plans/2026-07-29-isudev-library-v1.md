@@ -310,7 +310,12 @@ module.exports = {
 		// The admin panel lands in a later task than the first build, so this entry
 		// is added only once its source exists. Without the guard, webpack fails
 		// the whole build on an unresolved entry and emits nothing at all.
-		...(fs.existsSync(adminEntry) ? { admin: adminEntry } : {}),
+		//
+		// The key must be 'admin/index', not 'admin'. wp-scripts writes
+		// output.filename as '[name].js', so a bare key emits a flat build/admin.js
+		// while includes/admin.php enqueues build/admin/index.js. The block entries
+		// only nest because their names already contain slashes.
+		...(fs.existsSync(adminEntry) ? { 'admin/index': adminEntry } : {}),
 	},
 };
 ```
@@ -2916,7 +2921,12 @@ module.exports = {
 		// The admin panel lands in a later task than the first build, so this entry
 		// is added only once its source exists. Without the guard, webpack fails
 		// the whole build on an unresolved entry and emits nothing at all.
-		...(fs.existsSync(adminEntry) ? { admin: adminEntry } : {}),
+		//
+		// The key must be 'admin/index', not 'admin'. wp-scripts writes
+		// output.filename as '[name].js', so a bare key emits a flat build/admin.js
+		// while includes/admin.php enqueues build/admin/index.js. The block entries
+		// only nest because their names already contain slashes.
+		...(fs.existsSync(adminEntry) ? { 'admin/index': adminEntry } : {}),
 	},
 };
 ```
@@ -2930,7 +2940,7 @@ Potwierdź, że build w ogóle startuje, zanim przejdziesz dalej:
 node -e "console.log(Object.keys(require('./webpack.config.js').entry))"
 ```
 
-Oczekiwane: tablica **bez** `admin` (bo `src/admin/` jeszcze nie istnieje).
+Oczekiwane: tablica **bez** `admin/index` (bo `src/admin/` jeszcze nie istnieje).
 
 - [ ] **Step 1: Skopiuj pliki źródłowe**
 
@@ -4066,6 +4076,33 @@ function enqueue( string $hook_suffix ): void {
 **Interfaces:**
 - Consumes: `GET`/`POST /wp-json/isudev-library/v1/blocks`, opcja `isudev_library_settings` przez `@wordpress/core-data`.
 - Produces: panel montowany w `#isudev-library-admin`.
+
+- [ ] **Step 0: Popraw klucz entry w `webpack.config.js`**
+
+Task 1 zapisał ten plik z kluczem entry `admin`. `wp-scripts` ustawia
+`output.filename` na `[name].js`, więc goły klucz emituje **płaski**
+`build/admin.js`, a `includes/admin.php` enqueue'uje `build/admin/index.js`.
+Skutek: panel się buduje, skrypt nigdy nie trafia na stronę, a mount point
+zostaje pusty — React w ogóle się nie montuje i nie ma żadnego błędu w konsoli,
+bo nie ma czego uruchomić.
+
+Bloki zagnieżdżają się poprawnie tylko dlatego, że ich nazwy entry **już**
+zawierają ukośniki (`blocks/site-header/index`). Task 10 nigdy tego nie wykrył,
+bo wtedy `src/admin/index.js` jeszcze nie istniał i entry było pomijane.
+
+Zamień klucz na `'admin/index'`:
+
+```js
+		...(fs.existsSync(adminEntry) ? { 'admin/index': adminEntry } : {}),
+```
+
+Potwierdź, zanim cokolwiek zbudujesz:
+
+```bash
+node -e "console.log(Object.keys(require('./webpack.config.js').entry))"
+```
+
+Oczekiwane: lista zawiera `admin/index`, nie `admin`.
 
 - [ ] **Step 1: Napisz `src/admin/index.js`**
 
