@@ -6,7 +6,10 @@ const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 /**
  * External dependencies
  */
+const fs = require('fs');
 const path = require('path');
+
+const adminEntry = path.resolve(__dirname, 'src/admin/index.js');
 
 module.exports = {
 	...defaultConfig,
@@ -15,6 +18,9 @@ module.exports = {
 		...(typeof defaultConfig.entry === 'function'
 			? defaultConfig.entry()
 			: defaultConfig.entry),
-		admin: path.resolve(__dirname, 'src/admin/index.js'),
+		// The admin panel lands in a later task than the first build, so this entry
+		// is added only once its source exists. Without the guard, webpack fails
+		// the whole build on an unresolved entry and emits nothing at all.
+		...(fs.existsSync(adminEntry) ? { admin: adminEntry } : {}),
 	},
 };
