@@ -61,6 +61,47 @@ test.describe('IsuDev Library admin panel', () => {
 		await loginAsAdmin(page);
 	});
 
+	// Nothing else in this suite re-enables the block: if an assertion between
+	// a toggle-off and its matching toggle-on throws — a flake, a timeout, or a
+	// genuine regression — the run aborts with isudev/site-header disabled in
+	// the real database. The describe runs serially, so that would poison this
+	// file's own later tests, and it would leave the block disabled for
+	// whatever runs after this suite. Restore it unconditionally after every
+	// test, not just the round-trip, since any test could in principle be the
+	// one that throws.
+	test.afterEach(async ({ page }, testInfo) => {
+		// Playwright still runs afterEach for a test that beforeEach skipped via
+		// test.skip(), and this suite's beforeEach skips (without logging in) on
+		// every project but desktop. Without this guard, the mobile project hits
+		// an unauthenticated PANEL page, the checkbox locator never appears, and
+		// the hook hangs to the 30s test timeout instead of a quick, harmless
+		// no-op.
+		if (testInfo.project.name !== DESKTOP) {
+			return;
+		}
+
+		try {
+			await page.goto(PANEL);
+
+			const toggle = page.getByRole('checkbox', {
+				name: /Enabled|Disabled/,
+			});
+
+			if (await toggle.isChecked()) {
+				return;
+			}
+
+			await toggle.click();
+			await page.waitForResponse(
+				(response) =>
+					response.url().includes('/isudev-library/v1/blocks/') &&
+					response.request().method() === 'POST'
+			);
+		} catch (error) {
+			// Panel gated, or the run is already failing. Leave the real error alone.
+		}
+	});
+
 	test('lists site-header with an unlocked toggle', async ({ page }) => {
 		await page.goto(PANEL);
 

@@ -12,7 +12,14 @@ const baseURL =
 
 module.exports = defineConfig({
 	testDir: './e2e',
-	fullyParallel: true,
+	// The panel round-trip disables isudev/site-header for the duration of a
+	// toggle, and the front-page fixture renders that block dynamically on
+	// every request. If header.spec.js ran in a different worker at the same
+	// moment, it would see the header render empty and fail for a reason that
+	// has nothing to do with the header itself. Run everything in one worker,
+	// strictly in file order, so no other spec can observe that window.
+	fullyParallel: false,
+	workers: 1,
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 1 : 0,
 	reporter: process.env.CI
