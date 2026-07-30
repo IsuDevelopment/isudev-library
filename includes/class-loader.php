@@ -59,15 +59,33 @@ class Loader {
 				continue;
 			}
 
+			$build_path = self::block_build_path( $slug );
+
+			/*
+			 * Bail before running any of the block's side effects. Requiring its
+			 * bootstrap files or attaching its variations for a block that then
+			 * cannot be registered would leave half-initialised state behind:
+			 * a bootstrap file that adds a REST route or a filter assuming its
+			 * own block type exists would still have run.
+			 */
+			if ( ! \is_readable( $build_path . '/block.json' ) ) {
+				\_doing_it_wrong(
+					__METHOD__,
+					\esc_html( \sprintf( 'Block "%s" has no compiled metadata. Run npm run build.', $slug ) ),
+					'1.0.0'
+				);
+				continue;
+			}
+
 			$block_dir = PATH . 'src/blocks/' . $slug . '/';
 
 			foreach ( $block['bootstrap'] as $relative ) {
-				$file = $block_dir . \ltrim( $relative, '/' );
+				$file = self::contained_path( $block_dir, $relative );
 
-				if ( ! \is_readable( $file ) ) {
+				if ( '' === $file ) {
 					\_doing_it_wrong(
 						__METHOD__,
-						\esc_html( \sprintf( 'Block "%1$s" declares a missing bootstrap file: %2$s', $slug, $relative ) ),
+						\esc_html( \sprintf( 'Block "%1$s" declares a bootstrap file that is missing or outside its own directory: %2$s', $slug, $relative ) ),
 						'1.0.0'
 					);
 					continue;
@@ -80,18 +98,38 @@ class Loader {
 				Variations\attach( $block['name'] );
 			}
 
-			$build_path = self::block_build_path( $slug );
-
-			if ( ! \is_readable( $build_path . '/block.json' ) ) {
-				\_doing_it_wrong(
-					__METHOD__,
-					\esc_html( \sprintf( 'Block "%s" has no compiled metadata. Run npm run build.', $slug ) ),
-					'1.0.0'
-				);
-				continue;
-			}
-
 			\register_block_type( $build_path );
 		}
+	}
+
+	/**
+	 * Resolve a path relative to a directory, refusing anything that escapes it.
+	 *
+	 * Descriptor `bootstrap` entries are first-party, so this is not a security
+	 * boundary — anyone who can edit `block.php` can already run code. It exists
+	 * to catch a mistyped relative path, which would otherwise silently load a
+	 * different block's file.
+	 *
+	 * Public because it is exercised directly by tools/checks/35-loader.php.
+	 *
+	 * @param string $root     Absolute directory the path must stay inside, with trailing slash.
+	 * @param string $relative Path declared in the descriptor, relative to $root.
+	 * @return string Absolute readable path, or '' when missing or out of bounds.
+	 */
+	public static function contained_path( string $root, string $relative ): string {
+		$resolved = \realpath( $root . \ltrim( $relative, '/' ) );
+		$base     = \realpath( $root );
+
+		if ( false === $resolved || false === $base ) {
+			return '';
+		}
+
+		// The separator matters: it stops `blocks/site-header-evil` from passing
+		// a prefix test against `blocks/site-header`.
+		if ( 0 !== \strpos( $resolved, $base . \DIRECTORY_SEPARATOR ) ) {
+			return '';
+		}
+
+		return \is_readable( $resolved ) ? $resolved : '';
 	}
 }
