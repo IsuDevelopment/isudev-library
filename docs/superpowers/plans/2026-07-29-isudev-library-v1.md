@@ -4628,6 +4628,41 @@ test.describe('IsuDev Library admin panel', () => {
 		await loginAsAdmin(page);
 	});
 
+	/*
+	 * The toggling tests mutate the real isudev_library_blocks option, so the block
+	 * has to be restored even when an assertion throws partway through. Without
+	 * this, a failure between "toggle off" and "toggle on" leaves the block
+	 * disabled in the database: it poisons the rest of this serial file, it breaks
+	 * Task 15's acceptance sweep, and it leaves the site that way for whoever looks
+	 * at it next.
+	 *
+	 * Everything here is deliberately defensive. The gate test makes the panel
+	 * return 403 on purpose, so this hook must never convert its own inability to
+	 * run into a test failure and mask the real one.
+	 */
+	test.afterEach(async ({ page }) => {
+		try {
+			await page.goto(PANEL);
+
+			const toggle = page.getByRole('checkbox', {
+				name: /Enabled|Disabled/,
+			});
+
+			if (await toggle.isChecked()) {
+				return;
+			}
+
+			await toggle.click();
+			await page.waitForResponse(
+				(response) =>
+					response.url().includes('/isudev-library/v1/blocks/') &&
+					response.request().method() === 'POST'
+			);
+		} catch (error) {
+			// Panel gated, or the run is already failing. Leave the real error alone.
+		}
+	});
+
 	test('lists site-header with an unlocked toggle', async ({ page }) => {
 		await page.goto(PANEL);
 
@@ -4761,6 +4796,26 @@ test('REST blocks endpoint refuses anonymous requests', async ({ request }) => {
 });
 ```
 
+- [ ] **Step 2b: Zserializuj suite w `playwright.config.js`**
+
+`fullyParallel: true` serializuje tylko testy w obrębie jednego `describe`, więc
+nic nie broni Playwrightowi uruchomić `panel.spec.js` i `header.spec.js`
+jednocześnie w osobnych workerach. Testy panelu wyłączają blok na kilka sekund,
+a fikstura zasiewa stronę główną surowym `<!-- wp:isudev/site-header -->`
+renderowanym dynamicznie — więc w tym okienku strona główna jest pusta i testy
+headera padają z powodu niezwiązanego z kodem, który testują.
+
+Zamień w `playwright.config.js`:
+
+```js
+	fullyParallel: false,
+	workers: 1,
+```
+
+Cały suite trwa ~16 s, więc serializacja jest tania i usuwa całą klasę flake'ów.
+To świadome odejście od konfiguracji odziedziczonej z `isudev-header` — tam żaden
+test nie mutował globalnego stanu witryny, tutaj mutują.
+
 - [ ] **Step 3: Napisz mu-plugin do testu bramki**
 
 ```php
@@ -4774,6 +4829,16 @@ test('REST blocks endpoint refuses anonymous requests', async ({ request }) => {
  */
 
 declare( strict_types = 1 );
+
+/*
+ * Host-guarded like the dev fixture. This file gates the panel unconditionally,
+ * so a stray copy must not be able to do that to a real install.
+ */
+$isudev_gate_host = 'isudev-library.local';
+$isudev_gate_req  = strtolower( (string) strtok( (string) ( $_SERVER['HTTP_HOST'] ?? '' ), ':' ) );
+if ( '' !== $isudev_gate_req && $isudev_gate_host !== $isudev_gate_req ) {
+	return;
+}
 
 add_filter( 'isudev_library/settings/show_admin', '__return_false' );
 ```
