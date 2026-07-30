@@ -16,8 +16,14 @@ defined( 'ABSPATH' ) || exit;
  * host means CLI or cron on this install, which is allowed.
  */
 $isudev_dev_host = 'isudev-library.local';
-$isudev_req_host = (string) ( $_SERVER['HTTP_HOST'] ?? '' );
-if ( '' !== $isudev_req_host && false === strpos( $isudev_req_host, $isudev_dev_host ) ) {
+$isudev_req_host = strtolower( (string) strtok( (string) ( $_SERVER['HTTP_HOST'] ?? '' ), ':' ) );
+
+/*
+ * Exact match, not a substring test. `strpos()` would accept a Host header like
+ * `isudev-library.local.attacker.tld`, which is not a guard at all. The port is
+ * stripped first so `isudev-library.local:8080` still matches.
+ */
+if ( '' !== $isudev_req_host && $isudev_dev_host !== $isudev_req_host ) {
 	return;
 }
 
