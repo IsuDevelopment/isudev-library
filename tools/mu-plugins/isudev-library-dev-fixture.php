@@ -97,3 +97,46 @@ add_action(
 	},
 	20
 );
+
+/*
+ * Provision a dedicated e2e user and write its credentials to a gitignored file.
+ * Runs only on the dev host (guarded at the top of this file). The password is
+ * random, local-only, and never enters the repository or a prompt.
+ */
+add_action(
+	'init',
+	static function () {
+		$creds_file = __DIR__ . '/../.e2e-credentials.json';
+		$login      = 'isudev-e2e';
+		$user       = get_user_by( 'login', $login );
+
+		if ( $user && is_readable( $creds_file ) ) {
+			return;
+		}
+
+		$password = wp_generate_password( 24, true, true );
+
+		if ( $user ) {
+			wp_set_password( $password, $user->ID );
+		} else {
+			$user_id = wp_insert_user(
+				array(
+					'user_login'   => $login,
+					'user_pass'    => $password,
+					'user_email'   => 'isudev-e2e@isudev-library.local',
+					'display_name' => 'IsuDev E2E',
+					'role'         => 'administrator',
+				)
+			);
+
+			if ( is_wp_error( $user_id ) ) {
+				return;
+			}
+		}
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Local dev credentials file, not a WP filesystem operation.
+		file_put_contents( $creds_file, (string) wp_json_encode( array( 'user' => $login, 'pass' => $password ) ) );
+		@chmod( $creds_file, 0600 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Best-effort tightening; failure is not fatal.
+	},
+	21
+);

@@ -34,8 +34,14 @@ require_once PATH . 'includes/config.php';
 require_once PATH . 'includes/variations.php';
 require_once PATH . 'includes/class-registry.php';
 require_once PATH . 'includes/class-loader.php';
+require_once PATH . 'includes/settings.php';
+require_once PATH . 'includes/admin.php';
+require_once PATH . 'includes/rest.php';
 
 Loader::boot();
+Settings\boot();
+Admin\boot();
+REST\boot();
 
 /**
  * Load the plugin text domain for PHP translations.

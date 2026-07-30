@@ -12,6 +12,7 @@
 .editorconfig
 .gitignore
 .nvmrc
+/tools/.e2e-credentials.json
 composer.json
 composer.lock
 package.json
