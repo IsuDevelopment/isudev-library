@@ -28,7 +28,8 @@ Every task's requirements implicitly include this section.
 - **Block directory names must be globally unique** — `build/blocks-manifest.php` is keyed by directory basename.
 - **Never run `npm start` / a watch loop.** Use one-shot `npm run build`.
 - **wp-cli has no database access on this site.** Do not write verification steps using `wp eval`, `wp option` or `wp plugin`. Verify over HTTP against `http://isudev-library.local/`, with `tools/check.php`, or with Playwright.
-- **Baseline before this plan:** `php tools/check.php` prints `107 passed, 0 failed (7 check files)`; `npm run test:e2e` prints `30 passed`, `20 skipped`. Every task must leave both at least as green, with the counts stated below.
+- **Baseline before this plan:** `php tools/check.php` prints `107 passed, 0 failed (7 check files)`; `npm run test:e2e` prints `30 passed`, `20 skipped`.
+- **How to report check counts.** Tasks state an expected **delta**, not an absolute. Report the exact `N passed, M failed` line verbatim, confirm `M` is `0`, and confirm the passed count rose by the stated delta. If it rose by a different amount, say so and explain before touching an assertion — a surprise delta is information, not noise. Note that `tools/checks/60-dist.php` derives its assertions from the repo, so adding a block file adds checks on its own: one per `src/blocks/<slug>/block.php`, one per `build/blocks/<slug>/block.json`, and one per bootstrap file listed in the descriptor.
 
 ---
 
@@ -57,11 +58,20 @@ Append to `tools/checks/50-icon.php`, and add `default_icon_view_boxes` to the `
 use function IsuDevLibrary\Utils\default_icon_view_boxes;
 ```
 
+First **edit** the existing count assertion at `tools/checks/50-icon.php:20` — do
+not add a second one beside it, or the old line fails the moment the fourth
+glyph lands:
+
+```php
+Checks::is( 'icons: exactly four defaults', \count( $paths ), 4 );
+```
+
+Then append:
+
 ```php
 $boxes = default_icon_view_boxes();
 
 Checks::is( 'icons: arrowForward is registered', isset( $paths['arrowForward'] ), true );
-Checks::is( 'icons: exactly four defaults', \count( $paths ), 4 );
 Checks::is( 'icons: arrowForward declares its own viewBox', $boxes['arrowForward'] ?? '', '0 0 24 24' );
 
 /*
@@ -200,7 +210,7 @@ and change the `$svg` assignment to:
 php tools/check.php
 ```
 
-Expected: `118 passed, 0 failed (7 check files)`.
+Expected: still `7 check files`, `0 failed`, and the passed count **up by 10** from the 107 baseline. Report the verbatim line.
 
 - [ ] **Step 5: Mutation-test the new checks**
 
@@ -579,7 +589,7 @@ php tools/check.php
 curl -s -o /dev/null -w "%{http_code}\n" http://isudev-library.local/
 ```
 
-Expected: `118 passed` — note `tools/checks/60-dist.php` derives its file list from the repo, so it now covers the new block's `block.php` and `inc/render-helpers.php` automatically and the count rises. Report the exact number. Site returns `200`.
+Expected: `0 failed`, and the passed count **up by 3** from Task 1's figure — `60-dist.php` derives its file list from the repo, so it now also asserts `src/blocks/read-more/block.php`, `src/blocks/read-more/inc/render-helpers.php` and `build/blocks/read-more/block.json` survive `.distignore`. Report the verbatim line. Site returns `200`.
 
 Then confirm the panel sees two blocks. Log in with the credentials in `tools/.e2e-credentials.json` and read the REST list — the existing `e2e/admin-auth.js` helper does this; the quickest check is a one-off Playwright run in the next task. For now assert discovery from PHP:
 
@@ -725,9 +735,15 @@ Checks::is(
 	pick_image( array( 'url' => '' ), 0 ),
 	array( 'kind' => 'none', 'id' => 0, 'url' => '', 'alt' => '' )
 );
+/*
+ * `true` is the value that actually distinguishes the is_numeric() guard:
+ * (int) true is 1, so without the guard a boolean id would resolve to
+ * attachment #1 — a real image belonging to someone else. A string like
+ * 'seven' casts to 0 either way and would NOT pin the guard.
+ */
 Checks::is(
-	'pick_image: a non-numeric id is ignored rather than cast to 1',
-	pick_image( array( 'id' => 'seven' ), 0 ),
+	'pick_image: a boolean id is not an attachment id',
+	pick_image( array( 'id' => true ), 0 ),
 	array( 'kind' => 'none', 'id' => 0, 'url' => '', 'alt' => '' )
 );
 
@@ -903,7 +919,7 @@ function heading_tag( bool $render_as_heading, int $level ): string {
 php tools/check.php
 ```
 
-Expected: `145 passed, 0 failed (8 check files)`.
+Expected: `8 check files`, `0 failed`, and the passed count **up by 23** from Task 2's figure. Report the verbatim line.
 
 - [ ] **Step 5: Mutation-test**
 
@@ -917,7 +933,8 @@ For each, apply the mutation, run `php tools/check.php`, confirm the named check
    Expected: `pick_image: a zero id is not a selection` fails.
 4. In `pick_image()`, swap the URL branch above the id branch.
    Expected: `pick_image: an explicit attachment wins` fails.
-5. In `pick_image()`, drop the `\is_numeric` guard so `(int) 'seven'` becomes 0 — confirm this does *not* change any result, then instead change the guard to `isset()` only, making `'seven'` cast to `0` but still take the attachment branch. Report honestly which check catches it; if none does, say so rather than inventing one.
+5. In `pick_image()`, change the id guard from `\is_numeric( $media['id'] )` to `isset( $media['id'] )`.
+   Expected: `pick_image: a boolean id is not an attachment id` fails, with `actual` showing `'kind' => 'attachment', 'id' => 1`.
 6. In `heading_tag()`, change the allowed list to `array( 1, 2, 3, 4, 5, 6 )`.
    Expected: `heading_tag: h1 is out of range and clamps to h3` fails.
 7. In `card_classes()`, drop the `'' !== $link_type` guard.
@@ -950,7 +967,7 @@ an empty custom title falling through rather than blanking the card."
 - Produces, below a `WordPress adapters` marker in `inc/render-helpers.php`:
   - `sanitize_highlight( string $content ): string`
   - `resolve_link_post( array $link ): int`
-  - `render_image( array $picked ): string`
+  - `render_image( array $picked ): array{html:string,has_image:bool}`
 
 - [ ] **Step 1: Add the adapters**
 
@@ -1011,10 +1028,15 @@ function resolve_link_post( array $link ): int {
 /**
  * Turn a pick_image() descriptor into figure markup.
  *
+ * Reports whether an image was actually drawn, because an attachment id can
+ * point at a deleted attachment and yield nothing. The caller needs that
+ * answer for the has-image wrapper class and must not re-derive it by
+ * searching the returned markup.
+ *
  * @param array $picked Descriptor from pick_image().
- * @return string
+ * @return array{html:string,has_image:bool}
  */
-function render_image( array $picked ): string {
+function render_image( array $picked ): array {
 	$kind = isset( $picked['kind'] ) ? (string) $picked['kind'] : 'none';
 	$html = '';
 
@@ -1036,10 +1058,16 @@ function render_image( array $picked ): string {
 	}
 
 	if ( '' === $html ) {
-		return '<figure class="read-more-image no-image"></figure>';
+		return array(
+			'html'      => '<figure class="read-more-image no-image"></figure>',
+			'has_image' => false,
+		);
 	}
 
-	return '<figure class="read-more-image">' . $html . '</figure>';
+	return array(
+		'html'      => '<figure class="read-more-image">' . $html . '</figure>',
+		'has_image' => true,
+	);
 }
 ```
 
@@ -1098,8 +1126,20 @@ $title_tag = heading_tag( $render_as_heading, $heading_level );
 
 $thumbnail_id = $post_id > 0 ? (int) \get_post_thumbnail_id( $post_id ) : 0;
 $picked       = pick_image( $media, $thumbnail_id );
-$figure       = $show_image ? render_image( $picked ) : '';
-$has_image    = '' !== $figure && false === \strpos( $figure, 'no-image' );
+
+/*
+ * render_image() reports whether it drew anything, rather than the caller
+ * sniffing its markup for 'no-image' — an attachment id can resolve to
+ * nothing, so the descriptor alone does not answer this.
+ */
+$figure    = '';
+$has_image = false;
+
+if ( $show_image ) {
+	$rendered  = render_image( $picked );
+	$figure    = $rendered['html'];
+	$has_image = $rendered['has_image'];
+}
 
 $badge = $show_badge
 	? \sprintf(
@@ -1177,7 +1217,7 @@ php tools/check.php
 curl -s -o /dev/null -w "%{http_code}\n" http://isudev-library.local/
 ```
 
-Expected: no syntax errors, `145 passed`, `200`. Full rendered-output verification is Task 7's job, which is where the fixture seeds real blocks — do not claim the markup is verified before then.
+Expected: no syntax errors, `0 failed` with the same passed count as Task 3, and `200`. Full rendered-output verification is Task 7's job, which is where the fixture seeds real blocks — do not claim the markup is verified before then.
 
 - [ ] **Step 5: Lint and commit**
 
@@ -2165,7 +2205,7 @@ npm run test:e2e
 curl -s -o /dev/null -w "home=%{http_code}\n" http://isudev-library.local/
 ```
 
-Expected: `145 passed` or higher (report the exact figure — `60-dist.php` grows with the new block's files), all linters clean, `46 passed` / `20 skipped` / `0 failed`, home `200`.
+Expected: `0 failed` with the same passed count Task 3 reported, all linters clean, `46 passed` / `20 skipped` / `0 failed`, home `200`. Report every figure verbatim.
 
 Then re-run the distribution simulation, which is the check that caught the v1 critical:
 
