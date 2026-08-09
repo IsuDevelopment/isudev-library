@@ -276,11 +276,16 @@ Edit `package.json`. Add a `dependencies` block (the file currently has only `de
 Add these to `devDependencies`, keeping the block alphabetically sorted:
 
 ```json
-		"@wordpress/editor": "^15.0.0",
-		"@wordpress/html-entities": "^4.35.0",
-		"@wordpress/icons": "^11.5.0",
-		"@wordpress/primitives": "^4.35.0",
+		"@wordpress/editor": "^14.52.0",
+		"@wordpress/html-entities": "^4.52.0",
+		"@wordpress/icons": "^15.3.0",
+		"@wordpress/primitives": "^4.52.0",
 ```
+
+These are the versions actually published on npm as of 2026-08-10, verified with
+`npm view <pkg> version`. `@wordpress/editor` has never published a 15.x — its
+latest major is 14, which still satisfies `@isudev/gutenberg`'s peer range of
+`>=14.0.0`. Do not round any of these up to a guessed major.
 
 Rationale, for the record: `@isudev/gutenberg` is a runtime dependency because its code is bundled into our block script. `@wordpress/editor` and `@wordpress/primitives` are declared peers that `@wordpress/dependency-extraction-webpack-plugin` externalizes to `wp-editor` / `wp-primitives`. `@wordpress/icons` is a peer that DEWP does **not** externalize — it gets bundled, so it must resolve at build time or the build fails.
 
