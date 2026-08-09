@@ -1874,12 +1874,18 @@ never resolved, and extends the reduced-motion guard to the hover transform."
 
 ---
 
-### Task 7: Dev fixture and end-to-end coverage
+### Task 7: Dev fixture and rendered-output verification
+
+The block has had no rendered-output verification up to this point. This task
+seeds real blocks and checks the markup they produce.
+
+Scope note: a Playwright spec for this block was planned and has been **cut** —
+the human judged the feature too small to carry its own e2e suite. The existing
+suite still runs, because this task edits the shared dev fixture that the
+site-header specs depend on, and breaking it would be a regression.
 
 **Files:**
 - Modify: `tools/mu-plugins/isudev-library-dev-fixture.php`
-- Create: `e2e/read-more.spec.js`
-- Modify: `e2e/panel.spec.js`
 
 **Interfaces:** none consumed by later tasks.
 
@@ -1920,7 +1926,7 @@ Then extend `$content` — append these blocks to the existing concatenation, af
 						'id'    => $target_id,
 						'kind'  => 'post-type',
 						'type'  => 'post',
-						'title' => 'Ignored — the post title wins',
+						'title' => 'Ignored - the post title wins',
 					),
 				)
 			) . ' /-->'
@@ -1958,152 +1964,61 @@ grep -c "wp-block-isudev-read-more" /tmp/front.html
 
 Expected: `2`. If it is `0`, the seed version did not bump or the block is disabled in the panel — check both before changing any code.
 
-- [ ] **Step 3: Write `e2e/read-more.spec.js`**
+- [ ] **Step 3: Verify the rendered markup**
 
-```js
-/**
- * External dependencies
- */
-const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
-
-const CARD = '.wp-block-isudev-read-more';
-
-test.describe('read-more card', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('./');
-	});
-
-	test('an internal card takes its title from the linked post', async ({
-		page,
-	}) => {
-		const card = page.locator(CARD).first();
-
-		await expect(card).toHaveAttribute('href', /isudev-read-more-target/);
-		await expect(card.locator('.read-more-title')).toHaveText(
-			'Linked Target Article'
-		);
-	});
-
-	test('the link label loses to the linked post title', async ({ page }) => {
-		// The fixture sets link.title to a sentinel that must never surface.
-		await expect(page.locator(CARD).first()).not.toContainText(
-			'Ignored — the post title wins'
-		);
-	});
-
-	test('an external card opens in a new tab with a safe rel', async ({
-		page,
-	}) => {
-		const card = page.locator(CARD).nth(1);
-
-		await expect(card).toHaveAttribute('target', '_blank');
-
-		const rel = await card.getAttribute('rel');
-		expect(rel).toContain('noopener');
-		expect(rel).toContain('noreferrer');
-		expect(rel).toContain('nofollow');
-	});
-
-	test('an external card falls back to its own title and renders its parts', async ({
-		page,
-	}) => {
-		const card = page.locator(CARD).nth(1);
-
-		await expect(card.locator('.read-more-title')).toHaveText(
-			'External Resource'
-		);
-		await expect(card.locator('.wp-block-button__read_more')).toBeVisible();
-		await expect(card.locator('.read-more-additional-text')).toHaveText(
-			'Supporting copy.'
-		);
-	});
-
-	test('a URL-only image renders with its alt text', async ({ page }) => {
-		const image = page.locator(CARD).nth(1).locator('.read-more-image img');
-
-		await expect(image).toHaveAttribute('alt', 'Placeholder artwork');
-		await expect(image).toHaveAttribute('src', /default\.png/);
-	});
-
-	test('the arrow is decorative and hidden from assistive tech', async ({
-		page,
-	}) => {
-		const arrow = page.locator(CARD).first().locator('.read-more-arrow');
-
-		await expect(arrow).toHaveAttribute('aria-hidden', 'true');
-		await expect(arrow.locator('svg')).toHaveAttribute(
-			'focusable',
-			'false'
-		);
-	});
-
-	test('the whole card is one link and nothing inside it is focusable', async ({
-		page,
-	}) => {
-		const card = page.locator(CARD).first();
-
-		await expect(card).toHaveJSProperty('tagName', 'A');
-		expect(
-			await card.locator('a, button, input, select, textarea').count()
-		).toBe(0);
-	});
-
-	test('has no axe violations', async ({ page }) => {
-		const { violations } = await new AxeBuilder({ page })
-			.include(CARD)
-			.analyze();
-
-		expect(violations).toEqual([]);
-	});
-});
-```
-
-- [ ] **Step 4: Extend the panel inserter test to cover both blocks**
-
-In `e2e/panel.spec.js`, in the test named `site-header is discoverable in the block inserter`, after the existing `await expect(page.locator(SITE_HEADER_OPTION)).toBeVisible();` add:
-
-```js
-		// Two blocks in the library is the first time anything proves the
-		// registry handles more than one descriptor.
-		await page.getByRole('searchbox', { name: /Search/ }).fill('Read More');
-		await expect(
-			page.locator('.editor-block-list-item-isudev-read-more')
-		).toBeVisible();
-```
-
-- [ ] **Step 5: Run the suite**
+Run each of these against `/tmp/front.html` and paste the verbatim output. These replace the cut e2e specs, so run all of them.
 
 ```bash
+# 1. The internal card links at the target post and takes ITS title,
+#    not the sentinel label stored on the link.
+grep -o 'href="[^"]*isudev-read-more-target[^"]*"' /tmp/front.html
+grep -c 'Linked Target Article' /tmp/front.html
+grep -c 'Ignored - the post title wins' /tmp/front.html
+
+# 2. The external card opens in a new tab with a safe rel, rebuilt server-side.
+grep -o '<a [^>]*example.com/external[^>]*>' /tmp/front.html
+
+# 3. The external card falls back to its own link title and renders its parts.
+grep -c 'External Resource' /tmp/front.html
+grep -c 'wp-block-button__read_more' /tmp/front.html
+grep -c 'Supporting copy.' /tmp/front.html
+
+# 4. A URL-only image renders with its alt text.
+grep -o '<img src="[^"]*default\.png"[^>]*>' /tmp/front.html
+
+# 5. The arrow is decorative.
+grep -o '<span class="read-more-arrow" aria-hidden="true">' /tmp/front.html
+grep -o 'class="read-more-arrow__icon"[^>]*viewBox="[^"]*"' /tmp/front.html
+```
+
+Expected, in order:
+1. an href containing `isudev-read-more-target`; `Linked Target Article` present at least once; the sentinel `Ignored - the post title wins` count is **0** — the post title must win over the stored link label.
+2. an anchor carrying both `target="_blank"` and a `rel` containing `noopener`, `noreferrer` and `nofollow`.
+3. `External Resource` present; the badge span present; `Supporting copy.` present.
+4. an `<img>` whose `alt` is exactly `Placeholder artwork`.
+5. the arrow span present, and the SVG carrying `viewBox="0 0 24 24"` — proving Task 1's per-icon viewBox actually reaches the rendered page.
+
+If any of these disagree with expectations, report it. Do not adjust the fixture to make an assertion pass.
+
+- [ ] **Step 4: Confirm no PHP notices and no regression in the existing suite**
+
+```bash
+curl -s http://isudev-library.local/ | grep -iE "warning|notice|fatal|deprecated" | head
 nvm use
 npm run test:e2e
 ```
 
-Expected: `46 passed`, `20 skipped`, `0 failed` — the eight new specs run in both viewport projects (16 runs), of which none are viewport-gated, added to the previous 30. Report the exact numbers; if they differ, explain why before changing an assertion.
+Expected: no PHP diagnostics in the page output, and the existing suite still reports `30 passed`, `20 skipped`, `0 failed`. The fixture is shared with the site-header specs, so a change here can break them — that is exactly why this step exists.
 
-Run it a second time and confirm identical numbers. A suite that passes once is not a suite that passes.
-
-- [ ] **Step 6: Prove the axe check is not vacuous**
-
-Temporarily change `render_image()` in `src/blocks/read-more/inc/render-helpers.php` so the URL branch emits no `alt` attribute at all, rebuild, and re-run only the read-more spec:
+- [ ] **Step 5: Commit**
 
 ```bash
-npm run build
-npx playwright test e2e/read-more.spec.js --project=desktop-chromium
-```
+git add tools/mu-plugins/isudev-library-dev-fixture.php
+git -c user.name="Lukasz Biedron" -c user.email="lukasz.biedron@dekode.no" commit -m "test: seed read-more cards in the dev fixture
 
-Expected: the alt-text spec fails, and axe reports an `image-alt` violation. Restore the code, rebuild, re-run, confirm green, and paste both outputs. Without this the axe assertion could be passing on markup it never actually examined.
-
-- [ ] **Step 7: Commit**
-
-```bash
-git add tools/mu-plugins/isudev-library-dev-fixture.php e2e/read-more.spec.js e2e/panel.spec.js src/blocks/read-more build/
-git -c user.name="Lukasz Biedron" -c user.email="lukasz.biedron@dekode.no" commit -m "test: seed and cover the read-more card end to end
-
-The fixture seeds an internal card pointing at a real published post and an
-external card with a direct-URL image, covering both title precedence branches
-and pick_image()'s URL branch, plus an axe pass proven non-vacuous by removing
-the alt attribute and watching it fail."
+An internal card pointing at a real published post and an external card with
+a direct-URL image, covering both title precedence branches and pick_image()'s
+URL branch. Verified against the rendered front page."
 ```
 
 ---
@@ -2205,7 +2120,7 @@ npm run test:e2e
 curl -s -o /dev/null -w "home=%{http_code}\n" http://isudev-library.local/
 ```
 
-Expected: `0 failed` with the same passed count Task 3 reported, all linters clean, `46 passed` / `20 skipped` / `0 failed`, home `200`. Report every figure verbatim.
+Expected: `0 failed` with the same passed count Task 3 reported, all linters clean, the existing suite still at `30 passed` / `20 skipped` / `0 failed`, home `200`. Report every figure verbatim.
 
 Then re-run the distribution simulation, which is the check that caught the v1 critical:
 
@@ -2231,7 +2146,7 @@ git -c user.name="Lukasz Biedron" -c user.email="lukasz.biedron@dekode.no" commi
 
 ## Self-Review
 
-**Spec coverage.** Every section maps to a task: §2 rewiring → Tasks 2/4/5; §2.1 losses → recorded in Task 8's CHANGELOG; §3 attributes → Task 2 Step 3; §4 precedence → Tasks 3 and 4; §4.1 editor parity → Task 5 Step 1's `useSelect` blocks; §5 surfaces → Task 5; §6 icon registry → Task 1; §7 markup → Task 4; §7.1 escaping → Task 4 Step 2; §8 accessibility → Task 6 (focus outline, reduced motion) and Task 7 (axe, arrow, single-anchor specs); §9 files → Tasks 2 and 3; §10 dependencies → Task 2 Step 1; §11 testing → Tasks 1, 3, 7; §12 out of scope → not implemented anywhere, correctly.
+**Spec coverage.** Every section maps to a task: §2 rewiring → Tasks 2/4/5; §2.1 losses → recorded in Task 8's CHANGELOG; §3 attributes → Task 2 Step 3; §4 precedence → Tasks 3 and 4; §4.1 editor parity → Task 5 Step 1's `useSelect` blocks; §5 surfaces → Task 5; §6 icon registry → Task 1; §7 markup → Task 4; §7.1 escaping → Task 4 Step 2; §8 accessibility → Task 6 (focus outline, reduced motion) and Task 7 Step 3 (the arrow's aria-hidden and viewBox, checked against rendered markup); §9 files → Tasks 2 and 3; §10 dependencies → Task 2 Step 1; §11 testing → Tasks 1, 3, 7 — note the spec's Playwright/axe suite was cut by the human as disproportionate for this feature, and Task 7's rendered-markup checks stand in for it; §12 out of scope → not implemented anywhere, correctly.
 
 **Type consistency.** `pick_title`, `pick_image`, `card_classes`, `heading_tag` are declared once in Task 3 and called with matching arity in Task 4. `pick_image()`'s return shape is asserted in Task 3's checks and consumed by `render_image()` in Task 4 using the same four keys. `build_svg()`'s fourth parameter is added in Task 1 and used by `icon()` in the same task; no other caller passes it.
 

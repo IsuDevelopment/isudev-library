@@ -293,16 +293,17 @@ resolution logic is pure and must be tested without WordPress:
 Each new check is mutation-tested: break the behaviour, confirm a *targeted*
 check fails, restore. A check that stays green under mutation is not a check.
 
-**Playwright + axe** (`e2e/read-more.spec.js`): the dev fixture seeds a page
-carrying an `isudev/read-more` block with an internal link and one with an
-external link. Assertions: the anchor's href, that the title resolves from the
-linked post, that an external link renders `target="_blank"` with
-`rel` containing `noopener`, that the arrow is `aria-hidden`, that the image
-carries a non-null alt attribute, and zero axe violations on the card.
+**Rendered-output verification.** A dedicated Playwright + axe suite for this
+block was considered and **cut**: the human judged it disproportionate for a
+feature this size. Instead the dev fixture seeds two cards — one linking an
+internal published post, one external with a direct-URL image — and the markup
+they produce is asserted directly against the rendered front page: the href, the
+linked post's title beating the stored link label, `target="_blank"` with a rel
+carrying `noopener noreferrer nofollow`, the image's alt text, and the arrow's
+`aria-hidden` plus its `0 0 24 24` viewBox.
 
-**Editor coverage**: extend `e2e/panel.spec.js`'s inserter round-trip to assert
-both blocks appear, proving the registry handles more than one block — something
-no current test does.
+The existing Playwright suite still runs unchanged after every task, because the
+dev fixture is shared with the site-header specs.
 
 ## 12. Out of scope
 
