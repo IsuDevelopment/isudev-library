@@ -111,9 +111,21 @@ editor falls back the same way.
 | --- | --- | --- |
 | Empty state | `Placeholder` + `LinkPickerControl` render prop | Button label "Pick link". The picker anchors to the placeholder. |
 | Toolbar | `BlockLinkControl` | Owns its own `BlockControls` fill — must not be wrapped in another. `group="default"`. `addLabel`/`editLabel` supplied in our text domain, since the library's own labels use WordPress' `default` domain. |
-| Image on canvas | `MediaControl` `canvas` | Overlay replace/remove on the `<figure>`, reproducing today's pencil/trash buttons. |
-| Image in sidebar | `MediaControl` `sidebar` with `preview: 'focal-point'` | Focal point is new; the source plugin had none. |
-| Image in toolbar | **disabled** (`toolbar={false}`) | The toolbar belongs to the link. Two toolbar groups competing for the same block is the kind of ambiguity that makes a block feel broken. |
+| Image on canvas | `MediaSourceControl` `variant="buttons"` inside our own `<figure>` | Overlay replace/remove, reproducing today's pencil/trash buttons. |
+| Image in sidebar | `MediaSidebarControl` with `preview: 'focal-point'` | Focal point is new; the source plugin had none. |
+| Image in toolbar | **omitted** — no `MediaToolbarControl` | The toolbar belongs to the link. Two toolbar groups competing for one block is the kind of ambiguity that makes a block feel broken. |
+
+The composite `MediaControl` is deliberately **not** used, even though it bundles
+these three. Its canvas owns the empty state: with no `media` value it renders a
+`Placeholder` and no overlay actions. This block's empty state is not empty — it
+falls back to the linked post's featured image (§4), which the block must draw
+itself. Composing the two sub-controls keeps the `<figure>` ours while the media
+UX stays the library's.
+
+`MediaSourceControl` and `MediaSidebarControl` both auto-resolve a `featured`
+source from **the post being edited**, which is never what this block means by a
+featured image. Both must be passed `featuredMedia={null}` and
+`sources={{ featured: false }}`.
 | Inspector | `PanelBody` with the six existing toggles | Unchanged from the source, minus post-specific ones. |
 
 `hasTextControl` defaults to `true` inside `BlockLinkControl`, so the toolbar's
