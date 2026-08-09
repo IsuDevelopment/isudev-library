@@ -1,0 +1,19 @@
+.isudev-header--editor {
+	padding: 0.5rem 1rem;
+	border: 1px dashed #c3c4c7;
+
+	.isudev-header__inner {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.isudev-header__editor-note {
+		font-size: 0.75rem;
+		color: #757575;
+	}
+
+	.isudev-header__end {
+		margin-left: auto;
+	}
+}

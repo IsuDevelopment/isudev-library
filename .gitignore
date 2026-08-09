@@ -1,2 +1,8 @@
 /node_modules/
 /vendor/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+.DS_Store
+/tools/.e2e-credentials.json

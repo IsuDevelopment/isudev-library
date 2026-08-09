@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<ruleset name="IsuDev Library">
+	<description>WordPress Coding Standards for the isudev-library plugin.</description>
+
+	<file>.</file>
+	<arg name="extensions" value="php"/>
+	<arg name="basepath" value="."/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<exclude-pattern>*/build/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/languages/*</exclude-pattern>
+	<!-- tools/ holds a dev-only plain-PHP check runner, not distributed plugin code. -->
+	<exclude-pattern>*/tools/*</exclude-pattern>
+
+	<rule ref="WordPress">
+		<!-- Hooks are intentionally namespaced with a slash (isudev_library/foo). -->
+		<exclude name="WordPress.NamingConventions.ValidHookName.UseUnderscores"/>
+	</rule>
+
+	<!-- Block render templates run in WP_Block::render() method scope, so their
+	     top-level variables are local, not globals — a PrefixAllGlobals false positive. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<exclude-pattern>*/render.php</exclude-pattern>
+	</rule>
+
+	<config name="minimum_wp_version" value="6.7"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="isudev-library"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="IsuDevLibrary"/>
+				<element value="isudev_library"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

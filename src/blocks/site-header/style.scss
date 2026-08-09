@@ -1,0 +1,483 @@
+/* Site Header Block — layout + disclosure nav + mobile drawer.
+   All visual values are --isudev-* tokens with neutral defaults; override
+   them in a consumer theme to re-skin. Breakpoint is fixed at 62rem
+   (documented). */
+
+.isudev-header {
+
+	/* Neutral design tokens (override in your theme). */
+	--isudev-color-text: #1a1a1a;
+	--isudev-color-text-muted: #4a4a4a;
+	--isudev-color-text-subtle: #6b6b6b;
+	--isudev-color-bg: #fff;
+	--isudev-color-accent: #1a1a1a;
+	--isudev-color-border: #e0e0e0;
+	--isudev-color-surface-hover: #f2f2f2;
+	--isudev-space-2xs: 0.25rem;
+	--isudev-space-xs: 0.5rem;
+	--isudev-space-sm: 0.75rem;
+	--isudev-space-md: 1rem;
+	--isudev-space-lg: 1.5rem;
+	--isudev-space-xl: 2.5rem;
+	--isudev-font-size: 0.875rem;
+	--isudev-font-size-md: 1rem;
+	--isudev-font-size-sm: 0.75rem;
+	--isudev-font-weight-bold: 700;
+	--isudev-radius: 0.5rem;
+	--isudev-radius-sm: 0.25rem;
+	--isudev-z: 100;
+	--isudev-blur: 12px;
+	--isudev-bg-glass: rgb(255 255 255 / 0.72);
+	--isudev-pad-block: var(--isudev-space-md);
+	--isudev-pad-block-compact: var(--isudev-space-xs);
+
+	position: relative;
+	width: 100%;
+	background: var(--isudev-color-bg);
+	color: var(--isudev-color-text);
+	font-size: var(--isudev-font-size);
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+
+	&.is-sticky {
+		position: sticky;
+		top: 0;
+		z-index: var(--isudev-z);
+	}
+}
+
+.isudev-sr-only {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.isudev-header__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--isudev-space-md);
+	padding-block: var(--isudev-pad-block);
+	transition: padding 0.3s ease;
+}
+
+/* Logo */
+.isudev-header__logo {
+	display: inline-flex;
+	align-items: center;
+	flex: 0 0 auto;
+
+	img,
+	svg {
+		display: block;
+		height: auto;
+		max-height: 1.75rem;
+		width: auto;
+	}
+
+	&--text {
+		font-weight: 500;
+		text-decoration: none;
+		color: inherit;
+	}
+}
+
+/* Nav wrapper (desktop = inline flex child) */
+.isudev-header__nav {
+	display: flex;
+	align-items: center;
+	flex: 1 1 auto;
+	justify-content: flex-end;
+	gap: var(--isudev-space-lg);
+}
+
+.isudev-header__nav-head,
+.isudev-header__close {
+	display: none; /* mobile-only */
+}
+
+.isudev-nav {
+	display: block;
+}
+
+.isudev-nav__list {
+	display: flex;
+	align-items: center;
+	gap: var(--isudev-space-lg);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.isudev-nav__item {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin: 0;
+}
+
+/* Top-level link / toggle */
+.isudev-nav__link,
+.isudev-nav__toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--isudev-space-2xs);
+	padding: var(--isudev-space-2xs) 0;
+	font: inherit;
+	font-weight: var(--isudev-font-weight-bold);
+	color: inherit;
+	text-decoration: none;
+	background: none;
+	border: 0;
+	cursor: pointer;
+}
+
+.isudev-nav__toggle--split {
+	padding-inline: var(--isudev-space-2xs);
+}
+
+.isudev-nav__chevron {
+	display: inline-flex;
+	transition: transform 0.25s ease;
+}
+
+.isudev-nav__chevron-icon {
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+.isudev-nav__item.is-open .isudev-nav__chevron {
+	transform: rotate(180deg);
+}
+
+/* Disclosure panel (desktop dropdown) */
+.isudev-nav__panel {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	min-width: 16rem;
+	background: var(--isudev-color-bg);
+	border-top: 2px solid var(--isudev-color-accent);
+	border-radius: var(--isudev-radius);
+	box-shadow: 0 12px 32px rgb(16 16 16 / 0.12);
+
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(0.5rem);
+	transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.isudev-nav__item.is-open .isudev-nav__panel {
+	opacity: 1;
+	visibility: visible;
+	overflow: hidden;
+	transform: translateY(0);
+	transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s;
+}
+
+.isudev-nav__sublist {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.isudev-nav__sublink {
+	display: flex;
+	flex-direction: column;
+	gap: var(--isudev-space-2xs);
+	padding: var(--isudev-space-sm) var(--isudev-space-md);
+	text-decoration: none;
+	color: var(--isudev-color-text-muted);
+	width: 100%;
+
+	&:hover,
+	&:focus-visible {
+		background: var(--isudev-color-surface-hover);
+	}
+}
+
+.isudev-nav__subtitle {
+	font-weight: var(--isudev-font-weight-bold);
+}
+
+.isudev-nav__subdesc {
+	font-size: var(--isudev-font-size-sm);
+	color: var(--isudev-color-text-subtle);
+}
+
+/* Burger (hidden on desktop) */
+.isudev-header__burger {
+	display: none;
+}
+
+/* Scroll states: glassy + compact after threshold; white at top */
+.isudev-header.is-scrolled {
+	background: var(--isudev-bg-glass);
+	-webkit-backdrop-filter: blur(var(--isudev-blur));
+	backdrop-filter: blur(var(--isudev-blur));
+	box-shadow: 0 4px 20px rgb(16 16 16 / 0.08);
+
+	.isudev-header__inner {
+		padding-block: var(--isudev-pad-block-compact);
+	}
+}
+
+.isudev-header.is-white:not(.is-scrolled) {
+	background: transparent;
+
+	.isudev-header__logo,
+	.isudev-nav__link,
+	.isudev-nav__toggle {
+		color: var(--isudev-color-bg);
+	}
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+
+	.isudev-header.is-scrolled {
+		background: var(--isudev-color-bg);
+	}
+}
+
+/* Mobile (< 62rem): off-canvas drawer + animated burger */
+@media (max-width: 61.999rem) {
+
+	.isudev-header__inner {
+		padding: var(--isudev-space-sm);
+	}
+
+	.isudev-header__logo img,
+	.isudev-header__logo svg {
+		max-height: 1.5rem;
+	}
+
+	.isudev-header__burger {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		background: none;
+		border: 0;
+		cursor: pointer;
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: -0.625rem;
+		}
+	}
+
+	.isudev-header__burger-box {
+		position: relative;
+		display: block;
+		width: 1.5rem;
+		height: 1rem;
+	}
+
+	.isudev-header__burger-line {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background: currentcolor;
+		border-radius: 2px;
+		transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
+
+		&:nth-child(1) {
+			top: 0;
+		}
+
+		&:nth-child(2) {
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		&:nth-child(3) {
+			top: 100%;
+		}
+	}
+
+	.isudev-header.is-drawer-open .isudev-header__burger-line:nth-child(1) {
+		top: 50%;
+		transform: translateY(-50%) rotate(45deg);
+	}
+
+	.isudev-header.is-drawer-open .isudev-header__burger-line:nth-child(2) {
+		opacity: 0;
+	}
+
+	.isudev-header.is-drawer-open .isudev-header__burger-line:nth-child(3) {
+		top: 50%;
+		transform: translateY(-50%) rotate(-45deg);
+	}
+
+	.isudev-header__nav {
+		position: fixed;
+		inset: 0 0 0 auto;
+		width: 100%;
+		flex-direction: column;
+		justify-content: flex-start;
+		gap: 0;
+		padding: var(--isudev-space-sm);
+		background: var(--isudev-color-bg);
+		overflow-y: auto;
+		transform: translateX(100%);
+		transition: transform 0.3s ease;
+	}
+
+	.isudev-header.is-drawer-open .isudev-header__nav {
+		transform: translateX(0);
+		z-index: 110;
+	}
+
+	.isudev-header__nav-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: var(--isudev-space-md);
+	}
+
+	.isudev-header__close {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--isudev-space-2xs);
+		background: none;
+		border: 0;
+		cursor: pointer;
+		font: inherit;
+		color: inherit;
+	}
+
+	.isudev-header__close-icon {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.isudev-nav__list {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+		width: 100%;
+	}
+
+	.isudev-nav__item {
+		border-bottom: 1px solid var(--isudev-color-border);
+	}
+
+	.isudev-nav__link,
+	.isudev-nav__toggle {
+		width: 100%;
+		justify-content: space-between;
+		padding-block: var(--isudev-space-sm);
+		font-size: var(--isudev-font-size-md);
+		line-height: 1.2;
+	}
+
+	.isudev-nav__item.has-link .isudev-nav__link {
+		width: auto;
+		flex: 1 1 auto;
+	}
+
+	.isudev-nav__item.has-link .isudev-nav__toggle--split {
+		width: auto;
+		flex: 0 0 auto;
+		padding-inline: var(--isudev-space-sm);
+	}
+
+	.isudev-nav__panel {
+		position: static;
+		flex-basis: 100%;
+		min-width: 0;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+		padding-block: 0;
+		transform: none;
+
+		max-height: 0;
+		overflow: hidden;
+		visibility: hidden;
+		opacity: 1;
+		transition: max-height 0.3s ease, visibility 0s linear 0.3s;
+	}
+
+	.isudev-nav__item.is-open .isudev-nav__panel {
+		max-height: 40rem;
+		visibility: visible;
+		border-left: 2px solid var(--isudev-color-accent);
+		margin-block: 0 var(--isudev-space-sm);
+		margin-left: var(--isudev-space-xs);
+		transition: max-height 0.3s ease, visibility 0s;
+	}
+
+	.isudev-header__end {
+		margin-top: auto;
+		padding-top: var(--isudev-space-xl);
+	}
+
+	.isudev-header.is-drawer-open::after {
+		content: "";
+		position: fixed;
+		inset: 0;
+		z-index: 90;
+		background: rgb(16 16 16 / 0.4);
+	}
+}
+
+/* Scroll lock while the drawer is open. view.js sets this on <html>. */
+html.isudev-scroll-locked {
+	overflow: hidden;
+}
+
+/* Scroll sentinel — injected into <body> at 15dvh in normal flow. */
+.isudev-header__scroll-sentinel {
+	position: absolute;
+	top: 15dvh;
+	left: 0;
+	width: 1px;
+	height: 1px;
+	pointer-events: none;
+	visibility: hidden;
+}
+
+/* Visible keyboard focus (WCAG 2.4.7). */
+/* stylelint-disable no-descending-specificity */
+.isudev-nav__link:focus-visible,
+.isudev-nav__toggle:focus-visible,
+.isudev-nav__sublink:focus-visible,
+.isudev-header__logo:focus-visible,
+.isudev-header__burger:focus-visible,
+.isudev-header__close:focus-visible {
+	outline: 2px solid var(--isudev-color-accent);
+	outline-offset: 2px;
+	border-radius: var(--isudev-radius-sm);
+}
+
+.isudev-header.is-white:not(.is-scrolled) .isudev-header__logo:focus-visible,
+.isudev-header.is-white:not(.is-scrolled) .isudev-nav__link:focus-visible,
+.isudev-header.is-white:not(.is-scrolled) .isudev-nav__toggle:focus-visible {
+	outline-color: var(--isudev-color-bg);
+}
+/* stylelint-enable no-descending-specificity */
+
+/* Respect reduced-motion. */
+@media (prefers-reduced-motion: reduce) {
+
+	.isudev-header,
+	.isudev-header__inner,
+	.isudev-nav__chevron,
+	.isudev-nav__panel,
+	.isudev-header__burger-line,
+	.isudev-header__nav {
+		transition: none !important;
+	}
+}

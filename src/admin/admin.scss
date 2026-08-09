@@ -1,0 +1,37 @@
+.isudev-admin {
+	max-width: 60rem;
+
+	&__title {
+		margin-block: 1rem;
+	}
+
+	&__blocks,
+	&__settings {
+		display: grid;
+		gap: 1rem;
+		padding-block-start: 1rem;
+	}
+
+	&__card-title {
+		margin: 0;
+		font-size: 1rem;
+	}
+
+	&__card-name {
+		margin-block: 0.25rem 0.5rem;
+	}
+
+	&__card-warning {
+		margin-block-start: 0.5rem;
+		color: #8a6d00;
+	}
+
+	&__diagnostics {
+		margin: 0;
+		list-style: none;
+
+		li {
+			margin-block: 0.25rem;
+		}
+	}
+}

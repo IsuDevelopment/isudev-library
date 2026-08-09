@@ -1,0 +1,19 @@
+{
+  "library": {
+    "isudev/site-header": {
+      "enabled": true,
+      "variations": {
+        "compact": {
+          "name": "compact",
+          "title": "Compact header",
+          "icon": "menu",
+          "description": "Header bez slotu akcji.",
+          "attributes": {
+            "sticky": false,
+            "logoSource": "site"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/site-header",
+  "version": "1.0.0",
+  "title": "Site Header Block",
+  "category": "layout",
+  "icon": "menu-alt",
+  "description": "An accessibility-first site header: logo, disclosure navigation, mobile drawer, and an actions slot. By IsuDev.",
+  "textdomain": "isudev-library",
+  "supports": {
+    "html": false,
+    "multiple": false,
+    "align": [
+      "full"
+    ]
+  },
+  "attributes": {
+    "_namespace": {
+      "type": "string",
+      "default": "",
+      "description": "Variation identifier injected by IsuDevLibrary\\Variations. Must be declared here or isActive matching never resolves."
+    },
+    "menuRef": {
+      "type": "string",
+      "default": ""
+    },
+    "logoSource": {
+      "type": "string",
+      "default": "site"
+    },
+    "logoUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "sticky": {
+      "type": "boolean",
+      "default": true
+    },
+    "whiteHeaderBodyClass": {
+      "type": "string",
+      "default": "is-white-header"
+    },
+    "ariaLabel": {
+      "type": "string",
+      "default": "Main"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

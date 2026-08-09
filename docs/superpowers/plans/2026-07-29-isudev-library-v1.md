@@ -26,6 +26,9 @@ Każde zadanie implicite podlega tym regułom.
 - **Bloki `apiVersion: 3`.** W kodzie edytora nigdy globalny `document`/`window` — `element.ownerDocument` przez `useRefEffect`. **Wyjątek: `view.js` (frontend) używa globali legalnie — nie zmieniaj tego, view scripts nie są iframe'owane.**
 - **Nie używaj** `DimensionControl` (usunięty w WP 7.0) ani `__next40pxDefaultSize` (no-op w 7.1). Tylko stabilizowane nazwy z `@wordpress/components`.
 - **Nie używaj `_wp_array_get()`** (prywatne API rdzenia) ani `assert()`/`assert_options()` (deprecated w PHP 8.3+).
+- **Komentarze blokowe: tekst musi zaczynać się w nowej linii.** `/* --- opis --- */` z tekstem w pierwszej linii to **ERROR** `Squiz.Commenting.BlockComment.NoNewLine` i `phpcs` pada. Używaj formy `/*` / ` * opis` / ` */`. Sprawdzone empirycznie na tym repo.
+- **Długi opis w docblocku musi zaczynać się wielką literą.** `Generic.Commenting.DocComment.LongNotCapital` to **ERROR**, więc akapit rozpoczynający się od nazwy funkcji (`build_variations() is pure…`) wywala lint. Przeformułuj (`The build_variations() function is pure…`). Sprawdzone empirycznie na tym repo.
+- **Nazwy parametrów nie mogą być słowami zarezerwowanymi PHP.** WPCS 3.x (przez PHPCSExtra) zgłasza `Universal.NamingConventions.NoReservedKeywordParameterNames`, a `phpcs` wychodzi wtedy z kodem 1 — `composer run lint:php` pada. Sprawdzone empirycznie na tym repo; odrzucane są m.in.: `$default`, `$parent`, `$namespace`, `$array`, `$class`, `$function`, `$list`, `$new`, `$print`, `$static`, `$string`, `$use`. Przyjęte zamienniki w tym projekcie: `$fallback`, `$parent_config`, `$child_config`, `$variation_namespace`. Dotyczy **wyłącznie parametrów** — zmienne lokalne i klucze `foreach` mogą nazywać się dowolnie (`foreach ( $x as $namespace => $y )` jest legalne).
 - **wp-cli nie ma dostępu do bazy tego Locala.** Nie pisz kroków weryfikacyjnych opartych na `wp eval`, `wp plugin`, `wp option`. Weryfikacja: plain-PHP checks + Playwright po HTTP na `http://isudev-library.local/`.
 - **Po każdej zmianie kodu:** `npm run lint:js`, `npm run lint:css`, `composer run lint:php` muszą być zielone przed commitem.
 - **Nigdy nie uruchamiaj** `npm start` / watchera w automatyzacji. Tylko jednorazowy `npm run build`.
@@ -292,7 +295,10 @@ const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 /**
  * External dependencies
  */
+const fs = require('fs');
 const path = require('path');
+
+const adminEntry = path.resolve(__dirname, 'src/admin/index.js');
 
 module.exports = {
 	...defaultConfig,
@@ -301,10 +307,24 @@ module.exports = {
 		...(typeof defaultConfig.entry === 'function'
 			? defaultConfig.entry()
 			: defaultConfig.entry),
-		admin: path.resolve(__dirname, 'src/admin/index.js'),
+		// The admin panel lands in a later task than the first build, so this entry
+		// is added only once its source exists. Without the guard, webpack fails
+		// the whole build on an unresolved entry and emits nothing at all.
+		//
+		// The key must be 'admin/index', not 'admin'. wp-scripts writes
+		// output.filename as '[name].js', so a bare key emits a flat build/admin.js
+		// while includes/admin.php enqueues build/admin/index.js. The block entries
+		// only nest because their names already contain slashes.
+		...(fs.existsSync(adminEntry) ? { 'admin/index': adminEntry } : {}),
 	},
 };
 ```
+
+**Entry `admin` musi być warunkowy.** `src/admin/index.js` powstaje dopiero
+w Task 13, a pierwszy `npm run build` leci w Task 10 — bezwarunkowy entry wywala
+cały build z `Field 'browser' doesn't contain a valid alias configuration` i nie
+emituje **żadnego** pliku, także bloków. Nie twórz zaślepki `src/admin/index.js`,
+żeby to obejść.
 
 - [ ] **Step 9: Napisz `isudev-library.php`**
 
@@ -515,7 +535,12 @@ Zamiennik prywatnego `_wp_array_get()` z rdzenia.
 
 **Interfaces:**
 - Consumes: `Checks` z Task 1.
-- Produces: `IsuDevLibrary\Utils\array_get( array $data, array $path, $default = null )` → mixed. Czysta. Zwraca `$default` gdy którykolwiek segment `$path` nie istnieje lub gdy trafi na wartość nie-tablicową przed końcem ścieżki. Pusta `$path` zwraca `$data`.
+- Produces: `IsuDevLibrary\Utils\array_get( array $data, array $path, $fallback = null )` → mixed. Czysta. Zwraca `$fallback` gdy którykolwiek segment `$path` nie istnieje lub gdy trafi na wartość nie-tablicową przed końcem ścieżki. Pusta `$path` zwraca `$data`.
+
+**Nie nazywaj parametru `$default`.** WPCS 3.x (przez PHPCSExtra) zgłasza
+`Universal.NamingConventions.NoReservedKeywordParameterNames` dla `$default`,
+a `phpcs` wychodzi wtedy z kodem 1 — `composer run lint:php` pada. Sprawdzone
+empirycznie na tym repo. Ta sama reguła obowiązuje w każdym zadaniu.
 
 - [ ] **Step 1: Napisz failing check**
 
@@ -546,6 +571,9 @@ $data = array(
 		),
 	),
 	'scalar'  => 'not-an-array',
+	// Present, but holds null. Pins array_key_exists() vs isset(): isset() is the
+	// only case where a stored null is indistinguishable from a missing key.
+	'nullish' => null,
 );
 
 Checks::is( 'array_get: empty path returns whole array', array_get( $data, array() ), $data );
@@ -555,8 +583,18 @@ Checks::is( 'array_get: deep hit on false value', array_get( $data, array( 'libr
 Checks::is( 'array_get: nested variation', array_get( $data, array( 'library', 'isudev/site-header', 'variations', 'compact', 'title' ) ), 'Compact' );
 Checks::is( 'array_get: missing key returns default', array_get( $data, array( 'library', 'nope' ), 'fallback' ), 'fallback' );
 Checks::is( 'array_get: default is null when omitted', array_get( $data, array( 'nope' ) ), null );
-Checks::is( 'array_get: traversing through a scalar returns default', array_get( $data, array( 'scalar', 'deeper' ), 'fallback' ), 'fallback' );
-Checks::is( 'array_get: non-string segment returns default', array_get( $data, array( 0 ), 'fallback' ), 'fallback' );
+Checks::is( 'array_get: traversing through a scalar returns fallback', array_get( $data, array( 'scalar', 'deeper' ), 'fallback' ), 'fallback' );
+Checks::is( 'array_get: absent integer key returns fallback', array_get( $data, array( 0 ), 'fallback' ), 'fallback' );
+
+// A key that EXISTS but holds null must return null, not the fallback. This is
+// the whole reason the implementation uses array_key_exists() and not isset():
+// swapping in isset() would still pass every other check in this file.
+Checks::is( 'array_get: existing key holding null returns null, not fallback', array_get( $data, array( 'nullish' ), 'fallback' ), null );
+
+// Exercises the segment type guard for real. An array is neither string nor int,
+// so it must return the fallback rather than raising a PHP 8 TypeError inside
+// array_key_exists(). Without this, the guard could be deleted and stay green.
+Checks::is( 'array_get: array as a path segment returns fallback', array_get( $data, array( array( 'nope' ) ), 'fallback' ), 'fallback' );
 ```
 
 - [ ] **Step 2: Uruchom check — musi się wywalić**
@@ -592,19 +630,19 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array $data    Source array.
  * @param array $path    Ordered list of keys to walk.
- * @param mixed $default Value returned when the path does not resolve.
- * @return mixed Resolved value, or $default.
+ * @param mixed $fallback Value returned when the path does not resolve.
+ * @return mixed Resolved value, or $fallback.
  */
-function array_get( array $data, array $path, $default = null ) {
+function array_get( array $data, array $path, $fallback = null ) {
 	$current = $data;
 
 	foreach ( $path as $segment ) {
 		if ( ! \is_string( $segment ) && ! \is_int( $segment ) ) {
-			return $default;
+			return $fallback;
 		}
 
 		if ( ! \is_array( $current ) || ! \array_key_exists( $segment, $current ) ) {
-			return $default;
+			return $fallback;
 		}
 
 		$current = $current[ $segment ];
@@ -620,9 +658,14 @@ function array_get( array $data, array $path, $default = null ) {
 npm run test:php
 ```
 
-Oczekiwane: `9 passed, 0 failed (1 check files)`, exit 0.
+Oczekiwane: `11 passed, 0 failed (1 check files)`, exit 0.
 
-Uwaga: check `non-string segment returns default` przekazuje `0` (int), które implementacja akceptuje jako typ, ale klucz `0` nie istnieje w `$data`, więc zwraca `'fallback'`. To zamierzone — int-owe klucze są legalne w PHP.
+Uwaga do dwóch checków, które łatwo źle zrozumieć:
+
+- `absent integer key returns fallback` przekazuje `0` (int). Implementacja **akceptuje** int jako typ klucza — zwraca `'fallback'` tylko dlatego, że klucz `0` nie istnieje w `$data`. Ten check **nie** testuje guardu typu; int-owe klucze są w PHP legalne i mają działać.
+- Guard typu testuje dopiero `array as a path segment returns fallback`. Bez niego można usunąć całą gałąź `! is_string && ! is_int` i suite zostanie zielony.
+
+Podobnie `existing key holding null returns null, not fallback` jest jedynym checkiem, który przypina `array_key_exists()` — podmiana na `isset()` przechodzi wszystkie pozostałe.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -654,8 +697,9 @@ EOF
   - `const CONFIG_KEY = 'library';`
   - `decode( string $json ): array` — `[]` przy błędzie JSON lub gdy top-level nie jest tablicą.
   - `extract_library( array $raw ): array` — zwraca `$raw['library']`, `[]` gdy brak lub nie-tablica.
-  - `merge_configs( array $parent, array $child ): array` — `array_replace_recursive`, child wygrywa.
-  - `resolve_block_value( array $config, string $block_name, array $key_path, $fallback = null, string $namespace = '' )` — łańcuch: `<block>.variations.<ns>.<key_path>` → `<block>.<key_path>` → `$fallback`.
+  - `is_list_array( array $value ): bool` — czy tablica jest listą (kolejne klucze całkowite od zera). Pusta tablica to lista. Własna implementacja, bo `array_is_list()` wymaga PHP 8.1, a plugin wspiera 7.4.
+  - `merge_configs( array $parent_config, array $child_config ): array` — child wygrywa. Tablice asocjacyjne scalane rekurencyjnie, **listy podmieniane w całości**, żeby child theme mógł skrócić `allowedBlocks` lub `template`. Świadomie **nie** `array_replace_recursive()` — ta scala listy indeks po indeksie, więc parent `[a, b, c]` z child `[a]` daje `[a, b, c]` i ograniczenie listy jest niemożliwe.
+  - `resolve_block_value( array $config, string $block_name, array $key_path, $fallback = null, string $variation_namespace = '' )` — łańcuch: `<block>.variations.<ns>.<key_path>` → `<block>.<key_path>` → `$fallback`.
 
 - [ ] **Step 1: Napisz failing check**
 
@@ -675,6 +719,7 @@ require_once dirname( __DIR__, 2 ) . '/includes/config.php';
 
 use function IsuDevLibrary\Config\decode;
 use function IsuDevLibrary\Config\extract_library;
+use function IsuDevLibrary\Config\is_list_array;
 use function IsuDevLibrary\Config\merge_configs;
 use function IsuDevLibrary\Config\resolve_block_value;
 
@@ -708,6 +753,75 @@ $parent = array(
 $child = array(
 	'isudev/site-header' => array( 'sticky' => false ),
 );
+// Lists are replaced wholesale so a child theme can RESTRICT one. Under
+// array_replace_recursive() these three would merge index-by-index and the
+// child could never shorten allowedBlocks or template — the main reason
+// isudev.json exists. Each of these fails against array_replace_recursive().
+Checks::is(
+	'merge_configs: child list replaces the parent list wholesale',
+	merge_configs(
+		array( 'b' => array( 'allowedBlocks' => array( 'core/paragraph', 'core/image', 'core/button' ) ) ),
+		array( 'b' => array( 'allowedBlocks' => array( 'core/paragraph' ) ) )
+	),
+	array( 'b' => array( 'allowedBlocks' => array( 'core/paragraph' ) ) )
+);
+Checks::is(
+	'merge_configs: child empty list clears the parent list',
+	merge_configs(
+		array( 'b' => array( 'template' => array( array( 'core/heading' ), array( 'core/paragraph' ) ) ) ),
+		array( 'b' => array( 'template' => array() ) )
+	),
+	array( 'b' => array( 'template' => array() ) )
+);
+Checks::is(
+	'merge_configs: child scalar replaces a parent array',
+	merge_configs(
+		array( 'b' => array( 'sticky' => array( 'desktop' => true ) ) ),
+		array( 'b' => array( 'sticky' => false ) )
+	),
+	array( 'b' => array( 'sticky' => false ) )
+);
+
+// Regression protection for merge paths that are correct today but untested.
+// merge_configs() is hand-written logic and Tasks 4-9 build on it.
+Checks::is(
+	'merge_configs: recurses more than one level deep',
+	merge_configs(
+		array( 'a' => array( 'b' => array( 'c' => 1, 'd' => 2 ) ) ),
+		array( 'a' => array( 'b' => array( 'c' => 3 ) ) )
+	),
+	array( 'a' => array( 'b' => array( 'c' => 3, 'd' => 2 ) ) )
+);
+Checks::is(
+	'merge_configs: child-only key is added',
+	merge_configs( array( 'a' => 1 ), array( 'b' => 2 ) ),
+	array( 'a' => 1, 'b' => 2 )
+);
+Checks::is(
+	'merge_configs: child null replaces a parent array',
+	merge_configs( array( 'a' => array( 'x' => 1 ) ), array( 'a' => null ) ),
+	array( 'a' => null )
+);
+Checks::is(
+	'merge_configs: child assoc replaces a parent list',
+	merge_configs( array( 'a' => array( 'x', 'y' ) ), array( 'a' => array( 'k' => 'v' ) ) ),
+	array( 'a' => array( 'k' => 'v' ) )
+);
+Checks::is(
+	'merge_configs: child list replaces a parent assoc',
+	merge_configs( array( 'a' => array( 'k' => 'v' ) ), array( 'a' => array( 'x', 'y' ) ) ),
+	array( 'a' => array( 'x', 'y' ) )
+);
+
+// is_list_array() — the predicate the merge depends on.
+// The empty-array guard in is_list_array() is load-bearing, not defensive:
+// range( 0, -1 ) counts down and yields array( 0, -1 ), so without the guard
+// is_list_array( array() ) would return false.
+Checks::true( 'is_list_array: empty array is a list', is_list_array( array() ) );
+Checks::true( 'is_list_array: sequential from zero is a list', is_list_array( array( 'a', 'b' ) ) );
+Checks::is( 'is_list_array: string keys are not a list', is_list_array( array( 'k' => 'v' ) ), false );
+Checks::is( 'is_list_array: gap in integer keys is not a list', is_list_array( array( 0 => 'a', 2 => 'b' ) ), false );
+
 Checks::is(
 	'merge_configs: child overrides parent key, keeps siblings',
 	merge_configs( $parent, $child ),
@@ -724,9 +838,17 @@ $config = array(
 	'isudev/site-header' => array(
 		'sticky'     => true,
 		'ariaLabel'  => 'Main',
+		// Present at block level, holds null. Pins the sentinel in the block branch.
+		'nullish'    => null,
 		'variations' => array(
-			'compact' => array( 'sticky' => false ),
+			'compact' => array(
+				'sticky' => false,
+				// Present at variation level, holds null. Pins the sentinel in the
+				// variation branch: it must win over the block value below.
+				'winner' => null,
+			),
 		),
+		'winner'     => 'block-value',
 	),
 );
 Checks::is( 'resolve: block-level value', resolve_block_value( $config, 'isudev/site-header', array( 'sticky' ), 'fb' ), true );
@@ -735,6 +857,12 @@ Checks::is( 'resolve: variation falls back to block value', resolve_block_value(
 Checks::is( 'resolve: unknown key returns fallback', resolve_block_value( $config, 'isudev/site-header', array( 'nope' ), 'fb' ), 'fb' );
 Checks::is( 'resolve: unknown block returns fallback', resolve_block_value( $config, 'isudev/nope', array( 'sticky' ), 'fb' ), 'fb' );
 Checks::is( 'resolve: unknown variation falls back to block value', resolve_block_value( $config, 'isudev/site-header', array( 'sticky' ), 'fb', 'ghost' ), true );
+
+// The two checks below are why resolve_block_value() uses a sentinel object
+// instead of `??` or a `!== null` test. Without them the sentinel could be
+// removed and every other check in this file would still pass.
+Checks::is( 'resolve: block key holding null returns null, not the fallback', resolve_block_value( $config, 'isudev/site-header', array( 'nullish' ), 'fb' ), null );
+Checks::is( 'resolve: variation key holding null wins over the block value', resolve_block_value( $config, 'isudev/site-header', array( 'winner' ), 'fb', 'compact' ), null );
 ```
 
 - [ ] **Step 2: Uruchom check — musi się wywalić**
@@ -809,14 +937,52 @@ function extract_library( array $raw ): array {
 }
 
 /**
+ * Whether an array is a list: keys are sequential integers starting at zero. Pure.
+ *
+ * Hand-rolled because `array_is_list()` needs PHP 8.1 and this plugin supports 7.4.
+ *
+ * @param array $value Array to inspect.
+ * @return bool True for lists and for the empty array.
+ */
+function is_list_array( array $value ): bool {
+	if ( array() === $value ) {
+		return true;
+	}
+
+	return \array_keys( $value ) === \range( 0, \count( $value ) - 1 );
+}
+
+/**
  * Merge a child theme config over a parent theme config. Pure.
  *
- * @param array $parent Parent theme subtree.
- * @param array $child  Child theme subtree.
+ * Associative arrays merge recursively. Lists are replaced wholesale, so a child
+ * theme can shorten one. This is deliberately NOT `array_replace_recursive()`:
+ * that merges lists index by index, which makes it impossible for a child theme
+ * to restrict `allowedBlocks` or `template` — the very thing isudev.json exists
+ * for. Verified: parent `[a, b, c]` with child `[a]` yields `[a, b, c]` under
+ * `array_replace_recursive()`.
+ *
+ * @param array $parent_config Parent theme subtree.
+ * @param array $child_config  Child theme subtree.
  * @return array Merged config; child wins.
  */
-function merge_configs( array $parent, array $child ): array {
-	return \array_replace_recursive( $parent, $child );
+function merge_configs( array $parent_config, array $child_config ): array {
+	$merged = $parent_config;
+
+	foreach ( $child_config as $key => $child_value ) {
+		$parent_value = $merged[ $key ] ?? null;
+
+		$both_assoc = \is_array( $child_value )
+			&& \is_array( $parent_value )
+			&& ! is_list_array( $child_value )
+			&& ! is_list_array( $parent_value );
+
+		$merged[ $key ] = $both_assoc
+			? merge_configs( $parent_value, $child_value )
+			: $child_value;
+	}
+
+	return $merged;
 }
 
 /**
@@ -824,20 +990,20 @@ function merge_configs( array $parent, array $child ): array {
  *
  * Lookup order: variation value, then block value, then $fallback.
  *
- * @param array  $config     The `library` subtree.
- * @param string $block_name Full block name, e.g. `isudev/site-header`.
- * @param array  $key_path   Ordered key path below the block (or variation).
- * @param mixed  $fallback   Value returned when nothing resolves.
- * @param string $namespace  Variation namespace; '' to skip variation lookup.
+ * @param array  $config              The `library` subtree.
+ * @param string $block_name          Full block name, e.g. `isudev/site-header`.
+ * @param array  $key_path            Ordered key path below the block (or variation).
+ * @param mixed  $fallback            Value returned when nothing resolves.
+ * @param string $variation_namespace Variation namespace; '' to skip variation lookup.
  * @return mixed Resolved value.
  */
-function resolve_block_value( array $config, string $block_name, array $key_path, $fallback = null, string $namespace = '' ) {
+function resolve_block_value( array $config, string $block_name, array $key_path, $fallback = null, string $variation_namespace = '' ) {
 	$sentinel = new \stdClass();
 
-	if ( '' !== $namespace ) {
+	if ( '' !== $variation_namespace ) {
 		$variation_value = array_get(
 			$config,
-			\array_merge( array( $block_name, 'variations', $namespace ), $key_path ),
+			\array_merge( array( $block_name, 'variations', $variation_namespace ), $key_path ),
 			$sentinel
 		);
 
@@ -862,7 +1028,7 @@ function resolve_block_value( array $config, string $block_name, array $key_path
 npm run test:php
 ```
 
-Oczekiwane: `24 passed, 0 failed (2 check files)`, exit 0.
+Oczekiwane: `40 passed, 0 failed (2 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -895,18 +1061,18 @@ EOF
 - Produces, w namespace `IsuDevLibrary\Config`:
   - `config_file_path( bool $parent_theme = false ): string` — ścieżka do czytelnego `isudev.json` albo `''`.
   - `get_config(): array` — scalony `library` subtree, cache statyczny na request, filtry `isudev_library/config/raw` i `isudev_library/config`.
-  - `get_block_config( string $block_name, $key, $fallback = null, string $namespace = '' )` — `$key` jako string z kropkami lub tablica.
+  - `get_block_config( string $block_name, $key, $fallback = null, string $variation_namespace = '' )` — `$key` jako string z kropkami lub tablica.
   - `config_sources(): array` — `[ 'parent' => string, 'child' => string ]`, ścieżki znalezionych plików (`''` gdy brak). Dla diagnostyki w panelu.
-  - `get_config_uncached(): array` — odczyt pomijający cache statyczny.
+  - `get_config_uncached(): array` — odczyt z dysku pomijający cache; jedyne miejsce czytające plik i stosujące filtry.
 
 - [ ] **Step 1: Dopisz adaptery do `includes/config.php`**
 
 Dodaj **na końcu** pliku:
 
 ```php
-/* ---------------------------------------------------------------------------
+/*
  * WordPress adapters. Everything below may call WordPress functions.
- * ------------------------------------------------------------------------ */
+ */
 
 /**
  * Locate a readable isudev.json in the child or parent theme.
@@ -936,67 +1102,26 @@ function config_sources(): array {
 }
 
 /**
- * Read the merged `library` config from the active theme.
+ * Read the merged config from disk, bypassing the per-request cache.
  *
- * Parent theme first, child theme on top. Cached per request.
- *
- * @return array The merged `library` subtree.
- */
-function get_config(): array {
-	static $config = null;
-
-	if ( null === $config ) {
-		$raw = array();
-
-		/**
-		 * Filters whether to inherit isudev.json from the parent theme.
-		 *
-		 * @param bool $should_inherit Default true.
-		 */
-		$inherit = (bool) \apply_filters( 'isudev_library/config/inherit_from_parent', true );
-
-		// get_template_directory() vs get_stylesheet_directory() instead of
-		// is_child_theme(), which is not reliable this early.
-		if ( $inherit && \get_template_directory() !== \get_stylesheet_directory() ) {
-			$parent_path = config_file_path( true );
-			if ( '' !== $parent_path ) {
-				$raw = decode( (string) \file_get_contents( $parent_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
-			}
-		}
-
-		$child_path = config_file_path();
-		if ( '' !== $child_path ) {
-			$child_raw = decode( (string) \file_get_contents( $child_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
-			$raw       = merge_configs( $raw, $child_raw );
-		}
-
-		/**
-		 * Filters the whole decoded isudev.json, before this plugin's key is extracted.
-		 *
-		 * @param array $raw Full decoded file contents.
-		 */
-		$raw = (array) \apply_filters( 'isudev_library/config/raw', $raw );
-
-		/**
-		 * Filters this plugin's `library` subtree.
-		 *
-		 * @param array $config The `library` subtree.
-		 */
-		$config = (array) \apply_filters( 'isudev_library/config', extract_library( $raw ) );
-	}
-
-	return $config;
-}
-
-/**
- * Read the merged config bypassing the per-request cache.
+ * Parent theme first, child theme on top. This is the only place that touches
+ * the filesystem; get_config() is a caching wrapper around it.
  *
  * @return array The merged `library` subtree.
  */
 function get_config_uncached(): array {
 	$raw = array();
 
-	if ( \get_template_directory() !== \get_stylesheet_directory() ) {
+	/**
+	 * Filters whether to inherit isudev.json from the parent theme.
+	 *
+	 * @param bool $should_inherit Default true.
+	 */
+	$inherit = (bool) \apply_filters( 'isudev_library/config/inherit_from_parent', true );
+
+	// get_template_directory() vs get_stylesheet_directory() instead of
+	// is_child_theme(), which is not reliable this early.
+	if ( $inherit && \get_template_directory() !== \get_stylesheet_directory() ) {
 		$parent_path = config_file_path( true );
 		if ( '' !== $parent_path ) {
 			$raw = decode( (string) \file_get_contents( $parent_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
@@ -1005,29 +1130,59 @@ function get_config_uncached(): array {
 
 	$child_path = config_file_path();
 	if ( '' !== $child_path ) {
-		$raw = merge_configs( $raw, decode( (string) \file_get_contents( $child_path ) ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
+		$child_raw = decode( (string) \file_get_contents( $child_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
+		$raw       = merge_configs( $raw, $child_raw );
 	}
 
-	return extract_library( (array) \apply_filters( 'isudev_library/config/raw', $raw ) );
+	/**
+	 * Filters the whole decoded isudev.json, before this plugin's key is extracted.
+	 *
+	 * @param array $raw Full decoded file contents.
+	 */
+	$raw = (array) \apply_filters( 'isudev_library/config/raw', $raw );
+
+	/**
+	 * Filters this plugin's `library` subtree.
+	 *
+	 * @param array $config The `library` subtree.
+	 */
+	return (array) \apply_filters( 'isudev_library/config', extract_library( $raw ) );
+}
+
+/**
+ * Read the merged `library` config from the active theme, cached per request.
+ *
+ * @return array The merged `library` subtree.
+ */
+function get_config(): array {
+	static $config = null;
+
+	if ( null === $config ) {
+		$config = get_config_uncached();
+	}
+
+	return $config;
 }
 
 /**
  * Resolve a config value for a block.
  *
- * @param string       $block_name Full block name, e.g. `isudev/site-header`.
- * @param string|array $key        Dot-notation key or ordered key path.
- * @param mixed        $fallback   Value returned when nothing resolves.
- * @param string       $namespace  Variation namespace; '' to skip.
+ * @param string       $block_name          Full block name, e.g. `isudev/site-header`.
+ * @param string|array $key                 Dot-notation key or ordered key path.
+ * @param mixed        $fallback            Value returned when nothing resolves.
+ * @param string       $variation_namespace Variation namespace; '' to skip.
  * @return mixed Resolved value.
  */
-function get_block_config( string $block_name, $key, $fallback = null, string $namespace = '' ) {
+function get_block_config( string $block_name, $key, $fallback = null, string $variation_namespace = '' ) {
 	$key_path = \is_array( $key ) ? $key : \explode( '.', (string) $key );
 
-	return resolve_block_value( get_config(), $block_name, $key_path, $fallback, $namespace );
+	return resolve_block_value( get_config(), $block_name, $key_path, $fallback, $variation_namespace );
 }
 ```
 
-Po dopisaniu sekcja adapterów ma zawierać, w tej kolejności: `config_file_path()`, `config_sources()`, `get_config()`, `get_config_uncached()`, `get_block_config()`. Nic więcej — nie dodawaj funkcji, dla której nie ma wołającego.
+Po dopisaniu sekcja adapterów ma zawierać, w tej kolejności: `config_file_path()`, `config_sources()`, `get_config_uncached()`, `get_config()`, `get_block_config()`. Nic więcej — nie dodawaj funkcji, dla której nie ma wołającego.
+
+`get_config_uncached()` jest **jedynym** miejscem czytającym z dysku i stosującym filtry; `get_config()` to tylko cache statyczny wokół niego. Nie duplikuj logiki odczytu w obu — kolejność w pliku ma znaczenie, bo `get_config()` woła `get_config_uncached()`.
 
 - [ ] **Step 2: Dodaj `require_once` w `isudev-library.php`**
 
@@ -1070,7 +1225,7 @@ require_once PATH . 'includes/config.php';
 }
 ```
 
-- [ ] **Step 4: Sprawdź, że checki nadal przechodzą**
+- [ ] **Step 5: Uruchom checki**
 
 Adaptery są w tym samym pliku co funkcje czyste, ale ich ciała nie wykonują się przy `require`.
 
@@ -1078,7 +1233,7 @@ Adaptery są w tym samym pliku co funkcje czyste, ale ich ciała nie wykonują s
 npm run test:php
 ```
 
-Oczekiwane: `24 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
+Oczekiwane: `40 passed, 0 failed (2 check files)`, exit 0. Jeśli pojawi się fatal o nieznanej funkcji WP — masz wywołanie WP na poziomie pliku, przenieś je do funkcji.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1192,6 +1347,19 @@ Checks::is(
 	)
 );
 
+// The map's keys must be exactly the known slugs. Inventing a key for an unknown
+// requires target would put a block that does not exist into the map, and
+// anything later iterating those keys would read a phantom entry.
+Checks::is(
+	'dependents: a requires entry naming an unknown slug creates no phantom key',
+	Registry::build_dependents(
+		array(
+			'orphan' => Registry::normalize_descriptor( array( 'slug' => 'orphan', 'name' => 'isudev/orphan', 'requires' => array( 'ghost' ) ) ),
+		)
+	),
+	array( 'orphan' => array() )
+);
+
 // resolve_states() — spec §7 precedence table.
 $simple = array(
 	'site-header' => Registry::normalize_descriptor( array( 'slug' => 'site-header', 'name' => 'isudev/site-header' ) ),
@@ -1290,6 +1458,25 @@ Checks::is(
 	)
 );
 
+// Row 1 also beats row 3. The cascade's guard skips only slugs already resolved
+// to `dependency`, so a `code`-locked state must still be overwritten. Special
+// casing `code` in that guard would ship silently without this check.
+Checks::is(
+	'resolve: dependency beats an isudev.json-forced enabled child',
+	Registry::resolve_states(
+		array(
+			'bento-grid' => Registry::normalize_descriptor( array( 'slug' => 'bento-grid', 'name' => 'isudev/bento-grid' ) ),
+			'bento-card' => Registry::normalize_descriptor( array( 'slug' => 'bento-card', 'name' => 'isudev/bento-card', 'requires' => array( 'bento-grid' ) ) ),
+		),
+		array( 'isudev/bento-card' => array( 'enabled' => true ) ),
+		array( 'bento-grid' => false )
+	),
+	array(
+		'bento-grid' => array( 'enabled' => false, 'source' => 'panel', 'locked' => false ),
+		'bento-card' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+	)
+);
+
 Checks::is(
 	'resolve: requires pointing at an unknown slug disables the block',
 	Registry::resolve_states(
@@ -1316,6 +1503,29 @@ Checks::is(
 		'a' => array( 'enabled' => false, 'source' => 'panel', 'locked' => false ),
 		'b' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
 		'c' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+	)
+);
+
+// Same chain, declared in REVERSE dependency order. This is the check that
+// actually pins the stabilizing while loop: with descriptors ordered c, b, a a
+// single ordered pass sees c before b is demoted, so c stays enabled and the
+// cascade silently stops one level short. The check above passes even without
+// the loop, because a, b, c happen to be in dependency order already.
+Checks::is(
+	'resolve: transitive cascade holds when descriptors are declared in reverse order',
+	Registry::resolve_states(
+		array(
+			'c' => Registry::normalize_descriptor( array( 'slug' => 'c', 'name' => 'isudev/c', 'requires' => array( 'b' ) ) ),
+			'b' => Registry::normalize_descriptor( array( 'slug' => 'b', 'name' => 'isudev/b', 'requires' => array( 'a' ) ) ),
+			'a' => Registry::normalize_descriptor( array( 'slug' => 'a', 'name' => 'isudev/a' ) ),
+		),
+		array(),
+		array( 'a' => false )
+	),
+	array(
+		'c' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+		'b' => array( 'enabled' => false, 'source' => 'dependency', 'locked' => true ),
+		'a' => array( 'enabled' => false, 'source' => 'panel', 'locked' => false ),
 	)
 );
 ```
@@ -1409,6 +1619,10 @@ class Registry {
 	/**
 	 * Invert `requires` into a slug => dependents map. Pure.
 	 *
+	 * The returned keys are exactly the slugs present in $descriptors — every one
+	 * of them, and no others. A `requires` entry naming an unknown slug is
+	 * ignored here rather than inventing a key for a block that does not exist.
+	 *
 	 * @param array $descriptors Normalized descriptors, keyed by slug.
 	 * @return array slug => list of slugs that require it.
 	 */
@@ -1421,9 +1635,16 @@ class Registry {
 
 		foreach ( $descriptors as $slug => $descriptor ) {
 			foreach ( $descriptor['requires'] as $required ) {
+				/*
+				 * A requires entry naming an unknown slug creates no key, so the
+				 * map's keys are exactly the known slugs and nothing downstream
+				 * can read a phantom entry. resolve_states() already treats the
+				 * unknown requirement as unmet, so the block ends as `dependency`.
+				 */
 				if ( ! isset( $dependents[ $required ] ) ) {
-					$dependents[ $required ] = array();
+					continue;
 				}
+
 				$dependents[ $required ][] = $slug;
 			}
 		}
@@ -1529,7 +1750,7 @@ class Registry {
 npm run test:php
 ```
 
-Oczekiwane: `40 passed, 0 failed (3 check files)`, exit 0.
+Oczekiwane: `61 passed, 0 failed (3 check files)`, exit 0.
 
 - [ ] **Step 5: Lint i commit**
 
@@ -1555,6 +1776,7 @@ EOF
 - Modify: `includes/class-registry.php` (dopisz sekcję adapterów)
 - Create: `includes/class-loader.php`
 - Modify: `isudev-library.php` (`require_once` + `boot()`)
+- Test: `tools/checks/35-loader.php`
 
 **Interfaces:**
 - Consumes: `Registry::normalize_descriptor()`, `Registry::build_dependents()`, `Registry::resolve_states()`, `IsuDevLibrary\Config\get_config()`.
@@ -1572,9 +1794,9 @@ EOF
 Dodaj jako ostatnie metody klasy, przed zamykającym `}`:
 
 ```php
-	/* -----------------------------------------------------------------------
+	/*
 	 * WordPress adapters. Everything below may call WordPress functions.
-	 * -------------------------------------------------------------------- */
+	 */
 
 	/**
 	 * Cache for descriptors().
@@ -1741,8 +1963,8 @@ class Loader {
 	/**
 	 * Absolute path to a block's compiled metadata directory.
 	 *
-	 * src/blocks/<slug>/ maps to build/blocks/<slug>/ because wp-scripts derives
-	 * the entry name from the path relative to the source directory.
+	 * This maps `src/blocks/<slug>/` to `build/blocks/<slug>/` because wp-scripts
+	 * derives the entry name from the path relative to the source directory.
 	 *
 	 * @param string $slug Block slug.
 	 * @return string
@@ -1770,15 +1992,33 @@ class Loader {
 				continue;
 			}
 
+			$build_path = self::block_build_path( $slug );
+
+			/*
+			 * Bail before running any of the block's side effects. Requiring its
+			 * bootstrap files or attaching its variations for a block that then
+			 * cannot be registered would leave half-initialised state behind:
+			 * a bootstrap file that adds a REST route or a filter assuming its
+			 * own block type exists would still have run.
+			 */
+			if ( ! \is_readable( $build_path . '/block.json' ) ) {
+				\_doing_it_wrong(
+					__METHOD__,
+					\esc_html( \sprintf( 'Block "%s" has no compiled metadata. Run npm run build.', $slug ) ),
+					'1.0.0'
+				);
+				continue;
+			}
+
 			$block_dir = PATH . 'src/blocks/' . $slug . '/';
 
 			foreach ( $block['bootstrap'] as $relative ) {
-				$file = $block_dir . \ltrim( $relative, '/' );
+				$file = self::contained_path( $block_dir, $relative );
 
-				if ( ! \is_readable( $file ) ) {
+				if ( '' === $file ) {
 					\_doing_it_wrong(
 						__METHOD__,
-						\esc_html( \sprintf( 'Block "%1$s" declares a missing bootstrap file: %2$s', $slug, $relative ) ),
+						\esc_html( \sprintf( 'Block "%1$s" declares a bootstrap file that is missing or outside its own directory: %2$s', $slug, $relative ) ),
 						'1.0.0'
 					);
 					continue;
@@ -1791,48 +2031,159 @@ class Loader {
 				Variations\attach( $block['name'] );
 			}
 
-			$build_path = self::block_build_path( $slug );
-
-			if ( ! \is_readable( $build_path . '/block.json' ) ) {
-				\_doing_it_wrong(
-					__METHOD__,
-					\esc_html( \sprintf( 'Block "%s" has no compiled metadata. Run npm run build.', $slug ) ),
-					'1.0.0'
-				);
-				continue;
-			}
-
 			\register_block_type( $build_path );
 		}
+	}
+
+	/**
+	 * Resolve a path relative to a directory, refusing anything that escapes it.
+	 *
+	 * Descriptor `bootstrap` entries are first-party, so this is not a security
+	 * boundary — anyone who can edit `block.php` can already run code. It exists
+	 * to catch a mistyped relative path, which would otherwise silently load a
+	 * different block's file.
+	 *
+	 * Public because it is exercised directly by tools/checks/35-loader.php.
+	 *
+	 * @param string $root     Absolute directory the path must stay inside, with trailing slash.
+	 * @param string $relative Path declared in the descriptor, relative to $root.
+	 * @return string Absolute readable path, or '' when missing or out of bounds.
+	 */
+	public static function contained_path( string $root, string $relative ): string {
+		$resolved = \realpath( $root . \ltrim( $relative, '/' ) );
+		$base     = \realpath( $root );
+
+		if ( false === $resolved || false === $base ) {
+			return '';
+		}
+
+		// The separator matters: it stops `blocks/site-header-evil` from passing
+		// a prefix test against `blocks/site-header`.
+		if ( 0 !== \strpos( $resolved, $base . \DIRECTORY_SEPARATOR ) ) {
+			return '';
+		}
+
+		return \is_readable( $resolved ) ? $resolved : '';
 	}
 }
 ```
 
-- [ ] **Step 3: Zaktualizuj `isudev-library.php`**
+- [ ] **Step 3: Napisz `tools/checks/35-loader.php`**
 
-Zamień blok `require_once` na:
+`contained_path()` jest jedyną logiką w `Loader`, którą da się przetestować bez
+WordPressa — `realpath()`, `strpos()` i `is_readable()` to czysty PHP. Fixtures
+to istniejące katalogi repo, więc check nie tworzy plików tymczasowych.
+
+Numer `35` mieści się między `30-registry.php` i `40-variations.php`, więc nie
+koliduje z plikiem z Task 7.
+
+```php
+<?php
+/**
+ * Checks for IsuDevLibrary\Loader::contained_path().
+ *
+ * @package IsuDevLibrary
+ */
+
+declare( strict_types = 1 );
+
+require_once dirname( __DIR__, 2 ) . '/includes/class-loader.php';
+
+use IsuDevLibrary\Loader;
+
+$plugin_root = dirname( __DIR__, 2 ) . '/';
+$tools_dir   = $plugin_root . 'tools/';
+
+Checks::is(
+	'contained_path: a file inside the directory resolves to its real path',
+	Loader::contained_path( $tools_dir, 'check.php' ),
+	realpath( $tools_dir . 'check.php' )
+);
+Checks::is(
+	'contained_path: a nested file inside the directory resolves',
+	Loader::contained_path( $tools_dir, 'checks/10-array.php' ),
+	realpath( $tools_dir . 'checks/10-array.php' )
+);
+Checks::is(
+	'contained_path: a missing file returns empty string',
+	Loader::contained_path( $tools_dir, 'does-not-exist.php' ),
+	''
+);
+
+// The point of the function: a mistyped relative path must not silently load a
+// file from somewhere else in the plugin.
+Checks::is(
+	'contained_path: parent traversal is refused even though the file exists',
+	Loader::contained_path( $tools_dir, '../composer.json' ),
+	''
+);
+Checks::is(
+	'contained_path: traversal buried mid-path is refused',
+	Loader::contained_path( $tools_dir, 'checks/../../composer.json' ),
+	''
+);
+Checks::is(
+	'contained_path: an absolute-looking path is still resolved under the root',
+	Loader::contained_path( $tools_dir, '/check.php' ),
+	realpath( $tools_dir . 'check.php' )
+);
+Checks::is(
+	'contained_path: a nonexistent root returns empty string',
+	Loader::contained_path( $plugin_root . 'no-such-dir/', 'check.php' ),
+	''
+);
+
+/*
+ * The separator in the prefix comparison is what stops a sibling directory whose
+ * name merely starts with the root's name from passing. `site-header` and
+ * `site-header-compact` are a plausible pair of block names in this library, so
+ * this is worth pinning. Needs a fixture: no such pair exists in the repo, and
+ * without it dropping DIRECTORY_SEPARATOR leaves every other check green.
+ */
+$fixture = \sys_get_temp_dir() . '/isudev-contained-path-check';
+$inside  = $fixture . '/site-header';
+$sibling = $fixture . '/site-header-evil';
+
+@\mkdir( $inside, 0777, true );   // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Fixture setup; failure surfaces as a failed check below.
+@\mkdir( $sibling, 0777, true );  // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Fixture setup; failure surfaces as a failed check below.
+\file_put_contents( $sibling . '/x.php', "<?php\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Local temp fixture, not a WP filesystem operation.
+
+Checks::is(
+	'contained_path: a sibling directory sharing the root name prefix is refused',
+	Loader::contained_path( $inside . '/', '../site-header-evil/x.php' ),
+	''
+);
+
+\unlink( $sibling . '/x.php' );
+\rmdir( $sibling );
+\rmdir( $inside );
+\rmdir( $fixture );
+```
+
+- [ ] **Step 4: Zaktualizuj `isudev-library.php`**
+
+Zamień blok `require_once` **dokładnie na to** — cztery pliki, nie pięć:
 
 ```php
 require_once PATH . 'includes/utils/array.php';
 require_once PATH . 'includes/config.php';
-require_once PATH . 'includes/variations.php';
 require_once PATH . 'includes/class-registry.php';
 require_once PATH . 'includes/class-loader.php';
 
 Loader::boot();
 ```
 
-`includes/variations.php` powstaje w Task 7 — do tego czasu `Loader::register()` nie wywoła `Variations\attach()`, bo żaden blok jeszcze nie istnieje. **Nie dodawaj `require_once` dla variations.php w tym kroku** — dodasz go w Task 7. Na teraz wpisz tylko cztery pozostałe `require_once` i `Loader::boot();`.
+`includes/variations.php` **nie wchodzi tutaj** — powstaje w Task 7, który dopisze swój `require_once` w tej samej kolejności (przed `class-registry.php`). To bezpieczne: `Loader::register()` woła `Variations\attach()` tylko dla bloku z `'variations' => true`, a pierwszy blok pojawia się dopiero w Task 9 — długo po tym, jak Task 7 doda ten plik.
 
-- [ ] **Step 4: Sprawdź, że checki nadal przechodzą**
+- [ ] **Step 5: Uruchom checki**
 
 ```bash
 npm run test:php
 ```
 
-Oczekiwane: `40 passed, 0 failed (3 check files)`. Adaptery nie wykonują się przy `require`.
+Oczekiwane: `69 passed, 0 failed (4 check files)`. Adaptery nie wykonują się przy `require`.
 
-- [ ] **Step 5: Zweryfikuj, że plugin się aktywuje bez błędów**
+- [ ] **Step 6: Zweryfikuj, że plugin się aktywuje bez błędów**
 
 Bloków jeszcze nie ma, więc `Registry::descriptors()` zwróci `[]` i `register()` nic nie zrobi. Aktywuj plugin ręcznie w `http://isudev-library.local/wp-admin/plugins.php`, potem sprawdź, że strona główna wciąż zwraca 200 i nie zawiera notice'ów PHP:
 
@@ -1843,11 +2194,11 @@ curl -s http://isudev-library.local/ | grep -icE "(warning|fatal error|notice):"
 
 Oczekiwane: `home: 200` i `no PHP notices`.
 
-- [ ] **Step 6: Lint i commit**
+- [ ] **Step 7: Lint i commit**
 
 ```bash
 composer run lint:php
-git add includes/class-registry.php includes/class-loader.php isudev-library.php
+git add includes/class-registry.php includes/class-loader.php isudev-library.php tools/checks/35-loader.php
 git commit -m "$(cat <<'EOF'
 feat: add descriptor discovery and the single block registration point
 
@@ -2053,7 +2404,7 @@ Oczekiwane: fatal error, brak `includes/variations.php`.
  * Registering in PHP rather than JS keeps variations visible to PHP hooks, so
  * they can be filtered per post type and render.php can read `_namespace`.
  *
- * build_variations() is pure — no WP calls.
+ * The build_variations() function is pure — no WP calls.
  *
  * @package IsuDevLibrary
  */
@@ -2152,7 +2503,7 @@ Loader::boot();
 npm run test:php
 ```
 
-Oczekiwane: `48 passed, 0 failed (4 check files)`, exit 0.
+Oczekiwane: `77 passed, 0 failed (5 check files)`, exit 0.
 
 - [ ] **Step 6: Lint i commit**
 
@@ -2242,7 +2593,7 @@ Skopiuj trzy ciągi `d` **dosłownie** z `/Users/lukaszbiedron/Other Projects/is
 /**
  * Inline SVG icon registry. No external icon dependency.
  *
- * default_icon_paths() and build_svg() are pure — no WP calls.
+ * The default_icon_paths() and build_svg() functions are pure — no WP calls.
  *
  * @package IsuDevLibrary
  */
@@ -2289,9 +2640,9 @@ function build_svg( string $path_d, int $size, string $class_attr ): string {
 	);
 }
 
-/* ---------------------------------------------------------------------------
+/*
  * WordPress adapters.
- * ------------------------------------------------------------------------ */
+ */
 
 /**
  * Return an inline SVG icon for the given slug.
@@ -2340,7 +2691,7 @@ require_once PATH . 'includes/config.php';
 npm run test:php
 ```
 
-Oczekiwane: `59 passed, 0 failed (5 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
+Oczekiwane: `88 passed, 0 failed (6 check files)`, exit 0. Jeśli `exactly three defaults` przechodzi, ale któryś `is registered` nie — nie podmieniłeś placeholderów.
 
 - [ ] **Step 6: Potwierdź, że nie zostały placeholdery**
 
@@ -2447,15 +2798,31 @@ grep -rn "isudev_library/" src/blocks/site-header/
 
 Oczekiwane: dokładnie trzy nazwy hooków, każda z segmentem `site_header/`.
 
-- [ ] **Step 5: Podłącz `icon()` z wspólnych utils**
+- [ ] **Step 5: Podłącz `icon()` z wspólnych utils — w DWÓCH plikach**
 
-`render.php` wywołuje `icon( 'close', 24, 'isudev-header__close-icon' )`. Funkcja żyje teraz w `IsuDevLibrary\Utils`, a plik jest w namespace `IsuDevLibrary\Blocks\SiteHeader`, więc wywołanie bez importu nie zadziała.
+`icon()` żyje teraz w `IsuDevLibrary\Utils` (Task 8), a oba pliki są w namespace
+`IsuDevLibrary\Blocks\SiteHeader`. Bez importu wywołanie rozwiąże się na
+nieistniejące `IsuDevLibrary\Blocks\SiteHeader\icon()` i wywali fatal.
 
-W `src/blocks/site-header/render.php` dodaj pod deklaracją `namespace`:
+Dodaj pod deklaracją `namespace` w **każdym** z tych plików:
 
 ```php
 use function IsuDevLibrary\Utils\icon;
 ```
+
+- `src/blocks/site-header/render.php` — woła `icon( 'close', 24, … )`
+- `src/blocks/site-header/inc/class-nav-walker.php` — woła
+  `icon( 'chevronDown', 20, … )` przy renderze rozwijanego podmenu
+
+**Nie pomiń walkera.** Chevron pojawia się tylko w menu z dziećmi, więc brak
+importu daje fatal wyłącznie na stronach z podmenu — czyli dokładnie w tych
+przypadkach, które sprawdza suite a11y w Task 11. Potwierdź oba:
+
+```bash
+grep -n "use function IsuDevLibrary" src/blocks/site-header/render.php src/blocks/site-header/inc/class-nav-walker.php
+```
+
+Oczekiwane: dwie linie, jedna z każdego pliku.
 
 - [ ] **Step 6: Napisz deskryptor `src/blocks/site-header/block.php`**
 
@@ -2501,7 +2868,7 @@ Oczekiwane: `No syntax errors detected` dla każdego pliku; phpcs bez błędów.
 npm run test:php
 ```
 
-Oczekiwane: `59 passed, 0 failed (5 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
+Oczekiwane: `88 passed, 0 failed (6 check files)`. Deskryptor nie jest jeszcze pokryty checkiem — pokrywa go Task 10 przez build i frontend.
 
 - [ ] **Step 9: Commit**
 
@@ -2529,6 +2896,51 @@ EOF
 **Interfaces:**
 - Consumes: deskryptor z Task 9, `Loader::block_build_path()`.
 - Produces: skompilowany blok w `build/blocks/site-header/` oraz `build/blocks-manifest.php` z kluczem `site-header`.
+
+- [ ] **Step 0: Napraw warunkowy entry w `webpack.config.js`**
+
+Task 1 zapisał ten plik z **bezwarunkowym** entry `admin` wskazującym na
+`src/admin/index.js`, a ten plik powstaje dopiero w Task 13. Task 10 jest
+pierwszym buildem w całym planie, więc dopiero tutaj to wybucha: webpack
+przerywa cały build i **nie emituje niczego**, także bloków.
+
+Zamień blok `entry` w `webpack.config.js` na wersję warunkową:
+
+```js
+const fs = require('fs');
+const path = require('path');
+
+const adminEntry = path.resolve(__dirname, 'src/admin/index.js');
+
+module.exports = {
+	...defaultConfig,
+	entry: {
+		...(typeof defaultConfig.entry === 'function'
+			? defaultConfig.entry()
+			: defaultConfig.entry),
+		// The admin panel lands in a later task than the first build, so this entry
+		// is added only once its source exists. Without the guard, webpack fails
+		// the whole build on an unresolved entry and emits nothing at all.
+		//
+		// The key must be 'admin/index', not 'admin'. wp-scripts writes
+		// output.filename as '[name].js', so a bare key emits a flat build/admin.js
+		// while includes/admin.php enqueues build/admin/index.js. The block entries
+		// only nest because their names already contain slashes.
+		...(fs.existsSync(adminEntry) ? { 'admin/index': adminEntry } : {}),
+	},
+};
+```
+
+**Nie twórz zaślepki `src/admin/index.js`.** Task 13 tworzy ten plik naprawdę
+i wtedy entry włącza się samo; jego Step 7 (`ls build/admin/`) to weryfikuje.
+
+Potwierdź, że build w ogóle startuje, zanim przejdziesz dalej:
+
+```bash
+node -e "console.log(Object.keys(require('./webpack.config.js').entry))"
+```
+
+Oczekiwane: tablica **bez** `admin/index` (bo `src/admin/` jeszcze nie istnieje).
 
 - [ ] **Step 1: Skopiuj pliki źródłowe**
 
@@ -2580,13 +2992,38 @@ Oczekiwane: `edit.js clean — iframe safe`.
 
 Ustaw `version` na `1.0.0` i `textdomain` na `isudev-library` (krok 2 już podmienił text domain, sprawdź). Pola `render`, `style`, `editorStyle`, `editorScript`, `viewScript` zostają bez zmian — są względne do katalogu bloku, który się nie zmienił.
 
+**Dodaj atrybut `_namespace`** jako pierwszy wpis w `attributes`:
+
+```json
+		"_namespace": {
+			"type": "string",
+			"default": "",
+			"description": "Variation identifier injected by IsuDevLibrary\\Variations. Must be declared here or isActive matching never resolves."
+		},
+```
+
+To **nie jest** kosmetyka. Deskryptor tego bloku ma `'variations' => true`, a
+`Variations\build_variations()` wstrzykuje `attributes._namespace` i ustawia
+`isActive: [ '_namespace' ]`. Jeśli `block.json` nie zadeklaruje tego atrybutu,
+nie przeżyje on inicjalizacji atrybutów w edytorze, `isActive` nigdy się nie
+dopasuje i **wariacja zarejestruje się, ale nigdy nie pokaże jako aktywna** —
+bez żadnego błędu ani ostrzeżenia. `bento-card` w `kormas-isu` deklaruje ten
+atrybut dokładnie z tego powodu; źródłowy `isudev-header` nie, bo nie miał
+wariacji z `isudev.json`.
+
 Sprawdź:
 
 ```bash
-grep -E '"(name|textdomain|version|render|apiVersion)"' src/blocks/site-header/block.json
+grep -E '"(name|textdomain|version|render|apiVersion|_namespace)"' src/blocks/site-header/block.json
 ```
 
-Oczekiwane: `"apiVersion": 3`, `"name": "isudev/site-header"`, `"textdomain": "isudev-library"`, `"version": "1.0.0"`, `"render": "file:./render.php"`.
+Oczekiwane: `"apiVersion": 3`, `"name": "isudev/site-header"`, `"textdomain": "isudev-library"`, `"version": "1.0.0"`, `"render": "file:./render.php"`, `"_namespace"`.
+
+Zweryfikuj też, że plik jest nadal poprawnym JSON-em:
+
+```bash
+node -e "JSON.parse(require('fs').readFileSync('src/blocks/site-header/block.json','utf8')); console.log('valid JSON')"
+```
 
 - [ ] **Step 6: Zbuduj**
 
@@ -2650,13 +3087,166 @@ EOF
 ### Task 11: Suite e2e dla bloku
 
 **Files:**
+- Create: `tools/mu-plugins/isudev-library-dev-fixture.php`
 - Create: `playwright.config.js`
 - Create: `e2e/utils.js`, `e2e/header.spec.js`, `e2e/header.a11y.spec.js`, `e2e/README.md`
-- Source: `/Users/lukaszbiedron/Other Projects/isudev-header/{playwright.config.js,e2e/*}`
+- Source: `/Users/lukaszbiedron/Other Projects/isudev-header/{bin/dev-mu-loader.php,playwright.config.js,e2e/*}`
 
 **Interfaces:**
 - Consumes: zbudowany blok z Task 10.
 - Produces: `e2e/utils.js` eksportuje `tabToFocus( page, locator, max = 30 )` i `outlineOf( locator )`.
+
+**Dlaczego fikstura jest obowiązkowa, a nie wygodna.** Suite ma bramki
+`test.skip` na „brak rodzica z podmenu w menu". Bez zasianego menu testy
+dostępności **przechodzą zielono, nie testując niczego** — a to gorsze niż
+awaria. Fikstura tworzy dokładnie trzy przypadki, które suite rozróżnia:
+
+| Pozycja menu | URL | Oczekiwany markup |
+| --- | --- | --- |
+| rodzic bez linku | `#` | czysty `<button>` disclosure |
+| rodzic z linkiem | `/solutions` | `<a>` + osobny `<button>` toggle |
+| liść | `/pricing` | tylko `<a>` |
+
+Plus strona z blokiem i wewnętrznym `core/buttons`, co ćwiczy
+`InnerBlocks.Content` i `$content` w `render.php`.
+
+- [ ] **Step 0: Napisz fiksturę dev i podmień symlink w mu-plugins**
+
+Stan wyjściowy tej instalacji: `wp-content/mu-plugins/idl-dev-loader.php` jest
+symlinkiem do `~/Other Projects/isudev-header/bin/dev-mu-loader.php`, który zasiał
+stronę główną **starym** blokiem `idl/site-header`. Front page renderuje dziś
+`class="idl-header … wp-block-idl-site-header"`. Suite szuka `.isudev-header`,
+więc bez tego kroku nie znajdzie niczego.
+
+Napisz `tools/mu-plugins/isudev-library-dev-fixture.php`:
+
+```php
+<?php
+/**
+ * Plugin Name: IsuDev Library — dev fixture (Local only)
+ * Description: Force-activates isudev-library and seeds an e2e demo on this Local dev site. NOT for production.
+ *
+ * @package IsuDevLibrary
+ */
+
+declare( strict_types = 1 );
+
+defined( 'ABSPATH' ) || exit;
+
+/*
+ * Only ever symlinked into the local dev site. Bail on a positively-different
+ * HTTP host so it can never force-activate or reseed another install. An empty
+ * host means CLI or cron on this install, which is allowed.
+ */
+$isudev_dev_host = 'isudev-library.local';
+$isudev_req_host = strtolower( (string) strtok( (string) ( $_SERVER['HTTP_HOST'] ?? '' ), ':' ) );
+
+/*
+ * Exact match, not a substring test. `strpos()` would accept a Host header like
+ * `isudev-library.local.attacker.tld`, which is not a guard at all. The port is
+ * stripped first so `isudev-library.local:8080` still matches.
+ */
+if ( '' !== $isudev_req_host && $isudev_dev_host !== $isudev_req_host ) {
+	return;
+}
+
+// Force-activate the plugin under test without writing to the DB.
+add_filter(
+	'option_active_plugins',
+	static function ( $plugins ) {
+		$slug = 'isudev-library/isudev-library.php';
+		if ( is_array( $plugins ) && ! in_array( $slug, $plugins, true ) ) {
+			$plugins[] = $slug;
+		}
+		return $plugins;
+	}
+);
+
+/*
+ * Seed the menu and front page once. Bump the seed version to force a reseed.
+ * The three menu shapes below are what the accessibility suite distinguishes:
+ * a label-only parent, a navigable parent, and plain leaves.
+ */
+add_action(
+	'init',
+	static function () {
+		$seed_version = 1;
+		if ( (int) get_option( 'isudev_library_dev_seed_version' ) === $seed_version ) {
+			return;
+		}
+
+		$old = get_term_by( 'name', 'isudev-demo', 'nav_menu' );
+		if ( $old ) {
+			wp_delete_nav_menu( $old->term_id );
+		}
+		$menu_id = wp_create_nav_menu( 'isudev-demo' );
+
+		// Label-only parent (URL '#') → pure disclosure button.
+		$products = wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Products', 'menu-item-url' => '#', 'menu-item-status' => 'publish' ) );
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Product A', 'menu-item-url' => '/product-a', 'menu-item-parent-id' => $products, 'menu-item-status' => 'publish' ) );
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Product B', 'menu-item-url' => '/product-b', 'menu-item-parent-id' => $products, 'menu-item-status' => 'publish', 'menu-item-description' => 'Second product' ) );
+
+		// Navigable parent (real URL) → link plus a split toggle.
+		$solutions = wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Solutions', 'menu-item-url' => '/solutions', 'menu-item-status' => 'publish' ) );
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Solution X', 'menu-item-url' => '/solution-x', 'menu-item-parent-id' => $solutions, 'menu-item-status' => 'publish' ) );
+
+		// Plain leaves.
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Pricing', 'menu-item-url' => '/pricing', 'menu-item-status' => 'publish' ) );
+		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'About', 'menu-item-url' => '/about', 'menu-item-status' => 'publish' ) );
+
+		$content = '<!-- wp:isudev/site-header {"menuRef":"id:' . (int) $menu_id . '","logoSource":"site"} -->'
+			. '<!-- wp:buttons --><div class="wp-block-buttons"><!-- wp:button -->'
+			. '<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/contact">Contact</a></div>'
+			. '<!-- /wp:button --></div><!-- /wp:buttons -->'
+			. '<!-- /wp:isudev/site-header -->';
+
+		$existing = get_page_by_path( 'isudev-demo' );
+		if ( $existing ) {
+			wp_delete_post( $existing->ID, true );
+		}
+		$page_id = wp_insert_post(
+			array(
+				'post_title'   => 'IsuDev Demo',
+				'post_name'    => 'isudev-demo',
+				'post_status'  => 'publish',
+				'post_type'    => 'page',
+				'post_content' => $content,
+			)
+		);
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $page_id );
+		update_option( 'isudev_library_dev_seed_version', $seed_version );
+	},
+	20
+);
+```
+
+Podmień symlink — stary loader musi odejść, żeby dwa dema nie walczyły o front page:
+
+```bash
+MU="/Users/lukaszbiedron/Local Sites/isudev-library/app/public/wp-content/mu-plugins"
+ls -l "$MU"
+rm -f "$MU/idl-dev-loader.php"
+ln -s "$(pwd)/tools/mu-plugins/isudev-library-dev-fixture.php" "$MU/isudev-library-dev-fixture.php"
+ls -l "$MU"
+```
+
+Stary plugin `isudev-header` **zostaje zainstalowany** — Task 16 usuwa go
+zgodnie z planem. Po tym kroku jego blok po prostu nie jest już nigdzie użyty.
+
+Zweryfikuj, że front page renderuje **nowy** blok:
+
+```bash
+curl -s http://isudev-library.local/ | grep -oE 'class="[^"]*(idl|isudev)-header[^"]*"' | head -3
+curl -s http://isudev-library.local/ | grep -c "wp-block-isudev-site-header"
+curl -s http://isudev-library.local/ | grep -qiE "(warning|fatal error|notice):" && echo "PHP NOTICES PRESENT" || echo "no PHP notices"
+```
+
+Oczekiwane: klasy `isudev-header…`, licznik `wp-block-isudev-site-header` większy
+od zera, brak notice'ów. **Jeśli wciąż widzisz `idl-header`, nie idź dalej** —
+albo symlink nie został podmieniony, albo `isudev_library_dev_seed_version` już
+istnieje z poprzedniego przebiegu i trzeba je skasować, żeby wymusić przesianie.
 
 - [ ] **Step 1: Skopiuj konfigurację i suite**
 
@@ -2700,19 +3290,32 @@ npm run test:e2e
 
 Oczekiwane: wszystkie testy zielone w projektach `desktop-chromium` i `mobile-chromium`.
 
-Jeśli testy nie znajdują headera: suite zakłada, że header jest na testowanym URL-u. Sprawdź w `e2e/header.spec.js`, do jakiej ścieżki nawiguje, i wstaw blok na tej stronie (dla `/` — dodaj blok do szablonu strony głównej w edytorze witryny). Jeśli suite zakłada obecność menu nawigacyjnego, utwórz menu w `Wygląd → Menu` i przypisz je do bloku.
+Suite nawiguje do `./`, czyli front page — którą Step 0 zasiał blokiem
+i menu, więc header i wszystkie trzy kształty pozycji menu są na miejscu.
 
-**To jest kryterium akceptacji spec §13 — nie idź dalej, dopóki suite nie jest zielony.** Jeśli jakiś test pada z powodu zmiany nazwy klasy, popraw selektor; jeśli pada z powodu regresji dostępności, popraw blok, nie test.
+**Policz pominięte testy i podaj liczbę w raporcie.** Bramki `test.skip`
+w tym suite wyłączają się przy braku rodzica z podmenu, więc duża liczba
+pominięć znaczy, że fikstura nie zadziałała i suite przechodzi, nie testując
+nic. Pominięcia zależne od viewportu (`desktop only`, `mobile only`) są
+normalne; pominięcia z komunikatem `no label-only parent in menu`,
+`no navigable parent in menu` albo `need two submenu parents` **nie są** i
+oznaczają, że trzeba wrócić do Step 0.
+
+**To jest kryterium akceptacji spec §13 — nie idź dalej, dopóki suite nie jest
+zielony.** Jeśli test pada z powodu zmienionej nazwy klasy, popraw selektor.
+Jeśli pada z powodu regresji dostępności, **popraw blok, nie test** — kontrakt
+a11y jest tym, czego ten suite pilnuje.
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add playwright.config.js e2e/
+git add playwright.config.js e2e/ tools/mu-plugins/
 git commit -m "$(cat <<'EOF'
-test: port the site-header Playwright and axe suite
+test: port the site-header Playwright and axe suite plus its dev fixture
 
 Accessibility contract from isudev-header must stay green after the migration
-(spec §13).
+(spec §13). The fixture seeds the three menu shapes the suite distinguishes;
+without it the skip guards make the suite pass while testing nothing.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 EOF
@@ -2736,12 +3339,167 @@ tymczasowej implementacji, którą następne zadanie i tak by podmieniło.
 **Interfaces:**
 - Consumes: `Registry::blocks()`, `Registry::flush()`, `Registry::OPTION`, `Config\config_sources()`.
 - Produces:
-  - `IsuDevLibrary\Settings\OPTION` = `'isudev_library_settings'`; `Settings\boot(): void`; `Settings\get( string $key, $default = null )`. Schemat opcji: `{ loadBaseTokens: bool }`, default `true`.
+  - `IsuDevLibrary\Settings\OPTION` = `'isudev_library_settings'`; `Settings\boot(): void`; `Settings\get( string $key, $fallback = null )`. Schemat opcji: `{ loadBaseTokens: bool }`, default `true`.
   - `IsuDevLibrary\Admin\MENU_SLUG` = `'isudev-library'`; `Admin\boot(): void`; `Admin\capability(): string` (filtr `isudev_library/settings/capability`, default `'manage_options'`); `Admin\show_admin(): bool` (filtr `isudev_library/settings/show_admin`, default `current_user_can( capability() )`); `Admin\enqueue( string $hook_suffix ): void`.
   - `IsuDevLibrary\REST\boot(): void`; `REST\permission_check(): bool` — zwraca `Admin\show_admin()`, więc ukrycie panelu zamyka też endpointy.
   - `GET /wp-json/isudev-library/v1/blocks` → `{ blocks: [...], diagnostics: {...} }`. Element `blocks[]`: `slug`, `name`, `title`, `description`, `icon`, `enabled`, `source`, `locked`, `requires`, `dependents`. `diagnostics`: `version`, `discovered` (int), `registered` (int), `configParent` (string), `configChild` (string).
   - `POST /wp-json/isudev-library/v1/blocks/<slug>` z `{ "enabled": bool }` → zaktualizowany element `blocks[]`. `404` na nieznany slug, `403` gdy `locked`.
   - Punkt montowania panelu: `<div id="isudev-library-admin">` na stronie menu.
+
+- [ ] **Step 0: Rozszerz fiksturę dev o użytkownika e2e**
+
+Steps 5, 7 i 8 wymagają zalogowanego administratora. Nikt pracujący nad tym
+planem nie ma dostępu do wp-admin, a hasła nie wolno wpisywać do repo ani
+przekazywać w promptach. Rozwiązanie: fikstura z Task 11 — już host-guarded do
+`isudev-library.local` — provisionuje dedykowanego użytkownika i zapisuje losowe
+hasło do pliku ignorowanego przez git.
+
+Dopisz na końcu `tools/mu-plugins/isudev-library-dev-fixture.php`:
+
+```php
+/*
+ * Provision a dedicated e2e user and write its credentials to a gitignored file.
+ * Runs only on the dev host (guarded at the top of this file). The password is
+ * random, local-only, and never enters the repository or a prompt.
+ */
+add_action(
+	'init',
+	static function () {
+		$creds_file = __DIR__ . '/../.e2e-credentials.json';
+		$login      = 'isudev-e2e';
+		$user       = get_user_by( 'login', $login );
+
+		if ( $user && is_readable( $creds_file ) ) {
+			return;
+		}
+
+		/*
+		 * Without a writable target the password would be set and immediately
+		 * lost, and this block would regenerate it on every single request.
+		 * Bail before touching the account.
+		 */
+		if ( ! is_writable( dirname( $creds_file ) ) ) {
+			error_log( 'isudev-library dev fixture: cannot write ' . $creds_file . ' — e2e user not provisioned.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Dev-only fixture.
+			return;
+		}
+
+		/*
+		 * Alphanumeric only, and longer to compensate. wp_generate_password()'s
+		 * special-character set includes `&` and `=`, which silently break any
+		 * form-encoded login that interpolates the password into a query string —
+		 * a failure that appears or disappears depending on what the generator drew.
+		 * 32 alphanumeric characters is far more entropy than a local dev account needs.
+		 */
+		$password = wp_generate_password( 32, false, false );
+
+		if ( $user ) {
+			wp_set_password( $password, $user->ID );
+		} else {
+			$user_id = wp_insert_user(
+				array(
+					'user_login'   => $login,
+					'user_pass'    => $password,
+					'user_email'   => 'isudev-e2e@isudev-library.local',
+					'display_name' => 'IsuDev E2E',
+					'role'         => 'administrator',
+				)
+			);
+
+			if ( is_wp_error( $user_id ) ) {
+				return;
+			}
+		}
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Local dev credentials file, not a WP filesystem operation.
+		file_put_contents( $creds_file, (string) wp_json_encode( array( 'user' => $login, 'pass' => $password ) ) );
+		@chmod( $creds_file, 0600 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Best-effort tightening; failure is not fatal.
+	},
+	21
+);
+```
+
+Dopisz do `.gitignore`:
+
+```gitignore
+/tools/.e2e-credentials.json
+```
+
+i do `.distignore`:
+
+```
+/tools/.e2e-credentials.json
+```
+
+Wywołaj stronę raz, żeby fikstura się wykonała, i potwierdź:
+
+```bash
+curl -s -m 10 -o /dev/null http://isudev-library.local/
+test -f tools/.e2e-credentials.json && echo "credentials file created" || echo "MISSING — fixture could not write to tools/"
+node -e "const c=require('./tools/.e2e-credentials.json'); console.log('user:', c.user, '| password length:', c.pass.length)"
+git status --porcelain tools/.e2e-credentials.json
+```
+
+Oczekiwane: plik istnieje, `user: isudev-e2e`, długość hasła 24, a `git status`
+**nic nie wypisuje** — plik jest ignorowany. Jeśli `git status` go pokazuje,
+`.gitignore` nie działa i **nie commituj**, dopóki tego nie naprawisz.
+
+Jeśli plik się nie utworzył, PHP nie ma prawa zapisu do `tools/` — zgłoś to,
+nie obchodź.
+
+Dwa helpery, użyjesz ich w Steps 5, 7 i 8:
+
+```bash
+e2e_jar() {
+	local jar
+	jar=$(mktemp)
+	local u p
+	u=$(node -e "console.log(require('./tools/.e2e-credentials.json').user)")
+	p=$(node -e "console.log(require('./tools/.e2e-credentials.json').pass)")
+	# --data-urlencode per field, never one interpolated string: a password
+	# containing `&` or `=` would otherwise split into extra form fields and the
+	# login would fail for reasons that look random.
+	curl -s -m 10 -c "$jar" -b "$jar" \
+		--data-urlencode "log=$u" \
+		--data-urlencode "pwd=$p" \
+		--data-urlencode "wp-submit=Log In" \
+		--data-urlencode "testcookie=1" \
+		--data-urlencode "redirect_to=http://isudev-library.local/wp-admin/" \
+		-o /dev/null "http://isudev-library.local/wp-login.php"
+	echo "$jar"
+}
+
+# WordPress REST cookie auth ALSO requires an X-WP-Nonce header. A cookie jar
+# alone gets you `rest_cookie_invalid_nonce` with status 403.
+e2e_nonce() {
+	local jar=$1
+	# The nonce must come from a page that enqueues wp-api-fetch, which prints it
+	# via createNonceMiddleware(). A plain /wp-admin/ page does NOT, and the other
+	# `"nonce":"…"` values in admin HTML are different nonces that the REST API
+	# rejects. The block editor always enqueues it; once Task 13 builds the panel,
+	# admin.php?page=isudev-library works too.
+	curl -s -m 20 -b "$jar" "http://isudev-library.local/wp-admin/post-new.php?post_type=page" \
+		| grep -oE 'createNonceMiddleware\( *"[a-f0-9]+"' \
+		| head -1 | grep -oE '"[a-f0-9]+"' | tr -d '"'
+}
+```
+
+Sprawdź oba, zanim pójdziesz dalej:
+
+```bash
+JAR=$(e2e_jar)
+curl -s -m 10 -b "$JAR" -o /dev/null -w "wp-admin as e2e user: %{http_code}\n" http://isudev-library.local/wp-admin/
+NONCE=$(e2e_nonce "$JAR")
+echo "rest nonce: ${NONCE:-NOT FOUND}"
+```
+
+Oczekiwane: `200` i niepusty nonce. Jeśli `302`, logowanie nie przeszło; jeśli
+nonce jest pusty, wziąłeś go ze złej strony. W obu przypadkach nie zgaduj, zgłoś.
+
+Każde uwierzytelnione wywołanie REST-a potrzebuje **obu**:
+
+```bash
+curl -s -m 10 -b "$JAR" -H "X-WP-Nonce: $NONCE" <url>
+```
 
 - [ ] **Step 1: Napisz `includes/settings.php`**
 
@@ -2822,15 +3580,15 @@ function sanitize( $value ): array {
 /**
  * Read a single option key.
  *
- * @param string $key     Option key.
- * @param mixed  $default Value returned when the key is absent.
+ * @param string $key      Option key.
+ * @param mixed  $fallback Value returned when the key is absent.
  * @return mixed
  */
-function get( string $key, $default = null ) {
+function get( string $key, $fallback = null ) {
 	$option = \get_option( OPTION, defaults() );
 	$option = \is_array( $option ) ? $option : defaults();
 
-	return $option[ $key ] ?? $default;
+	return $option[ $key ] ?? $fallback;
 }
 ```
 
@@ -2866,6 +3624,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
 
+use const IsuDevLibrary\PATH;
 use const IsuDevLibrary\VERSION;
 
 defined( 'ABSPATH' ) || exit;
@@ -2927,21 +3686,51 @@ function register_routes(): void {
 }
 
 /**
+ * Metadata from the compiled manifest, keyed by block directory name.
+ *
+ * The block type registry only holds blocks that were registered, and a disabled
+ * block is never registered, so this is the only place its real title, icon and
+ * description can come from.
+ *
+ * @return array slug => decoded block.json contents.
+ */
+function manifest_metadata(): array {
+	static $manifest = null;
+
+	if ( null === $manifest ) {
+		$file     = PATH . 'build/blocks-manifest.php';
+		$manifest = \is_readable( $file ) ? (array) require $file : array();
+	}
+
+	return $manifest;
+}
+
+/**
  * Shape one block for the REST response.
  *
  * @param array $block Decorated descriptor from Registry::blocks().
  * @return array
  */
 function prepare_block( array $block ): array {
-	$type  = \WP_Block_Type_Registry::get_instance()->get_registered( $block['name'] );
-	$title = $type && $type->title ? $type->title : $block['slug'];
+	$type = \WP_Block_Type_Registry::get_instance()->get_registered( $block['name'] );
+	$meta = manifest_metadata()[ $block['slug'] ] ?? array();
+
+	/*
+	 * Prefer the registered type, which reflects anything a filter changed at
+	 * registration time. Fall back to the manifest, because a disabled block is
+	 * never registered and would otherwise report its slug as its title — the
+	 * panel would lose the name of every block the user just switched off.
+	 */
+	$title       = $type && $type->title ? $type->title : ( $meta['title'] ?? $block['slug'] );
+	$description = $type && $type->description ? $type->description : ( $meta['description'] ?? '' );
+	$icon        = $type && \is_string( $type->icon ) ? $type->icon : $meta['icon'] ?? 'block-default';
 
 	return array(
 		'slug'        => $block['slug'],
 		'name'        => $block['name'],
 		'title'       => (string) $title,
-		'description' => $type && $type->description ? (string) $type->description : '',
-		'icon'        => $type && \is_string( $type->icon ) ? $type->icon : 'block-default',
+		'description' => (string) $description,
+		'icon'        => \is_string( $icon ) ? $icon : 'block-default',
 		'enabled'     => (bool) $block['enabled'],
 		'source'      => (string) $block['source'],
 		'locked'      => (bool) $block['locked'],
@@ -3057,38 +3846,73 @@ Admin\boot();
 REST\boot();
 ```
 
-- [ ] **Step 5: Zweryfikuj, że menu istnieje**
+- [ ] **Step 5: Zweryfikuj, że strona menu się renderuje**
 
-Otwórz `http://isudev-library.local/wp-admin/admin.php?page=isudev-library` jako administrator.
+Użyj cookie jara z Step 0 — żadnego klikania w przeglądarce.
 
-Oczekiwane: strona się ładuje, w menu widać „IsuDev Library", treść jest pusta (panel React dochodzi w Task 13).
+```bash
+JAR=$(e2e_jar)
+curl -s -m 10 -b "$JAR" -o /dev/null -w "settings page: %{http_code}\n" \
+	"http://isudev-library.local/wp-admin/admin.php?page=isudev-library"
+curl -s -m 10 -b "$JAR" "http://isudev-library.local/wp-admin/admin.php?page=isudev-library" \
+	| grep -c 'id="isudev-library-admin"'
+curl -s -m 10 -b "$JAR" "http://isudev-library.local/wp-admin/" \
+	| grep -c "page=isudev-library"
+```
+
+Oczekiwane: `200`, licznik punktu montowania `1` (mount point istnieje, panel
+React dochodzi w Task 13), licznik linku w menu większy od zera.
 
 - [ ] **Step 6: Zweryfikuj GET jako niezalogowany — musi odmówić**
 
 ```bash
-curl -s -o /dev/null -w "anon GET: %{http_code}\n" http://isudev-library.local/wp-json/isudev-library/v1/blocks
+curl -s -m 10 -o /dev/null -w "anon GET: %{http_code}\n" http://isudev-library.local/wp-json/isudev-library/v1/blocks
 ```
 
-Oczekiwane: `401`.
+Oczekiwane: `401`. To jedyny krok, który nie potrzebuje uwierzytelnienia, i jest
+najważniejszy z trzech — potwierdza, że endpoint jest domknięty.
 
 - [ ] **Step 7: Zweryfikuj GET jako administrator**
 
-Zaloguj się w przeglądarce na `http://isudev-library.local/wp-admin/`, potem otwórz `http://isudev-library.local/wp-json/isudev-library/v1/blocks` w tej samej sesji.
+```bash
+JAR=$(e2e_jar)
+NONCE=$(e2e_nonce "$JAR")
+curl -s -m 10 -b "$JAR" -H "X-WP-Nonce: $NONCE" http://isudev-library.local/wp-json/isudev-library/v1/blocks | node -e "
+const d = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+console.log('blocks:', d.blocks.length);
+console.log(JSON.stringify(d.blocks[0], null, 1));
+console.log('diagnostics:', JSON.stringify(d.diagnostics));
+"
+```
 
-Oczekiwane: JSON z `blocks` (jeden element, `slug: "site-header"`, `enabled: true`, `source: "default"`, `locked: false`, `title: "Site Header Block"`) i `diagnostics` (`discovered: 1`, `registered: 1`).
+Oczekiwane: jeden blok o `slug: "site-header"`, `name: "isudev/site-header"`,
+`enabled: true`, `locked: false`, `title: "Site Header Block"`,
+`requires: []`, `dependents: []`; `source` to `default`, dopóki nic nie zapisało opcji, i `panel` po pierwszym POST-cie — oba są poprawne; oraz `diagnostics` z `discovered: 1`,
+`registered: 1`, `version: "1.0.0"` i dwoma pustymi ścieżkami configu (ten theme
+nie ma `isudev.json`).
 
 - [ ] **Step 8: Zweryfikuj, że opcja globalna jest w REST**
 
-W tej samej sesji otwórz `http://isudev-library.local/wp-json/wp/v2/settings` i znajdź `isudev_library_settings`.
+```bash
+JAR=$(e2e_jar)
+NONCE=$(e2e_nonce "$JAR")
+curl -s -m 10 -b "$JAR" -H "X-WP-Nonce: $NONCE" http://isudev-library.local/wp-json/wp/v2/settings | node -e "
+const d = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+console.log('isudev_library_settings:', JSON.stringify(d.isudev_library_settings));
+"
+```
 
-Oczekiwane: `{"loadBaseTokens":true}`.
+Oczekiwane: `{"loadBaseTokens":true}`. Jeśli klucz jest nieobecny,
+`register_setting()` nie ma `show_in_rest`, a zakładka Settings w Task 13 nie
+będzie mogła nic zapisać.
 
 - [ ] **Step 9: Lint i commit**
 
 ```bash
 composer run lint:php
 npm run test:php
-git add includes/settings.php includes/admin.php includes/rest.php isudev-library.php
+git add includes/settings.php includes/admin.php includes/rest.php isudev-library.php \
+	tools/mu-plugins/isudev-library-dev-fixture.php .gitignore .distignore
 git commit -m "$(cat <<'EOF'
 feat: add admin screen, block toggle REST controller and global settings
 
@@ -3246,12 +4070,39 @@ function enqueue( string $hook_suffix ): void {
 ### Task 13: Panel React
 
 **Files:**
-- Create: `src/admin/index.js`, `src/admin/app.js`, `src/admin/style.scss`
+- Create: `src/admin/index.js`, `src/admin/app.js`, `src/admin/admin.scss`
 - Create: `src/admin/components/{blocks-tab.js,block-card.js,settings-tab.js}`
 
 **Interfaces:**
 - Consumes: `GET`/`POST /wp-json/isudev-library/v1/blocks`, opcja `isudev_library_settings` przez `@wordpress/core-data`.
 - Produces: panel montowany w `#isudev-library-admin`.
+
+- [ ] **Step 0: Popraw klucz entry w `webpack.config.js`**
+
+Task 1 zapisał ten plik z kluczem entry `admin`. `wp-scripts` ustawia
+`output.filename` na `[name].js`, więc goły klucz emituje **płaski**
+`build/admin.js`, a `includes/admin.php` enqueue'uje `build/admin/index.js`.
+Skutek: panel się buduje, skrypt nigdy nie trafia na stronę, a mount point
+zostaje pusty — React w ogóle się nie montuje i nie ma żadnego błędu w konsoli,
+bo nie ma czego uruchomić.
+
+Bloki zagnieżdżają się poprawnie tylko dlatego, że ich nazwy entry **już**
+zawierają ukośniki (`blocks/site-header/index`). Task 10 nigdy tego nie wykrył,
+bo wtedy `src/admin/index.js` jeszcze nie istniał i entry było pomijane.
+
+Zamień klucz na `'admin/index'`:
+
+```js
+		...(fs.existsSync(adminEntry) ? { 'admin/index': adminEntry } : {}),
+```
+
+Potwierdź, zanim cokolwiek zbudujesz:
+
+```bash
+node -e "console.log(Object.keys(require('./webpack.config.js').entry))"
+```
+
+Oczekiwane: lista zawiera `admin/index`, nie `admin`.
 
 - [ ] **Step 1: Napisz `src/admin/index.js`**
 
@@ -3265,7 +4116,7 @@ import { createRoot } from '@wordpress/element';
  * Internal dependencies
  */
 import App from './app';
-import './style.scss';
+import './admin.scss';
 
 const mount = document.getElementById('isudev-library-admin');
 
@@ -3301,6 +4152,9 @@ export default function App() {
 			.then((response) => {
 				setBlocks(response.blocks);
 				setDiagnostics(response.diagnostics);
+				// Clear any earlier failure. Without this a transient error leaves a
+				// permanently visible banner that outlives the problem it described.
+				setError('');
 			})
 			.catch((err) => setError(err.message));
 	}, []);
@@ -3563,7 +4417,14 @@ export default function SettingsTab({ diagnostics }) {
 }
 ```
 
-- [ ] **Step 6: Napisz `src/admin/style.scss`**
+- [ ] **Step 6: Napisz `src/admin/admin.scss`**
+
+**Nazwa tego pliku ma znaczenie i nie może brzmieć `style.scss`.** `wp-scripts`
+wymusza prefiks `style-` dla plików nazwanych `style.*`, więc `style.scss`
+wyemitowałby `build/admin/style-index.css`, a `includes/admin.php` enqueue'uje
+`build/admin/index.css`. Styl skompilowałby się poprawnie i po prostu nigdy nie
+trafiłby na stronę. Widać to na bloku, który emituje oba pliki: `editor.scss` →
+`index.css`, `style.scss` → `style-index.css`.
 
 ```scss
 .isudev-admin {
@@ -3666,17 +4527,55 @@ Bez zaszytych danych logowania. Zmienne środowiskowe: `WP_ADMIN_USER`, `WP_ADMI
 /**
  * Admin login helper for panel specs.
  *
- * Credentials come from the environment only — never commit them:
- *   WP_ADMIN_USER=... WP_ADMIN_PASS=... npm run test:e2e
+ * Credentials resolve from the environment first, then from the file the dev
+ * fixture writes at tools/.e2e-credentials.json. That file is gitignored and
+ * holds a random, local-only password, so nothing secret is ever committed:
+ *   WP_ADMIN_USER=... WP_ADMIN_PASS=... npm run test:e2e   # explicit override
  */
 
 /**
- * Whether admin credentials are available in the environment.
+ * External dependencies
+ */
+const fs = require('fs');
+const path = require('path');
+
+/**
+ * Resolve admin credentials.
  *
- * @return {boolean} True when both variables are set.
+ * Prefers the environment, so CI can inject its own. Falls back to the file the
+ * dev fixture writes, which lets the suite run locally with no setup and keeps
+ * the password out of the repository and out of any prompt.
+ *
+ * @return {{user: string, pass: string}|null} Credentials, or null when none are available.
+ */
+function adminCredentials() {
+	if (process.env.WP_ADMIN_USER && process.env.WP_ADMIN_PASS) {
+		return {
+			user: process.env.WP_ADMIN_USER,
+			pass: process.env.WP_ADMIN_PASS,
+		};
+	}
+
+	try {
+		const file = path.join(__dirname, '..', 'tools', '.e2e-credentials.json');
+		const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+		if (parsed && parsed.user && parsed.pass) {
+			return { user: parsed.user, pass: parsed.pass };
+		}
+	} catch (error) {
+		// Fixture has not run yet, or the file is unreadable. Fall through.
+	}
+
+	return null;
+}
+
+/**
+ * Whether admin credentials are available at all.
+ *
+ * @return {boolean} True when credentials resolve.
  */
 function hasAdminCredentials() {
-	return Boolean(process.env.WP_ADMIN_USER && process.env.WP_ADMIN_PASS);
+	return adminCredentials() !== null;
 }
 
 /**
@@ -3690,16 +4589,18 @@ async function loginAsAdmin(page) {
 		return false;
 	}
 
+	const { user, pass } = adminCredentials();
+
 	await page.goto('/wp-login.php');
-	await page.fill('#user_login', process.env.WP_ADMIN_USER);
-	await page.fill('#user_pass', process.env.WP_ADMIN_PASS);
+	await page.fill('#user_login', user);
+	await page.fill('#user_pass', pass);
 	await page.click('#wp-submit');
 	await page.waitForURL(/wp-admin/);
 
 	return true;
 }
 
-module.exports = { hasAdminCredentials, loginAsAdmin };
+module.exports = { adminCredentials, hasAdminCredentials, loginAsAdmin };
 ```
 
 - [ ] **Step 2: Napisz `e2e/panel.spec.js`**
@@ -3720,11 +4621,46 @@ const PANEL = '/wp-admin/admin.php?page=isudev-library';
 test.describe('IsuDev Library admin panel', () => {
 	test.skip(
 		!hasAdminCredentials(),
-		'Set WP_ADMIN_USER and WP_ADMIN_PASS to run panel specs.'
+		'No admin credentials: run the dev fixture, or set WP_ADMIN_USER and WP_ADMIN_PASS.'
 	);
 
 	test.beforeEach(async ({ page }) => {
 		await loginAsAdmin(page);
+	});
+
+	/*
+	 * The toggling tests mutate the real isudev_library_blocks option, so the block
+	 * has to be restored even when an assertion throws partway through. Without
+	 * this, a failure between "toggle off" and "toggle on" leaves the block
+	 * disabled in the database: it poisons the rest of this serial file, it breaks
+	 * Task 15's acceptance sweep, and it leaves the site that way for whoever looks
+	 * at it next.
+	 *
+	 * Everything here is deliberately defensive. The gate test makes the panel
+	 * return 403 on purpose, so this hook must never convert its own inability to
+	 * run into a test failure and mask the real one.
+	 */
+	test.afterEach(async ({ page }) => {
+		try {
+			await page.goto(PANEL);
+
+			const toggle = page.getByRole('checkbox', {
+				name: /Enabled|Disabled/,
+			});
+
+			if (await toggle.isChecked()) {
+				return;
+			}
+
+			await toggle.click();
+			await page.waitForResponse(
+				(response) =>
+					response.url().includes('/isudev-library/v1/blocks/') &&
+					response.request().method() === 'POST'
+			);
+		} catch (error) {
+			// Panel gated, or the run is already failing. Leave the real error alone.
+		}
 	});
 
 	test('lists site-header with an unlocked toggle', async ({ page }) => {
@@ -3734,6 +4670,81 @@ test.describe('IsuDev Library admin panel', () => {
 
 		const toggle = page.getByRole('checkbox', { name: /Enabled|Disabled/ });
 		await expect(toggle).toBeEnabled();
+	});
+
+	// Task 11's fixture writes block markup straight into post_content, so it
+	// proves the server render but never touches the editor. This is the only
+	// test that proves the block is actually registered and discoverable in the
+	// inserter, and that edit.js loads in the editor canvas without throwing.
+	// Task 13's Step 9 — disabling a block and watching it leave the inserter —
+	// was never carried out, so this is the only proof that a toggle actually
+	// deregisters the block rather than just flipping a database row.
+	test('toggling a block off removes it from the inserter, and back on restores it', async ({
+		page,
+	}) => {
+		const inserterHasSiteHeader = async () => {
+			await page.goto('/wp-admin/post-new.php?post_type=page');
+			await page
+				.getByRole('button', { name: /Close|Zamknij/ })
+				.click()
+				.catch(() => {});
+			await page
+				.getByRole('button', {
+					name: /Block Inserter|Toggle block inserter/,
+				})
+				.click();
+			await page.getByRole('searchbox', { name: /Search/ }).fill('Site Header');
+			return page
+				.getByRole('option', { name: /Site Header/ })
+				.isVisible()
+				.catch(() => false);
+		};
+
+		const setEnabled = async (enabled) => {
+			await page.goto(PANEL);
+			const toggle = page.getByRole('checkbox', {
+				name: /Enabled|Disabled/,
+			});
+			if (enabled) {
+				await toggle.check();
+			} else {
+				await toggle.uncheck();
+			}
+			await page.waitForResponse(
+				(response) =>
+					response.url().includes('/isudev-library/v1/blocks/') &&
+					response.request().method() === 'POST'
+			);
+		};
+
+		expect(await inserterHasSiteHeader()).toBe(true);
+
+		await setEnabled(false);
+		expect(await inserterHasSiteHeader()).toBe(false);
+
+		await setEnabled(true);
+		expect(await inserterHasSiteHeader()).toBe(true);
+	});
+
+	test('site-header is discoverable in the block inserter', async ({ page }) => {
+		const errors = [];
+		page.on('pageerror', (error) => errors.push(error.message));
+
+		await page.goto('/wp-admin/post-new.php?post_type=page');
+		await page.getByRole('button', { name: /Close|Zamknij/ }).click().catch(() => {});
+
+		await page
+			.getByRole('button', { name: /Block Inserter|Toggle block inserter/ })
+			.click();
+		await page
+			.getByRole('searchbox', { name: /Search/ })
+			.fill('Site Header');
+
+		await expect(
+			page.getByRole('option', { name: /Site Header/ })
+		).toBeVisible();
+
+		expect(errors).toEqual([]);
 	});
 
 	test('shows both tabs and diagnostics', async ({ page }) => {
@@ -3785,6 +4796,26 @@ test('REST blocks endpoint refuses anonymous requests', async ({ request }) => {
 });
 ```
 
+- [ ] **Step 2b: Zserializuj suite w `playwright.config.js`**
+
+`fullyParallel: true` serializuje tylko testy w obrębie jednego `describe`, więc
+nic nie broni Playwrightowi uruchomić `panel.spec.js` i `header.spec.js`
+jednocześnie w osobnych workerach. Testy panelu wyłączają blok na kilka sekund,
+a fikstura zasiewa stronę główną surowym `<!-- wp:isudev/site-header -->`
+renderowanym dynamicznie — więc w tym okienku strona główna jest pusta i testy
+headera padają z powodu niezwiązanego z kodem, który testują.
+
+Zamień w `playwright.config.js`:
+
+```js
+	fullyParallel: false,
+	workers: 1,
+```
+
+Cały suite trwa ~16 s, więc serializacja jest tania i usuwa całą klasę flake'ów.
+To świadome odejście od konfiguracji odziedziczonej z `isudev-header` — tam żaden
+test nie mutował globalnego stanu witryny, tutaj mutują.
+
 - [ ] **Step 3: Napisz mu-plugin do testu bramki**
 
 ```php
@@ -3798,6 +4829,16 @@ test('REST blocks endpoint refuses anonymous requests', async ({ request }) => {
  */
 
 declare( strict_types = 1 );
+
+/*
+ * Host-guarded like the dev fixture. This file gates the panel unconditionally,
+ * so a stray copy must not be able to do that to a real install.
+ */
+$isudev_gate_host = 'isudev-library.local';
+$isudev_gate_req  = strtolower( (string) strtok( (string) ( $_SERVER['HTTP_HOST'] ?? '' ), ':' ) );
+if ( '' !== $isudev_gate_req && $isudev_gate_host !== $isudev_gate_req ) {
+	return;
+}
 
 add_filter( 'isudev_library/settings/show_admin', '__return_false' );
 ```
@@ -3860,7 +4901,7 @@ EOF
 - Consumes: wszystko powyżej.
 - Produces: `languages/isudev-library.pot`.
 
-- [ ] **Step 1: Wygeneruj plik `.pot`**
+- [x] **Step 1: Wygeneruj plik `.pot`**
 
 ```bash
 mkdir -p languages && touch languages/.gitkeep
@@ -3879,7 +4920,7 @@ grep -n "IsuDev Library" languages/isudev-library.pot | head -3
 
 Oczekiwane: liczba `msgid` > 20, nazwa „IsuDev Library" obecna.
 
-- [ ] **Step 2: Napisz `README.md`**
+- [x] **Step 2: Napisz `README.md`**
 
 ```markdown
 # IsuDev Library
@@ -3978,7 +5019,7 @@ Block directory names must be globally unique: the generated
 GPL-2.0-or-later.
 ```
 
-- [ ] **Step 3: Napisz `CHANGELOG.md`**
+- [x] **Step 3: Napisz `CHANGELOG.md`**
 
 ```markdown
 # Changelog
@@ -4020,7 +5061,7 @@ Content containing `idl/site-header` will not render. Re-insert the block, or
 rewrite `post_content` before upgrading.
 ```
 
-- [ ] **Step 4: Napisz `AGENTS.md` i `CLAUDE.md`**
+- [x] **Step 4: Napisz `AGENTS.md` i `CLAUDE.md`**
 
 `AGENTS.md`:
 
@@ -4097,7 +5138,7 @@ and Playwright over HTTP against `http://isudev-library.local/`.
 use `./AGENTS.md` as the source of truth for agents working in this repo.
 ```
 
-- [ ] **Step 5: Przejdź kryteria akceptacji spec §15 jedno po drugim**
+- [x] **Step 5: Przejdź kryteria akceptacji spec §15 jedno po drugim**
 
 Sprawdź każde i zapisz wynik. Wszystkie muszą być spełnione.
 
@@ -4133,12 +5174,12 @@ Zainstaluj i aktywuj plugin „Plugin Check" z `http://isudev-library.local/wp-a
 
 Oczekiwane: brak błędów o `apiVersion` poniżej 3. Ostrzeżenia o braku `readme.txt` i nagłówków wymaganych w wordpress.org są dopuszczalne — plugin nie jest dystrybuowany przez katalog.
 
-- [ ] **Step 7: Odhacz wykonane kroki w tym planie**
+- [x] **Step 7: Odhacz wykonane kroki w tym planie**
 
 Zamień `- [ ]` na `- [x]` dla wszystkich ukończonych kroków w
 `docs/superpowers/plans/2026-07-29-isudev-library-v1.md`.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add languages/ README.md CHANGELOG.md AGENTS.md CLAUDE.md docs/

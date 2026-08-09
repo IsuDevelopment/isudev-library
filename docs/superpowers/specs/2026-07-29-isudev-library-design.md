@@ -94,7 +94,7 @@ isudev-library/
 │   │   ├── index.js              # createRoot
 │   │   ├── app.js                # TabPanel: Blocks / Settings
 │   │   ├── components/           # BlockCard, BlockList, SettingsPanel, Diagnostics
-│   │   └── style.scss
+│   │   └── admin.scss            # NOT style.scss — wp-scripts would emit style-index.css
 │   └── shared/                   # wspólne hooki JS (bez komponentów wizualnych)
 ├── build/                        # COMMITOWANY, + blocks-manifest.php
 ├── languages/
@@ -252,8 +252,8 @@ Zachowanie czytnika (`includes/config.php`), port logiki z
 `dekode-library/library/library-json/plugin.php`:
 
 - szuka `isudev.json` w `get_template_directory()` (parent), potem
-  `get_stylesheet_directory()` (child); child nadpisuje parent przez
-  `array_replace_recursive`;
+  `get_stylesheet_directory()` (child); child nadpisuje parent — tablice
+  asocjacyjne scalane rekurencyjnie, **listy podmieniane w całości**;
 - dziedziczenie z parenta wyłączalne filtrem
   `isudev_library/config/inherit_from_parent`;
 - błąd JSON-a → log + puste `[]`, nigdy fatal;
@@ -261,8 +261,18 @@ Zachowanie czytnika (`includes/config.php`), port logiki z
 - filtry: `isudev_library/config/raw` (cały zdekodowany plik) oraz
   `isudev_library/config` (podrzewo `library`).
 
+**Drugie odejście od dekode — scalanie list.** dekode scala przez
+`array_replace_recursive()`, które łączy listy indeks po indeksie. Przy parent
+`["core/paragraph", "core/image", "core/button"]` i child `["core/paragraph"]`
+wynikiem są wszystkie trzy wpisy, więc child theme **nie może ograniczyć** listy
+— a to jest główny zadeklarowany powód istnienia tego pliku (patrz wyżej:
+„ograniczyć feature, np. `allowedBlocks`"). Sprawdzone empirycznie. Dlatego
+`merge_configs()` scala rekurencyjnie tablice asocjacyjne, a listy podmienia
+w całości. Rozróżnienie robi `is_list_array()` (własne, bo `array_is_list()`
+wymaga PHP 8.1, a minimum to 7.4).
+
 **Odejście od dekode:** dekode używa prywatnego `_wp_array_get()`. Piszemy własny
-`IsuDevLibrary\Utils\array_get( array $data, array $path, $default )`, żeby nie
+`IsuDevLibrary\Utils\array_get( array $data, array $path, $fallback )`, żeby nie
 opierać się na prywatnym API rdzenia.
 
 API dla bloków:
@@ -366,8 +376,13 @@ oraz wskaźnik pochodzenia stanu:
 | `default` | toggle aktywny |
 | `panel` | toggle aktywny |
 | `code` | 🔒 kłódka, toggle zablokowany, „zarządzane w `isudev.json`" |
-| `always_on` | brak toggle'a, „zawsze włączony" |
+| `always_on` | toggle zablokowany, „zawsze włączony" |
 | `dependency` | ⛓ toggle zablokowany, „wymaga: `<slug>`" |
+
+Wszystkie trzy stany zablokowane (`code`, `always_on`, `dependency`) renderują
+**wyszarzony toggle**, nie brak kontrolki. Wyszarzony przełącznik pokazuje
+aktualny stan bloku, którego sama etykieta nie pokazuje, i wszystkie trzy
+przypadki wyglądają wtedy jednakowo.
 
 Toggle bloku, który ma `dependents`, pokazuje potwierdzenie z listą bloków, które
 zostaną wyłączone razem z nim. Opis toggle'a zawiera ostrzeżenie z sekcji 7.
