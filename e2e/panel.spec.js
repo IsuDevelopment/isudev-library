@@ -11,12 +11,11 @@ const { hasAdminCredentials, loginAsAdmin } = require('./admin-auth');
 const PANEL = '/wp-admin/admin.php?page=isudev-library';
 const DESKTOP = 'desktop-chromium';
 
-// This block's title, "Site Header Block", is not unique on this dev site: a
-// sibling plugin (`isudev-header`, registering `idl/site-header`) is active
-// alongside isudev-library and shares the same title text, so the inserter's
-// search surfaces two options for "Site Header". Match on the option's block
-// name instead of its visible text so the round-trip proves *this* block's
-// registration, not merely that *something* titled "Site Header" exists.
+// Match on the option's block name rather than its visible text, so the
+// round-trip proves *this* block's registration and not merely that something
+// titled "Site Header" exists. Titles are not unique across plugins — the
+// superseded `isudev-header` plugin used this exact title before it was
+// removed, and any future block could collide again.
 const SITE_HEADER_OPTION = '.editor-block-list-item-isudev-site-header';
 
 /**
@@ -197,13 +196,25 @@ test.describe('IsuDev Library admin panel', () => {
 		await expect(page.getByRole('tab', { name: 'Blocks' })).toBeVisible();
 		await page.getByRole('tab', { name: 'Settings' }).click();
 
-		await expect(page.getByText('Blocks discovered:')).toBeVisible();
+		// Assert the reported numbers, not merely that the labels render: a
+		// label being visible says nothing about the value beside it.
+		const payload = await page.evaluate(() =>
+			window.wp.apiFetch({ path: '/isudev-library/v1/blocks' })
+		);
 		await expect(
-			page.getByText('Load base --isudev-* tokens')
+			page.getByText(
+				`Blocks discovered: ${payload.diagnostics.discovered}`
+			)
 		).toBeVisible();
+		await expect(
+			page.getByText(
+				`Blocks registered: ${payload.diagnostics.registered}`
+			)
+		).toBeVisible();
+		await expect(page.getByText(payload.diagnostics.version)).toBeVisible();
 	});
 
-	test('toggling off removes the block from the inserter, toggling on restores it', async ({
+	test('toggling persists across a reload and updates diagnostics', async ({
 		page,
 	}) => {
 		await page.goto(PANEL);

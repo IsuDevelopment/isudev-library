@@ -16,7 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * host means CLI or cron on this install, which is allowed.
  */
 $isudev_dev_host = 'isudev-library.local';
-$isudev_req_host = strtolower( (string) strtok( (string) ( $_SERVER['HTTP_HOST'] ?? '' ), ':' ) );
+$isudev_raw_host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+$isudev_req_host = strtolower( (string) strtok( $isudev_raw_host, ':' ) );
 
 /*
  * Exact match, not a substring test. `strpos()` would accept a Host header like

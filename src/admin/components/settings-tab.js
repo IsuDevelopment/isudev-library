@@ -1,17 +1,10 @@
 /**
  * WordPress dependencies
  */
-import { Card, CardBody, Spinner, ToggleControl } from '@wordpress/components';
-import { useEntityProp } from '@wordpress/core-data';
+import { Card, CardBody, Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 export default function SettingsTab({ diagnostics }) {
-	const [settings, setSettings] = useEntityProp(
-		'root',
-		'site',
-		'isudev_library_settings'
-	);
-
 	const configPath = () => {
 		if (!diagnostics) {
 			return '';
@@ -27,26 +20,6 @@ export default function SettingsTab({ diagnostics }) {
 
 	return (
 		<div className="isudev-admin__settings">
-			<Card size="small">
-				<CardBody>
-					<ToggleControl
-						__nextHasNoMarginBottom
-						label={__(
-							'Load base --isudev-* tokens',
-							'isudev-library'
-						)}
-						help={__(
-							'Turn off when your theme provides the design tokens itself.',
-							'isudev-library'
-						)}
-						checked={Boolean(settings?.loadBaseTokens)}
-						onChange={(next) =>
-							setSettings({ ...settings, loadBaseTokens: next })
-						}
-					/>
-				</CardBody>
-			</Card>
-
 			<Card size="small">
 				<CardBody>
 					<h2>{__('Diagnostics', 'isudev-library')}</h2>

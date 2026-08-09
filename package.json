@@ -35,7 +35,7 @@
 		"test:e2e": "playwright test",
 		"test:e2e:report": "playwright show-report",
 		"test:e2e:install": "playwright install chromium",
-		"i18n:make-pot": "wp i18n make-pot . languages/isudev-library.pot --exclude=build,node_modules,vendor,e2e,tools,docs",
+		"i18n:make-pot": "wp i18n make-pot . languages/isudev-library.pot --exclude=node_modules,vendor,e2e,tools,docs",
 		"i18n:make-json": "wp i18n make-json languages --no-purge",
 		"i18n:make-mo": "wp i18n make-mo languages"
 	}

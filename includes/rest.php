@@ -141,9 +141,15 @@ function diagnostics(): array {
 	$blocks  = Registry::blocks();
 	$sources = Config\config_sources();
 
-	$registered = 0;
+	/*
+	 * Ask the block registry rather than re-deriving this from `enabled`. The
+	 * Loader skips an enabled block whose build metadata is unreadable, and a
+	 * missing `npm run build` is exactly what this number exists to surface.
+	 */
+	$block_types = \WP_Block_Type_Registry::get_instance();
+	$registered  = 0;
 	foreach ( $blocks as $block ) {
-		if ( $block['enabled'] ) {
+		if ( $block_types->get_registered( $block['name'] ) instanceof \WP_Block_Type ) {
 			++$registered;
 		}
 	}

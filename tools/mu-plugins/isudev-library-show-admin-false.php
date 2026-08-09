@@ -18,7 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * install it was ever mistakenly copied into.
  */
 $isudev_dev_host = 'isudev-library.local';
-$isudev_req_host = strtolower( (string) strtok( (string) ( $_SERVER['HTTP_HOST'] ?? '' ), ':' ) );
+$isudev_raw_host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+$isudev_req_host = strtolower( (string) strtok( $isudev_raw_host, ':' ) );
 
 if ( '' !== $isudev_req_host && $isudev_dev_host !== $isudev_req_host ) {
 	return;

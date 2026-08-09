@@ -31,12 +31,16 @@ same `isudev.json` is safe to share with other `isudev-*` plugins.
 ```json
 {
   "library": {
-    "isudev/site-header": { "enabled": true, "sticky": false }
+    "isudev/site-header": { "enabled": true }
   }
 }
 ```
 
 `enabled` set in `isudev.json` wins over the admin panel and locks the toggle.
+
+In v1 a block entry accepts `enabled` and `variations`. Per-block default
+attributes are read by `Config\get_block_config()`, but no block consumes them
+yet — see the CHANGELOG's "Not in v1" list.
 
 ### Variations
 

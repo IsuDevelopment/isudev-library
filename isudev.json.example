@@ -2,8 +2,6 @@
   "library": {
     "isudev/site-header": {
       "enabled": true,
-      "sticky": false,
-      "ariaLabel": "Główna nawigacja",
       "variations": {
         "compact": {
           "name": "compact",

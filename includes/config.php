@@ -173,6 +173,39 @@ function config_sources(): array {
 }
 
 /**
+ * Read and decode one isudev.json, logging a parse failure.
+ *
+ * Purity keeps decode() from logging: it can only answer "empty array".
+ * Distinguishing a genuinely empty file from a malformed one has to happen
+ * here, or a theme author with a trailing comma gets silence and block
+ * defaults.
+ *
+ * @param string $path Absolute path to a readable isudev.json.
+ * @return array Decoded contents, or an empty array on failure.
+ */
+function read_config_file( string $path ): array {
+	$contents = (string) \file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
+	$decoded  = decode( $contents );
+
+	/*
+	 * decode() runs json_decode() last, so the global error state still belongs
+	 * to it here. Test that rather than the empty return: a file holding `{}`
+	 * decodes to an empty array and is perfectly valid.
+	 */
+	if ( '' !== \trim( $contents ) && \JSON_ERROR_NONE !== \json_last_error() ) {
+		\error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Theme-author diagnostic; the plugin must not fatal on bad JSON.
+			\sprintf(
+				'IsuDev Library: could not parse %1$s (%2$s). Falling back to block defaults.',
+				$path,
+				\json_last_error_msg()
+			)
+		);
+	}
+
+	return $decoded;
+}
+
+/**
  * Read the merged config from disk, bypassing the per-request cache.
  *
  * Parent theme first, child theme on top. This is the only place that touches
@@ -195,14 +228,13 @@ function get_config_uncached(): array {
 	if ( $inherit && \get_template_directory() !== \get_stylesheet_directory() ) {
 		$parent_path = config_file_path( true );
 		if ( '' !== $parent_path ) {
-			$raw = decode( (string) \file_get_contents( $parent_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
+			$raw = read_config_file( $parent_path );
 		}
 	}
 
 	$child_path = config_file_path();
 	if ( '' !== $child_path ) {
-		$child_raw = decode( (string) \file_get_contents( $child_path ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme file, not a remote request.
-		$raw       = merge_configs( $raw, $child_raw );
+		$raw = merge_configs( $raw, read_config_file( $child_path ) );
 	}
 
 	/**

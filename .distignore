@@ -1,8 +1,8 @@
 /.git
 /.github
+/.superpowers
 /node_modules
 /vendor
-/src
 /e2e
 /docs
 /tools
@@ -13,6 +13,8 @@
 .gitignore
 .nvmrc
 /tools/.e2e-credentials.json
+AGENTS.md
+CLAUDE.md
 composer.json
 composer.lock
 package.json

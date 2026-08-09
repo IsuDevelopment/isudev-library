@@ -15,9 +15,24 @@ First release.
 - Shared inline SVG icon registry.
 - React admin panel: Blocks and Settings tabs, REST endpoints under
   `isudev-library/v1`, ACF-style `show_admin` / `capability` filters that gate
-  the menu and the endpoints together.
+  the menu and the endpoints together. The Settings tab is read-only
+  diagnostics.
 - Block `isudev/site-header`, migrated from the standalone `isudev-header`
   plugin.
+
+### Not in v1
+
+Present as tested infrastructure, with no consumer yet:
+
+- **Per-block config in `isudev.json`.** `Config\get_block_config()` and
+  `Config\resolve_block_value()` resolve block- and variation-level values, but
+  no block reads them; `site-header` takes everything from block attributes.
+  Only `enabled` and `variations` change behaviour today.
+- **The `isudev_library_settings` option.** Registered, schema'd and sanitized,
+  and exposed on `/wp/v2/settings`, but nothing reads `loadBaseTokens` — the
+  `--isudev-*` tokens are declared inside the header's own stylesheet, so there
+  is no separate base sheet to gate. The Settings tab shows diagnostics only
+  rather than a control that silently does nothing.
 
 ### Breaking changes from `isudev-header`
 
