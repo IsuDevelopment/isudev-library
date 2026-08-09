@@ -24,7 +24,7 @@ whole design pressure, and everything below follows from it.
 | Source | Here | Why |
 | --- | --- | --- |
 | `PostSelector` from `@t2/editor` | `LinkPickerControl` / `BlockLinkControl` from `@isudev/gutenberg` | Remove the `t2` dependency; links can point anywhere, not only at posts on this install. |
-| `MediaUpload` + `MediaUploadCheck` from core, hand-rolled overlay | `MediaControl` from `@isudev/gutenberg` | One shared media UX across every IsuDev block, with focal point for free. |
+| `MediaUpload` + `MediaUploadCheck` from core, hand-rolled overlay | `MediaSourceControl` + `MediaSidebarControl` from `@isudev/gutenberg` | One shared media UX across every IsuDev block, with focal point for free. |
 | `T2Icon icon="arrowForward"` (JS) and `\T2\Icons\get_icon()` (PHP) | `IsuDevLibrary\Utils\icon( 'arrowForward' )` | The library owns its icon registry. |
 | `t2-featured-single-post`, `t2-read-more-content`, `t2-featured-content-layout-col-12` classes | dropped | They style against the `t2` theme, which is not present. |
 | `register_block_type_from_metadata()` in `block.php` | descriptor array in `block.php` | `Loader` is the only caller of `register_block_type()`. |
@@ -114,6 +114,7 @@ editor falls back the same way.
 | Image on canvas | `MediaSourceControl` `variant="buttons"` inside our own `<figure>` | Overlay replace/remove, reproducing today's pencil/trash buttons. |
 | Image in sidebar | `MediaSidebarControl` with `preview: 'focal-point'` | Focal point is new; the source plugin had none. |
 | Image in toolbar | **omitted** — no `MediaToolbarControl` | The toolbar belongs to the link. Two toolbar groups competing for one block is the kind of ambiguity that makes a block feel broken. |
+| Inspector | `PanelBody` with the six existing toggles | Unchanged from the source, minus post-specific ones. |
 
 The composite `MediaControl` is deliberately **not** used, even though it bundles
 these three. Its canvas owns the empty state: with no `media` value it renders a
@@ -126,7 +127,6 @@ UX stays the library's.
 source from **the post being edited**, which is never what this block means by a
 featured image. Both must be passed `featuredMedia={null}` and
 `sources={{ featured: false }}`.
-| Inspector | `PanelBody` with the six existing toggles | Unchanged from the source, minus post-specific ones. |
 
 `hasTextControl` defaults to `true` inside `BlockLinkControl`, so the toolbar's
 Text field populates `link.title` — which is exactly the fallback step 3 above
