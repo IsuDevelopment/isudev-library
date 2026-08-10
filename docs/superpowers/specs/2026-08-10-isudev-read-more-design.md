@@ -24,7 +24,7 @@ whole design pressure, and everything below follows from it.
 | Source | Here | Why |
 | --- | --- | --- |
 | `PostSelector` from `@t2/editor` | `LinkPickerControl` / `BlockLinkControl` from `@isudev/gutenberg` | Remove the `t2` dependency; links can point anywhere, not only at posts on this install. |
-| `MediaUpload` + `MediaUploadCheck` from core, hand-rolled overlay | `MediaSourceControl` + `MediaSidebarControl` from `@isudev/gutenberg` | One shared media UX across every IsuDev block, with focal point for free. |
+| `MediaUpload` + `MediaUploadCheck` from core, hand-rolled overlay | `MediaControl` from `@isudev/gutenberg` | One shared media UX across every IsuDev block. The canvas already renders the overlaid replace/remove dropdown; rebuilding it by hand is the mistake this table exists to avoid. |
 | `T2Icon icon="arrowForward"` (JS) and `\T2\Icons\get_icon()` (PHP) | `IsuDevLibrary\Utils\icon( 'arrowForward' )` | The library owns its icon registry. |
 | `t2-featured-single-post`, `t2-read-more-content`, `t2-featured-content-layout-col-12` classes | dropped | They style against the `t2` theme, which is not present. |
 | `register_block_type_from_metadata()` in `block.php` | descriptor array in `block.php` | `Loader` is the only caller of `register_block_type()`. |
@@ -47,7 +47,6 @@ whole design pressure, and everything below follows from it.
 {
   "link":               { "type": "object", "default": {} },
   "media":              { "type": "object", "default": {} },
-  "focalPoint":         { "type": "object" },
   "hasCustomTitle":     { "type": "boolean", "default": false },
   "customTitle":        { "type": "string",  "default": "" },
   "showAdditionalText": { "type": "boolean", "default": false },
@@ -112,21 +111,26 @@ editor falls back the same way.
 | Empty state | `Placeholder` + `LinkPickerControl` render prop | Button label "Pick link". The picker anchors to the placeholder. |
 | Toolbar | `BlockLinkControl` | Owns its own `BlockControls` fill — must not be wrapped in another. `group="default"`. `addLabel`/`editLabel` supplied in our text domain, since the library's own labels use WordPress' `default` domain. |
 | Image on canvas | `MediaSourceControl` `variant="buttons"` inside our own `<figure>` | Overlay replace/remove, reproducing today's pencil/trash buttons. |
-| Image in sidebar | `MediaSidebarControl` with `preview: 'focal-point'` | Focal point is new; the source plugin had none. |
+| Image in sidebar | `MediaControl`'s `sidebar` with the default media preview | No focal point: the card crops to a fixed aspect ratio with `object-fit: cover`, so a focal point would be a control with nothing to control. |
 | Image in toolbar | **omitted** — no `MediaToolbarControl` | The toolbar belongs to the link. Two toolbar groups competing for one block is the kind of ambiguity that makes a block feel broken. |
-| Inspector | `PanelBody` with the six existing toggles | Unchanged from the source, minus post-specific ones. |
+| Heading level | core's `HeadingLevelDropdown` in `BlockControls group="block"` | The same control core's heading block uses. Its `0` option means "Paragraph", which this block renders as a `div`, so one dropdown replaces the source's separate `renderAsHeading` toggle and level select. `h1` is not offered — a card title is never the page title. |
+| Inspector | `PanelBody` with the remaining toggles | Image, badge, custom title, additional text. |
 
-The composite `MediaControl` is deliberately **not** used, even though it bundles
-these three. Its canvas owns the empty state: with no `media` value it renders a
-`Placeholder` and no overlay actions. This block's empty state is not empty — it
-falls back to the linked post's featured image (§4), which the block must draw
-itself. Composing the two sub-controls keeps the `<figure>` ours while the media
-UX stays the library's.
+`MediaControl` is used as the composite, with `toolbar={false}` so the toolbar
+stays the link's. Its canvas draws whatever value it is handed, so the block
+passes a **display value**: the author's own `media` when set, otherwise one
+synthesised from the linked post's thumbnail. Writes always go to the real
+`media` attribute. This is the library's documented pattern — it does not
+inherit featured images itself, and expects the consumer to synthesise the
+value.
 
-`MediaSourceControl` and `MediaSidebarControl` both auto-resolve a `featured`
-source from **the post being edited**, which is never what this block means by a
-featured image. Both must be passed `featuredMedia={null}` and
-`sources={{ featured: false }}`.
+Remove is hidden unless the author picked their own image
+(`actions: { remove: hasOwnMedia }`): on an inherited thumbnail it would clear
+nothing and redraw the same picture.
+
+`MediaSourceControl` auto-resolves a `featured` source from **the post being
+edited**, which is never what this block means, so `sources={{ featured: false }}`
+switches it off.
 
 `hasTextControl` defaults to `true` inside `BlockLinkControl`, so the toolbar's
 Text field populates `link.title` — which is exactly the fallback step 3 above

@@ -65,3 +65,15 @@ and Playwright over HTTP against `http://isudev-library.local/`.
 
 - Design spec: `docs/superpowers/specs/2026-07-29-isudev-library-design.md`
 - Implementation plan: `docs/superpowers/plans/2026-07-29-isudev-library-v1.md`
+
+<!-- isudev-gutenberg:begin -->
+## @isudev/gutenberg
+
+This project uses `@isudev/gutenberg` for Gutenberg editor UI. Before writing block code
+that touches components, controls, fields or hooks from it, read
+[`.agents/vendor/isudev-gutenberg.md`](./.agents/vendor/isudev-gutenberg.md) — it lists
+every public module, its narrowest import and where the full documentation for that
+module lives. Import from the narrowest subpath; never from `dist/`.
+
+Pinned to @isudev/gutenberg@0.1.1. Refresh with `npx @isudev/gutenberg init`.
+<!-- isudev-gutenberg:end -->

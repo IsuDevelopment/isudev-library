@@ -37,9 +37,6 @@
       "type": "object",
       "default": {}
     },
-    "focalPoint": {
-      "type": "object"
-    },
     "hasCustomTitle": {
       "type": "boolean",
       "default": false

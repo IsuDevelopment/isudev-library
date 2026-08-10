@@ -44,9 +44,6 @@ return array(
 					
 				)
 			),
-			'focalPoint' => array(
-				'type' => 'object'
-			),
 			'hasCustomTitle' => array(
 				'type' => 'boolean',
 				'default' => false

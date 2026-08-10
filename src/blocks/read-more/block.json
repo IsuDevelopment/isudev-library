@@ -28,7 +28,6 @@
 		},
 		"link": { "type": "object", "default": {} },
 		"media": { "type": "object", "default": {} },
-		"focalPoint": { "type": "object" },
 		"hasCustomTitle": { "type": "boolean", "default": false },
 		"customTitle": { "type": "string", "default": "" },
 		"showAdditionalText": { "type": "boolean", "default": false },

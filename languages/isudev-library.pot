@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-10T00:43:12+00:00\n"
+"POT-Creation-Date: 2026-08-10T00:52:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: isudev-library\n"
@@ -42,7 +42,7 @@ msgstr ""
 #: build/blocks/read-more/render.php:69
 #: src/blocks/read-more/render.php:69
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:311
+#: src/blocks/read-more/edit.js:291
 msgid "Read more"
 msgstr ""
 
@@ -166,111 +166,89 @@ msgid "Settings"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:169
+#: src/blocks/read-more/edit.js:185
 msgid "Add link"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:170
+#: src/blocks/read-more/edit.js:186
 msgid "Edit link"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:174
+#: src/blocks/read-more/edit.js:207
 msgid "Read More settings"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:177
+#: src/blocks/read-more/edit.js:210
 msgid "Show image"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:185
+#: src/blocks/read-more/edit.js:218
 msgid "Read more badge"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:186
+#: src/blocks/read-more/edit.js:219
 msgid "Show a small label above the title."
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:197
+#: src/blocks/read-more/edit.js:230
 msgid "Use custom title"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:198
+#: src/blocks/read-more/edit.js:231
 msgid "Otherwise the linked page title is used."
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:207
-#: src/blocks/read-more/edit.js:352
+#: src/blocks/read-more/edit.js:240
+#: src/blocks/read-more/edit.js:332
 msgid "Additional text"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:208
+#: src/blocks/read-more/edit.js:241
 msgid "Show supporting text below the title."
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:219
-msgid "Render as heading"
-msgstr ""
-
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:228
-msgid "Heading level"
-msgstr ""
-
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:252
+#: src/blocks/read-more/edit.js:264
+#: src/blocks/read-more/edit.js:279
 msgid "Card image"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:255
-#: src/blocks/read-more/edit.js:283
-msgid "Select image"
+#: src/blocks/read-more/edit.js:268
+msgid "Upload an image, or leave it empty to inherit the linked post’s featured image."
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:256
-#: src/blocks/read-more/edit.js:287
-msgid "Replace image"
-msgstr ""
-
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:257
-#: src/blocks/read-more/edit.js:291
-msgid "Remove image"
-msgstr ""
-
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:325
+#: src/blocks/read-more/edit.js:305
 msgid "Custom title"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:341
+#: src/blocks/read-more/edit.js:321
 msgid "Untitled"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:145
+#: src/blocks/read-more/edit.js:161
 msgid "Read More"
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:146
+#: src/blocks/read-more/edit.js:162
 msgid "Choose where this card should link to."
 msgstr ""
 
 #: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:152
+#: src/blocks/read-more/edit.js:168
 msgid "Pick link"
 msgstr ""
 

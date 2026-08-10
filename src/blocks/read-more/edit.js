@@ -9,6 +9,8 @@ import { MediaControl } from '@isudev/gutenberg/controls/MediaControl';
  * WordPress dependencies
  */
 import {
+	BlockControls,
+	HeadingLevelDropdown,
 	InspectorControls,
 	RichText,
 	useBlockProps,
@@ -17,7 +19,6 @@ import {
 	Button,
 	PanelBody,
 	Placeholder,
-	SelectControl,
 	ToggleControl,
 } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
@@ -33,12 +34,13 @@ import icon from './icon';
 
 const classNames = (...classes) => classes.filter(Boolean).join(' ');
 const HEADING_LEVELS = [2, 3, 4, 5, 6];
+// 0 is the dropdown's "Paragraph" entry, which this block renders as a div.
+const HEADING_OPTIONS = [0, ...HEADING_LEVELS];
 
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		link = {},
 		media = {},
-		focalPoint,
 		hasCustomTitle = false,
 		customTitle = '',
 		showAdditionalText = false,
@@ -184,6 +186,23 @@ export default function Edit({ attributes, setAttributes }) {
 				editLabel={__('Edit link', 'isudev-library')}
 			/>
 
+			<BlockControls group="block">
+				<HeadingLevelDropdown
+					options={HEADING_OPTIONS}
+					value={renderAsHeading ? level : 0}
+					onChange={(next) =>
+						setAttributes(
+							next === 0
+								? { renderAsHeading: false }
+								: {
+										renderAsHeading: true,
+										headingLevel: next,
+									}
+						)
+					}
+				/>
+			</BlockControls>
+
 			<InspectorControls>
 				<PanelBody title={__('Read More settings', 'isudev-library')}>
 					<ToggleControl
@@ -228,28 +247,6 @@ export default function Edit({ attributes, setAttributes }) {
 							setAttributes({ showAdditionalText: value })
 						}
 					/>
-					<ToggleControl
-						__nextHasNoMarginBottom
-						label={__('Render as heading', 'isudev-library')}
-						checked={renderAsHeading}
-						onChange={(value) =>
-							setAttributes({ renderAsHeading: value })
-						}
-					/>
-					{renderAsHeading && (
-						<SelectControl
-							__nextHasNoMarginBottom
-							label={__('Heading level', 'isudev-library')}
-							value={level}
-							options={HEADING_LEVELS.map((each) => ({
-								label: `H${each}`,
-								value: each,
-							}))}
-							onChange={(value) =>
-								setAttributes({ headingLevel: Number(value) })
-							}
-						/>
-					)}
 				</PanelBody>
 			</InspectorControls>
 
@@ -260,10 +257,6 @@ export default function Edit({ attributes, setAttributes }) {
 							value={displayMedia}
 							onChange={(next) => setAttributes({ media: next })}
 							onRemove={() => setAttributes({ media: {} })}
-							focalPoint={focalPoint}
-							onFocalPointChange={(next) =>
-								setAttributes({ focalPoint: next })
-							}
 							sources={{ featured: false }}
 							toolbar={false}
 							canvas={{
@@ -283,7 +276,6 @@ export default function Edit({ attributes, setAttributes }) {
 								previewProps: { aspectRatio: '159 / 119' },
 							}}
 							sidebar={{
-								preview: 'focal-point',
 								title: __('Card image', 'isudev-library'),
 							}}
 						/>
