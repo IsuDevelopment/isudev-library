@@ -13,7 +13,7 @@ declare( strict_types = 1 );
 
 namespace IsuDevLibrary\Blocks\ReadMore;
 
-use function IsuDevLibrary\Utils\icon;
+use function IsuDevLibrary\Utils\get_icon;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -76,7 +76,7 @@ $additional = $show_additional && '' !== $additional_text
 
 $arrow = \sprintf(
 	'<span class="read-more-arrow" aria-hidden="true">%s</span>',
-	icon( 'arrowForward', 24, 'read-more-arrow__icon' )
+	get_icon( 'arrowForward', array( 'class' => 'read-more-arrow__icon' ) )
 );
 
 $inner = \sprintf(

@@ -13,7 +13,7 @@ declare( strict_types = 1 );
 
 namespace IsuDevLibrary\Blocks\SiteHeader;
 
-use function IsuDevLibrary\Utils\icon;
+use function IsuDevLibrary\Utils\get_icon;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -37,7 +37,7 @@ $burger = '<button type="button" class="isudev-header__burger" aria-expanded="fa
 
 $close = '<button type="button" class="isudev-header__close">'
 	. '<span class="isudev-header__close-label">' . \esc_html__( 'Close', 'isudev-library' ) . '</span>'
-	. icon( 'close', 24, 'isudev-header__close-icon' )
+	. get_icon( 'close', array( 'class' => 'isudev-header__close-icon' ) )
 	. '</button>';
 
 $end_region = '' !== $end ? '<div class="isudev-header__end">' . $end . '</div>' : '';

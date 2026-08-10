@@ -9,7 +9,7 @@ declare( strict_types = 1 );
 
 namespace IsuDevLibrary\Blocks\SiteHeader;
 
-use function IsuDevLibrary\Utils\icon;
+use function IsuDevLibrary\Utils\get_icon;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -128,7 +128,13 @@ class Nav_Walker extends \Walker_Nav_Menu {
 		if ( $has_panel ) {
 			$panel_id               = 'isudev-submenu-' . (int) $item->ID;
 			$this->current_panel_id = $panel_id;
-			$chevron                = icon( 'chevronDown', 20, 'isudev-nav__chevron-icon' );
+			$chevron                = get_icon(
+				'chevronDown',
+				array(
+					'size'  => 20,
+					'class' => 'isudev-nav__chevron-icon',
+				)
+			);
 
 			if ( $has_target ) {
 				// Navigable parent → a real link PLUS a separate disclosure
