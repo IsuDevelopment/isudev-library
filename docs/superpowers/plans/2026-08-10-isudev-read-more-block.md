@@ -1187,13 +1187,18 @@ $target_attr = $opens_in_new_tab ? ' target="_blank"' : '';
 $rel_value   = \trim( ( $opens_in_new_tab ? 'noopener noreferrer' : '' ) . ( $is_nofollow ? ' nofollow' : '' ) );
 $rel_attr    = '' !== $rel_value ? \sprintf( ' rel="%s"', \esc_attr( $rel_value ) ) : '';
 
+The assignment then a bare `echo` is not stylistic. `echo sprintf(...)` trips
+WPCS's `NoEchoSprintf`, and `EscapeOutput.OutputNotEscaped` is evaluated per
+line, so a trailing `phpcs:ignore` on a multi-line `echo` statement does not
+suppress it. `src/blocks/site-header/render.php` already ends the same way.
+
 /*
  * Every part above is escaped at its own boundary: esc_html on the title,
  * esc_url on the href, wp_kses on both RichText fields, esc_attr on rel, and
  * the arrow comes from the static icon registry. get_block_wrapper_attributes()
  * escapes its own output.
  */
-echo \sprintf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Each component is escaped at its source; see the comment above.
+$markup = \sprintf(
 	'<a %1$s href="%2$s"%3$s%4$s>%5$s</a>',
 	$wrapper,
 	\esc_url( $url ),
@@ -1201,6 +1206,8 @@ echo \sprintf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
 	$rel_attr,
 	$inner
 );
+
+echo $markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Each component is escaped at its source; see the comment above.
 ```
 
 - [ ] **Step 3: Rebuild so `build/blocks/read-more/render.php` matches**
