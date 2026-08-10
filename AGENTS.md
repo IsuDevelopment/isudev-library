@@ -15,14 +15,18 @@ plugin.
   save `<InnerBlocks.Content />` and receive it as `$content`.
 - **`Loader` is the only caller of `register_block_type()`.** A `block.php`
   returns a descriptor and registers nothing.
-- **Pure functions stay pure.** Anything above a "WordPress adapters" marker
-  must not call WordPress — `tools/check.php` requires those files without WP.
+- **Utils stay testable.** `tools/check.php` requires `includes/utils/*` and other
+  pure helpers with no WordPress bootstrap, so they must not touch the database,
+  `WP_Query`, HTTP or the object cache. Escaping, translation and filters are fine —
+  the runner shims them. Files that still carry a `WordPress adapters` marker keep
+  that split; `includes/utils/icon.php` deliberately does not.
 - **No top-level hook registration in `includes/`.** Use `boot()`.
 - **`isudev.json`: read the `library` key only, never write the file.** It is
   shared with other `isudev-*` plugins.
 - **Editor components come from `@isudev/gutenberg`.** Link and media UI use that
   package, not hand-rolled controls. It ships no PHP and no CSS: attribute
-  shapes reach `render.php` as plain arrays and all styling is ours.
+  shapes reach `render.php` as plain arrays and all styling is ours. The shared
+  icon registry is localized once for the whole block editor as `isudevIcons`.
 - **Accessibility is non-negotiable.** The site-header markup contract (disclosure
   nav, drawer, link-vs-button rule, state on `.isudev-header`,
   `isudev-scroll-locked` on `<html>`) must keep the Playwright + axe suite green.

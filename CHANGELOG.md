@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.2.0 — 2026-08-11
+
+### Changed
+
+- The icon registry now uses `name => { label, icon, keywords }` definitions
+  compatible with `IconDefinition` from `@isudev/gutenberg`. `icon` contains a
+  complete inline `<svg>` or an image URL; each SVG carries its own `viewBox`.
+- Frontend rendering uses `get_icon( $name, $args )` and
+  `the_icon( $name, $args )`, including per-call size, class and root attributes.
+
+### Added
+
+- Image URL definitions render as accessible `<img>` elements.
+- The filtered registry is localized automatically as `isudevIcons` for the
+  whole block editor, ready for `getLocalizedIcons()`.
+
+### Breaking changes
+
+- `icon()` is replaced by `get_icon()` and `the_icon()` with an argument array.
+- `default_icon_paths()`, `default_icon_view_boxes()`, `build_svg()` and the
+  `isudev_library/icon_view_boxes` filter are removed without compatibility
+  shims.
+
 ## 1.1.0 — 2026-08-10
 
 ### Added

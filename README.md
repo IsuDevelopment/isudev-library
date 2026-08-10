@@ -58,9 +58,8 @@ variation. See `isudev.json.example`.
 | `isudev_library/config` | The `library` subtree after extraction. |
 | `isudev_library/config/raw` | The whole decoded `isudev.json`. |
 | `isudev_library/config/inherit_from_parent` | Whether to inherit from the parent theme. Default `true`. |
-| `isudev_library/icons` | The inline SVG icon registry. |
-| `isudev_library/icon` | Rendered icon markup. |
-| `isudev_library/icon_view_boxes` | Per-icon `viewBox` overrides, for glyphs not authored on the default `0 0 600 600` grid. |
+| `isudev_library/icons` | Icon definitions containing complete inline SVG markup or image URLs. |
+| `isudev_library/icon` | Rendered inline SVG or image markup. |
 | `isudev_library/site_header/regions` | Header regions before assembly. |
 | `isudev_library/site_header/output` | Final header markup. |
 | `isudev_library/site_header/menu_args` | `wp_nav_menu` args for the header. |

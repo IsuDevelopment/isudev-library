@@ -5,6 +5,7 @@
 /vendor
 /e2e
 /docs
+/guides
 /tools
 /test-results
 /playwright-report

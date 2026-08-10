@@ -1,132 +1,126 @@
 # Working with icons
 
 How icons work in `isudev-library`, which system to reach for, and how to add one
-without breaking `tools/check.php` or the a11y suite.
+without breaking frontend rendering, the editor collection or accessibility.
 
 ## The three icon systems (do not mix them up)
 
 | System | Lives in | Used for | Output |
 | --- | --- | --- | --- |
-| **Frontend SVG registry** | [includes/utils/icon.php](../includes/utils/icon.php) | Glyphs inside rendered block markup (chevrons, close, arrows) | Inline `<svg>` echoed by `render.php` |
-| **Block inserter icon** | `block.json` `"icon"` + optional `icon.js` | How the block looks in the inserter / list view / admin panel | React element or Dashicon slug |
-| **Editor UI icons** | `@isudev/gutenberg` (`Icon`, `IconPicker`, `IconSelect`) | Author-selectable icons in block controls | React, from an injected collection |
+| **Shared icon registry** | [includes/utils/icon.php](../includes/utils/icon.php) | Frontend block markup and the editor's localized collection | Inline `<svg>` or `<img>` in PHP; `IconDefinition[]` in the editor |
+| **Block inserter icon** | `block.json` `"icon"` + optional `icon.js` | How a block looks in the inserter, list view and admin panel | React element or Dashicon slug |
+| **Editor UI icons** | `@isudev/gutenberg` (`Icon`, `IconPicker`, `IconSelect`) | Rendering and selecting icons in block controls | React components consuming the shared collection |
 
-Rule of thumb: **anything the visitor sees comes from the PHP registry; anything
-only the editor sees is JS.** Blocks always render in PHP, so the frontend never
-gets an icon from JS.
+Blocks still render on the frontend in PHP. The editor receives the same PHP
+registry once for the whole editor, but it never becomes the frontend renderer.
 
 ---
 
-## 1. Frontend SVG registry — `includes/utils/icon.php`
+## 1. Shared registry — `includes/utils/icon.php`
 
-There is no icon-font, no sprite sheet, no external icon dependency. Icons are
-inline SVG built from a slug → path map.
+The registry is a map of names to definitions compatible with
+`IconDefinition` from `@isudev/gutenberg`:
+
+```php
+'arrowForward' => array(
+	'label'    => __( 'Arrow forward', 'isudev-library' ),
+	'icon'     => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="…"/></svg>',
+	'keywords' => array( 'arrow', 'right', 'next' ),
+),
+```
+
+Every definition requires a non-empty `icon`. `label` falls back to the name,
+`keywords` is optional, and unknown keys pass through normalization untouched so
+future metadata such as `category` needs no registry rewrite.
+
+`icon` is either a complete serialized `<svg>` or an image URL. A registered
+asset must therefore use a public URL such as
+`\IsuDevLibrary\URL . 'assets/icons/example.svg'`, never `PATH` or another
+filesystem path.
 
 ### Public API
 
 ```php
-use function IsuDevLibrary\Utils\icon;
+use function IsuDevLibrary\Utils\get_icon;
+use function IsuDevLibrary\Utils\the_icon;
 
-echo icon( 'chevronDown', 20, 'isudev-nav__chevron-icon' );
-//        slug            size  class on the <svg> itself
+$markup = get_icon(
+	'chevronDown',
+	array(
+		'size'  => 20,
+		'class' => 'isudev-nav__chevron-icon',
+	)
+);
+
+the_icon( 'close', array( 'class' => 'isudev-header__close-icon' ) );
 ```
 
-`icon( string $slug, int $size = 24, string $class_name = '' ): string`
+`get_icon()` returns markup and `the_icon()` echoes it. An unknown name returns
+an empty string. Both accept the same argument array:
 
-- Returns **already-safe** markup — echo it directly. Never wrap it in
-  `esc_html()` (that prints the tags) and never in `wp_kses()` (that would strip
-  attributes we rely on).
-- An **unknown slug returns `''`**, not a warning and not a placeholder. A typo
-  fails silently, so the check file below is what protects you.
-- `$class_name` is passed through `esc_attr()` inside `icon()`.
+| Argument | Type | Default | Behaviour |
+| --- | --- | --- | --- |
+| `size` | `int\|array{int,int}` | `24` | One integer sets both dimensions; `[ width, height ]` sets them separately. |
+| `class` | `string` | `''` | Class on the root `<svg>` or `<img>`. |
+| `attrs` | `array` | `array()` | Extra root attributes. They override defaults; `null` or `false` removes a default. |
 
-### File structure: pure functions, then WP adapters
+Inline SVG defaults are `fill="currentColor"`, `aria-hidden="true"` and
+`focusable="false"`. Image defaults are `alt=""` and `decoding="async"`; icons
+do not get `loading="lazy"` because they are small and often above the fold.
 
-The file is split by a `WordPress adapters.` marker
-([icon.php:76](../includes/utils/icon.php#L76)). Everything **above** it must not
-call WordPress, because `tools/check.php` requires the file with no WP loaded:
-
-- `DEFAULT_VIEW_BOX` — `'0 0 600 600'`, the grid the original glyphs were drawn on.
-- `default_icon_paths(): array` — slug ⇒ SVG child markup (pure).
-- `default_icon_view_boxes(): array` — slug ⇒ viewBox, **only for glyphs that are
-  not on the 600 grid** (pure).
-- `build_svg( $path_d, $size, $class_attr, $view_box = DEFAULT_VIEW_BOX ): string`
-  — wraps path markup in the `<svg>` element (pure).
-
-Below the marker sits `icon()`, the only function allowed to call
-`apply_filters()` / `esc_attr()`.
-
-### What `build_svg()` guarantees
-
-```html
-<svg class="…" width="24" height="24" viewBox="0 0 600 600"
-     fill="currentColor" aria-hidden="true" focusable="false"
-     xmlns="http://www.w3.org/2000/svg">…path…</svg>
-```
-
-- `fill="currentColor"` — the icon inherits text `color`. Tint with CSS `color`,
-  never with `fill`.
-- `aria-hidden="true"` + `focusable="false"` — icons are always decorative. The
-  accessible name has to come from the surrounding element (see §4).
-- `width`/`height` both take `$size`; icons are square by contract.
-- Empty path markup ⇒ empty string, so a missing glyph never emits a stray `<svg>`.
+Attribute names must be lowercase HTML-style names and may contain hyphens.
+Event-handler names (`on*`), camelCase names, arrays and objects are rejected;
+scalar values are escaped at serialization time.
 
 ### Current registry
 
-| Slug | viewBox | Used by |
+| Name | viewBox | Used by |
 | --- | --- | --- |
-| `chevronDown` | 600 grid | [class-nav-walker.php:131](../src/blocks/site-header/inc/class-nav-walker.php#L131) — submenu disclosure toggle |
-| `close` | 600 grid | [site-header/render.php:40](../src/blocks/site-header/render.php#L40) — mobile drawer close button |
-| `arrowForward` | `0 0 24 24` | [read-more/render.php:79](../src/blocks/read-more/render.php#L79) — read-more card arrow |
-| `burger` | 600 grid | *nothing* — the header burger is three CSS-animated `<span>`s, not this glyph. Kept for integrators. |
+| `chevronDown` | `0 0 600 600` | Site-header submenu disclosure toggle |
+| `burger` | `0 0 600 600` | Available to integrators; the header burger itself is CSS spans |
+| `close` | `0 0 600 600` | Site-header mobile drawer close button |
+| `arrowForward` | `0 0 24 24` | Read-more card arrow |
+
+The `viewBox` belongs inside each stored SVG. There is no detached viewBox map
+and no special default grid at render time.
 
 ---
 
 ## 2. Adding an icon to the registry
 
-1. **Get clean path markup.** Child markup only — `<path d="…"/>`, no `<svg>`
-   wrapper, no `width`/`height`, and **no `fill` on the path**: a path-level fill
-   overrides the wrapper's `currentColor` and the glyph stops following text
-   colour. Run it through an SVG optimiser first; the map holds one long line per
-   slug.
-2. **Add it to `default_icon_paths()`** with a `lowerCamelCase` slug matching the
-   existing style (`chevronDown`, `arrowForward`).
-3. **Declare the viewBox only if it is not `0 0 600 600`.** Add an entry to
-   `default_icon_view_boxes()` (e.g. `'0 0 24 24'` for Material-sized glyphs).
-   Adding an entry for a 600-grid glyph silently rescales it.
-4. **Extend [tools/checks/50-icon.php](../tools/checks/50-icon.php).** At minimum:
-   the slug is registered, its viewBox override is what you expect (or absent),
-   and the glyph carries no `fill=`. **Bump the `exactly four defaults` count
-   assertion** — it is deliberately strict so an accidental registry change is
-   caught.
-5. `npm run test:php` — no WordPress or database needed.
-6. **Consume it in `render.php`** with a BEM-ish class of the owning block, then
-   size it in the block's `style.scss`.
+1. Add a `lowerCamelCase` entry to `default_icons()` with a translated `label`,
+   a complete `icon`, and useful search `keywords`.
+2. For SVG, keep the `viewBox` and `fill="currentColor"` on the root. Do not put
+   `width` or `height` in stored markup; rendering injects them per call.
+3. Do not put `fill` on an inner `<path>` unless the artwork genuinely needs a
+   fixed colour. A path-level fill overrides the root's `currentColor` and stops
+   normal CSS tinting.
+4. For an asset file, store a public URL (`URL . 'assets/…'`). A filesystem path
+   cannot become a browser image source.
+5. Extend [tools/checks/50-icon.php](../tools/checks/50-icon.php), bump the strict
+   default-count assertion, and run `npm run test:php`.
+6. Consume the name with `get_icon()` or `the_icon()`. If a block's
+   `render.php` changes, run `npm run build` so the committed `build/` copy stays
+   current.
 
-No build step is needed for the registry itself: `includes/` is loaded from
-source. Editing a block's `render.php`, however, means running `npm run build` —
-the loader serves blocks from `build/blocks/<slug>/`
-([class-loader.php:40](../includes/class-loader.php#L40)).
+Registry markup and filtered definitions are trusted static configuration.
+Never route post meta, request data or other author-controlled HTML into `icon`.
 
 ---
 
 ## 3. Styling icons
 
-The class goes on the `<svg>` element itself, so size it directly — the plugin
-does not ship any global icon CSS.
-
-Two established patterns:
+The `class` argument lands on the rendered `<svg>` or `<img>`. The plugin ships
+no global icon stylesheet, so the owning block controls presentation.
 
 ```scss
-/* Fixed size, straight on the svg — site-header */
 .isudev-nav__chevron-icon {
-	width: 1.25rem;
 	height: 1.25rem;
+	width: 1.25rem;
 }
 ```
 
 ```scss
-/* Sized box + svg filling it, so the box can be animated — read-more */
 .read-more-arrow {
 	flex: 0 0 24px;
 	height: 24px;
@@ -141,91 +135,88 @@ Two established patterns:
 }
 ```
 
-- The `$size` argument sets the SVG's own `width`/`height` attributes; CSS wins
-  over them. Pass a sensible size anyway so the icon is right without CSS.
-- **Animate the wrapper, not the `<svg>`.** `.isudev-nav__item.is-open .isudev-nav__chevron { transform: rotate(180deg) }`
-  and the read-more hover nudge both transform the wrapping span.
-- Colour comes from `currentColor`, so set `color` on the button/link.
-- Respect the existing `prefers-reduced-motion` block in
-  [site-header/style.scss](../src/blocks/site-header/style.scss) when adding new
-  icon motion.
+- CSS width and height override the HTML attributes; still pass a sensible
+  `size` to avoid layout shifts before styles apply.
+- Colour for built-in SVGs comes from `currentColor`, so set `color` on the
+  surrounding button or link.
+- Animate a stable wrapper where possible, and preserve the existing
+  `prefers-reduced-motion` behaviour when adding motion.
+- Image URL icons do not inherit `currentColor`; supply an asset with the
+  intended colour or use a complete inline SVG.
 
 ---
 
 ## 4. Accessibility contract
 
-Icons are decorative by construction (`aria-hidden`, `focusable="false"`). The
-name must come from the control around them:
+Icons are decorative by default. Put the accessible name on the surrounding
+control:
 
 ```php
-// Icon-only button → visually hidden text carries the name.
-'<button type="button" class="isudev-nav__toggle" aria-expanded="false" aria-controls="…">'
-	. '<span class="isudev-sr-only">' . sprintf( esc_html__( 'Show submenu for %s', 'isudev-library' ), esc_html( $title ) ) . '</span>'
-	. '<span class="isudev-nav__chevron" aria-hidden="true">' . $chevron . '</span>'
-	. '</button>'
-```
-
-```php
-// Purely ornamental → the wrapper is aria-hidden too, belt and braces.
 $arrow = sprintf(
 	'<span class="read-more-arrow" aria-hidden="true">%s</span>',
-	icon( 'arrowForward', 24, 'read-more-arrow__icon' )
+	get_icon( 'arrowForward', array( 'class' => 'read-more-arrow__icon' ) )
 );
 ```
 
-Never give an icon an `aria-label`, `role="img"` or `<title>`; the wrapper's
-`aria-hidden` would fight it. The site-header markup contract is covered by the
-Playwright + axe suite — run `npm run test:e2e` after touching header icons.
+When the icon itself must carry a label, use `attrs` to remove decorative
+defaults and provide an accessible name:
+
+```php
+get_icon(
+	'alert',
+	array(
+		'attrs' => array(
+			'aria-hidden' => null,
+			'focusable'   => null,
+			'role'        => 'img',
+			'aria-label'  => __( 'Warning', 'isudev-library' ),
+		),
+	)
+);
+```
+
+For an image URL definition, override `alt` with meaningful text instead. Do
+not duplicate a label on both an icon and its already-labelled control. Run the
+Playwright + axe suite after changing header icon markup.
 
 ---
 
 ## 5. Filters for integrators
 
-Three filters, all fired in `icon()`:
-
 | Filter | Signature | Purpose |
 | --- | --- | --- |
-| `isudev_library/icons` | `array $paths` | Add or replace glyphs in the registry. |
-| `isudev_library/icon_view_boxes` | `array $boxes` | ViewBox overrides, mirroring the above. |
-| `isudev_library/icon` | `string $svg, string $slug, int $size, string $class_name` | Rewrite the final markup (last resort). |
+| `isudev_library/icons` | `array $icons` | Add or replace complete icon definitions. |
+| `isudev_library/icon` | `string $markup, string $name, array $args` | Rewrite final `<svg>` or `<img>` markup as a last resort. |
 
 ```php
 add_filter(
 	'isudev_library/icons',
-	function ( array $paths ): array {
-		$paths['chevronDown'] = '<path d="…"/>';   // swap a built-in
-		$paths['externalLink'] = '<path d="…"/>';  // add a new one
-		return $paths;
-	}
-);
+	function ( array $icons ): array {
+		$icons['externalLink'] = array(
+			'label'    => __( 'External link', 'my-project' ),
+			'icon'     => \IsuDevLibrary\URL . 'assets/icons/external-link.svg',
+			'keywords' => array( 'external', 'open', 'new tab' ),
+			'category' => 'navigation',
+		);
 
-add_filter(
-	'isudev_library/icon_view_boxes',
-	function ( array $boxes ): array {
-		$boxes['externalLink'] = '0 0 24 24';
-		return $boxes;
+		return $icons;
 	}
 );
 ```
 
-Filtered path markup is echoed unescaped — the registry is a *trusted static
-source*. Never route user input, post meta or a request parameter into these
-filters.
+The unknown `category` key survives and reaches the editor. Invalid definitions
+or entries with an empty `icon` are dropped. Treat filters as trusted code: the
+registry intentionally does not sanitize complete SVG markup.
 
 ---
 
 ## 6. Block inserter icons (editor-only)
 
-Two layers, and the JS one wins in the editor:
+Two layers exist, and the JavaScript one wins in the editor:
 
-- **`block.json` `"icon"`** — a Dashicon slug: `"menu-alt"` for site-header,
-  `"arrow-right-alt"` for read-more. This is what ends up in
-  `build/blocks-manifest.php`, and therefore what the admin panel's REST payload
-  reports ([rest.php:119](../includes/rest.php#L119)) — including for **disabled**
-  blocks, which are never registered and have no block type to read from. Always
-  set a real Dashicon slug here, even when you override it in JS.
-- **`icon.js` + `registerBlockType( metadata.name, { icon } )`** — a React SVG
-  that replaces the Dashicon inside the editor. Build it with
+- `block.json` `"icon"` is a Dashicon slug. It also reaches the manifest and the
+  admin panel's REST payload, including for disabled blocks.
+- `icon.js` can export a React SVG passed to `registerBlockType()`. Build it with
   `@wordpress/primitives`, not raw JSX tags:
 
 ```jsx
@@ -238,44 +229,60 @@ export default (
 );
 ```
 
-The same element doubles as the `Placeholder` icon in `edit.js`, which is why it
-lives in its own module rather than inline in `index.js`.
-
-`@wordpress/icons` is a **devDependency** (a peer of `@isudev/gutenberg`) — fine
-to import in editor code, never in `view.js` or PHP.
+Inserter artwork describes the block itself. It is not a selectable content
+icon and does not belong in the PHP registry unless the frontend also renders it.
 
 ---
 
 ## 7. Author-selectable icons (`@isudev/gutenberg`)
 
-No block currently exposes an icon choice to the author. When one does, use the
-package's components rather than hand-rolling a picker — see
-[.agents/vendor/isudev-gutenberg.md](../.agents/vendor/isudev-gutenberg.md):
+No block currently exposes an icon choice. When one does, use `Icon`,
+`IconPicker` or `IconSelect` from `@isudev/gutenberg` rather than building a
+second picker.
 
-- `Icon` — renders one named icon from an injected collection.
-- `IconPicker` — accessible grid, with search and clearing.
-- `IconSelect` — button + popover around `IconPicker`.
+The plugin automatically localizes the normalized registry as `isudevIcons` on
+`enqueue_block_editor_assets`. A consuming block only reads it once with
+`getLocalizedIcons()` and passes the result as `defaultIcons`:
 
-Key constraint: **the package reads no global registry.** Collections are passed
-as props (`defaultIcons` / `icons`); `getLocalizedIcons()` is the boundary helper
-that reads a `wp_localize_script` global. Do not add a module-level JS registry.
+```js
+import {
+	Icon,
+	getLocalizedIcons,
+} from '@isudev/gutenberg/components/Icon';
 
-The intended wiring, per the design spec, is that `utils/icon.php` becomes the
-backend of that picker: localize `default_icon_paths()` (filtered) onto the
-block's own editor-script handle via `generate_block_asset_handle()`, feed it to
-`getLocalizedIcons()`, store the chosen **slug** in an attribute, and render it
-server-side with `icon( $attributes['iconName'], … )`. Store the slug, never the
-markup.
+const defaultIcons = getLocalizedIcons();
+
+<Icon
+	name={attributes.iconName}
+	defaultIcons={defaultIcons}
+	label="Feature icon"
+/>;
+```
+
+Store the selected name in block attributes, never the markup. PHP then renders
+that name through `get_icon()`.
+
+Known limitation: the components package percent-encodes serialized SVG and
+renders it through `<img>`. An image cannot inherit `currentColor`, so editor
+previews can be monochrome even though the inline frontend SVG tints correctly.
+That is a components-package concern, not something this plugin should work
+around with duplicate icon data.
 
 ---
 
 ## Checklist
 
-- [ ] Path markup only, no `fill` on the path, no `<svg>` wrapper.
-- [ ] `lowerCamelCase` slug in `default_icon_paths()`.
-- [ ] viewBox override **only** when the glyph is not on the 600 grid.
-- [ ] `tools/checks/50-icon.php` extended, default count bumped, `npm run test:php` green.
-- [ ] Echoed raw in `render.php` — no `esc_html()`, no `wp_kses()`.
-- [ ] Class on the `<svg>` sized in the block's `style.scss`; colour via `currentColor`.
-- [ ] Accessible name on the surrounding control, not on the icon.
-- [ ] `npm run build` after touching any `render.php`; `npm run test:e2e` after touching header icons.
+- [ ] Definition has a translated `label`, a complete SVG or public image URL,
+      and useful `keywords`.
+- [ ] Stored SVG has its own `viewBox` and no `width` or `height`.
+- [ ] Inner paths do not override `currentColor` accidentally.
+- [ ] `tools/checks/50-icon.php` is extended, the default count is bumped, and
+      `npm run test:php` is green.
+- [ ] Frontend uses `get_icon()` or `the_icon()`; author-selected attributes
+      store only the icon name.
+- [ ] Decorative icons keep their defaults; labelled icons remove
+      `aria-hidden` with `null` and receive an accessible name.
+- [ ] Classes are styled in the owning block; image URL icons do not assume
+      `currentColor` support.
+- [ ] `npm run build` runs after a `render.php` change and `npm run test:e2e`
+      runs after header/editor integration changes.
