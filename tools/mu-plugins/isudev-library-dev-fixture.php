@@ -48,7 +48,7 @@ add_filter(
 add_action(
 	'init',
 	static function () {
-		$seed_version = 1;
+		$seed_version = 3;
 		if ( (int) get_option( 'isudev_library_dev_seed_version' ) === $seed_version ) {
 			return;
 		}
@@ -72,11 +72,63 @@ add_action(
 		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Pricing', 'menu-item-url' => '/pricing', 'menu-item-status' => 'publish' ) );
 		wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'About', 'menu-item-url' => '/about', 'menu-item-status' => 'publish' ) );
 
+		/*
+		 * A real published post for the read-more card to link at. The card
+		 * resolves its title and thumbnail from this post, so it has to exist
+		 * as a genuine, publicly viewable entity rather than a bare URL.
+		 */
+		$existing_target = get_page_by_path( 'isudev-read-more-target', OBJECT, 'post' );
+		if ( $existing_target ) {
+			wp_delete_post( $existing_target->ID, true );
+		}
+		$target_id = wp_insert_post(
+			array(
+				'post_title'   => 'Linked Target Article',
+				'post_name'    => 'isudev-read-more-target',
+				'post_status'  => 'publish',
+				'post_type'    => 'post',
+				'post_content' => 'Target of the read-more card fixture.',
+			)
+		);
+
 		$content = '<!-- wp:isudev/site-header {"menuRef":"id:' . (int) $menu_id . '","logoSource":"site"} -->'
 			. '<!-- wp:buttons --><div class="wp-block-buttons"><!-- wp:button -->'
 			. '<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/contact">Contact</a></div>'
 			. '<!-- /wp:button --></div><!-- /wp:buttons -->'
-			. '<!-- /wp:isudev/site-header -->';
+			. '<!-- /wp:isudev/site-header -->'
+			// Internal card: the linked post's own title must beat link.title.
+			. '<!-- wp:isudev/read-more ' . wp_json_encode(
+				array(
+					'link' => array(
+						'url'   => get_permalink( $target_id ),
+						'id'    => $target_id,
+						'kind'  => 'post-type',
+						'type'  => 'post',
+						'title' => 'Ignored - the post title wins',
+					),
+				)
+			) . ' /-->'
+			// External card: no post to resolve, and a direct-URL image with
+			// no attachment record, which nothing else exercises.
+			. '<!-- wp:isudev/read-more ' . wp_json_encode(
+				array(
+					'link'               => array(
+						'url'           => 'https://example.com/external',
+						'title'         => 'External Resource',
+						'opensInNewTab' => true,
+						'nofollow'      => true,
+					),
+					'media'              => array(
+						'url'    => '/wp-includes/images/media/default.png',
+						'alt'    => 'Placeholder artwork',
+						'source' => 'url',
+						'type'   => 'image',
+					),
+					'showAdditionalText' => true,
+					'additionalText'     => 'Supporting copy.',
+					'showReadMoreBadge'  => true,
+				)
+			) . ' /-->';
 
 		$existing = get_page_by_path( 'isudev-demo' );
 		if ( $existing ) {

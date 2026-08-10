@@ -1,0 +1,31 @@
+/* Read More Block — editor-only affordances: the image overlay controls and
+   the click-to-edit title button. */
+
+.wp-block-isudev-read-more {
+
+	.read-more-image-controls {
+		display: flex;
+		gap: 0.25rem;
+		inset-block-start: 0.5rem;
+		inset-inline-end: 0.5rem;
+		position: absolute;
+		z-index: 1;
+	}
+
+	.read-more-title__edit-button {
+		appearance: none;
+		background: transparent;
+		border: 0;
+		color: inherit;
+		cursor: text;
+		font: inherit;
+		margin: 0;
+		padding: 0;
+		text-align: inherit;
+
+		&:focus-visible {
+			outline: 2px solid currentcolor;
+			outline-offset: 2px;
+		}
+	}
+}

@@ -1,0 +1,134 @@
+/* Read More Block — a linked card: image, badge, title, supporting text, arrow.
+   Ported from the standalone isudev-read-more plugin, with the t2 layout
+   classes removed. */
+
+.wp-block-isudev-read-more {
+	color: inherit;
+	display: block;
+	text-decoration: none;
+	transition: transform 0.2s cubic-bezier(0.25, 0, 0, 1);
+
+	mark {
+		background-color: unset;
+	}
+
+	&:hover {
+		transform: translateY(-2px);
+	}
+
+	&::after {
+		content: unset;
+	}
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
+	}
+
+	.read-more-inner {
+		align-items: stretch;
+		display: flex;
+		flex-direction: row;
+		gap: var(--wp--preset--spacing--30, 24px);
+	}
+
+	.read-more-image {
+		aspect-ratio: 159 / 119;
+		border-radius: 2px;
+		margin: 0;
+		position: relative;
+		width: 163px;
+
+		img {
+			display: block;
+			height: 100%;
+			object-fit: cover;
+			width: 100%;
+		}
+	}
+
+	.read-more-content {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		gap: 1.5rem;
+		justify-content: center;
+		padding: 5px;
+	}
+
+	.read-more-arrow {
+		align-self: center;
+		display: block;
+		flex: 0 0 24px;
+		height: 24px;
+		margin-inline-start: auto;
+		transition: transform 0.3s cubic-bezier(0.25, 0, 0, 1);
+		width: 24px;
+	}
+
+	.read-more-arrow__icon {
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+
+	&:hover .read-more-arrow {
+		transform: translateX(4px);
+	}
+
+	.wp-block-button__read_more {
+		color: color-mix(in srgb, currentcolor 95%, transparent);
+		font-size: 14px;
+	}
+
+	.read-more-title {
+		color: inherit;
+		font-size: var(--wp--preset--font-size--large, 20px);
+		font-weight: 400;
+		margin: 0;
+	}
+
+	.read-more-additional-text {
+		color: inherit;
+		font-size: 14px;
+		font-weight: 400;
+		margin: 0;
+	}
+}
+
+@media screen and (max-width: 768px) {
+
+	.wp-block-isudev-read-more {
+
+		.wp-block-button__read_more {
+			font-size: 12px;
+		}
+
+		.read-more-title {
+			-webkit-box-orient: vertical;
+			display: -webkit-box;
+			font-size: 16px;
+			-webkit-line-clamp: 2;
+			max-height: 2.8em;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.read-more-image {
+			aspect-ratio: 1 / 1;
+			width: 82px;
+		}
+	}
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+
+	.wp-block-isudev-read-more,
+	.wp-block-isudev-read-more .read-more-arrow {
+		transition: none;
+	}
+
+	.wp-block-isudev-read-more:hover {
+		transform: none;
+	}
+}

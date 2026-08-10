@@ -1,12 +1,15 @@
 {
 	"name": "@isudev/library",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, toggleable.",
 	"license": "GPL-2.0-or-later",
 	"private": true,
 	"engines": {
 		"node": ">=22.22.2 <23",
 		"npm": ">=10"
+	},
+	"dependencies": {
+		"@isudev/gutenberg": "~0.1.1"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.12.1",
@@ -17,9 +20,13 @@
 		"@wordpress/components": "^36.1.0",
 		"@wordpress/core-data": "^7.51.0",
 		"@wordpress/data": "^10.51.0",
+		"@wordpress/editor": "^14.52.0",
 		"@wordpress/element": "^6.46.0",
+		"@wordpress/html-entities": "^4.52.0",
 		"@wordpress/i18n": "^6.17.0",
+		"@wordpress/icons": "^15.3.0",
 		"@wordpress/prettier-config": "^4.49.0",
+		"@wordpress/primitives": "^4.52.0",
 		"@wordpress/scripts": "^31.8.0"
 	},
 	"prettier": "@wordpress/prettier-config",

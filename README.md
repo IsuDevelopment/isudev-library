@@ -18,6 +18,7 @@ WordPress 6.7+, PHP 7.4+. Node 22.22.2 for development only.
 | Block | Description |
 | --- | --- |
 | `isudev/site-header` | Accessibility-first site header: logo, disclosure navigation, mobile drawer, actions slot. |
+| `isudev/read-more` | A linked card: title, optional image, badge and supporting text. Links to a post, a page or an external URL. |
 
 ## Configuration
 
@@ -59,6 +60,7 @@ variation. See `isudev.json.example`.
 | `isudev_library/config/inherit_from_parent` | Whether to inherit from the parent theme. Default `true`. |
 | `isudev_library/icons` | The inline SVG icon registry. |
 | `isudev_library/icon` | Rendered icon markup. |
+| `isudev_library/icon_view_boxes` | Per-icon `viewBox` overrides, for glyphs not authored on the default `0 0 600 600` grid. |
 | `isudev_library/site_header/regions` | Header regions before assembly. |
 | `isudev_library/site_header/output` | Final header markup. |
 | `isudev_library/site_header/menu_args` | `wp_nav_menu` args for the header. |
