@@ -72,6 +72,10 @@ Attribute names must be lowercase HTML-style names and may contain hyphens.
 Event-handler names (`on*`), camelCase names, arrays and objects are rejected;
 scalar values are escaped at serialization time.
 
+A rejected name is also left alone in the stored markup, so `attrs => array( 'viewBox' => … )`
+is ignored rather than destructive. Changing a glyph's coordinate system means
+registering a different icon, not overriding its root at render time.
+
 ### Current registry
 
 | Name | viewBox | Used by |

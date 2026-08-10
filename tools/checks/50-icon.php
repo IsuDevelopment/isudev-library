@@ -76,6 +76,20 @@ $overridden = apply_root_attrs( '<svg width="99" viewBox="0 0 24 24"><path/></sv
 Checks::is( 'apply_root_attrs: removes the existing width', substr_count( $overridden, 'width=' ), 1 );
 Checks::is( 'apply_root_attrs: replaces width with the requested value', strpos( $overridden, 'width="20"' ) !== false, true );
 
+/*
+ * An attribute name build_attrs() refuses to write must not be stripped either.
+ * Stripping without writing back would delete the glyph's own viewBox and put
+ * nothing in its place, leaving an SVG with no coordinate system.
+ */
+$unwritable = apply_root_attrs( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path/></svg>', array( 'viewBox' => '0 0 48 48' ) );
+Checks::is( 'apply_root_attrs: an unwritable name keeps the source viewBox', strpos( $unwritable, 'viewBox="0 0 24 24"' ) !== false, true );
+
+$mixed_case = apply_root_attrs( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path/></svg>', array( 'XMLNS' => 'y' ) );
+Checks::is( 'apply_root_attrs: a mixed-case name keeps the source xmlns', strpos( $mixed_case, 'xmlns="http://www.w3.org/2000/svg"' ) !== false, true );
+
+$attempted_override = get_icon( 'arrowForward', array( 'attrs' => array( 'viewBox' => '0 0 48 48' ) ) );
+Checks::is( 'get_icon: a viewBox override is ignored, not destructive', strpos( $attempted_override, 'viewBox="0 0 24 24"' ) !== false, true );
+
 $image = render_icon( 'https://example.com/i.svg', array( 'width' => 24, 'alt' => '' ) );
 Checks::is( 'render_icon: URL starts an image element', 0 === strpos( $image, '<img ' ), true );
 Checks::is( 'render_icon: URL becomes the image source', strpos( $image, 'src="https://example.com/i.svg"' ) !== false, true );

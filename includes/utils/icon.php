@@ -119,6 +119,24 @@ function normalize_size( $size ): array {
 }
 
 /**
+ * Whether a key may be written as an HTML attribute name.
+ *
+ * Lowercase hyphenated names only, and never an event handler. Both the
+ * serializer and the SVG root rewriter test keys with this function, so an
+ * attribute that cannot be written is also never stripped from the source
+ * markup — otherwise passing `viewBox` would delete the glyph's own viewBox and
+ * put nothing back.
+ *
+ * @param mixed $key Candidate attribute name.
+ * @return bool Whether the name is writable.
+ */
+function is_attr_name( $key ): bool {
+	return is_string( $key )
+		&& 1 === preg_match( '/^[a-z][a-z0-9-]*$/', $key )
+		&& 0 !== stripos( $key, 'on' );
+}
+
+/**
  * Serialize safe HTML attributes.
  *
  * @param array $attrs Attributes keyed by name.
@@ -128,7 +146,7 @@ function build_attrs( array $attrs ): string {
 	$output = '';
 
 	foreach ( $attrs as $key => $value ) {
-		if ( ! is_string( $key ) || 1 !== preg_match( '/^[a-z][a-z0-9-]*$/', $key ) || 0 === stripos( $key, 'on' ) ) {
+		if ( ! is_attr_name( $key ) ) {
 			continue;
 		}
 
@@ -171,7 +189,7 @@ function apply_root_attrs( string $svg, array $attrs ): string {
 	}
 
 	foreach ( array_keys( $attrs ) as $key ) {
-		if ( ! is_string( $key ) ) {
+		if ( ! is_attr_name( $key ) ) {
 			continue;
 		}
 
