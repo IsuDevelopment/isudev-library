@@ -24,6 +24,18 @@ return array(
 			'spacing' => array(
 				'margin' => true,
 				'padding' => true
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
 			)
 		),
 		'attributes' => array(

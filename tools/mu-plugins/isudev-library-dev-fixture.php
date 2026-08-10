@@ -48,7 +48,7 @@ add_filter(
 add_action(
 	'init',
 	static function () {
-		$seed_version = 3;
+		$seed_version = 5;
 		if ( (int) get_option( 'isudev_library_dev_seed_version' ) === $seed_version ) {
 			return;
 		}

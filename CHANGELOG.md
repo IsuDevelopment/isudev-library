@@ -12,6 +12,10 @@
   library's first runtime npm dependency.
 - Per-icon `viewBox` support in the icon registry, an `arrowForward` glyph, and
   the `isudev_library/icon_view_boxes` filter.
+- `isudev/read-more` opts into the core border support (colour, width, style and
+  radius), alongside text and background colour and spacing. Heading level uses
+  core's `HeadingLevelDropdown` in the block toolbar; its "Paragraph" option
+  renders the title as a `div`.
 
 ### Breaking changes from `isudev-read-more`
 
