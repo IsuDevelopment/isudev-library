@@ -42,6 +42,7 @@ Loader::boot();
 Settings\boot();
 Admin\boot();
 REST\boot();
+Utils\boot_icons();
 
 /**
  * Load the plugin text domain for PHP translations.

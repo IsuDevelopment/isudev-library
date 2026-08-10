@@ -1,6 +1,6 @@
 <?php
 /**
- * Checks for the pure parts of the icon registry.
+ * Checks for the icon registry and rendering helpers.
  *
  * @package IsuDevLibrary
  */
@@ -9,69 +9,90 @@ declare( strict_types = 1 );
 
 require_once dirname( __DIR__, 2 ) . '/includes/utils/icon.php';
 
-use function IsuDevLibrary\Utils\build_svg;
-use function IsuDevLibrary\Utils\default_icon_paths;
-use function IsuDevLibrary\Utils\default_icon_view_boxes;
+use function IsuDevLibrary\Utils\apply_root_attrs;
+use function IsuDevLibrary\Utils\build_attrs;
+use function IsuDevLibrary\Utils\default_icons;
+use function IsuDevLibrary\Utils\get_icon;
+use function IsuDevLibrary\Utils\normalize_icons;
+use function IsuDevLibrary\Utils\normalize_size;
+use function IsuDevLibrary\Utils\render_icon;
 
-$paths = default_icon_paths();
+$icons = default_icons();
 
-Checks::is( 'icons: chevronDown is registered', isset( $paths['chevronDown'] ), true );
-Checks::is( 'icons: burger is registered', isset( $paths['burger'] ), true );
-Checks::is( 'icons: close is registered', isset( $paths['close'] ), true );
-Checks::is( 'icons: exactly four defaults', \count( $paths ), 4 );
+Checks::is( 'icons: exactly four defaults', count( $icons ), 4 );
 
-Checks::is( 'build_svg: empty path yields empty string', build_svg( '', 24, 'x' ), '' );
+$all_have_definitions = true;
+foreach ( $icons as $definition ) {
+	if ( ! isset( $definition['icon'], $definition['label'] ) || ! is_string( $definition['icon'] ) || '' === $definition['icon'] || ! is_string( $definition['label'] ) || '' === $definition['label'] ) {
+		$all_have_definitions = false;
+		break;
+	}
+}
+Checks::is( 'icons: every default has icon markup and a label', $all_have_definitions, true );
 
-$svg = build_svg( '<path d="M0 0"/>', 32, 'isudev-header__close-icon' );
+$all_are_svg = true;
+foreach ( $icons as $definition ) {
+	if ( 0 !== strpos( $definition['icon'], '<svg' ) || false === strpos( $definition['icon'], 'viewBox=' ) ) {
+		$all_are_svg = false;
+		break;
+	}
+}
+Checks::is( 'icons: every default is a complete SVG with a viewBox', $all_are_svg, true );
 
-Checks::is( 'build_svg: uses currentColor', \strpos( $svg, 'fill="currentColor"' ) !== false, true );
-Checks::is( 'build_svg: is aria-hidden', \strpos( $svg, 'aria-hidden="true"' ) !== false, true );
-Checks::is( 'build_svg: is not focusable', \strpos( $svg, 'focusable="false"' ) !== false, true );
-Checks::is( 'build_svg: applies size to width and height', \strpos( $svg, 'width="32" height="32"' ) !== false, true );
-Checks::is( 'build_svg: applies the class attribute', \strpos( $svg, 'class="isudev-header__close-icon"' ) !== false, true );
-Checks::is( 'build_svg: embeds the path', \strpos( $svg, '<path d="M0 0"/>' ) !== false, true );
+Checks::is( 'icons: arrowForward uses the 24 grid', strpos( $icons['arrowForward']['icon'], 'viewBox="0 0 24 24"' ) !== false, true );
+Checks::is( 'icons: chevronDown uses the 600 grid', strpos( $icons['chevronDown']['icon'], 'viewBox="0 0 600 600"' ) !== false, true );
 
-$boxes = default_icon_view_boxes();
-
-Checks::is( 'icons: arrowForward is registered', isset( $paths['arrowForward'] ), true );
-Checks::is( 'icons: arrowForward declares its own viewBox', $boxes['arrowForward'] ?? '', '0 0 24 24' );
-
-/*
- * The three original glyphs are authored on the 600 grid and must NOT appear
- * in the override map — an entry there would silently rescale them.
- */
-Checks::is( 'icons: chevronDown has no viewBox override', isset( $boxes['chevronDown'] ), false );
-Checks::is( 'icons: burger has no viewBox override', isset( $boxes['burger'] ), false );
-Checks::is( 'icons: close has no viewBox override', isset( $boxes['close'] ), false );
-
-$default_box = build_svg( '<path d="M0 0"/>', 24, 'x' );
-Checks::is(
-	'build_svg: defaults to the 600 grid when no viewBox is passed',
-	\strpos( $default_box, 'viewBox="0 0 600 600"' ) !== false,
-	true
+$normalized = normalize_icons(
+	array(
+		'fallback' => array( 'icon' => '<svg></svg>' ),
+		'empty'    => array( 'icon' => '' ),
+		'future'   => array(
+			'icon'     => '<svg></svg>',
+			'label'    => 'Future',
+			'category' => 'ui',
+		),
+	)
 );
 
-$custom_box = build_svg( '<path d="M0 0"/>', 24, 'x', '0 0 24 24' );
-Checks::is(
-	'build_svg: honours an explicit viewBox',
-	\strpos( $custom_box, 'viewBox="0 0 24 24"' ) !== false,
-	true
-);
-Checks::is(
-	'build_svg: an explicit viewBox replaces the default rather than adding one',
-	\substr_count( $custom_box, 'viewBox=' ),
-	1
-);
-Checks::is(
-	'build_svg: an empty viewBox falls back to the default',
-	\strpos( build_svg( '<path d="M0 0"/>', 24, 'x', '' ), 'viewBox="0 0 600 600"' ) !== false,
-	true
-);
+Checks::is( 'normalize_icons: missing label falls back to name', $normalized['fallback']['label'] ?? '', 'fallback' );
+Checks::is( 'normalize_icons: empty icon is dropped', isset( $normalized['empty'] ), false );
+Checks::is( 'normalize_icons: unknown keys pass through', $normalized['future']['category'] ?? '', 'ui' );
 
-// The glyph must be path markup only: the wrapper already sets fill, and a
-// fill on the path would override it and break currentColor tinting.
-Checks::is(
-	'icons: arrowForward carries no fill of its own',
-	\strpos( $paths['arrowForward'] ?? '', 'fill=' ),
-	false
+Checks::is( 'normalize_size: scalar applies to both dimensions', normalize_size( 24 ), array( 24, 24 ) );
+Checks::is( 'normalize_size: array preserves separate dimensions', normalize_size( array( 32, 16 ) ), array( 32, 16 ) );
+Checks::is( 'normalize_size: non-positive scalar uses the default', normalize_size( 0 ), array( 24, 24 ) );
+
+Checks::is( 'build_attrs: quoted values are escaped', build_attrs( array( 'title' => 'a "quoted" value' ) ), ' title="a &quot;quoted&quot; value"' );
+Checks::is( 'build_attrs: event handlers are rejected', build_attrs( array( 'onclick' => 'x()' ) ), '' );
+Checks::is( 'build_attrs: null removes an attribute', build_attrs( array( 'aria-hidden' => null ) ), '' );
+Checks::is( 'build_attrs: empty alt text is retained', build_attrs( array( 'alt' => '' ) ), ' alt=""' );
+
+$applied = apply_root_attrs( '<svg viewBox="0 0 24 24"><path/></svg>', array( 'width' => 20, 'class' => 'x' ) );
+Checks::is( 'apply_root_attrs: adds width', strpos( $applied, 'width="20"' ) !== false, true );
+Checks::is( 'apply_root_attrs: adds class', strpos( $applied, 'class="x"' ) !== false, true );
+Checks::is( 'apply_root_attrs: preserves one viewBox', substr_count( $applied, 'viewBox=' ), 1 );
+
+$overridden = apply_root_attrs( '<svg width="99" viewBox="0 0 24 24"><path/></svg>', array( 'width' => 20 ) );
+Checks::is( 'apply_root_attrs: removes the existing width', substr_count( $overridden, 'width=' ), 1 );
+Checks::is( 'apply_root_attrs: replaces width with the requested value', strpos( $overridden, 'width="20"' ) !== false, true );
+
+$image = render_icon( 'https://example.com/i.svg', array( 'width' => 24, 'alt' => '' ) );
+Checks::is( 'render_icon: URL starts an image element', 0 === strpos( $image, '<img ' ), true );
+Checks::is( 'render_icon: URL becomes the image source', strpos( $image, 'src="https://example.com/i.svg"' ) !== false, true );
+Checks::is( 'render_icon: image keeps empty alt text', strpos( $image, 'alt=""' ) !== false, true );
+
+Checks::is( 'get_icon: unknown name is silent', get_icon( 'nope' ), '' );
+
+$rendered = get_icon(
+	'arrowForward',
+	array(
+		'size'  => 20,
+		'class' => 'c',
+		'attrs' => array( 'aria-hidden' => null ),
+	)
 );
+Checks::is( 'get_icon: applies width', strpos( $rendered, 'width="20" ' ) !== false, true );
+Checks::is( 'get_icon: applies class', strpos( $rendered, 'class="c"' ) !== false, true );
+Checks::is( 'get_icon: preserves viewBox', strpos( $rendered, 'viewBox="0 0 24 24"' ) !== false, true );
+Checks::is( 'get_icon: keeps currentColor fill', strpos( $rendered, 'fill="currentColor"' ) !== false, true );
+Checks::is( 'get_icon: null removes aria-hidden', strpos( $rendered, 'aria-hidden' ), false );
