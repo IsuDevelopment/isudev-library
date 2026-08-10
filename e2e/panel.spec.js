@@ -18,6 +18,20 @@ const DESKTOP = 'desktop-chromium';
 // removed, and any future block could collide again.
 const SITE_HEADER_OPTION = '.editor-block-list-item-isudev-site-header';
 
+// The library holds more than one block, so every panel locator has to name
+// which card it means. A bare getByRole('checkbox') matches one toggle per
+// block and fails Playwright's strict mode the moment a second block lands.
+const cardFor = (page, blockName) =>
+	page.locator('.isudev-admin__card').filter({ hasText: blockName });
+
+const toggleFor = (page, blockName) =>
+	cardFor(page, blockName).getByRole('checkbox', {
+		name: /Enabled|Disabled/,
+	});
+
+const findBlock = (payload, slug) =>
+	payload.blocks.find((block) => block.slug === slug);
+
 /**
  * Open a fresh post in the block editor and get it into an interactive
  * state, dismissing any first-run dialog.
@@ -82,9 +96,7 @@ test.describe('IsuDev Library admin panel', () => {
 		try {
 			await page.goto(PANEL);
 
-			const toggle = page.getByRole('checkbox', {
-				name: /Enabled|Disabled/,
-			});
+			const toggle = toggleFor(page, 'isudev/site-header');
 
 			if (await toggle.isChecked()) {
 				return;
@@ -105,9 +117,10 @@ test.describe('IsuDev Library admin panel', () => {
 		await page.goto(PANEL);
 
 		await expect(page.getByText('isudev/site-header')).toBeVisible();
+		await expect(page.getByText('isudev/read-more')).toBeVisible();
 
-		const toggle = page.getByRole('checkbox', { name: /Enabled|Disabled/ });
-		await expect(toggle).toBeEnabled();
+		await expect(toggleFor(page, 'isudev/site-header')).toBeEnabled();
+		await expect(toggleFor(page, 'isudev/read-more')).toBeEnabled();
 	});
 
 	// Task 11's fixture writes block markup straight into post_content, so it
@@ -141,9 +154,7 @@ test.describe('IsuDev Library admin panel', () => {
 
 		const setEnabled = async (enabled) => {
 			await page.goto(PANEL);
-			const toggle = page.getByRole('checkbox', {
-				name: /Enabled|Disabled/,
-			});
+			const toggle = toggleFor(page, 'isudev/site-header');
 			// The panel is deliberately non-optimistic (Task 13: it POSTs, then
 			// re-renders from the server response), so the checkbox's DOM state
 			// only flips once that round trip resolves. check()/uncheck() assert
@@ -219,7 +230,7 @@ test.describe('IsuDev Library admin panel', () => {
 	}) => {
 		await page.goto(PANEL);
 
-		const toggle = page.getByRole('checkbox', { name: /Enabled|Disabled/ });
+		const toggle = toggleFor(page, 'isudev/site-header');
 		await expect(toggle).toBeChecked();
 
 		// The panel POSTs and re-renders from the server response rather than
@@ -232,19 +243,21 @@ test.describe('IsuDev Library admin panel', () => {
 				response.request().method() === 'POST'
 		);
 		await page.reload();
-		await expect(
-			page.getByRole('checkbox', { name: /Enabled|Disabled/ })
-		).not.toBeChecked();
+		await expect(toggleFor(page, 'isudev/site-header')).not.toBeChecked();
 
 		// The REST list is the registration source of truth.
 		let payload = await page.evaluate(() =>
 			window.wp.apiFetch({ path: '/isudev-library/v1/blocks' })
 		);
-		expect(payload.blocks[0].enabled).toBe(false);
-		expect(payload.blocks[0].source).toBe('panel');
-		expect(payload.diagnostics.registered).toBe(0);
+		const disabled = findBlock(payload, 'site-header');
+		expect(disabled.enabled).toBe(false);
+		expect(disabled.source).toBe('panel');
+		// Assert this block left the registry, not a global count: sibling
+		// blocks stay registered and would make an absolute figure wrong.
+		expect(findBlock(payload, 'read-more').enabled).toBe(true);
+		const registeredWhileOff = payload.diagnostics.registered;
 
-		await page.getByRole('checkbox', { name: /Enabled|Disabled/ }).click();
+		await toggleFor(page, 'isudev/site-header').click();
 		await page.waitForResponse(
 			(response) =>
 				response.url().includes('/isudev-library/v1/blocks/') &&
@@ -255,8 +268,9 @@ test.describe('IsuDev Library admin panel', () => {
 		payload = await page.evaluate(() =>
 			window.wp.apiFetch({ path: '/isudev-library/v1/blocks' })
 		);
-		expect(payload.blocks[0].enabled).toBe(true);
-		expect(payload.diagnostics.registered).toBe(1);
+		expect(findBlock(payload, 'site-header').enabled).toBe(true);
+		// Re-enabling puts exactly one block back into the registry.
+		expect(payload.diagnostics.registered).toBe(registeredWhileOff + 1);
 	});
 });
 

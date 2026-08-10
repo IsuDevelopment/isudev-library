@@ -1,1 +1,1 @@
-.wp-block-isudev-read-more{position:relative}
+.wp-block-isudev-read-more .read-more-image-controls{display:flex;gap:.25rem;inset-block-start:.5rem;inset-inline-end:.5rem;position:absolute;z-index:1}.wp-block-isudev-read-more .read-more-title__edit-button{appearance:none;background:transparent;border:0;color:inherit;cursor:text;font:inherit;margin:0;padding:0;text-align:inherit}.wp-block-isudev-read-more .read-more-title__edit-button:focus-visible{outline:2px solid currentcolor;outline-offset:2px}

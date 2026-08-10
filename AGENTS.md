@@ -20,6 +20,9 @@ plugin.
 - **No top-level hook registration in `includes/`.** Use `boot()`.
 - **`isudev.json`: read the `library` key only, never write the file.** It is
   shared with other `isudev-*` plugins.
+- **Editor components come from `@isudev/gutenberg`.** Link and media UI use that
+  package, not hand-rolled controls. It ships no PHP and no CSS: attribute
+  shapes reach `render.php` as plain arrays and all styling is ours.
 - **Accessibility is non-negotiable.** The site-header markup contract (disclosure
   nav, drawer, link-vs-button rule, state on `.isudev-header`,
   `isudev-scroll-locked` on `<html>`) must keep the Playwright + axe suite green.

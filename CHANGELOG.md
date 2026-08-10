@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.1.0 — 2026-08-10
+
+### Added
+
+- Block `isudev/read-more`: a linked card with a title, optional image, optional
+  badge and supporting text. Links anywhere — a post, a page or an external URL.
+  Migrated from the standalone `isudev-read-more` plugin, with the `t2`
+  dependency removed.
+- `@isudev/gutenberg` supplies the link picker and the media controls. It is the
+  library's first runtime npm dependency.
+- Per-icon `viewBox` support in the icon registry, an `arrowForward` glyph, and
+  the `isudev_library/icon_view_boxes` filter.
+
+### Breaking changes from `isudev-read-more`
+
+The standalone plugin is superseded. There is no compatibility layer and no
+deprecation, matching the stance taken for `isudev-header`.
+
+- The block selects a **link**, not a post. `postId`, `postType`, `siteId` and
+  `isPreview` are gone, replaced by a `link` object.
+- The `t2-featured-single-post`, `t2-read-more-content` and
+  `t2-featured-content-layout-col-12` classes are gone.
+- `is-post-type-{type}` becomes `is-link-type-{type}`.
+- Selecting several posts at once, which inserted sibling cards, is gone: the
+  link picker has no multi-select.
+- Text domain `isudev-read-more` becomes `isudev-library`.
+
+Existing `isudev/read-more` content authored against the standalone plugin will
+not render. Re-insert the block.
+
 ## 1.0.0 — 2026-07-29
 
 First release.
