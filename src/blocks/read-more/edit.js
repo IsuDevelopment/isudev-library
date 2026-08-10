@@ -3,8 +3,7 @@
  */
 import { BlockLinkControl } from '@isudev/gutenberg/controls/BlockLinkControl';
 import { LinkPickerControl } from '@isudev/gutenberg/controls/LinkPickerControl';
-import { MediaSidebarControl } from '@isudev/gutenberg/controls/MediaSidebarControl';
-import { MediaSourceControl } from '@isudev/gutenberg/controls/MediaSourceControl';
+import { MediaControl } from '@isudev/gutenberg/controls/MediaControl';
 
 /**
  * WordPress dependencies
@@ -86,12 +85,27 @@ export default function Edit({ attributes, setAttributes }) {
 		[showFeaturedImage, hasOwnMedia, thumbnailId]
 	);
 
-	const imageUrl =
-		media?.url ||
-		thumbnail?.media_details?.sizes?.medium?.source_url ||
-		thumbnail?.source_url ||
-		'';
-	const imageAlt = media?.alt || thumbnail?.alt_text || '';
+	/*
+	 * MediaControl draws whatever value it is given. Hand it the author's own
+	 * media when there is any, otherwise a value synthesised from the linked
+	 * post's thumbnail, so the canvas shows the inherited image instead of an
+	 * empty placeholder. Writes always go to the real `media` attribute.
+	 */
+	const inheritedMedia = thumbnail
+		? {
+				id: thumbnailId,
+				url:
+					thumbnail.media_details?.sizes?.medium?.source_url ||
+					thumbnail.source_url,
+				alt: thumbnail.alt_text || '',
+				type: 'image',
+				source: 'attachment',
+			}
+		: {};
+
+	const displayMedia = hasOwnMedia ? media : inheritedMedia;
+
+	const imageUrl = displayMedia.url || '';
 
 	const title =
 		(hasCustomTitle && customTitle.trim() !== '' && customTitle) ||
@@ -239,66 +253,40 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 			</InspectorControls>
 
-			{showFeaturedImage && (
-				<MediaSidebarControl
-					value={media}
-					onChange={(next) => setAttributes({ media: next })}
-					onRemove={() => setAttributes({ media: {} })}
-					focalPoint={focalPoint}
-					onFocalPointChange={(next) =>
-						setAttributes({ focalPoint: next })
-					}
-					preview="focal-point"
-					title={__('Card image', 'isudev-library')}
-					sources={{ featured: false }}
-					featuredMedia={null}
-					selectLabel={__('Select image', 'isudev-library')}
-					replaceLabel={__('Replace image', 'isudev-library')}
-					removeLabel={__('Remove image', 'isudev-library')}
-				/>
-			)}
-
 			<div {...blockProps}>
 				<div className="read-more-inner">
 					{showFeaturedImage && (
-						<figure
-							className={classNames(
-								'read-more-image',
-								!imageUrl && 'no-image'
-							)}
-						>
-							<div className="read-more-image-controls">
-								<MediaSourceControl
-									value={media}
-									onChange={(next) =>
-										setAttributes({ media: next })
-									}
-									onRemove={() =>
-										setAttributes({ media: {} })
-									}
-									variant="dropdown"
-									sources={{ featured: false }}
-									featuredMedia={null}
-									labels={{
-										select: __(
-											'Select image',
-											'isudev-library'
-										),
-										replace: __(
-											'Replace image',
-											'isudev-library'
-										),
-										remove: __(
-											'Remove image',
-											'isudev-library'
-										),
-									}}
-								/>
-							</div>
-							{imageUrl ? (
-								<img src={imageUrl} alt={imageAlt} />
-							) : null}
-						</figure>
+						<MediaControl
+							value={displayMedia}
+							onChange={(next) => setAttributes({ media: next })}
+							onRemove={() => setAttributes({ media: {} })}
+							focalPoint={focalPoint}
+							onFocalPointChange={(next) =>
+								setAttributes({ focalPoint: next })
+							}
+							sources={{ featured: false }}
+							toolbar={false}
+							canvas={{
+								className: 'read-more-image',
+								placeholderLabel: __(
+									'Card image',
+									'isudev-library'
+								),
+								placeholderInstructions: __(
+									'Upload an image, or leave it empty to inherit the linked post\u2019s featured image.',
+									'isudev-library'
+								),
+								// Removing is only meaningful for the author's
+								// own pick; on an inherited thumbnail it would
+								// clear nothing and redraw the same image.
+								actions: { remove: hasOwnMedia },
+								previewProps: { aspectRatio: '159 / 119' },
+							}}
+							sidebar={{
+								preview: 'focal-point',
+								title: __('Card image', 'isudev-library'),
+							}}
+						/>
 					)}
 
 					<div className="read-more-content">

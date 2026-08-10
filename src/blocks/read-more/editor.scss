@@ -1,16 +1,9 @@
-/* Read More Block — editor-only affordances: the image overlay controls and
-   the click-to-edit title button. */
+/* Read More Block — editor-only affordances.
+
+   The image overlay comes from MediaControl's canvas, which positions and
+   styles its own actions inline, so nothing here targets it. */
 
 .wp-block-isudev-read-more {
-
-	.read-more-image-controls {
-		display: flex;
-		gap: 0.25rem;
-		inset-block-start: 0.5rem;
-		inset-inline-end: 0.5rem;
-		position: absolute;
-		z-index: 1;
-	}
 
 	.read-more-title__edit-button {
 		appearance: none;
