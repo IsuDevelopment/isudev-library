@@ -244,9 +244,11 @@ No block currently exposes an icon choice. When one does, use `Icon`,
 `IconPicker` or `IconSelect` from `@isudev/gutenberg` rather than building a
 second picker.
 
-The plugin automatically localizes the normalized registry as `isudevIcons` on
-`enqueue_block_editor_assets`. A consuming block only reads it once with
-`getLocalizedIcons()` and passes the result as `defaultIcons`:
+The plugin publishes the normalized registry as `isudevIcons` on
+`enqueue_block_editor_assets`, **appending** to that global rather than assigning
+it — the name is shared with the other `isudev-*` plugins, and the package keeps
+the first entry per name when it resolves a collection. A consuming block only
+reads it once with `getLocalizedIcons()` and passes the result as `defaultIcons`:
 
 ```js
 import {
@@ -265,6 +267,12 @@ const defaultIcons = getLocalizedIcons();
 
 Store the selected name in block attributes, never the markup. PHP then renders
 that name through `get_icon()`.
+
+Collision to watch for: a co-installed plugin that publishes `isudevIcons` with
+`wp_localize_script()` **assigns** the global and discards everything printed
+before it, including this registry. `isudev-test-blocks` does exactly that on the
+dev install. Anything writing into this global should append, the way
+`localize_icons()` does.
 
 Known limitation: the components package percent-encodes serialized SVG and
 renders it through `<img>`. An image cannot inherit `currentColor`, so editor

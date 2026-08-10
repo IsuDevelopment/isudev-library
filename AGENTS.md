@@ -26,7 +26,9 @@ plugin.
 - **Editor components come from `@isudev/gutenberg`.** Link and media UI use that
   package, not hand-rolled controls. It ships no PHP and no CSS: attribute
   shapes reach `render.php` as plain arrays and all styling is ours. The shared
-  icon registry is localized once for the whole block editor as `isudevIcons`.
+  icon registry is published once for the whole block editor as `isudevIcons`,
+  **appended** to that global and never assigned — the name is shared with the
+  other `isudev-*` plugins.
 - **Accessibility is non-negotiable.** The site-header markup contract (disclosure
   nav, drawer, link-vs-button rule, state on `.isudev-header`,
   `isudev-scroll-locked` on `<html>`) must keep the Playwright + axe suite green.

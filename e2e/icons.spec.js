@@ -39,9 +39,11 @@ test.describe('icon registry editor injection', () => {
 	test.beforeEach(async ({ page }, testInfo) => {
 		test.skip(testInfo.project.name !== DESKTOP, 'desktop only');
 
-		// The optional component-library test plugin also localizes its demo
-		// collection as isudevIcons. Record every assignment so this test proves
-		// our registry arrived even when that fixture replaces the final value.
+		// isudevIcons is shared across isudev-* plugins. This plugin appends to
+		// it, but the optional isudev-test-blocks fixture still *assigns* its
+		// demo collection, so the final value can be someone else's. Record
+		// every assignment so the test proves our registry arrived regardless of
+		// who wrote last.
 		await page.addInitScript(() => {
 			const assignments = [];
 			let current;
@@ -86,5 +88,12 @@ test.describe('icon registry editor injection', () => {
 		const arrow = icons.find((entry) => entry.name === 'arrowForward');
 		expect(arrow.label).toBeTruthy();
 		expect(arrow.icon.startsWith('<svg')).toBe(true);
+
+		// The registry must be appended, never assigned: another isudev-* plugin
+		// publishing into the same global has to survive our script.
+		const html = await page.content();
+		expect(html).toContain(
+			'window.isudevIcons = ( window.isudevIcons || [] ).concat('
+		);
 	});
 });

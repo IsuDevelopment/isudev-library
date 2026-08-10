@@ -149,14 +149,27 @@ function enqueue_icons(): void {
 no top-level hook registration in `includes/`.
 
 `localize_icons()` converts the keyed map to the list the package expects, with
-`name` injected into each entry:
+`name` injected into each entry, and **appends** it:
 
 ```php
-wp_localize_script( $handle, $object_name, array_values( $list ) );
+wp_add_inline_script(
+	$handle,
+	sprintf( 'window.%1$s = ( window.%1$s || [] ).concat( %2$s );', $object_name, $json )
+);
 ```
 
-The handle has no `src`, so its localized data prints in `<head>`, ahead of every
-block editor script. `getLocalizedIcons()` reads `globalThis.isudevIcons` at
+`wp_localize_script()` would emit `var isudevIcons = [ … ]` and discard whatever
+another `isudev-*` plugin published into the same global first — a live collision
+on this dev install, where `isudev-test-blocks` localizes its own demo
+collection. The package resolves a collection by name and keeps the first entry
+per name, so concatenation composes registries. A plugin that still *assigns*
+the global overwrites everything printed before it; that is a bug on its side.
+WordPress prints inline scripts attached to a `src`-less alias handle
+(`class-wp-scripts.php`, the `if ( ! $src )` branch of `do_item()`), so the
+data-only handle carries the appended snippet.
+
+The handle has no `src`, so its script prints in `<head>`, ahead of every block
+editor script. `getLocalizedIcons()` reads `globalThis.isudevIcons` at
 module scope in the top frame (editor JS is not iframed — only the canvas DOM
 is), so the ordering requirement is met.
 

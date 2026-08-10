@@ -292,20 +292,43 @@ function the_icon( string $name, array $args = array() ): void {
 }
 
 /**
- * Localize the icon registry for an editor script.
+ * Append the icon registry to a shared editor collection.
  *
  * @param string $handle      Registered script handle.
  * @param string $object_name JavaScript global name.
  * @return void
  */
 function localize_icons( string $handle, string $object_name = 'isudevIcons' ): void {
+	// The name is interpolated into JavaScript, so it has to be an identifier.
+	if ( 1 !== preg_match( '/^[A-Za-z_$][A-Za-z0-9_$]*$/', $object_name ) ) {
+		return;
+	}
+
 	$definitions = array();
 
 	foreach ( get_icons() as $name => $definition ) {
 		$definitions[] = array_merge( array( 'name' => $name ), $definition );
 	}
 
-	wp_localize_script( $handle, $object_name, $definitions );
+	$json = wp_json_encode( $definitions );
+
+	if ( ! is_string( $json ) ) {
+		return;
+	}
+
+	/*
+	 * Append rather than assign. This global is shared with the other isudev-*
+	 * plugins, and wp_localize_script() emits `var name = [...]`, which would
+	 * discard whatever they published first. @isudev/gutenberg resolves a
+	 * collection by name and keeps the first entry per name, so concatenating
+	 * composes registries instead of clobbering one. A plugin that still assigns
+	 * the global overwrites everything printed before it; that is a bug in that
+	 * plugin, and nothing this side can defend against.
+	 */
+	wp_add_inline_script(
+		$handle,
+		sprintf( 'window.%1$s = ( window.%1$s || [] ).concat( %2$s );', $object_name, $json )
+	);
 }
 
 /**

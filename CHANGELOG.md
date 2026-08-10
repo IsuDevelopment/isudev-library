@@ -13,8 +13,9 @@
 ### Added
 
 - Image URL definitions render as accessible `<img>` elements.
-- The filtered registry is localized automatically as `isudevIcons` for the
-  whole block editor, ready for `getLocalizedIcons()`.
+- The filtered registry is published automatically as `isudevIcons` for the whole
+  block editor, ready for `getLocalizedIcons()`. It is appended to that global,
+  not assigned, so several `isudev-*` plugins can share one collection.
 
 ### Breaking changes
 
