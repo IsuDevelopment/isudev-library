@@ -69,6 +69,66 @@ final class Checks {
 // Plugin files guard on ABSPATH. Define it so they can be required standalone.
 defined( 'ABSPATH' ) || define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 
+/*
+ * Minimal WordPress shims.
+ *
+ * These exist so utils that legitimately use WordPress escaping, translation and
+ * filters can still be exercised without a WordPress bootstrap. They are close
+ * enough for assertions about escaping and default behaviour, and nothing more:
+ * apply_filters() returns its value untouched, so checks always see defaults.
+ */
+if ( ! function_exists( 'esc_attr' ) ) {
+	/**
+	 * Escape a value for an HTML attribute.
+	 *
+	 * @param string $text Value to escape.
+	 * @return string Escaped value.
+	 */
+	function esc_attr( string $text ): string {
+		return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
+	}
+}
+
+if ( ! function_exists( 'esc_url' ) ) {
+	/**
+	 * Escape a URL for output.
+	 *
+	 * @param string $url URL to escape.
+	 * @return string Escaped URL.
+	 */
+	function esc_url( string $url ): string {
+		return htmlspecialchars( strip_tags( $url ), ENT_QUOTES, 'UTF-8' );
+	}
+}
+
+if ( ! function_exists( '__' ) ) {
+	/**
+	 * Return a string unchanged, standing in for translation.
+	 *
+	 * @param string $text   Text to translate.
+	 * @param string $domain Text domain. Ignored.
+	 * @return string The text.
+	 */
+	function __( string $text, string $domain = 'default' ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Test-only shim for a WordPress function.
+		unset( $domain );
+		return $text;
+	}
+}
+
+if ( ! function_exists( 'apply_filters' ) ) {
+	/**
+	 * Return the filtered value unchanged, standing in for the hook system.
+	 *
+	 * @param string $hook_name Hook name. Ignored.
+	 * @param mixed  $value     Value to filter.
+	 * @return mixed The value.
+	 */
+	function apply_filters( string $hook_name, $value ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Test-only shim for a WordPress function.
+		unset( $hook_name );
+		return $value;
+	}
+}
+
 $files = glob( __DIR__ . '/checks/*.php' );
 $files = is_array( $files ) ? $files : array();
 sort( $files );
