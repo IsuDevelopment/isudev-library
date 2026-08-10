@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/read-more",
+	"version": "1.0.0",
+	"title": "Read More Block",
+	"category": "design",
+	"icon": "arrow-right-alt",
+	"description": "A linked card: title, optional image, optional badge and supporting text. Points anywhere — a post, a page or an external URL. By IsuDev.",
+	"textdomain": "isudev-library",
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"_namespace": {
+			"type": "string",
+			"default": "",
+			"description": "Variation identifier injected by IsuDevLibrary\\Variations. Must be declared here or isActive matching never resolves."
+		},
+		"link": { "type": "object", "default": {} },
+		"media": { "type": "object", "default": {} },
+		"focalPoint": { "type": "object" },
+		"hasCustomTitle": { "type": "boolean", "default": false },
+		"customTitle": { "type": "string", "default": "" },
+		"showAdditionalText": { "type": "boolean", "default": false },
+		"additionalText": { "type": "string", "default": "" },
+		"renderAsHeading": { "type": "boolean", "default": true },
+		"headingLevel": { "type": "number", "default": 3 },
+		"readMoreText": { "type": "string", "default": "" },
+		"showReadMoreBadge": { "type": "boolean", "default": false },
+		"showFeaturedImage": { "type": "boolean", "default": true }
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"editorStyle": "file:./index.css",
+	"render": "file:./render.php"
+}
