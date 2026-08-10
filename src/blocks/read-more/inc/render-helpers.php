@@ -132,3 +132,99 @@ function heading_tag( bool $render_as_heading, int $level ): string {
 
 	return \in_array( $level, array( 2, 3, 4, 5, 6 ), true ) ? 'h' . $level : 'h3';
 }
+
+/*
+ * WordPress adapters. Everything below may call WordPress functions.
+ */
+
+/**
+ * Preserve the native RichText highlight while rejecting all other markup.
+ *
+ * WordPress stores the core/text-color format as a mark element. The style
+ * attribute is additionally filtered by WordPress' safe CSS allowlist.
+ *
+ * @param string $content RichText content.
+ * @return string
+ */
+function sanitize_highlight( string $content ): string {
+	return \wp_kses(
+		$content,
+		array(
+			'mark' => array(
+				'class' => true,
+				'style' => true,
+			),
+		)
+	);
+}
+
+/**
+ * Resolve the linked post id, but only for a post this visitor may see.
+ *
+ * Without the visibility guard, linking a draft would leak its title onto a
+ * public page through the title fallback.
+ *
+ * @param array $link_data The link attribute.
+ * @return int Post id, or 0 when the link is not a viewable post.
+ */
+function resolve_link_post( array $link_data ): int {
+	$kind = isset( $link_data['kind'] ) && \is_string( $link_data['kind'] ) ? $link_data['kind'] : '';
+	$id   = isset( $link_data['id'] ) && \is_numeric( $link_data['id'] ) ? (int) $link_data['id'] : 0;
+
+	if ( 'post-type' !== $kind || $id <= 0 ) {
+		return 0;
+	}
+
+	$post = \get_post( $id );
+
+	if ( ! $post instanceof \WP_Post || ! \is_post_publicly_viewable( $post ) ) {
+		return 0;
+	}
+
+	return $id;
+}
+
+/**
+ * Turn a pick_image() descriptor into figure markup.
+ *
+ * Reports whether an image was actually drawn, because an attachment id can
+ * point at a deleted attachment and yield nothing. The caller needs that
+ * answer for the has-image wrapper class and must not re-derive it by
+ * searching the returned markup.
+ *
+ * @param array $picked Descriptor from pick_image().
+ * @return array{html:string,has_image:bool}
+ */
+function render_image( array $picked ): array {
+	$kind = isset( $picked['kind'] ) ? (string) $picked['kind'] : 'none';
+	$html = '';
+
+	if ( 'attachment' === $kind ) {
+		$html = (string) \wp_get_attachment_image(
+			(int) $picked['id'],
+			'medium',
+			false,
+			array( 'sizes' => '(max-width: 600px) 100vw, 600px' )
+		);
+	}
+
+	if ( 'url' === $kind ) {
+		$html = \sprintf(
+			'<img src="%1$s" alt="%2$s" loading="lazy" decoding="async" />',
+			\esc_url( (string) $picked['url'] ),
+			\esc_attr( (string) $picked['alt'] )
+		);
+	}
+
+	if ( '' === $html ) {
+		return array(
+			'html'      => '<figure class="read-more-image no-image"></figure>',
+			'has_image' => false,
+		);
+	}
+
+	return array(
+		'html'      => '<figure class="read-more-image">' . $html . '</figure>',
+		'has_image' => true,
+	);
+}
