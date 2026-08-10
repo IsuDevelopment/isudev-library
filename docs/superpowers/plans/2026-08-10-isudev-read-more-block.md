@@ -22,6 +22,7 @@ Every task's requirements implicitly include this section.
 - **No top-level hook registration in `includes/`.**
 - **`apiVersion: 3`.** In editor JS never use global `document`/`window`; use `element.ownerDocument` via `useRefEffect` from `@wordpress/compose` if DOM access is ever needed. This block needs none.
 - **WordPress Coding Standards.** `strict_types`, `ABSPATH` guard, `class-*.php` naming.
+- **WPCS also forbids assigning to WordPress globals at FILE scope** (`WordPress.WP.GlobalVariablesOverride`). This bites in `render.php`, which is included at file scope. Verified against `vendor/wp-coding-standards/wpcs/WordPress/Helpers/WPGlobalVariablesHelper.php`, the names this plan would otherwise have used are all on the list: `$link`, `$post_id`, `$title`. Use `$link_data`, `$linked_post_id`, `$card_title`. Locals inside a function body are unaffected — only file scope and `global`-declared variables.
 - **WPCS forbids these parameter names** (`Universal.NamingConventions.NoReservedKeywordParameterNames`): `$default $parent $namespace $array $class $function $list $new $print $static $string $use`. Locals and `foreach` keys are fine — parameters are not.
 - **Docblock long descriptions must start with a capital letter** (`Generic.Commenting.DocComment.LongNotCapital`) and a `/* --- text --- */` marker comment is a hard error (`Squiz.Commenting.BlockComment.NoNewLine`). Use the plain `/*\n * Text.\n */` form.
 - **`build/` is committed.** Do not gitignore it. Rebuild and commit `build/` whenever `src/` changes.
@@ -971,7 +972,7 @@ an empty custom title falling through rather than blanking the card."
 - Consumes: Task 3's four pure functions; `IsuDevLibrary\Utils\icon()` from Task 1.
 - Produces, below a `WordPress adapters` marker in `inc/render-helpers.php`:
   - `sanitize_highlight( string $content ): string`
-  - `resolve_link_post( array $link ): int`
+  - `resolve_link_post( array $link_data ): int`
   - `render_image( array $picked ): array{html:string,has_image:bool}`
 
 - [ ] **Step 1: Add the adapters**
@@ -1010,12 +1011,12 @@ function sanitize_highlight( string $content ): string {
  * Without the visibility guard, linking a draft would leak its title onto a
  * public page through the title fallback.
  *
- * @param array $link The link attribute.
+ * @param array $link_data The link attribute.
  * @return int Post id, or 0 when the link is not a viewable post.
  */
-function resolve_link_post( array $link ): int {
-	$kind = isset( $link['kind'] ) && \is_string( $link['kind'] ) ? $link['kind'] : '';
-	$id   = isset( $link['id'] ) && \is_numeric( $link['id'] ) ? (int) $link['id'] : 0;
+function resolve_link_post( array $link_data ): int {
+	$kind = isset( $link_data['kind'] ) && \is_string( $link_data['kind'] ) ? $link_data['kind'] : '';
+	$id   = isset( $link_data['id'] ) && \is_numeric( $link_data['id'] ) ? (int) $link_data['id'] : 0;
 
 	if ( 'post-type' !== $kind || $id <= 0 ) {
 		return 0;
@@ -1078,7 +1079,7 @@ function render_image( array $picked ): array {
 
 - [ ] **Step 2: Write the real `render.php`**
 
-Replace the file entirely:
+Replace the file entirely. Note the variable names `$link_data`, `$linked_post_id` and `$card_title`: `$link`, `$post_id` and `$title` are all WordPress globals and WPCS rejects assigning to them at file scope. After pasting, re-align the `=` operators in each assignment block — the renames changed the widths — then let `composer run lint:php` confirm.
 
 ```php
 <?php
@@ -1100,8 +1101,8 @@ use function IsuDevLibrary\Utils\icon;
 
 defined( 'ABSPATH' ) || exit;
 
-$link = isset( $attributes['link'] ) && \is_array( $attributes['link'] ) ? $attributes['link'] : array();
-$url  = isset( $link['url'] ) && \is_string( $link['url'] ) ? $link['url'] : '';
+$link_data = isset( $attributes['link'] ) && \is_array( $attributes['link'] ) ? $attributes['link'] : array();
+$url  = isset( $link_data['url'] ) && \is_string( $link_data['url'] ) ? $link_data['url'] : '';
 
 // A card with no destination is not a card.
 if ( '' === \trim( $url ) ) {
@@ -1118,18 +1119,18 @@ $additional_text     = isset( $attributes['additionalText'] ) && \is_string( $at
 $read_more_text      = isset( $attributes['readMoreText'] ) && \is_string( $attributes['readMoreText'] ) ? $attributes['readMoreText'] : '';
 $render_as_heading   = ! isset( $attributes['renderAsHeading'] ) || (bool) $attributes['renderAsHeading'];
 $heading_level       = isset( $attributes['headingLevel'] ) ? (int) $attributes['headingLevel'] : 3;
-$link_type           = isset( $link['type'] ) && \is_string( $link['type'] ) ? $link['type'] : '';
-$opens_in_new_tab    = ! empty( $link['opensInNewTab'] );
-$is_nofollow         = ! empty( $link['nofollow'] );
+$link_type           = isset( $link_data['type'] ) && \is_string( $link_data['type'] ) ? $link_data['type'] : '';
+$opens_in_new_tab    = ! empty( $link_data['opensInNewTab'] );
+$is_nofollow         = ! empty( $link_data['nofollow'] );
 
-$post_id    = resolve_link_post( $link );
-$post_title = $post_id > 0 ? (string) \get_the_title( $post_id ) : '';
-$link_title = isset( $link['title'] ) && \is_string( $link['title'] ) ? $link['title'] : '';
+$linked_post_id    = resolve_link_post( $link_data );
+$post_title = $linked_post_id > 0 ? (string) \get_the_title( $linked_post_id ) : '';
+$link_title = isset( $link_data['title'] ) && \is_string( $link_data['title'] ) ? $link_data['title'] : '';
 
-$title     = pick_title( $has_custom_title, $custom_title, $post_title, $link_title, $url );
+$card_title     = pick_title( $has_custom_title, $custom_title, $post_title, $link_title, $url );
 $title_tag = heading_tag( $render_as_heading, $heading_level );
 
-$thumbnail_id = $post_id > 0 ? (int) \get_post_thumbnail_id( $post_id ) : 0;
+$thumbnail_id = $linked_post_id > 0 ? (int) \get_post_thumbnail_id( $linked_post_id ) : 0;
 $picked       = pick_image( $media, $thumbnail_id );
 
 /*
@@ -1167,7 +1168,7 @@ $inner = \sprintf(
 	$figure,
 	$badge,
 	$title_tag,
-	\esc_html( $title ),
+	\esc_html( $card_title ),
 	$additional,
 	$arrow
 );
