@@ -29,6 +29,12 @@ plugin.
   icon registry is published once for the whole block editor as `isudevIcons`,
   **appended** to that global and never assigned — the name is shared with the
   other `isudev-*` plugins.
+- **The merged `isudev.json` config also reaches the editor.** `Config\boot()`
+  publishes the whole `library` subtree once for the block editor as
+  `window.isudevLibraryConfig`, **assigned** (not appended, unlike
+  `isudevIcons`) because the name is this plugin's own. `src/utils/config.js`
+  is its JS mirror of `Config\resolve_block_value()` and must stay in step
+  with it — there is no JS test runner to catch drift.
 - **Accessibility is non-negotiable.** The site-header markup contract (disclosure
   nav, drawer, link-vs-button rule, state on `.isudev-header`,
   `isudev-scroll-locked` on `<html>`) must keep the Playwright + axe suite green.

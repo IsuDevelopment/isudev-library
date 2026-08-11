@@ -19,6 +19,8 @@ WordPress 6.7+, PHP 7.4+. Node 22.22.2 for development only.
 | --- | --- |
 | `isudev/site-header` | Accessibility-first site header: logo, disclosure navigation, mobile drawer, actions slot. |
 | `isudev/read-more` | A linked card: title, optional image, badge and supporting text. Links to a post, a page or an external URL. |
+| `isudev/social-share` | A container for social share buttons, with an optional prefix. |
+| `isudev/social-share-network` | A single share button — one of twelve networks — nested inside `isudev/social-share`. |
 
 ## Configuration
 

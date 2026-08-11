@@ -1,5 +1,53 @@
 # Changelog
 
+## 1.3.0 — 2026-08-11
+
+### Added
+
+- Block `isudev/social-share`: a container for social share buttons, with an
+  optional prefix (above, before or after the icons) and a template of
+  `isudev/social-share-network` children whose defaults and allowed set come
+  from `isudev.json`.
+- Block `isudev/social-share-network`: a single share button for one of
+  twelve networks (Facebook, X, LinkedIn, WhatsApp, Bluesky, Threads,
+  Mastodon, Substack, email, copy link, print, and the native "system"
+  share sheet via the Web Share API).
+- Twelve icons in the shared registry: the eight platform glyphs
+  (`socialFacebook`, `socialX`, `socialLinkedin`, `socialWhatsapp`,
+  `socialBluesky`, `socialThreads`, `socialMastodon`, `socialSubstack`,
+  prefixed because `isudevIcons` is a namespace shared with other `isudev-*`
+  plugins) and four plain UI icons (`email`, `link`, `print`, `share`).
+- `Config\boot()` publishes the merged `isudev.json` `library` subtree to the
+  block editor as `window.isudevLibraryConfig`, and `src/utils/config.js`
+  mirrors `Config\resolve_block_value()` in JS so `edit.js` files can read the
+  same config the PHP side reads at render time.
+
+### Migrated from `share-to-social-media`
+
+Ported from the standalone `dekode-library/share-to-social-media` plugin.
+There is no compatibility layer: the `dekode-library/share-to-social-wrapper`
+and `dekode-library/share-to-social-network` block names, and the `T2`
+integration they depended on, are gone. `isudev/social-share*` content has to
+be re-inserted.
+
+- **Action networks render `<button type="button">`, not `<a href>`.** `link`,
+  `print` and `system` perform an action rather than linking anywhere; the
+  source's `href="#"` for print was a link to nowhere pretending to be a
+  destination.
+- **No `title` attribute.** The source set `title` and `aria-label` to the
+  same string on every button. `aria-label` is now added only when the label
+  is not already visible as text, instead of always duplicating it.
+- `networkLabel.allowCustom` is dropped: the source's `constants.js` resolved
+  it but nothing ever read it.
+- `data-text` becomes `data-message` on the copy-link and system-share
+  controls, matching the class rename below.
+- CSS classes are renamed from `dk-share-social*` to `isudev-share*`, styled
+  as this plugin's own classes rather than `.wp-block-isudev-social-share`, so
+  they survive any future block rename.
+- No `@t2/editor`, `T2\Icons\get_icon` or
+  `window.dekodeShareToSocialFallbackIcons`: the icon comes from this
+  plugin's own registry via `@isudev/gutenberg`'s `Icon` component.
+
 ## 1.2.0 — 2026-08-11
 
 ### Changed
