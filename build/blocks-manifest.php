@@ -151,5 +151,85 @@ return array(
 		'viewScript' => 'file:./view.js',
 		'editorStyle' => 'file:./index.css',
 		'render' => 'file:./render.php'
+	),
+	'social-share' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/social-share',
+		'version' => '1.0.0',
+		'title' => 'Social Share',
+		'category' => 'widgets',
+		'icon' => 'share',
+		'description' => 'A container for social share buttons: an optional prefix and any number of isudev/social-share-network children. By IsuDev.',
+		'textdomain' => 'isudev-library',
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'left',
+				'center',
+				'right',
+				'wide',
+				'full'
+			)
+		),
+		'attributes' => array(
+			'_namespace' => array(
+				'type' => 'string',
+				'default' => '',
+				'description' => 'Variation identifier injected by IsuDevLibrary\\Variations. Must be declared here or isActive matching never resolves.'
+			),
+			'contentAlignment' => array(
+				'type' => 'string',
+				'default' => 'none'
+			),
+			'prefixText' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'showPrefix' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'prefixPosition' => array(
+				'type' => 'string',
+				'default' => 'before'
+			)
+		),
+		'example' => array(
+			'attributes' => array(
+				'showPrefix' => true,
+				'prefixText' => 'Share:',
+				'prefixPosition' => 'before'
+			),
+			'innerBlocks' => array(
+				array(
+					'name' => 'isudev/social-share-network',
+					'attributes' => array(
+						'network' => 'facebook'
+					)
+				),
+				array(
+					'name' => 'isudev/social-share-network',
+					'attributes' => array(
+						'network' => 'x'
+					)
+				),
+				array(
+					'name' => 'isudev/social-share-network',
+					'attributes' => array(
+						'network' => 'linkedin'
+					)
+				),
+				array(
+					'name' => 'isudev/social-share-network',
+					'attributes' => array(
+						'network' => 'link'
+					)
+				)
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
 	)
 );

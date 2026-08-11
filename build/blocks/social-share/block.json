@@ -1,0 +1,80 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/social-share",
+  "version": "1.0.0",
+  "title": "Social Share",
+  "category": "widgets",
+  "icon": "share",
+  "description": "A container for social share buttons: an optional prefix and any number of isudev/social-share-network children. By IsuDev.",
+  "textdomain": "isudev-library",
+  "supports": {
+    "html": false,
+    "align": [
+      "left",
+      "center",
+      "right",
+      "wide",
+      "full"
+    ]
+  },
+  "attributes": {
+    "_namespace": {
+      "type": "string",
+      "default": "",
+      "description": "Variation identifier injected by IsuDevLibrary\\Variations. Must be declared here or isActive matching never resolves."
+    },
+    "contentAlignment": {
+      "type": "string",
+      "default": "none"
+    },
+    "prefixText": {
+      "type": "string",
+      "default": ""
+    },
+    "showPrefix": {
+      "type": "boolean",
+      "default": false
+    },
+    "prefixPosition": {
+      "type": "string",
+      "default": "before"
+    }
+  },
+  "example": {
+    "attributes": {
+      "showPrefix": true,
+      "prefixText": "Share:",
+      "prefixPosition": "before"
+    },
+    "innerBlocks": [
+      {
+        "name": "isudev/social-share-network",
+        "attributes": {
+          "network": "facebook"
+        }
+      },
+      {
+        "name": "isudev/social-share-network",
+        "attributes": {
+          "network": "x"
+        }
+      },
+      {
+        "name": "isudev/social-share-network",
+        "attributes": {
+          "network": "linkedin"
+        }
+      },
+      {
+        "name": "isudev/social-share-network",
+        "attributes": {
+          "network": "link"
+        }
+      }
+    ]
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}
