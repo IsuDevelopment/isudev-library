@@ -19,7 +19,7 @@ use function IsuDevLibrary\Utils\render_icon;
 
 $icons = default_icons();
 
-Checks::is( 'icons: exactly four defaults', count( $icons ), 4 );
+Checks::is( 'icons: exactly sixteen defaults', count( $icons ), 16 );
 
 $all_have_definitions = true;
 foreach ( $icons as $definition ) {
@@ -41,6 +41,25 @@ Checks::is( 'icons: every default is a complete SVG with a viewBox', $all_are_sv
 
 Checks::is( 'icons: arrowForward uses the 24 grid', strpos( $icons['arrowForward']['icon'], 'viewBox="0 0 24 24"' ) !== false, true );
 Checks::is( 'icons: chevronDown uses the 600 grid', strpos( $icons['chevronDown']['icon'], 'viewBox="0 0 600 600"' ) !== false, true );
+
+/*
+ * No stored root <svg> may carry width or height: rendering injects both per
+ * call. Matching only the root tag matters because stroke-width="2" contains
+ * the substring width= — a naive strpos() would false-positive on it.
+ */
+$no_root_dimensions = true;
+foreach ( $icons as $name => $definition ) {
+	if ( 1 === preg_match( '/<svg\b[^>]*\s(?:width|height)=/', $definition['icon'] ) ) {
+		$no_root_dimensions = false;
+		break;
+	}
+}
+Checks::is( 'icons: no stored root <svg> carries width or height', $no_root_dimensions, true );
+
+$social_x = get_icon( 'socialX', array( 'size' => 32 ) );
+Checks::is( 'get_icon: socialX applies width', strpos( $social_x, 'width="32"' ) !== false, true );
+Checks::is( 'get_icon: socialX applies height', strpos( $social_x, 'height="32"' ) !== false, true );
+Checks::is( 'get_icon: socialX keeps exactly one viewBox', substr_count( $social_x, 'viewBox=' ), 1 );
 
 $normalized = normalize_icons(
 	array(

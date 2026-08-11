@@ -84,6 +84,18 @@ registering a different icon, not overriding its root at render time.
 | `burger` | `0 0 600 600` | Available to integrators; the header burger itself is CSS spans |
 | `close` | `0 0 600 600` | Site-header mobile drawer close button |
 | `arrowForward` | `0 0 24 24` | Read-more card arrow |
+| `socialFacebook` | `0 0 24 24` | `isudev/social-share-network` |
+| `socialX` | `0 0 24 24` | `isudev/social-share-network` |
+| `socialLinkedin` | `0 0 24 24` | `isudev/social-share-network` |
+| `socialWhatsapp` | `0 0 24 24` | `isudev/social-share-network` |
+| `socialBluesky` | `0 0 24 24` | `isudev/social-share-network` |
+| `socialThreads` | `0 0 24 24` | `isudev/social-share-network` |
+| `socialMastodon` | `0 0 24 24` | `isudev/social-share-network` |
+| `socialSubstack` | `0 0 16 16` | `isudev/social-share-network` |
+| `email` | `0 0 24 24` | `isudev/social-share-network`; available to integrators |
+| `link` | `0 0 20 20` | `isudev/social-share-network`; available to integrators |
+| `print` | `0 0 24 24` | `isudev/social-share-network`; available to integrators |
+| `share` | `0 0 24 24` | `isudev/social-share-network`; available to integrators |
 
 The `viewBox` belongs inside each stored SVG. There is no detached viewBox map
 and no special default grid at render time.
