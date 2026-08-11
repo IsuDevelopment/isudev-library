@@ -281,3 +281,38 @@ function get_block_config( string $block_name, $key, $fallback = null, string $v
 
 	return resolve_block_value( get_config(), $block_name, $key_path, $fallback, $variation_namespace );
 }
+
+/**
+ * Register config editor integration hooks.
+ *
+ * @return void
+ */
+function boot(): void {
+	\add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_editor_config', 5 );
+}
+
+/**
+ * Publish the merged `library` config to the block editor as `isudevLibraryConfig`.
+ *
+ * Unlike `Utils\localize_icons()`, this is a plain assignment, not an append:
+ * `isudevLibraryConfig` is this plugin's own name and this is its only writer,
+ * whereas `isudevIcons` is shared with the other isudev-* plugins.
+ *
+ * The whole merged `library` subtree is published, not one block's slice — it
+ * is theme configuration, not secret data, and it only reaches users who can
+ * already open the block editor.
+ *
+ * @return void
+ */
+function enqueue_editor_config(): void {
+	$json = \wp_json_encode( get_config() );
+
+	if ( ! \is_string( $json ) ) {
+		return;
+	}
+
+	// A data-only handle prints localized data in the head before block editor scripts, exactly like enqueue_editor_icons().
+	\wp_register_script( 'isudev-library-config', false, array(), \IsuDevLibrary\VERSION, false );
+	\wp_enqueue_script( 'isudev-library-config' );
+	\wp_add_inline_script( 'isudev-library-config', \sprintf( 'window.isudevLibraryConfig = %s;', $json ) );
+}

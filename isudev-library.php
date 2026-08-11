@@ -43,6 +43,7 @@ Settings\boot();
 Admin\boot();
 REST\boot();
 Utils\boot_icons();
+Config\boot();
 
 /**
  * Load the plugin text domain for PHP translations.
