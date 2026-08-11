@@ -23,6 +23,9 @@
 		"showPrefix": { "type": "boolean", "default": false },
 		"prefixPosition": { "type": "string", "default": "before" }
 	},
+	"providesContext": {
+		"isudev/socialShareNamespace": "_namespace"
+	},
 	"example": {
 		"attributes": {
 			"showPrefix": true,

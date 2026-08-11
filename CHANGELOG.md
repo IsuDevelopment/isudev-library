@@ -39,6 +39,19 @@ be re-inserted.
   is not already visible as text, instead of always duplicating it.
 - `networkLabel.allowCustom` is dropped: the source's `constants.js` resolved
   it but nothing ever read it.
+- The four `dekode/share-to-social-media/*` PHP filters are gone:
+  `…/icon/size`, `…/email/subject`, `…/email/body` and `…/link/copy-text`.
+  `iconsSize`, `email.subject`, `email.body` and `link.copyText` in
+  `isudev.json` cover the same ground declaratively. Rendered icon markup is
+  still filterable through `isudev_library/icon`.
+- **A control with nothing to share renders nothing.** Outside a post context
+  `get_permalink()` is empty, and the source shipped `href="…/sharer.php?u="`.
+  Every network except `print` and `system` — neither of which needs a
+  permalink — now drops itself, and the wrapper drops itself when no child
+  rendered.
+- Variation-scoped config reaches both blocks: the wrapper provides its
+  `_namespace` through block context, so keys the network button reads resolve
+  under `variations.<namespace>` too.
 - `data-text` becomes `data-message` on the copy-link and system-share
   controls, matching the class rename below.
 - CSS classes are renamed from `dk-share-social*` to `isudev-share*`, styled

@@ -103,6 +103,22 @@ function is_action_network( string $network ): bool {
 }
 
 /**
+ * Whether a network is useless without a permalink. Pure.
+ *
+ * `print` prints whatever is on screen and `system` hands
+ * `window.location.href` to the Web Share API, so neither needs a permalink.
+ * Every other network puts one into a URL or onto the clipboard, and with an
+ * empty permalink would render a control that shares nothing — a button whose
+ * href is `…/sharer.php?u=`. render.php renders nothing instead.
+ *
+ * @param string $network Network slug.
+ * @return bool
+ */
+function needs_permalink( string $network ): bool {
+	return ! \in_array( $network, array( 'print', 'system' ), true );
+}
+
+/**
  * Build the share URL for a network. Pure.
  *
  * $templates carries already-resolved config strings (email subject/body);

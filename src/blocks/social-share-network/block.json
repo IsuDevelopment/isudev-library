@@ -41,6 +41,7 @@
 			"default": "after"
 		}
 	},
+	"usesContext": ["isudev/socialShareNamespace"],
 	"example": {},
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",

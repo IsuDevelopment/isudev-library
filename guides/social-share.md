@@ -81,6 +81,39 @@ registry icon).
 the source's own `constants.js` resolved it but nothing ever read it — dead
 config, not ported.
 
+A malformed value never breaks the editor. `allowedNetworks`, `defaultTemplate`
+and `iconsSize` go through `asArray()` / `asPositiveInt()` from
+`src/utils/config.js` and fall back to the default when the shape is wrong,
+mirroring the `is_array()` guards on the PHP side.
+
+### Variation scoping
+
+Every key above also resolves under `variations.<namespace>`, for both blocks:
+
+```json
+"isudev/social-share": {
+  "iconsSize": 24,
+  "variations": {
+    "compact": { "iconsSize": 16, "prefix": { "disable": true } }
+  }
+}
+```
+
+The namespace lives on the wrapper as its `_namespace` attribute, and reaches
+the network button through block context —
+`providesContext: { "isudev/socialShareNamespace": "_namespace" }` on the
+wrapper, `usesContext` on the child. Without that wiring the wrapper's keys
+would honour a variation while the network button's keys silently ignored it.
+
+## Nothing to share means nothing rendered
+
+Outside a post context — an archive, a 404, a template part running before the
+loop — `get_permalink()` is empty. Every network except `print` and `system`
+then drops itself instead of rendering a control whose target is
+`…/sharer.php?u=`, and the wrapper drops itself when no child rendered
+anything. `needs_permalink()` owns that decision and is covered by
+`tools/checks/80-social-share.php`.
+
 ## Network → icon registry map
 
 `isudev/social-share-network`'s `icon_name()` resolves this default map

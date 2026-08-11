@@ -39,22 +39,41 @@ $label_position  = isset( $attributes['labelPosition'] ) && \in_array( $attribut
 	? $attributes['labelPosition']
 	: 'after';
 
-$label_disabled = (bool) get_block_config( $parent_block_name, 'networkLabel.disable', false );
-$show_label     = ! $label_disabled && $show_label_attr;
-
-$label_text = '' !== \trim( $label_attr ) ? $label_attr : default_label( $network );
-
-$icons_size = (int) get_block_config( $parent_block_name, 'iconsSize', 24 );
-$overrides  = get_block_config( $parent_block_name, 'icons', array() );
-$overrides  = \is_array( $overrides ) ? $overrides : array();
+/*
+ * The variation namespace belongs to the parent block, so it arrives through
+ * block context rather than this block's attributes. Without it, variation-
+ * scoped config would apply to the wrapper's keys and be silently ignored for
+ * every key read here.
+ */
+$namespace = isset( $block->context['isudev/socialShareNamespace'] ) && \is_string( $block->context['isudev/socialShareNamespace'] )
+	? $block->context['isudev/socialShareNamespace']
+	: '';
 
 $permalink  = (string) \get_permalink();
 $post_title = (string) \get_the_title();
 
-$email_config = get_block_config( $parent_block_name, 'email', array() );
+/*
+ * No permalink means no post context — an archive, a 404, a template part
+ * outside the loop. A share control with an empty target shares nothing, so
+ * render nothing, the way read-more drops a card with no destination.
+ */
+if ( '' === $permalink && needs_permalink( $network ) ) {
+	return;
+}
+
+$label_disabled = (bool) get_block_config( $parent_block_name, 'networkLabel.disable', false, $namespace );
+$show_label     = ! $label_disabled && $show_label_attr;
+
+$label_text = '' !== \trim( $label_attr ) ? $label_attr : default_label( $network );
+
+$icons_size = (int) get_block_config( $parent_block_name, 'iconsSize', 24, $namespace );
+$overrides  = get_block_config( $parent_block_name, 'icons', array(), $namespace );
+$overrides  = \is_array( $overrides ) ? $overrides : array();
+
+$email_config = get_block_config( $parent_block_name, 'email', array(), $namespace );
 $email_config = \is_array( $email_config ) ? $email_config : array();
 
-$link_config = get_block_config( $parent_block_name, 'link', array() );
+$link_config = get_block_config( $parent_block_name, 'link', array(), $namespace );
 $link_config = \is_array( $link_config ) ? $link_config : array();
 
 $copy_text_template = isset( $link_config['copyText'] ) && \is_string( $link_config['copyText'] ) ? $link_config['copyText'] : '%url%';

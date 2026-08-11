@@ -41,6 +41,9 @@
       "default": "before"
     }
   },
+  "providesContext": {
+    "isudev/socialShareNamespace": "_namespace"
+  },
   "example": {
     "attributes": {
       "showPrefix": true,

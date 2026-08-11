@@ -17,6 +17,15 @@ use function IsuDevLibrary\Config\get_block_config;
 
 defined( 'ABSPATH' ) || exit;
 
+/*
+ * Every child rendered nothing, or there are none. That happens outside a post
+ * context, where the network buttons drop themselves rather than share an empty
+ * URL. A prefix reading "Share:" above an empty row is worse than no block.
+ */
+if ( '' === \trim( $content ) ) {
+	return;
+}
+
 $content_alignment = isset( $attributes['contentAlignment'] ) && \is_string( $attributes['contentAlignment'] ) ? $attributes['contentAlignment'] : 'none';
 $prefix_text       = isset( $attributes['prefixText'] ) && \is_string( $attributes['prefixText'] ) ? $attributes['prefixText'] : '';
 $show_prefix_attr  = ! empty( $attributes['showPrefix'] );

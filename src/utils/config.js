@@ -8,13 +8,53 @@
  * catch drift — the two must be changed together.
  */
 
+/* global globalThis */
+
 /**
  * Read the merged `library` config published for the block editor.
+ *
+ * Reading a global here does not break the "never use global window/document in
+ * editor code" rule: that rule is about the DOM, because the canvas is iframed
+ * and has its own document. Editor JavaScript itself runs in the top frame, so
+ * plain data globals belong to it. `globalThis` says that explicitly and is what
+ * `@isudev/gutenberg`'s `getLocalizedIcons()` uses for `isudevIcons`.
  *
  * @return {Object} The `library` subtree, or `{}` when the global is unset.
  */
 export function getLibraryConfig() {
-	return window.isudevLibraryConfig ?? {};
+	return globalThis.isudevLibraryConfig ?? {};
+}
+
+/**
+ * Read a config value that must be an array.
+ *
+ * `isudev.json` is hand-written theme configuration, so any value can be the
+ * wrong shape. PHP guards every read with `is_array()`; without the same guard
+ * here a single mistyped key takes the whole block editor down with a
+ * `TypeError` on `.filter` or `.includes`.
+ *
+ * @param {*}     value    Resolved config value.
+ * @param {Array} fallback Value returned when `value` is not an array.
+ * @return {Array} `value` when it is an array, otherwise `fallback`.
+ */
+export function asArray(value, fallback) {
+	return Array.isArray(value) ? value : fallback;
+}
+
+/**
+ * Read a config value that must be a positive integer.
+ *
+ * Mirrors the PHP path, where `(int)` plus `Utils\normalize_size()` turns
+ * anything unusable into the default size.
+ *
+ * @param {*}      value    Resolved config value.
+ * @param {number} fallback Value returned when `value` is not a positive number.
+ * @return {number} A positive integer.
+ */
+export function asPositiveInt(value, fallback) {
+	const parsed = Number.parseInt(value, 10);
+
+	return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
 /**
@@ -72,10 +112,17 @@ function readPath(data, path) {
 	let current = data;
 
 	for (const segment of path) {
+		/*
+		 * hasOwnProperty, not the `in` operator: `in` also finds inherited
+		 * Object.prototype members, so a key path ending in `constructor` or
+		 * `toString` would resolve to a function instead of falling through to
+		 * the fallback. PHP's isset() does not do that, and this module claims
+		 * to mirror it.
+		 */
 		if (
 			current === null ||
 			typeof current !== 'object' ||
-			!(segment in current)
+			!Object.prototype.hasOwnProperty.call(current, segment)
 		) {
 			return undefined;
 		}

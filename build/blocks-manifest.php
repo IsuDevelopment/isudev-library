@@ -195,6 +195,9 @@ return array(
 				'default' => 'before'
 			)
 		),
+		'providesContext' => array(
+			'isudev/socialShareNamespace' => '_namespace'
+		),
 		'example' => array(
 			'attributes' => array(
 				'showPrefix' => true,
@@ -285,6 +288,9 @@ return array(
 				),
 				'default' => 'after'
 			)
+		),
+		'usesContext' => array(
+			'isudev/socialShareNamespace'
 		),
 		'example' => array(
 			

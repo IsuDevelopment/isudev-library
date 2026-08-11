@@ -12,6 +12,7 @@ require_once dirname( __DIR__, 2 ) . '/src/blocks/social-share-network/inc/rende
 use function IsuDevLibrary\Blocks\SocialShareNetwork\default_label;
 use function IsuDevLibrary\Blocks\SocialShareNetwork\icon_name;
 use function IsuDevLibrary\Blocks\SocialShareNetwork\is_action_network;
+use function IsuDevLibrary\Blocks\SocialShareNetwork\needs_permalink;
 use function IsuDevLibrary\Blocks\SocialShareNetwork\network_classes;
 use function IsuDevLibrary\Blocks\SocialShareNetwork\share_url;
 
@@ -130,6 +131,18 @@ Checks::true( 'is_action_network: system is an action', is_action_network( 'syst
 Checks::is( 'is_action_network: facebook is not an action', is_action_network( 'facebook' ), false );
 Checks::is( 'is_action_network: x is not an action', is_action_network( 'x' ), false );
 Checks::is( 'is_action_network: email is not an action', is_action_network( 'email' ), false );
+
+/*
+ * needs_permalink(): print and system work without post context, so they are
+ * the only two render.php keeps when get_permalink() returns nothing. Getting
+ * this inverted would either hide every button on a single post or ship
+ * buttons pointing at `?u=` on archives.
+ */
+Checks::is( 'needs_permalink: print does not need one', needs_permalink( 'print' ), false );
+Checks::is( 'needs_permalink: system does not need one', needs_permalink( 'system' ), false );
+Checks::true( 'needs_permalink: facebook needs one', needs_permalink( 'facebook' ) );
+Checks::true( 'needs_permalink: email needs one', needs_permalink( 'email' ) );
+Checks::true( 'needs_permalink: link needs one, because it copies the URL', needs_permalink( 'link' ) );
 
 /*
  * default_label(): a known network resolves to a non-empty string, an

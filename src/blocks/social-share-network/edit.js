@@ -26,7 +26,7 @@ import { caption as captionIcon } from '@wordpress/icons';
 /**
  * Internal dependencies
  */
-import { getBlockConfig } from '../../utils/config';
+import { asArray, asPositiveInt, getBlockConfig } from '../../utils/config';
 import { networkConfig } from './network-config';
 
 // Config keys live on the parent block; see render.php for why.
@@ -83,31 +83,50 @@ function resolveIconName(network, overrides) {
 
 const defaultIcons = getLocalizedIcons();
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, context }) {
 	const { network, label, showLabel, labelPosition = 'after' } = attributes;
+
+	/*
+	 * The variation namespace belongs to the parent, so it arrives through block
+	 * context (providesContext/usesContext) rather than this block's own
+	 * attributes. Without it, variation-scoped config would work for the
+	 * wrapper's keys and be silently ignored for every key read here.
+	 */
+	const namespace = context?.['isudev/socialShareNamespace'] ?? '';
 
 	const networkLabelDisable = getBlockConfig(
 		PARENT_BLOCK_NAME,
 		'networkLabel.disable',
-		false
+		false,
+		namespace
 	);
 	const networkLabelAllowToggle = getBlockConfig(
 		PARENT_BLOCK_NAME,
 		'networkLabel.allowToggle',
-		true
+		true,
+		namespace
 	);
 	const networkLabelAllowPosition = getBlockConfig(
 		PARENT_BLOCK_NAME,
 		'networkLabel.allowPosition',
-		true
+		true,
+		namespace
 	);
-	const allowedNetworks = getBlockConfig(
-		PARENT_BLOCK_NAME,
-		'allowedNetworks',
+	// asArray / asPositiveInt: a mistyped value in isudev.json must not TypeError the editor.
+	const allowedNetworks = asArray(
+		getBlockConfig(
+			PARENT_BLOCK_NAME,
+			'allowedNetworks',
+			ALL_NETWORKS,
+			namespace
+		),
 		ALL_NETWORKS
 	);
-	const icons = getBlockConfig(PARENT_BLOCK_NAME, 'icons', {});
-	const iconsSize = getBlockConfig(PARENT_BLOCK_NAME, 'iconsSize', 24);
+	const icons = getBlockConfig(PARENT_BLOCK_NAME, 'icons', {}, namespace);
+	const iconsSize = asPositiveInt(
+		getBlockConfig(PARENT_BLOCK_NAME, 'iconsSize', 24, namespace),
+		24
+	);
 
 	const blockProps = useBlockProps({
 		className: `isudev-share__network isudev-share__network--${network} isudev-share__network--label-${labelPosition}`,

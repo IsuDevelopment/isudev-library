@@ -15,7 +15,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { getBlockConfig } from '../../utils/config';
+import { asArray, getBlockConfig } from '../../utils/config';
 
 const BLOCK_NAME = 'isudev/social-share';
 const NETWORK_BLOCK_NAME = 'isudev/social-share-network';
@@ -69,17 +69,19 @@ export default function Edit({ attributes, setAttributes }) {
 		true,
 		namespace
 	);
-	const allowedNetworks = getBlockConfig(
-		BLOCK_NAME,
-		'allowedNetworks',
-		ALL_NETWORKS,
-		namespace
+	// asArray: a mistyped list in isudev.json must not TypeError the editor.
+	const allowedNetworks = asArray(
+		getBlockConfig(BLOCK_NAME, 'allowedNetworks', ALL_NETWORKS, namespace),
+		ALL_NETWORKS
 	);
-	const defaultTemplateNetworks = getBlockConfig(
-		BLOCK_NAME,
-		'defaultTemplate',
-		DEFAULT_TEMPLATE_NETWORKS,
-		namespace
+	const defaultTemplateNetworks = asArray(
+		getBlockConfig(
+			BLOCK_NAME,
+			'defaultTemplate',
+			DEFAULT_TEMPLATE_NETWORKS,
+			namespace
+		),
+		DEFAULT_TEMPLATE_NETWORKS
 	);
 	const allowAlignControl = getBlockConfig(
 		BLOCK_NAME,
