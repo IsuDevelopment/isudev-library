@@ -1,0 +1,72 @@
+/* Social Share Network Block — a single share button: an icon and an
+   optional label. Ported from the standalone share-to-social-media plugin,
+   with the dk-share-social-network* classes renamed to
+   isudev-share__network*. */
+
+.isudev-share__network-label {
+	display: inline-block;
+	font-size: var(--wp--preset--font-size--large, 20px);
+}
+
+.isudev-share__network-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 7px;
+	color: var(--wp--preset--color--contrast, #000);
+	background-color: var(--wp--preset--color--accent-1, #f0f0f0);
+	border-radius: var(--wp--preset--border-radius--50, 8px);
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.isudev-share__network-message {
+	position: absolute;
+	top: calc(100% + 0.5rem);
+	left: 50%;
+	padding: 0.25rem 0.5rem;
+	color: var(--wp--preset--color--base, #fff);
+	background-color: var(--wp--preset--color--contrast, #000);
+	border-radius: 4px;
+	font-size: 0.875rem;
+	white-space: nowrap;
+	transform: translateX(-50%);
+	z-index: 2;
+}
+
+.isudev-share__network {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75rem;
+	color: currentcolor;
+	text-decoration: none;
+	cursor: pointer;
+
+	&:hover {
+
+		.isudev-share__network-icon {
+			background-color: var(--wp--preset--color--accent-2, #e0e0e0);
+		}
+
+		.isudev-share__network-label {
+			text-decoration: underline;
+		}
+	}
+}
+
+/* The nine sharing networks render an <a>; link, print and system render a
+   <button> so they read correctly as actions, not destinations. This reset
+   makes the button indistinguishable from the anchor. */
+button.isudev-share__network {
+	appearance: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	font: inherit;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+
+	.isudev-share__network-icon {
+		transition: none;
+	}
+}

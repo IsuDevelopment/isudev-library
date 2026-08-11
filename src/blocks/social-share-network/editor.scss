@@ -1,0 +1,11 @@
+/* Social Share Network Block — editor-only affordances.
+
+   The @isudev/gutenberg Icon component sizes itself via its `size` prop, but
+   WP core's toolbar dropdown button styles can still compress a flex child;
+   this keeps the network icon a stable square inside the toolbar control. */
+
+.isudev-social-share-network-toolbar svg {
+	flex: 0 0 auto;
+	height: 24px;
+	width: 24px;
+}

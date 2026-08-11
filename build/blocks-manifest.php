@@ -231,5 +231,68 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
+	),
+	'social-share-network' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/social-share-network',
+		'version' => '1.0.0',
+		'title' => 'Social Share Network',
+		'parent' => array(
+			'isudev/social-share'
+		),
+		'category' => 'widgets',
+		'icon' => 'share',
+		'description' => 'A single social network share button. By IsuDev.',
+		'textdomain' => 'isudev-library',
+		'supports' => array(
+			'html' => false,
+			'align' => false,
+			'reusable' => false
+		),
+		'attributes' => array(
+			'network' => array(
+				'type' => 'string',
+				'enum' => array(
+					'facebook',
+					'x',
+					'linkedin',
+					'whatsapp',
+					'bluesky',
+					'threads',
+					'mastodon',
+					'substack',
+					'link',
+					'email',
+					'print',
+					'system'
+				),
+				'default' => 'facebook'
+			),
+			'label' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'showLabel' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'labelPosition' => array(
+				'type' => 'string',
+				'enum' => array(
+					'before',
+					'after'
+				),
+				'default' => 'after'
+			)
+		),
+		'example' => array(
+			
+		),
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'editorStyle' => 'file:./index.css',
+		'viewScript' => 'file:./view.js',
+		'render' => 'file:./render.php'
 	)
 );

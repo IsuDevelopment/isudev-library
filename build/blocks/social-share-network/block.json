@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/social-share-network",
+  "version": "1.0.0",
+  "title": "Social Share Network",
+  "parent": [
+    "isudev/social-share"
+  ],
+  "category": "widgets",
+  "icon": "share",
+  "description": "A single social network share button. By IsuDev.",
+  "textdomain": "isudev-library",
+  "supports": {
+    "html": false,
+    "align": false,
+    "reusable": false
+  },
+  "attributes": {
+    "network": {
+      "type": "string",
+      "enum": [
+        "facebook",
+        "x",
+        "linkedin",
+        "whatsapp",
+        "bluesky",
+        "threads",
+        "mastodon",
+        "substack",
+        "link",
+        "email",
+        "print",
+        "system"
+      ],
+      "default": "facebook"
+    },
+    "label": {
+      "type": "string",
+      "default": ""
+    },
+    "showLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "labelPosition": {
+      "type": "string",
+      "enum": [
+        "before",
+        "after"
+      ],
+      "default": "after"
+    }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
+}
