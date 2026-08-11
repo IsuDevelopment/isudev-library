@@ -20,6 +20,12 @@ plugin.
   `WP_Query`, HTTP or the object cache. Escaping, translation and filters are fine —
   the runner shims them. Files that still carry a `WordPress adapters` marker keep
   that split; `includes/utils/icon.php` deliberately does not.
+- **Every block carries a `README.md` in its own directory.** Written for the
+  person operating the block, not for us: every setting, where it lives in the
+  UI, what a theme can lock through `isudev.json`, and what to check when the
+  block renders nothing. A new block is not done without one, and a changed
+  control means changing it. Theme-side depth belongs in `guides/`, linked from
+  the block's README.
 - **No top-level hook registration in `includes/`.** Use `boot()`.
 - **`isudev.json`: read the `library` key only, never write the file.** It is
   shared with other `isudev-*` plugins.
