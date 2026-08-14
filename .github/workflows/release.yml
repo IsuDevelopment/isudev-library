@@ -72,8 +72,8 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          mkdir -p dist/isudev-schema-extended
-          rsync -a --exclude-from=- ./ dist/isudev-schema-extended/ <<'EOF'
+          mkdir -p dist/isudev-library
+          rsync -a --exclude-from=- ./ dist/isudev-library/ <<'EOF'
           .git
           .github
           .agents
@@ -93,12 +93,12 @@ jobs:
           CLAUDE.md
           GEMINI.md
           EOF
-          cd dist && zip -r "../isudev-schema-extended-${VERSION}.zip" isudev-schema-extended
+          cd dist && zip -r "../isudev-library-${VERSION}.zip" isudev-library
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
-          files: isudev-schema-extended-${{ steps.version.outputs.version }}.zip
+          files: isudev-library-${{ steps.version.outputs.version }}.zip
           generate_release_notes: true
