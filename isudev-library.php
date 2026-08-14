@@ -21,12 +21,40 @@ declare( strict_types = 1 );
 
 namespace IsuDevLibrary;
 
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
 defined( 'ABSPATH' ) || exit;
 
 const VERSION = '1.10.0';
 
 define( 'IsuDevLibrary\\PATH', plugin_dir_path( __FILE__ ) );
 define( 'IsuDevLibrary\\URL', plugin_dir_url( __FILE__ ) );
+
+$isudev_library_autoload = PATH . 'vendor/autoload.php';
+
+// A bundled vendor/ means this is a release-zip install. Composer-managed sites have none, and
+// there Composer — not the update checker — owns the version.
+$isudev_library_self_updates = is_readable( $isudev_library_autoload );
+
+if ( $isudev_library_self_updates ) {
+	require_once $isudev_library_autoload;
+}
+
+// Update checks only matter in wp-admin and during cron, so the front end stays untouched.
+if ( $isudev_library_self_updates && class_exists( PucFactory::class ) && ( is_admin() || wp_doing_cron() ) ) {
+	$isudev_library_updater = PucFactory::buildUpdateChecker(
+		'https://github.com/IsuDevelopment/isudev-library/',
+		__FILE__,
+		'isudev-library'
+	);
+	$isudev_library_vcs_api = $isudev_library_updater->getVcsApi();
+
+	// The built zip is a release asset, not the GitHub source archive. Checked by method instead of
+	// class, because PUC exposes its API classes under a version-specific namespace.
+	if ( method_exists( $isudev_library_vcs_api, 'enableReleaseAssets' ) ) {
+		$isudev_library_vcs_api->enableReleaseAssets();
+	}
+}
 
 require_once PATH . 'includes/utils/array.php';
 require_once PATH . 'includes/utils/icon.php';
