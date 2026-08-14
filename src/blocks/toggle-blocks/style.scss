@@ -1,0 +1,57 @@
+/* Toggle Content Block — a button that shows or hides its inner blocks.
+   Ported from the standalone dekode-library/toggle-blocks plugin, with the
+   toggle-block* classes renamed to isudev-toggle*. */
+
+.isudev-toggle__content {
+	overflow: hidden;
+	opacity: 0;
+	transition:
+		height var(--isudev-toggle-speed) ease,
+		opacity var(--isudev-toggle-speed) ease;
+}
+
+.isudev-toggle__content:not([hidden]) {
+	opacity: 1;
+}
+
+.isudev-toggle__button-wrapper {
+	text-align: center;
+}
+
+.isudev-toggle__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.isudev-toggle__button.isudev-toggle__button--icon-right {
+	flex-direction: row;
+}
+
+.isudev-toggle__button.isudev-toggle__button--icon-left {
+	flex-direction: row-reverse;
+}
+
+.isudev-toggle__icons {
+	display: inline-flex;
+	line-height: 0;
+}
+
+.isudev-toggle__icon {
+	display: none;
+}
+
+.isudev-toggle__button[aria-expanded="false"] .isudev-toggle__icon--open {
+	display: inline-flex;
+}
+
+.isudev-toggle__button[aria-expanded="true"] .isudev-toggle__icon--close {
+	display: inline-flex;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+
+	.isudev-toggle__content {
+		transition: none;
+	}
+}

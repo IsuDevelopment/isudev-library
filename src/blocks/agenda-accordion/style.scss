@@ -1,0 +1,149 @@
+/* Agenda Accordion Block — a container for accordion items. Ported from the
+   standalone dekode-library/agenda-accordion plugin, with the
+   dekode-library-agenda-accordion* classes renamed to isudev-agenda-accordion*
+   and the --dekode-library-agenda-accordion-* custom properties renamed to
+   --isudev-agenda-accordion-*.
+
+   The item block ships no stylesheet of its own — every rule for its markup
+   lives here, since an item can only ever exist inside this wrapper, which
+   this block.json already guarantees gets enqueued alongside it. */
+
+:where(body) {
+	--isudev-agenda-accordion-color-heading: var(--wp--custom--isudev-agenda-accordion--color--heading, inherit);
+	--isudev-agenda-accordion-color-icon: var(--wp--custom--isudev-agenda-accordion--color--icon, currentColor);
+	--isudev-agenda-accordion-typography-heading-font-family: var(--wp--custom--isudev-agenda-accordion--typography--heading-font-family, inherit);
+	--isudev-agenda-accordion-typography-heading-font-size: var(--wp--custom--isudev-agenda-accordion--typography--heading-font-size, 1em);
+	--isudev-agenda-accordion-typography-heading-font-weight: var(--wp--custom--isudev-agenda-accordion--typography--heading-font-weight, 700);
+	--isudev-agenda-accordion-typography-heading-line-height: var(--wp--custom--isudev-agenda-accordion--typography--heading-line-height, 1.5);
+	--isudev-agenda-accordion-item-border: var(--wp--custom--isudev-agenda-accordion--item-border, 2px solid var(--wp--preset--color--contrast, currentColor));
+	--isudev-agenda-accordion-spacing-margin: var(--wp--custom--isudev-agenda-accordion--spacing--margin, 1.75em 0);
+	--isudev-agenda-accordion-item-padding: clamp(0.75rem, 0.6471rem + 0.3922vw, 1rem);
+	--isudev-agenda-accordion-spacing-item-margin: var(--wp--custom--isudev-agenda-accordion--spacing--item-margin, 0 0 1rem);
+}
+
+:where(.isudev-agenda-accordion) {
+	margin: var(--isudev-agenda-accordion-spacing-margin);
+}
+
+.isudev-agenda-accordion .isudev-agenda-accordion__title {
+	font-family: var(--isudev-agenda-accordion-typography-heading-font-family);
+	font-size: var(--isudev-agenda-accordion-typography-heading-font-size);
+	font-weight: var(--isudev-agenda-accordion-typography-heading-font-weight);
+	line-height: var(--isudev-agenda-accordion-typography-heading-line-height);
+	margin: 0;
+	padding: 0;
+}
+
+.isudev-agenda-accordion button.isudev-agenda-accordion__trigger {
+	align-items: flex-start;
+	background-color: transparent;
+	border: 0;
+	border-radius: 0;
+	color: var(--isudev-agenda-accordion-color-heading);
+	cursor: pointer;
+	display: flex;
+	font-family: inherit;
+	font-size: 1em;
+	font-weight: inherit;
+	justify-content: space-between;
+	letter-spacing: 0;
+	line-height: inherit;
+	margin: 0;
+	outline: none;
+	padding: var(--isudev-agenda-accordion-item-padding);
+	text-align: left;
+	text-decoration: none;
+	text-transform: none;
+	width: 100%;
+
+	&[aria-expanded="false"] .is-closed-icon,
+	&[aria-expanded="true"] .is-open-icon {
+		display: flex;
+	}
+
+	* {
+		pointer-events: none;
+	}
+
+	.isudev-agenda-accordion__date {
+		display: inline-block;
+
+		@media (max-width: 600px) {
+			min-width: unset;
+		}
+	}
+
+	.isudev-agenda-accordion__title-inner {
+		display: grid;
+		gap: 15px;
+		grid-template-columns: minmax(80px, auto) 1fr;
+		width: 100%;
+
+		&.no-trigger {
+			width: calc(100% - 1.4em);
+		}
+
+		@media (max-width: 600px) {
+			grid-template-columns: minmax(30px, auto) 1fr;
+		}
+	}
+}
+
+.isudev-agenda-accordion-item .isudev-agenda-accordion-item__inner-container > :first-child {
+	margin-top: 0;
+}
+
+.isudev-agenda-accordion-item .isudev-agenda-accordion-item__inner-container > :last-child {
+	margin-bottom: 0;
+}
+
+.isudev-agenda-accordion-item {
+	border: var(--isudev-agenda-accordion-item-border);
+	color: inherit;
+	margin: var(--isudev-agenda-accordion-spacing-item-margin);
+	overflow: hidden;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	&.is-focused {
+		outline: auto 2px Highlight;
+		outline: auto 5px -webkit-focus-ring-color;
+		outline-offset: 1px;
+	}
+}
+
+.isudev-agenda-accordion-icon {
+	align-items: center;
+	display: none;
+	flex-shrink: 0;
+	height: 1.4em;
+	margin-left: 1rem;
+}
+
+.isudev-agenda-accordion-icon svg {
+	display: block;
+	fill: var(--isudev-agenda-accordion-color-icon);
+}
+
+.isudev-agenda-accordion-item__inner-container {
+	margin-top: calc(calc(var(--isudev-agenda-accordion-item-padding) * -1) + var(--isudev-agenda-accordion-item-open-gap, var(--isudev-agenda-accordion-item-padding)));
+	padding: var(--isudev-agenda-accordion-item-content-padding, 20px var(--isudev-agenda-accordion-item-padding) var(--isudev-agenda-accordion-item-padding));
+	position: relative;
+
+	&[hidden] {
+		display: none;
+	}
+
+	&::before {
+		background: var(--wp--preset--color--contrast, currentColor);
+		content: "";
+		display: block;
+		height: 2px;
+		margin-top: 5px;
+		position: absolute;
+		top: 0;
+		width: 80px;
+	}
+}

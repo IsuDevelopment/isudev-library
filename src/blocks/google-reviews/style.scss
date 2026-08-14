@@ -1,0 +1,237 @@
+/* Google Reviews Block — frontend styles. Ported from the standalone
+   isudev-google-reviews plugin; block name and classes were already
+   namespaced `isudev-*`, so neither changes here.
+
+   Swiper is bundled by this block's own view.js (`import 'swiper/css'`)
+   instead of depending on a `swiper` script/style handle registered by a
+   theme — see guides/google-reviews.md. */
+
+.isudev-google-reviews__list {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.isudev-google-reviews__viewport:not(.is-slider) .isudev-google-reviews__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+	gap: 24px;
+}
+
+.isudev-google-reviews__viewport.is-slider {
+	width: 100%;
+}
+
+.isudev-google-reviews__viewport.is-slider .isudev-google-reviews__item {
+	height: auto;
+}
+
+.isudev-google-reviews__viewport.is-mode-continuous .swiper-wrapper {
+	transition-timing-function: linear;
+}
+
+.isudev-google-reviews.alignfull > .isudev-google-reviews__viewport.is-mode-continuous.swiper-initialized {
+	--isudev-google-reviews-edge-fade: clamp(48px, 8vw, 160px);
+
+	mask-image: linear-gradient(to right, transparent 0, #000 var(--isudev-google-reviews-edge-fade), #000 calc(100% - var(--isudev-google-reviews-edge-fade)), transparent 100%);
+	mask-repeat: no-repeat;
+}
+
+.isudev-google-reviews__viewport.is-mode-continuous .swiper-button-prev,
+.isudev-google-reviews__viewport.is-mode-continuous .swiper-button-next,
+.isudev-google-reviews__viewport.is-mode-continuous .swiper-pagination {
+	display: none;
+}
+
+.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) {
+	overflow-x: auto;
+	scroll-snap-type: x proximity;
+}
+
+.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .isudev-google-reviews__list {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: min(80vw, 360px);
+	gap: 24px;
+	box-sizing: border-box;
+	width: auto;
+	height: auto;
+}
+
+.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .isudev-google-reviews__item {
+	width: auto;
+	scroll-snap-align: start;
+}
+
+.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .swiper-button-prev,
+.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .swiper-button-next,
+.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .swiper-pagination {
+	display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.isudev-google-reviews.alignfull > .isudev-google-reviews__viewport.is-mode-continuous {
+		mask-image: none;
+	}
+
+	.isudev-google-reviews__viewport.is-mode-continuous .swiper-button-prev,
+	.isudev-google-reviews__viewport.is-mode-continuous .swiper-button-next {
+		display: flex;
+	}
+
+	.isudev-google-reviews__viewport.is-mode-continuous .swiper-pagination {
+		display: block;
+	}
+}
+
+.isudev-google-reviews__review {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	height: 100%;
+	padding: 24px;
+	color: #4b5563;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 16px;
+	box-shadow: 0 1px 3px rgb(15 23 42 / 4%);
+}
+
+.isudev-google-reviews__top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 32px;
+}
+
+.isudev-google-reviews__footer {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	margin-top: auto;
+}
+
+.isudev-google-reviews__avatar {
+	flex: 0 0 42px;
+	width: 42px;
+	height: 42px;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+.isudev-google-reviews__avatar.is-fallback {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.75rem;
+	font-weight: 700;
+	color: #fde047;
+	background: #0b1f3a;
+}
+
+.isudev-google-reviews__person {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.isudev-google-reviews__author-row {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+
+.isudev-google-reviews__author {
+	overflow: hidden;
+	font-weight: 700;
+	color: #0f172a;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.isudev-google-reviews__verified {
+	width: 18px;
+	height: 18px;
+	color: #4285f4;
+}
+
+.isudev-google-reviews__rating {
+	font-size: 1.125rem;
+	line-height: 1;
+	letter-spacing: 2px;
+	color: #fbbf24;
+}
+
+.isudev-google-reviews__date {
+	font-size: 0.8125rem;
+	color: #6b7280;
+}
+
+.isudev-google-reviews__quote {
+	font-size: 0.9375rem;
+	line-height: 1.55;
+	margin: 0;
+}
+
+.isudev-google-reviews__content {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+}
+
+.isudev-google-reviews__quote p {
+	margin: 0;
+}
+
+.isudev-google-reviews__remainder[hidden],
+.isudev-google-reviews__ellipsis[hidden] {
+	display: none;
+}
+
+.isudev-google-reviews__source {
+	display: inline-flex;
+	padding: 4px;
+	border-radius: 6px;
+}
+
+.isudev-google-reviews__source:focus-visible {
+	outline: 2px solid #fbbf24;
+	outline-offset: 2px;
+}
+
+.isudev-google-reviews__source img {
+	display: block;
+	width: 24px;
+	height: 24px;
+}
+
+.isudev-google-reviews__read-more {
+	padding: 4px 0 2px;
+	font: inherit;
+	font-size: 0.8125rem;
+	font-weight: 700;
+	color: #0f172a;
+	cursor: pointer;
+	background: transparent;
+	border: 0;
+	border-bottom: 2px solid #fbbf24;
+}
+
+.isudev-google-reviews__read-more::after {
+	display: inline-block;
+	margin-left: 6px;
+	content: "⌄";
+	transition: transform 180ms ease;
+}
+
+.isudev-google-reviews__read-more[aria-expanded="true"]::after {
+	transform: rotate(180deg);
+}
+
+.isudev-google-reviews__read-more:focus-visible {
+	outline: 2px solid #fbbf24;
+	outline-offset: 3px;
+}

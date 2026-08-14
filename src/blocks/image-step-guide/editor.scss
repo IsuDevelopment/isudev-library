@@ -1,0 +1,23 @@
+/* Image Step Guide Block — editor-only affordances. */
+
+.wp-block-isudev-image-step-guide {
+
+	.isudev-image-step-guide__items > .block-editor-block-list__layout {
+		display: grid;
+		grid-template-columns: 1fr;
+		column-gap: var(--wp--style--block-gap--horizontal, var(--wp--style--block-gap, 1.5rem));
+		row-gap: var(--wp--style--block-gap--vertical, var(--wp--style--block-gap, 1.5rem));
+	}
+
+	&.is-display-grid .isudev-image-step-guide__items > .block-editor-block-list__layout {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* The step number is rendered as editable JS text in the editor (see
+   image-step-guide-step/edit.js), so the frontend's CSS counter is suppressed
+   here to avoid showing the number twice. */
+.block-editor-block-list__layout .isudev-image-step-guide-step__label::after {
+	content: none;
+	counter-increment: none;
+}

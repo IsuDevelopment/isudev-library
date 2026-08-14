@@ -21,6 +21,18 @@ WordPress 6.7+, PHP 7.4+. Node 22.22.2 for development only.
 | [`isudev/read-more`](src/blocks/read-more/README.md) | A linked card: title, optional image, badge and supporting text. Links to a post, a page or an external URL. |
 | [`isudev/social-share`](src/blocks/social-share/README.md) | A container for social share buttons, with an optional prefix. |
 | [`isudev/social-share-network`](src/blocks/social-share-network/README.md) | A single share button — one of twelve networks — nested inside `isudev/social-share`. |
+| [`isudev/toggle-blocks`](src/blocks/toggle-blocks/README.md) | A collapsible toggle: a button that shows or hides any inner blocks. |
+| [`isudev/image-step-guide`](src/blocks/image-step-guide/README.md) | A container for step-by-step content, with an image alongside inner blocks for each step. |
+| [`isudev/image-step-guide-step`](src/blocks/image-step-guide-step/README.md) | A single step — an image and editable content — nested inside `isudev/image-step-guide`. |
+| [`isudev/agenda-accordion`](src/blocks/agenda-accordion/README.md) | A WAI-ARIA accordion container: any number of collapsible items. |
+| [`isudev/agenda-accordion-item`](src/blocks/agenda-accordion-item/README.md) | A single accordion item — a trigger and collapsible content — nested inside `isudev/agenda-accordion`. |
+| [`isudev/bento-grid`](src/blocks/bento-grid/README.md) | A responsive CSS grid layout: any number of resizable cards. |
+| [`isudev/bento-card`](src/blocks/bento-card/README.md) | A single card, resizable by drag — nested inside `isudev/bento-grid`. |
+| [`isudev/selling-points`](src/blocks/selling-points/README.md) | A container for selling points in a responsive grid, with optional reveal-on-scroll. |
+| [`isudev/selling-point`](src/blocks/selling-point/README.md) | A single point — icon, image, badge, title, description and link — nested inside `isudev/selling-points`. |
+| [`isudev/google-reviews`](src/blocks/google-reviews/README.md) | Reviews from WP Google Review Slider, as a card grid or a carousel. |
+| [`isudev/google-reviews-header`](src/blocks/google-reviews-header/README.md) | A Google account's rating, logo and a review button. |
+| [`isudev/google-reviews-badge`](src/blocks/google-reviews-badge/README.md) | A compact Google rating badge linking to the account's Maps profile. |
 
 Each block ships a `README.md` in its own directory: every setting, where to find
 it, what a theme can lock, and what to check when the block does not render.

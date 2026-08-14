@@ -1,0 +1,56 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/bento-card",
+	"version": "1.0.0",
+	"title": "Bento Card",
+	"parent": ["isudev/bento-grid"],
+	"category": "design",
+	"icon": "screenoptions",
+	"description": "A single card within a Bento Grid, spanning a configurable number of columns and rows per breakpoint. By IsuDev.",
+	"keywords": ["bento", "card", "grid"],
+	"textdomain": "isudev-library",
+	"supports": {
+		"html": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true
+		},
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": true
+		},
+		"spacing": {
+			"padding": true
+		},
+		"dimensions": {
+			"minHeight": true
+		}
+	},
+	"attributes": {
+		"_namespace": {
+			"type": "string",
+			"default": "",
+			"description": "Layout identifier set by the grid's variation picker — scopes isudev.json template and allowedBlocks lookups."
+		},
+		"gridColumn": {
+			"type": "object",
+			"default": {
+				"desktop": { "start": "auto", "span": 2 },
+				"mobile": { "start": "auto", "span": 1 }
+			}
+		},
+		"gridRow": {
+			"type": "object",
+			"default": {
+				"desktop": { "start": "auto", "span": 2 },
+				"mobile": { "start": "auto", "span": 1 }
+			}
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"editorStyle": "file:./index.css",
+	"render": "file:./render.php"
+}

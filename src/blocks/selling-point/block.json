@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/selling-point",
+	"version": "1.0.0",
+	"title": "Selling Point",
+	"parent": ["isudev/selling-points"],
+	"category": "design",
+	"icon": "index-card",
+	"description": "A single selling point: an optional icon, image, badge, title, description and link. Lives only inside isudev/selling-points. By IsuDev.",
+	"textdomain": "isudev-library",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	},
+	"attributes": {
+		"icon": { "type": "string", "default": "" },
+		"showIcon": { "type": "boolean", "default": true },
+		"media": { "type": "object", "default": {} },
+		"itemWidth": { "type": "string", "default": "" },
+		"title": { "type": "string", "default": "" },
+		"badgeText": { "type": "string", "default": "" },
+		"showBadge": { "type": "boolean", "default": false },
+		"description": { "type": "string", "default": "" },
+		"link": { "type": "object", "default": {} },
+		"showLinkText": { "type": "boolean", "default": false },
+		"linkText": { "type": "string", "default": "" }
+	},
+	"usesContext": [
+		"isudev/sellingPointsHeadingLevel",
+		"isudev/sellingPointsIconSize",
+		"isudev/sellingPointsRenderTitlesAsHeadings",
+		"isudev/sellingPointsNamespace"
+	],
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

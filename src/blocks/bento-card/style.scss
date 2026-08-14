@@ -1,0 +1,34 @@
+/* Bento Card Block — frontend styles. Ported from the standalone
+   isudev/bento-grid plugin; the block name and CSS classes were already
+   namespaced `isudev-*` there, so neither changes here. */
+
+.isudev-bento-card {
+	position: relative;
+	grid-column: var(--grid-col-desktop, span 2);
+	grid-row: var(--grid-row-desktop, span 2);
+	border-radius: 8px;
+	overflow: hidden;
+	min-height: 120px;
+}
+
+.isudev-bento-card__content {
+	height: 100%;
+}
+
+/* Tablet: 768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+
+	.isudev-bento-card {
+		grid-column: var(--grid-col-tablet, var(--grid-col-desktop, span 2));
+		grid-row: var(--grid-row-tablet, var(--grid-row-desktop, span 2));
+	}
+}
+
+/* Mobile: below 768px */
+@media (max-width: 767px) {
+
+	.isudev-bento-card {
+		grid-column: var(--grid-col-mobile, span 1);
+		grid-row: var(--grid-row-mobile, span 1);
+	}
+}

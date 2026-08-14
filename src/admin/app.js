@@ -38,9 +38,17 @@ export default function App() {
 
 	return (
 		<div className="isudev-admin">
-			<h1 className="isudev-admin__title">
-				{__('IsuDev Library', 'isudev-library')}
-			</h1>
+			<div className="isudev-admin__intro">
+				<h1 className="isudev-admin__title">
+					{__('IsuDev Library', 'isudev-library')}
+				</h1>
+				<p className="isudev-admin__subtitle">
+					{__(
+						'Disabling a block removes it entirely — no editor or frontend assets load, and blocks already inserted in content render as nothing.',
+						'isudev-library'
+					)}
+				</p>
+			</div>
 
 			{error && (
 				<div className="notice notice-error">

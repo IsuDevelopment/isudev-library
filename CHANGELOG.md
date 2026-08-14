@@ -1,5 +1,339 @@
 # Changelog
 
+## 1.10.0 — 2026-08-14
+
+### Added
+
+- The admin panel's Blocks tab now groups a parent block with the inner
+  blocks that `require` it into a single card: a "Parent" badge on the
+  parent row, an "Inner blocks — N of M enabled" divider, and each child
+  nested underneath with a connecting rule. Previously every block —
+  parent and child alike — was its own flat card in one list.
+- A summary bar ("N of M blocks enabled") with "Enable all" / "Disable
+  all" buttons above the block list. Both send one request per block,
+  sequentially rather than in parallel, because the toggle endpoint reads,
+  mutates and writes back the whole options array per request — concurrent
+  requests could otherwise silently drop one block's change.
+- When a parent block is disabled, its inner-blocks section dims and its
+  count line reads "Unavailable while parent is disabled" instead of a
+  count.
+
+### Changed
+
+- The page-level explanation of what disabling a block does now appears
+  once, under the panel's title, instead of being repeated under every
+  unlocked block's toggle. Per-card notices are now reserved for the
+  locked states that actually differ block to block (managed in
+  `isudev.json`, always enabled, or waiting on a disabled parent).
+
+## 1.9.0 — 2026-08-14
+
+### Added
+
+- Block `isudev/google-reviews`: reviews from the WP Google Review Slider
+  plugin, as a card grid or a carousel.
+- Block `isudev/google-reviews-header`: a Google account's rating, logo and
+  a "Rate us" button.
+- Block `isudev/google-reviews-badge`: a compact rating badge linking to the
+  account's Google Maps profile.
+- `GET /isudev-library/v1/google-review-accounts`, a new REST endpoint
+  gated by `edit_posts` (narrower than this plugin's other,
+  `manage_options`-gated endpoints) that all three blocks' editor UIs use to
+  populate their account picker.
+- `swiper` added as a direct dependency, bundled into
+  `isudev/google-reviews`'s `view.js`/`view.css`.
+- `includes/google-reviews/`: database access and pure render helpers
+  shared by all three blocks, loaded unconditionally like this plugin's
+  other core infrastructure. See `guides/google-reviews.md` for why these
+  three sibling blocks needed a shared `includes/` module where every
+  previous multi-block port here used a parent block's own `inc/`.
+
+### Migrated from `isudev-google-reviews`
+
+Ported from `kormas-isu`'s standalone `isudev-google-reviews` plugin. There
+is no compatibility layer: content has to be re-inserted.
+
+- **Requires the WP Google Review Slider plugin**, same as the source — the
+  one deliberate exception to this plugin's "no runtime dependency on any
+  other plugin" rule, because these blocks render an existing plugin's data
+  rather than fetching anything themselves. Every block's `render.php`
+  checks for that plugin's `WPREV_GOOGLE_PLUGIN_DIR` constant and renders
+  nothing without it.
+- **No T2 dependency.** The source's carousel block depended on a `swiper`
+  script/style handle a theme (T2) registered and shared; this plugin
+  bundles Swiper itself instead. See `guides/google-reviews.md`.
+- **The header block's three flat `logoId` / `logoUrl` / `logoAlt`
+  attributes become one `logo` object attribute**, matching
+  `isudev/read-more`'s shape, and use `@isudev/gutenberg`'s `MediaControl`
+  in the editor instead of `@t2/editor`'s raw `MediaUpload` /
+  `MediaUploadCheck`.
+- UI strings are translated from the source's hardcoded Polish to English
+  `__()` source strings, matching every other block in this plugin, and the
+  editor's rating-number preview formatting no longer hardcodes the
+  `pl-PL` locale.
+- PHP namespace changed from `IsuDev\GoogleReviews\*` to
+  `IsuDevLibrary\Blocks\GoogleReviews*` / `IsuDevLibrary\GoogleReviews`, and
+  textdomain from `isudev-google-reviews` to `isudev-library`. The block
+  names themselves (`isudev/google-reviews*`) were already correctly
+  namespaced and are unchanged.
+
+## 1.8.0 — 2026-08-14
+
+### Added
+
+- Block `isudev/selling-points`: a container for selling points in a
+  responsive grid, with optional reveal-on-scroll.
+- Block `isudev/selling-point`: a single point — icon, image, badge, title,
+  description and link, each independently toggleable by the theme — nested
+  inside `isudev/selling-points`.
+- `features`, `iconSize`, `imageSize`, `defaultColumns` and `template`
+  config keys under `isudev/selling-points` in `isudev.json`. See
+  `guides/selling-points.md`.
+
+### Migrated from `extended-selling-points`
+
+Ported from `kormas-isu`'s standalone `extended-selling-points` plugin, at
+the user's request renamed from `t2/extended-selling-points` /
+`t2/extended-selling-point` to `isudev/selling-points` / `isudev/selling-point`
+— dropping both the leftover `t2/` namespace and the "extended-" prefix.
+There is no compatibility layer: content has to be re-inserted.
+
+- **No T2 dependency.** `T2\Config\get_config_variable()` / `@t2/editor`'s
+  `getConfig()` are replaced by `isudev.json` through `IsuDevLibrary\Config`
+  / `getBlockConfig()`; `T2\Icons\get_icon()` and `@t2/editor`'s
+  `BlockIconSelector` are replaced by the shared `IsuDevLibrary\Utils` icon
+  registry and `@isudev/gutenberg`'s `IconSelect`; `@t2/editor`'s
+  `MediaSuitePicker` / `MediaSuiteViewer` are replaced by
+  `@isudev/gutenberg`'s `MediaControl`; the point's hand-rolled `link-popup`
+  component is replaced by `@isudev/gutenberg`'s `BlockLinkControl`. See
+  `guides/selling-points.md`.
+- **The point's `mediaId` attribute becomes a `media` object attribute**,
+  matching `isudev/read-more`'s shape.
+- **The point's `link` shape changes** from `{ rel, url, linkTarget, nofollow }`
+  to `{ url, opensInNewTab, nofollow, … }`, matching every other link
+  attribute in this plugin. `render.php` rebuilds `target` / `rel` from
+  `opensInNewTab` / `nofollow` itself instead of trusting a client-supplied
+  `rel` string verbatim, the same hardening `isudev/read-more` already
+  applies.
+- UI strings are translated from the source's hardcoded Polish to English
+  `__()` source strings, matching every other block in this plugin.
+- Dropped: the `t2AddBeforeAfter` block support (T2-specific, no equivalent
+  here); the two named block styles ("ciemny"/dark, "accent"), which shipped
+  no CSS of their own and depended entirely on T2 theme styles that don't
+  exist in this plugin; and a `templateLock` destructured from attributes in
+  the source's `edit.js` that was never declared in `block.json` — always
+  `undefined`, and so already dead code before this port.
+- Context keys reaching the point from the wrapper (`headingLevel`,
+  `iconSize`, `renderTitlesAsHeadings`) are renamed to
+  `isudev/sellingPoints*`-prefixed context keys, avoiding collisions with
+  unrelated blocks that might otherwise provide same-named, unprefixed
+  context on the same page — matching every other block context key in this
+  plugin.
+
+## 1.7.0 — 2026-08-14
+
+### Added
+
+- Block `isudev/bento-grid`: a responsive CSS grid layout with a
+  five-layout picker, per-breakpoint columns and gap, and a grid guide
+  overlay in the editor.
+- Block `isudev/bento-card`: a single grid cell, resizable by dragging its
+  right/bottom edge, with dual binding that grows the parent grid when a
+  card's span exceeds its current column count.
+- `customVariations` config key under `isudev/bento-grid`, and
+  `allowedBlocks` / `template` / `templateLock` under `isudev/bento-card`,
+  in `isudev.json`. See `guides/bento-grid.md`.
+- `@wordpress/hooks` added as an explicit dependency, for the
+  `isudevLibrary.bentoGrid.*` JS filters.
+
+### Migrated from the standalone `isudev/bento-grid` plugin
+
+Ported from `kormas-isu`'s standalone `bento-grid` plugin. Unlike this
+plugin's other ports, the block names were already `isudev/bento-grid` and
+`isudev/bento-card` and the CSS classes already `isudev-bento-*`, so neither
+changed.
+
+- **No `@t2/editor` dependency.** The source's `DevicePanelBody` component is
+  replaced by `@isudev/gutenberg`'s `useBreakpoint()` (synced to and from the
+  editor's own device preview) and `BreakpointSwitcher`. The attribute shape
+  is unchanged — `columns` / `gap` / `gridColumn` / `gridRow` stay single
+  objects keyed by breakpoint, rather than being reshaped into
+  `ResponsiveControl`'s per-breakpoint-suffix attributes, because the grid
+  needs every breakpoint's value at once (to clamp card spans when columns
+  shrink) and the card needs dual-binding with its parent — neither fits
+  `ResponsiveControl`'s one-control-at-a-time model. See
+  `guides/bento-grid.md`.
+- **No `@helpers` dependency.** `getLibraryBlockConfig()` is replaced by
+  `getBlockConfig()` in `src/utils/config.js`, reading `isudev.json` through
+  the same `window.isudevLibraryConfig` bridge every other block in this
+  plugin uses.
+- JS filter names are renamed from `isudev.bentoGrid.*` to
+  `isudevLibrary.bentoGrid.*`, matching this plugin's own naming rather than
+  the source's.
+- UI strings are translated from the source's hardcoded Polish to English
+  `__()` source strings, matching every other block in this plugin and
+  correct WordPress i18n practice — msgids are meant to be the neutral
+  source text, not a specific locale's translation.
+- Card content config keeps its own source shape (`isudev/bento-card`'s own
+  key in `isudev.json`, not the grid's), unlike the parent/child config
+  sharing `isudev/social-share` and `isudev/social-share-network` use — the
+  grid's layout and the card's content defaults are independent concerns,
+  and the source's own `library.json` schema already treated them that way.
+
+## 1.6.0 — 2026-08-14
+
+### Added
+
+- Block `isudev/agenda-accordion`: a WAI-ARIA accordion container — keyboard
+  navigation between triggers, and a URL hash that opens an item and can be
+  bookmarked.
+- Block `isudev/agenda-accordion-item`: a single accordion item — a trigger
+  with a title, optional date and excerpt, and collapsible content — nested
+  inside `isudev/agenda-accordion`.
+- `allowMultiple`, `allowToggle`, `icons`, `allowedBlocks`, `template` and
+  `excerpt.insideTrigger` config keys under `isudev/agenda-accordion` in
+  `isudev.json`. See `guides/agenda-accordion.md`.
+- A `chevronUp` icon in the shared registry, for the accordion item's
+  expanded-state default.
+
+### Migrated from `agenda-accordion`
+
+Ported from the standalone `dekode-library/agenda-accordion` plugin. There is
+no compatibility layer: the `dekode-library/agenda-accordion*` block names
+are gone, and content has to be re-inserted.
+
+- CSS classes are renamed from `dekode-library-agenda-accordion*` to
+  `isudev-agenda-accordion*`, and `--dekode-library-agenda-accordion-*`
+  custom properties to `--isudev-agenda-accordion-*`. As in the source, the
+  item block ships no stylesheet of its own — every rule for its markup lives
+  in the wrapper's `style.scss` / `editor.scss`.
+- **No T2 dependency.** The source read icon and layout settings through
+  `T2\Config\get_config_variable()` against `t2.json` and rendered icons
+  through `T2\Icons\icon()` / `T2\Icons\get_icon()`. This plugin's own
+  `isudev.json` / `IsuDevLibrary\Config` and the shared
+  `IsuDevLibrary\Utils` icon registry replace both, the same as every other
+  block in this plugin.
+- **The default content template no longer depends on `allowedBlocks` being
+  set.** The source only inserted its default "Write description…" paragraph
+  when a theme had also restricted `allowedBlocks`
+  (`template = !isEmpty(ALLOWED_BLOCKS) ? TEMPLATE : []`), so an
+  unrestricted accordion silently lost its placeholder content. This port
+  applies the template unconditionally.
+- `--theme--text-color`, a T2 theme custom property with no equivalent here,
+  is replaced by `var(--wp--preset--color--contrast, currentColor)`
+  wherever the source used it (the item border and the content panel's
+  decorative top rule).
+- Six context keys become one. The source threaded icon/layout config
+  (`layout.icons.size` / `.closed` / `.open`) by reading `t2.json` directly
+  from the item's own PHP, with no context wiring at all — this port makes
+  those the same one-key-per-feature `isudev/agenda-accordion` config keys
+  the `isudev/social-share*` blocks already use, reached from the item via
+  `get_block_config()` / `getBlockConfig()`, plus one real context key
+  (`isudev/agendaAccordionNamespace`) for variation-scoped resolution.
+
+## 1.5.0 — 2026-08-14
+
+### Added
+
+- Block `isudev/image-step-guide`: a container for step-by-step content, any
+  number of `isudev/image-step-guide-step` children.
+- Block `isudev/image-step-guide-step`: a single step — an image alongside
+  editable inner blocks — nested inside `isudev/image-step-guide`.
+- `displayStyle`, `imageLightbox` and `stepLabel` config keys, plus
+  `allowedStepBlocks` / `stepTemplate`, under `isudev/image-step-guide` in
+  `isudev.json`. See `guides/image-step-guide.md`.
+
+### Migrated from `image-step-guide`
+
+Ported from the standalone `dekode-library/image-step-guide` plugin. There is
+no compatibility layer: the `dekode-library/image-step-guide*` block names
+are gone, and content has to be re-inserted.
+
+- CSS classes are renamed from `dekode-image-step-guide*` to
+  `isudev-image-step-guide*`, styled as this plugin's own classes rather than
+  `.wp-block-isudev-image-step-guide`, so the styles survive a future block
+  rename. As in the source, the step block ships no stylesheet of its own —
+  every rule for its markup lives in the wrapper's `style.scss` /
+  `editor.scss`, since a step can only ever exist inside the wrapper.
+- **The image lightbox is a from-scratch reimplementation**, not a port. The
+  source built an `<!-- wp:image {"lightbox":{"enabled":true}} --> `comment
+  and ran it through `do_blocks()` to borrow core's own lightbox, gated
+  behind `version_compare( $wp_version, '6.4', '>=' )`. This plugin implements
+  its own small overlay in `view.js` instead — no WordPress version check, no
+  `do_blocks()`, no dependency on `core/image`'s internal markup. The
+  `dekode-library/image-step-guide/image/size` and
+  `…/step/image/html` PHP filters this replaced are gone; the rendered image
+  size is a fixed `large`, matching every other image this plugin renders.
+- **The step's three flat `mediaId` / `mediaUrl` / `mediaAlt` attributes
+  become one `media` object attribute**, matching `isudev/read-more`'s shape,
+  and use `@isudev/gutenberg`'s `MediaControl` in the editor instead of
+  `@t2/editor`'s `MediaSuite`.
+- **Config is read live, not baked into attributes.** The source copied
+  `library.json`-equivalent values into the wrapper's own attributes once, on
+  mount, via three `useEffect` hooks. This port reads `isudev.json` live
+  through `get_block_config()` / `getBlockConfig()` at render and edit time
+  instead, like every other block in this plugin — a theme config change now
+  applies immediately, including to already-inserted content.
+- **Six context keys become one.** The source threaded
+  `stepAllowedInnerBlocks`, `stepTemplate`, `stepLabelPrefix`,
+  `stepLabelVisible`, `displayStyle` and `useImageLightbox` from wrapper to
+  step as block context. Only `_namespace` (`isudev/imageStepGuideNamespace`)
+  remains: the rest are config reads under the wrapper's block name from the
+  step block, the same pattern `isudev/social-share-network` already uses.
+- **The source's per-namespace variation-switching JS is gone.** The source's
+  `edit.js` special-cased `getVariation()` / `getVariationLibSettings()` to
+  swap `stepTemplate` / `stepAllowedInnerBlocks` based on which registered
+  variation's `displayStyle` matched. This plugin's existing generic
+  `IsuDevLibrary\Variations` system already covers registering variations
+  from `isudev.json` for any block with `'variations' => true`; no
+  block-specific code is needed.
+- The step's numbered label badge still uses a pure CSS counter on the
+  frontend, and a JS-computed number in the editor (where the counter is
+  suppressed) — unchanged from the source.
+
+## 1.4.0 — 2026-08-14
+
+### Added
+
+- Block `isudev/toggle-blocks`: a collapsible toggle — a button that shows or
+  hides any inner blocks placed inside it. Unlike `isudev/social-share`, it
+  has no fixed child; any block may go inside.
+- `iconPosition` and `icons.open` / `icons.close` config keys under
+  `isudev/toggle-blocks` in `isudev.json`, resolved through
+  `Config\get_block_config()` and its JS mirror, including variation scoping.
+
+### Migrated from `toggle-blocks`
+
+Ported from the standalone `dekode-library/toggle-blocks` plugin. There is no
+compatibility layer: the `dekode-library/toggle-blocks` block name is gone,
+and `isudev/toggle-blocks` content has to be re-inserted.
+
+- CSS classes are renamed from `toggle-block*` to `isudev-toggle*`, styled as
+  this plugin's own classes rather than `.wp-block-isudev-toggle-blocks`, so
+  the styles survive a future block rename.
+- Frontend `CustomEvent`s are renamed from `dekode/toggle:open` /
+  `dekode/toggle:close` to `isudev/toggle:open` / `isudev/toggle:close`.
+- The CSS custom property driving the animation duration is renamed from
+  `--toggle-speed` to `--isudev-toggle-speed`.
+- No `T2\Icons\get_icon()` or `window.t2.editor.Icon` integration: icons come
+  from the shared `IsuDevLibrary\Utils` registry and
+  `@isudev/gutenberg`'s `Icon` component, matching every other block in this
+  plugin.
+- The source's `_namespace`-scoped `iconPosition` and `icons` config read
+  through `DekodeLibrary\Config\get_library_block_config()` under the block's
+  own key, `dekode-library/toggle-blocks`; the equivalent keys here live
+  under `isudev/toggle-blocks` and go through `IsuDevLibrary\Config`, this
+  plugin's own config reader, unlike the social share blocks, which read the
+  parent's key for both blocks.
+- `settings.allowedInnerBlocks` / `settings.template` / `settings.templateLock`
+  from the source's config are dropped: any block can go inside, with no
+  fixed template. The source config surface was never used to restrict
+  content in practice.
+- `buttonStyle` still applies a `core/button` style (`is-style-*`) to the
+  toggle button, unchanged from the source.
+- The manually-declared `anchor` attribute is dropped: `supports.anchor: true`
+  already gives the block one, via WordPress core's own handling.
+
 ## 1.3.0 — 2026-08-11
 
 ### Added

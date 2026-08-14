@@ -1,0 +1,191 @@
+/* Google Reviews Header Block — frontend styles. Ported from the standalone
+   isudev-google-reviews plugin; block name and classes were already
+   namespaced `isudev-*`, so neither changes here. */
+
+.isudev-google-reviews-header {
+	box-sizing: border-box;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: clamp(18px, 2vw, 28px);
+	align-items: center;
+	padding: var(--wp--preset--spacing--30, 1.5rem);
+	color: var(--wp--preset--color--contrast, #0f172a);
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 20px;
+	box-shadow: 0 14px 34px rgb(15 23 42 / 8%);
+}
+
+.isudev-google-reviews-header__logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 32px;
+}
+
+.isudev-google-reviews-header__logo[href] {
+	text-decoration: none;
+	transition:
+		transform 180ms ease,
+		opacity 180ms ease;
+}
+
+.isudev-google-reviews-header__logo[href]:hover {
+	opacity: 0.88;
+	transform: translateY(-2px);
+}
+
+.isudev-google-reviews-header__logo[href]:focus-visible {
+	outline: 3px solid currentcolor;
+	outline-offset: 4px;
+}
+
+.isudev-google-reviews-header__logo-image {
+	display: block;
+	width: auto;
+	height: auto;
+	max-height: var(--isudev-google-reviews-header-logo-max-height, 64px);
+	object-fit: contain;
+}
+
+.isudev-google-reviews-header__main {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	min-width: 0;
+}
+
+.isudev-google-reviews-header__title {
+	margin: 0;
+	font: inherit;
+	font-size: clamp(1rem, 1.25vw, 1.25rem);
+	font-weight: 700;
+	line-height: 1.25;
+	color: inherit;
+}
+
+.isudev-google-reviews-header__description {
+	margin: 0;
+	font-size: 0.9375rem;
+	line-height: 1.45;
+	color: #667085;
+}
+
+.isudev-google-reviews-header__rating {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	font-size: 0.9375rem;
+}
+
+.isudev-google-reviews-header__rating strong {
+	font-size: 1.125rem;
+	color: #0f172a;
+}
+
+.isudev-google-reviews-header__stars {
+	font-size: 1.05rem;
+	line-height: 1;
+	letter-spacing: 2px;
+	color: #fbbf24;
+}
+
+.isudev-google-reviews-header__count {
+	color: #7b8493;
+}
+
+.isudev-google-reviews-header__actions {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: flex-end;
+}
+
+.isudev-google-reviews-header__powered {
+	display: inline-flex;
+	gap: 5px;
+	align-items: center;
+	font-size: 0.75rem;
+	color: #8a93a3;
+}
+
+.isudev-google-reviews-header__powered img {
+	width: 16px;
+	height: 16px;
+}
+
+.isudev-google-reviews-header__powered strong {
+	font-weight: 600;
+	color: #5f6673;
+}
+
+.isudev-google-reviews-header__button {
+	display: inline-flex;
+	gap: 22px;
+	align-items: center;
+	justify-content: center;
+	min-height: 50px;
+	padding: 0 24px;
+	font-size: 0.9375rem;
+	font-weight: 700;
+	line-height: 1;
+	color: var(--wp--preset--color--contrast, #0f172a);
+	text-decoration: none;
+	background: var(--wp--preset--color--accent, #fbbf24);
+	border-radius: 14px;
+	box-shadow: 0 10px 20px rgb(255 208 0 / 20%);
+	transition:
+		transform 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.isudev-google-reviews-header__button:hover {
+	color: var(--wp--preset--color--contrast, #0f172a);
+	transform: translateY(-2px);
+	box-shadow: 0 14px 24px rgb(255 208 0 / 28%);
+}
+
+.isudev-google-reviews-header__button:focus-visible {
+	outline: 3px solid var(--wp--preset--color--contrast, #0f172a);
+	outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+
+	.isudev-google-reviews-header {
+		grid-template-columns: auto minmax(0, 1fr);
+	}
+
+	.isudev-google-reviews-header__actions {
+		grid-column: 1 / -1;
+		align-items: stretch;
+	}
+
+	.isudev-google-reviews-header__powered {
+		justify-content: flex-end;
+	}
+}
+
+@media (max-width: 440px) {
+
+	.isudev-google-reviews-header {
+		grid-template-columns: 1fr;
+	}
+
+	.isudev-google-reviews-header__actions {
+		grid-column: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.isudev-google-reviews-header__logo[href],
+	.isudev-google-reviews-header__button {
+		transition: none;
+	}
+
+	.isudev-google-reviews-header__logo[href]:hover {
+		transform: none;
+	}
+}

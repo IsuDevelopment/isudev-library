@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/google-reviews-badge",
+	"version": "1.0.0",
+	"title": "Google Reviews Badge",
+	"category": "widgets",
+	"icon": "star-filled",
+	"description": "Displays a compact rating badge for a Google account, sourced from the WP Google Review Slider plugin. By IsuDev.",
+	"keywords": ["reviews", "google", "rating", "badge"],
+	"textdomain": "isudev-library",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"color": {
+			"background": true,
+			"gradients": false,
+			"link": false,
+			"text": false
+		},
+		"border": {
+			"color": true,
+			"radius": false,
+			"style": false,
+			"width": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": false
+		}
+	},
+	"attributes": {
+		"accountId": { "type": "string", "default": "" },
+		"useLightText": { "type": "boolean", "default": false }
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"editorStyle": "file:./index.css",
+	"render": "file:./render.php"
+}

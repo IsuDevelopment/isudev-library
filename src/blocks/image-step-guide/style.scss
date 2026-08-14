@@ -1,0 +1,136 @@
+/* Image Step Guide Block — a container for step-by-step content: any number
+   of isudev/image-step-guide-step children, each an image alongside editable
+   inner blocks. Ported from the standalone dekode-library/image-step-guide
+   plugin, with the dekode-image-step-guide* classes renamed to
+   isudev-image-step-guide*.
+
+   The step block ships no stylesheet of its own — every rule for its markup
+   lives here, since a step can only ever exist inside this wrapper, which
+   this block.json already guarantees gets enqueued alongside it. */
+
+.isudev-image-step-guide {
+	counter-reset: isudev-image-step-guide;
+}
+
+.isudev-image-step-guide__items {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: inherit;
+}
+
+.is-display-grid .isudev-image-step-guide__items {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.wp-block-isudev-image-step-guide-step {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	border: 1px solid #d9dddb;
+}
+
+.isudev-image-step-guide-step__media {
+	min-height: 220px;
+}
+
+.isudev-image-step-guide-step__media img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
+}
+
+.isudev-image-step-guide-step__media-placeholder {
+	width: 100%;
+	height: 100%;
+	min-height: 220px;
+	display: block;
+	background: #e6ece9;
+}
+
+.isudev-image-step-guide-step__content {
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+	padding: 1.5rem;
+}
+
+.isudev-image-step-guide-step__label {
+	display: inline-flex;
+	align-self: flex-start;
+	padding: 0.2rem 0.55rem;
+	border-radius: 999px;
+	background: var(--wp--preset--color--primary, #94ce71);
+	font-size: 0.8rem;
+	font-weight: 600;
+	line-height: 1.2;
+	color: #18321e;
+}
+
+.isudev-image-step-guide-step__label::after {
+	counter-increment: isudev-image-step-guide;
+	content: " " counter(isudev-image-step-guide);
+}
+
+.isudev-image-step-guide-step__content-inner > :first-child {
+	margin-top: 0;
+}
+
+.isudev-image-step-guide-step__content-inner > :last-child {
+	margin-bottom: 0;
+}
+
+@media (max-width: 781px) {
+
+	.is-display-grid .isudev-image-step-guide__items {
+		grid-template-columns: 1fr;
+	}
+
+	.wp-block-isudev-image-step-guide-step {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Lightbox overlay — a self-contained replacement for the source plugin's
+   dependency on core/image's internal lightbox markup via do_blocks(), which
+   was tied to a specific WordPress version and core's own implementation
+   details. See guides/image-step-guide.md. */
+
+.isudev-image-step-guide.has-lightbox-images .isudev-image-step-guide-step__media img {
+	cursor: zoom-in;
+}
+
+.isudev-image-step-guide-lightbox-open {
+	overflow: hidden;
+}
+
+.isudev-image-step-guide-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+	background: rgb(0 0 0 / 80%);
+}
+
+.isudev-image-step-guide-lightbox__image {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+.isudev-image-step-guide-lightbox__close {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 0;
+	border-radius: 999px;
+	background: rgb(255 255 255 / 90%);
+	color: #18321e;
+	font-size: 1.5rem;
+	line-height: 1;
+	cursor: pointer;
+}

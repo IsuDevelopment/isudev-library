@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/bento-grid",
+	"version": "1.0.0",
+	"title": "Bento Grid",
+	"category": "design",
+	"icon": "grid-view",
+	"description": "A responsive bento grid layout: any number of isudev/bento-card children, each spanning a configurable number of columns and rows. By IsuDev.",
+	"keywords": ["bento", "grid", "layout"],
+	"textdomain": "isudev-library",
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"columns": {
+			"type": "object",
+			"default": { "desktop": 6, "tablet": 4, "mobile": 2 }
+		},
+		"gap": {
+			"type": "object",
+			"default": { "desktop": "16", "tablet": "12", "mobile": "8" }
+		},
+		"minCardHeight": { "type": "number", "default": 150 },
+		"hasChosenVariation": { "type": "boolean", "default": false }
+	},
+	"allowedBlocks": ["isudev/bento-card"],
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"editorStyle": "file:./index.css",
+	"render": "file:./render.php"
+}

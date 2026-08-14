@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/image-step-guide-step",
+	"version": "1.0.0",
+	"title": "Step",
+	"parent": ["isudev/image-step-guide"],
+	"category": "widgets",
+	"icon": "cover-image",
+	"description": "A single step: an image alongside editable inner blocks. Lives only inside isudev/image-step-guide. By IsuDev.",
+	"textdomain": "isudev-library",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"border": {
+			"color": true,
+			"width": true,
+			"style": true
+		}
+	},
+	"attributes": {
+		"media": { "type": "object", "default": {} },
+		"labelPrefix": { "type": "string", "default": "" },
+		"labelHidden": { "type": "boolean", "default": false }
+	},
+	"usesContext": ["isudev/imageStepGuideNamespace"],
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

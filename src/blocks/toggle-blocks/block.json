@@ -1,0 +1,35 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/toggle-blocks",
+	"version": "1.0.0",
+	"title": "Toggle Content",
+	"category": "design",
+	"icon": "arrow-down-alt2",
+	"description": "A collapsible toggle: a button that shows or hides any inner blocks. By IsuDev.",
+	"textdomain": "isudev-library",
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"anchor": true
+	},
+	"attributes": {
+		"_namespace": {
+			"type": "string",
+			"default": "",
+			"description": "Variation identifier injected by IsuDevLibrary\\Variations. Must be declared here or isActive matching never resolves."
+		},
+		"openText": { "type": "string", "default": "Open content" },
+		"closeText": { "type": "string", "default": "Close content" },
+		"openByDefault": { "type": "boolean", "default": false },
+		"scrollToContent": { "type": "boolean", "default": false },
+		"toggleSpeed": { "type": "number", "default": 150 },
+		"togglePlacement": { "type": "string", "default": "bottom" },
+		"buttonStyle": { "type": "string", "default": "" }
+	},
+	"editorScript": "file:./index.js",
+	"style": ["wp-block-button", "file:./style-index.css"],
+	"editorStyle": "file:./index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

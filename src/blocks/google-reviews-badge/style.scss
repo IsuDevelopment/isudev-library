@@ -1,0 +1,93 @@
+/* Google Reviews Badge Block — frontend styles. Ported from the standalone
+   isudev-google-reviews plugin; block name and classes were already
+   namespaced `isudev-*`, so neither changes here. */
+
+.isudev-google-reviews-badge {
+	box-sizing: border-box;
+	display: inline-flex;
+	gap: 14px;
+	align-items: center;
+	width: fit-content;
+	padding: 14px 18px;
+	color: #0b1f3a;
+	text-decoration: none;
+	border-color: #e5e7eb;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 16px;
+	transition:
+		transform 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.isudev-google-reviews-badge:hover {
+	color: #0b1f3a;
+	transform: translateY(-2px);
+	box-shadow: 0 12px 24px rgb(15 23 42 / 12%);
+}
+
+.isudev-google-reviews-badge:focus-visible {
+	outline: 3px solid currentcolor;
+	outline-offset: 3px;
+}
+
+.isudev-google-reviews-badge.has-light-text {
+	color: #fff;
+}
+
+.isudev-google-reviews-badge.has-light-text:hover {
+	color: #fff;
+}
+
+.isudev-google-reviews-badge__google-logo {
+	flex: 0 0 32px;
+	width: 32px;
+	height: 32px;
+	background: url(../../../assets/google-logo.svg) center / contain no-repeat;
+}
+
+.isudev-google-reviews-badge__content {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.isudev-google-reviews-badge__rating {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	line-height: 1;
+}
+
+.isudev-google-reviews-badge__rating strong {
+	font-size: 1.375rem;
+	font-weight: 700;
+}
+
+.isudev-google-reviews-badge__stars {
+	font-size: 0.875rem;
+	line-height: 1;
+	letter-spacing: 1px;
+	color: #fbbf24;
+}
+
+.isudev-google-reviews-badge__count {
+	font-size: 0.875rem;
+	line-height: 1.3;
+	color: #7b8493;
+}
+
+.isudev-google-reviews-badge.has-light-text .isudev-google-reviews-badge__count {
+	color: rgb(255 255 255 / 82%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.isudev-google-reviews-badge {
+		transition: none;
+	}
+
+	.isudev-google-reviews-badge:hover {
+		transform: none;
+	}
+}

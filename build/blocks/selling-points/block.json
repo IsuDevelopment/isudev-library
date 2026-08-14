@@ -1,0 +1,99 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/selling-points",
+  "version": "1.0.0",
+  "title": "Selling Points",
+  "category": "design",
+  "icon": "grid-view",
+  "description": "A container for selling points: any number of isudev/selling-point children in a responsive grid. By IsuDev.",
+  "textdomain": "isudev-library",
+  "attributes": {
+    "_namespace": {
+      "type": "string",
+      "default": "",
+      "description": "Variation identifier injected by IsuDevLibrary\\Variations. Must be declared here or isActive matching never resolves."
+    },
+    "headingLevel": {
+      "type": "number",
+      "default": 2
+    },
+    "iconSize": {
+      "type": "number",
+      "default": 28
+    },
+    "animateIn": {
+      "type": "boolean",
+      "default": false
+    },
+    "renderTitlesAsHeadings": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "providesContext": {
+    "isudev/sellingPointsHeadingLevel": "headingLevel",
+    "isudev/sellingPointsIconSize": "iconSize",
+    "isudev/sellingPointsRenderTitlesAsHeadings": "renderTitlesAsHeadings",
+    "isudev/sellingPointsNamespace": "_namespace"
+  },
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "color": {
+      "background": true,
+      "gradients": true,
+      "text": true,
+      "heading": true,
+      "link": true,
+      "button": false
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true
+    }
+  },
+  "selectors": {
+    "color": {
+      "heading": ".isudev-selling-point__title"
+    }
+  },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "isudev/selling-point",
+        "attributes": {
+          "title": "First point",
+          "description": "Did you know?"
+        }
+      },
+      {
+        "name": "isudev/selling-point",
+        "attributes": {
+          "title": "Second point",
+          "description": "Here is another fact"
+        }
+      },
+      {
+        "name": "isudev/selling-point",
+        "attributes": {
+          "title": "Third point",
+          "description": "And one more"
+        }
+      }
+    ]
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
+}

@@ -1,0 +1,70 @@
+/* Bento Card Block — editor-only affordances: hover/resize states, the
+   drag handles and the resize ghost preview. */
+
+.isudev-bento-card {
+	border: 1px solid #e0e0e0;
+	background: #fff;
+	overflow: visible;
+	transition: box-shadow 0.2s;
+}
+
+.isudev-bento-card:hover {
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #007cba);
+}
+
+.isudev-bento-card.is-resizing {
+	opacity: 0.85;
+	box-shadow: 0 0 0 2px var(--wp-admin-theme-color, #007cba);
+	z-index: 10;
+}
+
+.isudev-bento-card__resize-handle {
+	position: absolute;
+	z-index: 5;
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.isudev-bento-card__resize-handle:hover {
+	opacity: 1;
+	background: var(--wp-admin-theme-color-darker-10, #006ba1);
+}
+
+.isudev-bento-card:hover .isudev-bento-card__resize-handle,
+.isudev-bento-card.is-resizing .isudev-bento-card__resize-handle {
+	opacity: 1;
+}
+
+.isudev-bento-card__resize-handle--right {
+	top: 50%;
+	right: -4px;
+	transform: translateY(-50%);
+	width: 6px;
+	height: 46px;
+	background: var(--wp-admin-theme-color, #007cba);
+	border-radius: 8px;
+	cursor: col-resize;
+}
+
+.isudev-bento-card__resize-handle--bottom {
+	bottom: -4px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 46px;
+	height: 6px;
+	background: var(--wp-admin-theme-color, #007cba);
+	border-radius: 8px;
+	cursor: row-resize;
+}
+
+.isudev-bento-card__ghost {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 2px dashed var(--wp-admin-theme-color, #007cba);
+	border-radius: 8px;
+	background: color-mix(in srgb, var(--wp-admin-theme-color, #007cba) 8%, transparent);
+	pointer-events: none;
+	z-index: 4;
+	transition: none;
+}

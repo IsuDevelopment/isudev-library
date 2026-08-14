@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/google-reviews-header",
+  "version": "1.0.0",
+  "title": "Google Reviews Header",
+  "category": "widgets",
+  "icon": "star-filled",
+  "description": "Displays a Google account's rating, logo and a review button, sourced from the WP Google Review Slider plugin. By IsuDev.",
+  "keywords": [
+    "reviews",
+    "google",
+    "rating"
+  ],
+  "textdomain": "isudev-library",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "attributes": {
+    "accountId": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonText": {
+      "type": "string",
+      "default": "Rate us"
+    },
+    "header": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "logo": {
+      "type": "object",
+      "default": {}
+    },
+    "logoMaxHeight": {
+      "type": "integer",
+      "default": 64
+    },
+    "hidePoweredByGoogle": {
+      "type": "boolean",
+      "default": false
+    },
+    "renderAsHeading": {
+      "type": "boolean",
+      "default": true
+    },
+    "headingLevel": {
+      "type": "integer",
+      "default": 2
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

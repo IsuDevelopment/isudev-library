@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/agenda-accordion-item",
+  "version": "1.0.0",
+  "title": "Agenda Accordion Item",
+  "parent": [
+    "isudev/agenda-accordion"
+  ],
+  "category": "design",
+  "icon": "list-view",
+  "description": "A single accordion item: a trigger with a title, optional date and excerpt, and collapsible content. Lives only inside isudev/agenda-accordion. By IsuDev.",
+  "textdomain": "isudev-library",
+  "attributes": {
+    "agendaDate": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "excerpt": {
+      "type": "string",
+      "default": ""
+    },
+    "level": {
+      "type": "number",
+      "default": 3
+    },
+    "allowTagsInTitle": {
+      "type": "boolean",
+      "default": false
+    },
+    "defaultOpen": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "usesContext": [
+    "isudev/agendaAccordionNamespace"
+  ],
+  "supports": {
+    "html": false,
+    "anchor": true
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

@@ -1,0 +1,12 @@
+/* Google Reviews Block — editor-only affordances. The block renders from
+   live database data the editor cannot preview, so the canvas shows a
+   settings summary instead. */
+
+.isudev-google-reviews-editor {
+	padding: 24px;
+	border: 1px dashed #757575;
+}
+
+.isudev-google-reviews-editor p {
+	margin: 4px 0 0;
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/image-step-guide",
+  "version": "1.0.0",
+  "title": "Image Step Guide",
+  "category": "widgets",
+  "icon": "images-alt2",
+  "description": "A container for step-by-step content: any number of isudev/image-step-guide-step children, each an image alongside editable inner blocks. By IsuDev.",
+  "textdomain": "isudev-library",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "blockGap": {
+        "sides": [
+          "horizontal",
+          "vertical"
+        ]
+      }
+    }
+  },
+  "attributes": {
+    "_namespace": {
+      "type": "string",
+      "default": "",
+      "description": "Variation identifier injected by IsuDevLibrary\\Variations. Must be declared here or isActive matching never resolves."
+    },
+    "displayStyle": {
+      "type": "string",
+      "enum": [
+        "list",
+        "grid"
+      ],
+      "default": "list"
+    },
+    "useImageLightbox": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "providesContext": {
+    "isudev/imageStepGuideNamespace": "_namespace"
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
+}

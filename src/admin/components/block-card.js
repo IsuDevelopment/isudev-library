@@ -2,8 +2,6 @@
  * WordPress dependencies
  */
 import {
-	Card,
-	CardBody,
 	Flex,
 	FlexBlock,
 	FlexItem,
@@ -12,10 +10,14 @@ import {
 import { sprintf, __ } from '@wordpress/i18n';
 
 /**
- * Human-readable explanation of where a block's state comes from.
+ * Explanation for why a block's toggle is locked.
+ *
+ * The common, removable case needs no per-card repetition of the
+ * page-level "disabling removes it entirely" notice — only the locked
+ * states, which differ block to block, are worth calling out here.
  *
  * @param {Object} block Block payload from the REST endpoint.
- * @return {string} Explanation shown under the toggle.
+ * @return {string} Explanation shown under the toggle, or '' when unlocked.
  */
 function stateNotice(block) {
 	switch (block.source) {
@@ -36,57 +38,55 @@ function stateNotice(block) {
 				block.requires.join(', ')
 			);
 		default:
-			return __(
-				'Disabling removes the block entirely — no editor or frontend assets load, and blocks already inserted in content render as nothing.',
-				'isudev-library'
-			);
+			return '';
 	}
 }
 
-export default function BlockCard({ block, onToggle }) {
-	const dependentsWarning =
-		block.enabled && block.dependents.length > 0
-			? sprintf(
-					/* translators: %s: comma-separated list of block slugs. */
-					__('Disabling this also disables: %s', 'isudev-library'),
-					block.dependents.join(', ')
-				)
-			: '';
+export default function BlockCard({ block, onToggle, isParent, compact }) {
+	const TitleTag = compact ? 'h4' : 'h2';
 
 	return (
-		<Card className="isudev-admin__card" size="small">
-			<CardBody>
-				<Flex align="flex-start" gap={4}>
-					<FlexBlock>
-						<h2 className="isudev-admin__card-title">
+		<div className={`isudev-admin__card${compact ? ' is-compact' : ''}`}>
+			<Flex align="flex-start" gap={4}>
+				<FlexBlock>
+					<Flex
+						className="isudev-admin__card-heading"
+						gap={2}
+						justify="flex-start"
+					>
+						<TitleTag className="isudev-admin__card-title">
 							{block.title}
-						</h2>
-						<p className="isudev-admin__card-name">
+						</TitleTag>
+						<span className="isudev-admin__badge">
 							<code>{block.name}</code>
-						</p>
-						{block.description && <p>{block.description}</p>}
-					</FlexBlock>
-					<FlexItem>
-						<ToggleControl
-							__nextHasNoMarginBottom
-							label={
-								block.enabled
-									? __('Enabled', 'isudev-library')
-									: __('Disabled', 'isudev-library')
-							}
-							checked={block.enabled}
-							disabled={block.locked}
-							help={stateNotice(block)}
-							onChange={(next) => onToggle(block, next)}
-						/>
-						{dependentsWarning && (
-							<p className="isudev-admin__card-warning">
-								{dependentsWarning}
-							</p>
+						</span>
+						{isParent && (
+							<span className="isudev-admin__badge is-parent">
+								{__('Parent', 'isudev-library')}
+							</span>
 						)}
-					</FlexItem>
-				</Flex>
-			</CardBody>
-		</Card>
+					</Flex>
+					{block.description && (
+						<p className="isudev-admin__card-description">
+							{block.description}
+						</p>
+					)}
+				</FlexBlock>
+				<FlexItem className="isudev-admin__card-controls">
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={
+							block.enabled
+								? __('Enabled', 'isudev-library')
+								: __('Disabled', 'isudev-library')
+						}
+						checked={block.enabled}
+						disabled={block.locked}
+						help={stateNotice(block)}
+						onChange={(next) => onToggle(block, next)}
+					/>
+				</FlexItem>
+			</Flex>
+		</div>
 	);
 }
