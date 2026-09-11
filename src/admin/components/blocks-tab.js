@@ -115,6 +115,13 @@ export default function BlocksTab({ blocks, onChanged, onError }) {
 
 	return (
 		<div className="isudev-admin__blocks">
+			<p className="isudev-admin__note">
+				{__(
+					'Disabling a block removes it entirely — no editor or frontend assets load, and blocks already inserted in content render as nothing.',
+					'isudev-library'
+				)}
+			</p>
+
 			<div className="isudev-admin__summary">
 				<p className="isudev-admin__summary-count">
 					{sprintf(

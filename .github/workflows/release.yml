@@ -73,13 +73,17 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           mkdir -p dist/isudev-library
+          # Not --exclude-from=.distignore: that file excludes vendor/, and the zip needs it —
+          # a bundled vendor/ is how the plugin recognises a release-zip install and enables
+          # self-updates. src/ must stay too: it is runtime code, not build input, because
+          # Registry::descriptors() globs src/blocks/*/block.php and the Loader requires each
+          # block's bootstrap files from there. tools/checks/60-dist.php guards this list.
           rsync -a --exclude-from=- ./ dist/isudev-library/ <<'EOF'
           .git
           .github
           .agents
           dist
           node_modules
-          src
           *.zip
           .gitignore
           .editorconfig

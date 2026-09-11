@@ -11,6 +11,7 @@ namespace IsuDevLibrary\REST;
 
 use IsuDevLibrary\Admin;
 use IsuDevLibrary\Config;
+use IsuDevLibrary\Extensions;
 use IsuDevLibrary\Registry;
 use WP_Error;
 use WP_REST_Request;
@@ -67,6 +68,32 @@ function register_routes(): void {
 		array(
 			'methods'             => WP_REST_Server::CREATABLE,
 			'callback'            => __NAMESPACE__ . '\\update_block',
+			'permission_callback' => __NAMESPACE__ . '\\permission_check',
+			'args'                => array(
+				'enabled' => array(
+					'type'     => 'boolean',
+					'required' => true,
+				),
+			),
+		)
+	);
+
+	\register_rest_route(
+		NAMESPACE_V1,
+		'/extensions',
+		array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => __NAMESPACE__ . '\\get_extensions',
+			'permission_callback' => __NAMESPACE__ . '\\permission_check',
+		)
+	);
+
+	\register_rest_route(
+		NAMESPACE_V1,
+		'/extensions/(?P<slug>[a-z0-9-]+)',
+		array(
+			'methods'             => WP_REST_Server::CREATABLE,
+			'callback'            => __NAMESPACE__ . '\\update_extension',
 			'permission_callback' => __NAMESPACE__ . '\\permission_check',
 			'args'                => array(
 				'enabled' => array(
@@ -221,4 +248,109 @@ function update_block( WP_REST_Request $request ) {
 	$refreshed = Registry::blocks();
 
 	return new WP_REST_Response( prepare_block( $refreshed[ $slug ] ), 200 );
+}
+
+/**
+ * Shape one extension for the REST response.
+ *
+ * @param array $extension Decorated descriptor from Extensions::all().
+ * @return array
+ */
+function prepare_extension( array $extension ): array {
+	return array(
+		'slug'          => $extension['slug'],
+		'title'         => (string) $extension['title'],
+		'description'   => (string) $extension['description'],
+		'category'      => (string) $extension['category'],
+		'enabled'       => (bool) $extension['enabled'],
+		'source'        => (string) $extension['source'],
+		'locked'        => (bool) $extension['locked'],
+		'requiresLabel' => null === $extension['requires'] ? '' : (string) $extension['requires']['label'],
+	);
+}
+
+/**
+ * GET /extensions
+ *
+ * @return WP_REST_Response
+ */
+function get_extensions(): WP_REST_Response {
+	$extensions = array();
+
+	foreach ( Extensions::all() as $extension ) {
+		$extensions[] = prepare_extension( $extension );
+	}
+
+	$categories = array();
+
+	foreach ( Extensions::categories() as $slug => $label ) {
+		$categories[] = array(
+			'slug'  => $slug,
+			'label' => $label,
+		);
+	}
+
+	return new WP_REST_Response(
+		array(
+			'extensions' => $extensions,
+			'categories' => $categories,
+		),
+		200
+	);
+}
+
+/**
+ * POST /extensions/<slug>
+ *
+ * @param WP_REST_Request $request Request object.
+ * @return WP_REST_Response|WP_Error
+ */
+function update_extension( WP_REST_Request $request ) {
+	$slug       = (string) $request->get_param( 'slug' );
+	$extensions = Extensions::all();
+
+	if ( ! isset( $extensions[ $slug ] ) ) {
+		return new WP_Error(
+			'isudev_library_unknown_extension',
+			\__( 'Unknown extension.', 'isudev-library' ),
+			array( 'status' => 404 )
+		);
+	}
+
+	if ( 'unavailable' === $extensions[ $slug ]['source'] ) {
+		return new WP_Error(
+			'isudev_library_extension_unavailable',
+			\sprintf(
+				/* translators: %s: name of the required plugin. */
+				\__( 'This extension needs %s to be active.', 'isudev-library' ),
+				(string) ( $extensions[ $slug ]['requires']['label'] ?? '' )
+			),
+			array( 'status' => 409 )
+		);
+	}
+
+	if ( $extensions[ $slug ]['locked'] ) {
+		return new WP_Error(
+			'isudev_library_extension_locked',
+			\__( 'This extension is managed in code and cannot be toggled here.', 'isudev-library' ),
+			array( 'status' => 403 )
+		);
+	}
+
+	$option = \get_option( Extensions::OPTION, array() );
+	$option = \is_array( $option ) ? $option : array();
+
+	$option[ $slug ] = (bool) $request->get_param( 'enabled' );
+
+	\update_option( Extensions::OPTION, $option );
+	Extensions::flush();
+
+	/*
+	 * The new state takes effect on the next request, not this one: an
+	 * extension's hooks are attached on init, long before this handler runs, and
+	 * an extension just switched off has already registered everything it does.
+	 */
+	$refreshed = Extensions::all();
+
+	return new WP_REST_Response( prepare_extension( $refreshed[ $slug ] ), 200 );
 }

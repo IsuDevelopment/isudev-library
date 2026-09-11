@@ -13,4 +13,9 @@ declare( strict_types = 1 );
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 delete_option( 'isudev_library_blocks' );
+delete_option( 'isudev_library_extensions' );
 delete_option( 'isudev_library_settings' );
+
+// Owned by the Site logo in General settings extension, which stores it whether
+// or not the extension is still enabled at delete time.
+delete_option( 'isudev_library_website_logo' );

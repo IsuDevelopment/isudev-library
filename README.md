@@ -38,6 +38,33 @@ Each block ships a `README.md` in its own directory: every setting, where to fin
 it, what a theme can lock, and what to check when the block does not render.
 Deeper theme-side documentation lives in [`guides/`](guides/).
 
+## Extensions
+
+Quality-of-life features that are not blocks — an admin column, a post type
+rename, a plugin integration. Each is toggled from **IsuDev Library →
+Extensions**, and **every one is off until someone turns it on**: a block only
+appears when an editor inserts it, but an extension changes the admin or the
+front end the moment it loads.
+
+| Extension | Category | Needs |
+| --- | --- | --- |
+| [Last edited column](extensions/last-edited-column/README.md) | Admin experience | — |
+| [Show template name](extensions/template-post-state/README.md) | Admin experience | — |
+| [Site logo in General settings](extensions/site-logo-option/README.md) | Admin experience | — |
+| [Disable posts](extensions/disable-posts/README.md) | Content | — |
+| [Rename posts to articles](extensions/post-rename/README.md) | Content | — |
+| [Skip links](extensions/skip-links/README.md) | Accessibility | — |
+| [Gravity Forms block wrapper](extensions/gravity-forms-wrapper/README.md) | Plugin integrations | Gravity Forms |
+| [Lock the Gravity Forms block theme](extensions/gravity-forms-theme-lock/README.md) | Plugin integrations | Gravity Forms |
+
+An extension whose required plugin is inactive cannot be enabled at all; the
+panel shows it as unavailable rather than letting it be switched on to do
+nothing.
+
+Each ships a `README.md` in its own directory: what it changes, every filter it
+offers, and what to check when it appears to do nothing.
+[`extensions/README.md`](extensions/README.md) is the guide to writing a new one.
+
 ## Configuration
 
 Everything works on sensible defaults with no configuration. To override
@@ -55,7 +82,22 @@ same `isudev.json` is safe to share with other `isudev-*` plugins.
 }
 ```
 
-`enabled` set in `isudev.json` wins over the admin panel and locks the toggle.
+Extensions are pinned the same way, under their own `extensions` key — they are
+keyed by slug rather than by block name, because an extension has no block name:
+
+```json
+{
+  "library": {
+    "extensions": {
+      "skip-links": { "enabled": true },
+      "disable-posts": { "enabled": false }
+    }
+  }
+}
+```
+
+`enabled` set in `isudev.json` wins over the admin panel and locks the toggle,
+for blocks and extensions alike.
 
 In v1 a block entry accepts `enabled` and `variations`. Per-block default
 attributes are read by `Config\get_block_config()`, but no block consumes them
@@ -81,6 +123,10 @@ variation. See `isudev.json.example`.
 | `isudev_library/site_header/regions` | Header regions before assembly. |
 | `isudev_library/site_header/output` | Final header markup. |
 | `isudev_library/site_header/menu_args` | `wp_nav_menu` args for the header. |
+
+Each extension adds its own filters under
+`isudev_library/extensions/<slug>/…`, documented with examples in that
+extension's README — see the [Extensions](#extensions) table above.
 
 Code-only mode — no panel, configuration lives entirely in `isudev.json`:
 
@@ -111,6 +157,18 @@ Never run `npm start` in automated work — use the one-shot `npm run build`.
 
 Block directory names must be globally unique: the generated
 `build/blocks-manifest.php` is keyed by directory basename.
+
+## Adding an extension
+
+1. Create `extensions/<slug>/` with `extension.php` (a descriptor that registers
+   nothing), `hooks.php` (every hook inside a `boot()` function) and a
+   `README.md`.
+2. No build step — extensions ship no JavaScript. The panel lists it
+   automatically.
+
+Read [`extensions/README.md`](extensions/README.md) first: it documents every
+descriptor key, why hooks may never be registered at the top level of a file, and
+the conventions `tools/check.php` enforces.
 
 ## License
 

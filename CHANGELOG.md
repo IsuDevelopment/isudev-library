@@ -1,5 +1,55 @@
 # Changelog
 
+## 1.11.0 — 2026-09-11
+
+### Added
+
+- **Extensions**: a third thing the plugin ships, alongside blocks and
+  settings, with its own tab in the admin panel. Extensions are
+  quality-of-life features that are not blocks — an admin column, a post
+  type rename, a plugin integration — each one switchable, grouped by
+  category, and **off by default**. A block only appears once an editor
+  inserts it; an extension changes the admin or the front end the moment
+  it loads, so enabling one is the operator's decision.
+- Eight extensions, each with its own `README.md` and its interesting
+  values behind filters:
+  - **Last edited column** (Admin experience) — a sortable "Last edited"
+    column on post type list screens: who changed a post and when.
+  - **Show template name** (Admin experience) — the assigned page template
+    as a badge next to the title.
+  - **Site logo in General settings** (Admin experience) — a logo picker on
+    Settings → General, writing the theme's own `custom_logo` theme mod
+    rather than storing a second logo.
+  - **Disable posts** (Content) — hides the built-in Posts post type, its
+    categories and tags, from the admin and the front end.
+  - **Rename posts to articles** (Content) — relabels Posts as Articles;
+    the words are filterable, so one extension covers News, Stories or
+    anything else.
+  - **Skip links** (Accessibility) — a keyboard-only shortcut list after
+    `<body>`, replacing the core block theme skip link so there are not two
+    skip mechanisms in one tab order.
+  - **Gravity Forms block wrapper** (Plugin integrations) — gives the form
+    block the wrapper element it does not render, so a theme has something
+    to style.
+  - **Lock the Gravity Forms block theme** (Plugin integrations) — pins
+    every form block to one theme and hides the theme picker.
+- An extension can declare a third-party dependency (`requires`, detected
+  by class or function). An extension whose plugin is inactive cannot be
+  enabled at all — the panel shows it as unavailable rather than letting it
+  be switched on to do nothing.
+- `GET /isudev-library/v1/extensions` and
+  `POST /isudev-library/v1/extensions/<slug>`, gated by the same
+  `show_admin` check as the block endpoints.
+- `isudev.json` can pin an extension on or off under
+  `library.extensions.<slug>.enabled`, exactly as it can a block, which
+  locks the panel toggle.
+- `tools/check.php` covers the new registry and, for every extension
+  shipped, verifies the descriptor normalizes, the slug matches its
+  directory, the category is known, the bootstrap files exist, the boot
+  callback is callable once they load, and the README is present. The
+  `.distignore` check now covers `extensions/` too — it is runtime code,
+  the same trap `src/` fell into.
+
 ## 1.10.0 — 2026-08-14
 
 ### Added

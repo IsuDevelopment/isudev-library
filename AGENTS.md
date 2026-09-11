@@ -26,7 +26,19 @@ plugin.
   block renders nothing. A new block is not done without one, and a changed
   control means changing it. Theme-side depth belongs in `guides/`, linked from
   the block's README.
-- **No top-level hook registration in `includes/`.** Use `boot()`.
+- **No top-level hook registration in `includes/` or `extensions/`.** Use
+  `boot()`. For an extension this is not style: `extension.php` descriptors are
+  read for every extension on every request and only enabled ones have their
+  `boot()` called, so a stray `add_filter()` at file scope fires for an extension
+  the operator switched off.
+- **`Extensions` is the only caller of an extension's `boot()`.** An
+  `extension.php` returns a descriptor and registers nothing. Extensions default
+  to **off** — a block only appears when an editor inserts it, an extension
+  changes the admin or the front end the moment it loads.
+- **Every extension carries a `README.md` in its own directory**, same contract
+  as a block's: written for the operator, every filter with a copy-pasteable
+  example, and what to check when it does nothing. `tools/check.php` fails
+  without one. `extensions/README.md` is the guide for adding one.
 - **`isudev.json`: read the `library` key only, never write the file.** It is
   shared with other `isudev-*` plugins.
 - **Editor components come from `@isudev/gutenberg`.** Link and media UI use that
@@ -58,6 +70,9 @@ plugin.
 - `includes/` — registry, loader, config reader, variations, REST, admin, utils.
 - `src/blocks/<slug>/` — one block: `block.json`, `block.php` (descriptor),
   editor JS, `view.js`, styles, `render.php`, `inc/` for block-only PHP.
+- `extensions/<slug>/` — one extension: `extension.php` (descriptor),
+  `hooks.php`, `README.md`. PHP only, no build step, discovered at runtime —
+  so this tree is runtime code, like `src/`, and must survive `.distignore`.
 - `src/admin/` — React panel.
 - `tools/check.php` + `tools/checks/` — plain-PHP checks for pure functions.
 - `e2e/` — Playwright + axe.
