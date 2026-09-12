@@ -1,25 +1,56 @@
+# The single source of truth for what a distributed copy of this plugin drops.
+#
+# Used by `wp dist-archive` AND by .github/workflows/release.yml, which builds
+# the zip attached to a GitHub release — the file the update checker hands to
+# every self-updating site. There used to be a second, hand-maintained list
+# inlined in that workflow; it excluded src/, which is runtime code, so the zip
+# would have registered zero blocks. One list, checked by tools/checks/60-dist.php.
+#
+# The workflow makes exactly one documented exception: it re-includes vendor/,
+# which the zip needs and `wp dist-archive` does not. See the workflow.
+#
+# Paths are anchored with a leading slash wherever they mean a root entry.
+# Unanchored, rsync matches them at every depth — `composer.json` would then be
+# stripped out of every package under vendor/ as well.
+
+# Version control and CI.
 /.git
+/.gitignore
 /.github
+
+# Agent and tooling instructions.
+/.agents
+/.claude
 /.superpowers
+/AGENTS.md
+/CLAUDE.md
+/GEMINI.md
+
+# Dependencies and build scratch.
 /node_modules
 /vendor
+/dist
+*.zip
+
+# Tests, checks and their output.
 /e2e
-/docs
-/guides
 /tools
 /test-results
 /playwright-report
-.distignore
-.editorconfig
-.gitignore
-.nvmrc
-/tools/.e2e-credentials.json
-AGENTS.md
-CLAUDE.md
-composer.json
-composer.lock
-package.json
-package-lock.json
-phpcs.xml.dist
-playwright.config.js
-webpack.config.js
+/playwright.config.js
+
+# Documentation that is not shipped. Per-block and per-extension READMEs live
+# inside src/ and extensions/ and DO ship — they document what the operator sees.
+/docs
+/guides
+
+# Build and lint configuration.
+/webpack.config.js
+/phpcs.xml.dist
+/package.json
+/package-lock.json
+/composer.json
+/composer.lock
+/.editorconfig
+/.nvmrc
+/.distignore

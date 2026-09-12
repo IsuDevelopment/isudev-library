@@ -104,6 +104,10 @@ Checks::true(
 
 $runtime = array(
 	'isudev-library.php',
+	'uninstall.php',
+	// Linked from render.php through IsuDevLibrary\URL, so these ship or the
+	// Google Reviews blocks render a broken image.
+	'assets/google-logo.svg',
 	'build/blocks-manifest.php',
 );
 
@@ -163,57 +167,68 @@ foreach ( $runtime as $relative ) {
 	);
 }
 
-/**
- * Extract the rsync exclude list inlined in the release workflow.
- *
- * @param string $path Absolute path to the workflow file.
- * @return array List of raw rule strings.
+/*
+ * The release workflow builds the zip that the update checker hands to every
+ * self-updating site. It used to carry its own inline exclude list, which is how
+ * `src` — runtime code — came to be excluded from it while `.distignore` stayed
+ * correct and checked. These assert the two lists stayed merged into one.
  */
-function isudev_release_rules( string $path ): array {
-	$yaml  = \is_readable( $path ) ? (string) \file_get_contents( $path ) : '';
-	$rules = array();
+$workflow = $plugin_root . '.github/workflows/release.yml';
+$yaml     = \is_readable( $workflow ) ? (string) \file_get_contents( $workflow ) : '';
 
-	if ( ! \preg_match( "/<<'EOF'\n(.*?)\n\s*EOF\n/s", $yaml, $matches ) ) {
-		return $rules;
-	}
-
-	foreach ( \explode( "\n", $matches[1] ) as $line ) {
-		$line = \trim( $line );
-
-		if ( '' !== $line && 0 !== \strpos( $line, '#' ) ) {
-			$rules[] = $line;
-		}
-	}
-
-	return $rules;
-}
-
-$release_rules = isudev_release_rules( $plugin_root . '.github/workflows/release.yml' );
+Checks::true( 'dist: the release workflow is readable', '' !== $yaml );
 
 Checks::true(
-	'dist: the release workflow exclude list was found',
-	\count( $release_rules ) > 0
+	'dist: the release zip is packed from .distignore, not a second list',
+	false !== \strpos( $yaml, '--exclude-from=.distignore' )
 );
 
-foreach ( $runtime as $relative ) {
-	Checks::true(
-		'dist: runtime file survives the release zip — ' . $relative,
-		! isudev_dist_excluded( $release_rules, $relative )
-	);
-}
+Checks::true(
+	'dist: the release workflow carries no second inline rsync exclude list',
+	false === \strpos( $yaml, '--exclude-from=-' )
+);
 
 /*
- * The zip needs vendor/ even though .distignore drops it: is_readable() on
- * vendor/autoload.php is how the plugin tells a release-zip install from a
- * Composer-managed one, and only the former enables the update checker.
+ * The one documented exception to that single list: the zip needs vendor/, which
+ * .distignore drops. is_readable( vendor/autoload.php ) is how the plugin tells a
+ * release-zip install from a Composer-managed one, and only the former enables
+ * the update checker — without this the published plugin cannot self-update.
+ *
+ * Its position matters as much as its presence: rsync takes the first matching
+ * rule, so the include has to precede --exclude-from, which is also what shields
+ * files inside vendor/ from .distignore's unanchored root-file patterns.
  */
+$include_at = \strpos( $yaml, "--include='/vendor/***'" );
+$exclude_at = \strpos( $yaml, '--exclude-from=.distignore' );
+
 Checks::true(
-	'dist: the release zip keeps vendor/, which enables self-updates',
-	! isudev_dist_excluded( $release_rules, 'vendor/autoload.php' )
+	'dist: the release zip re-includes vendor/, which enables self-updates',
+	false !== $include_at
+);
+
+Checks::true(
+	'dist: the vendor/ include precedes --exclude-from, so it wins',
+	false !== $include_at && false !== $exclude_at && $include_at < $exclude_at
 );
 
 // The rules must still do their job: dev-only trees have to be excluded.
-foreach ( array( 'e2e/panel.spec.js', 'tools/check.php', 'node_modules/x/index.js', 'AGENTS.md' ) as $relative ) {
+$dev_only = array(
+	'e2e/panel.spec.js',
+	'tools/check.php',
+	'node_modules/x/index.js',
+	'AGENTS.md',
+	'CLAUDE.md',
+	'.agents/vendor/isudev-gutenberg.md',
+	'.claude/settings.json',
+	'docs/superpowers/specs/x.md',
+	'guides/bento-grid.md',
+	'composer.json',
+	'package.json',
+	'webpack.config.js',
+	'playwright.config.js',
+);
+
+foreach ( $dev_only as $relative ) {
 	Checks::true(
 		'dist: dev-only file is excluded — ' . $relative,
 		isudev_dist_excluded( $rules, $relative )

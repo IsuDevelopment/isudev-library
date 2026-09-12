@@ -1,5 +1,50 @@
 # Changelog
 
+## 1.12.0 — 2026-09-12
+
+### Fixed
+
+- The published release zip no longer omits `src/`. It is runtime code,
+  not build input — `Registry::descriptors()` globs
+  `src/blocks/*/block.php` and the Loader requires each block's bootstrap
+  files from there — so a zip without it registered zero blocks. The cause
+  was a second exclude list, hand-maintained inside the release workflow
+  and checked by nothing, while `.distignore` was correct all along.
+  There is now one list: the workflow packs from `.distignore`.
+- Releases failed whenever CI's rebuild matched the committed `build/`.
+  The tagging step ran an unconditional `git commit`, which exits 1 with
+  nothing staged and, under `bash -e`, took the whole release down. It now
+  commits only when the rebuild actually differs.
+
+### Changed
+
+- **Releases are cut from a tag**, not from a push to `main` that happens
+  to touch the version header. Push `vX.Y.Z`, or dispatch the workflow
+  manually. The old trigger published whatever `main` held the moment the
+  version line changed; on the sibling wp-content-bridge project that
+  shipped a release built from a rename commit alone, missing the feature
+  work that landed in the follow-up commit.
+- A tag that disagrees with the plugin header now fails the release
+  instead of publishing the artifact under a version it does not contain.
+- The release body is the matching `CHANGELOG.md` section, and a version
+  with no changelog entry fails the release. Previously the body was a
+  bare commit list from `generate_release_notes`.
+- CI builds on Node 22, matching `.nvmrc` and `package.json` engines.
+  It was pinned to 20, which cannot run this project's stylelint.
+
+### Added
+
+- The release workflow asserts its own artifact before publishing: every
+  runtime path present, at least one block and one extension descriptor
+  discoverable, and no `docs/`, `guides/`, `e2e/`, `tools/`, `.agents/`,
+  `.claude/`, `AGENTS.md` or build configuration anywhere in it. Roughly
+  580 KB of development files previously shipped to every install.
+- `tools/checks/60-dist.php` guards the single-list invariant: it fails if
+  the workflow grows a second inline exclude list, if it stops packing
+  from `.distignore`, or if the one documented exception — re-including
+  `vendor/`, without which the plugin cannot recognise a release-zip
+  install and self-update — is missing or ordered after the exclusions.
+
 ## 1.11.0 — 2026-09-11
 
 ### Added

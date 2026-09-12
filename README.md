@@ -147,6 +147,25 @@ WP_ADMIN_USER=... WP_ADMIN_PASS=... npm run test:e2e
 
 Never run `npm start` in automated work — use the one-shot `npm run build`.
 
+## Releasing
+
+Releases are cut from a tag and published as a GitHub release. The plugin
+updates itself from that release's zip, so the artifact is the product:
+
+```bash
+# Bump the version in isudev-library.php, package.json and package-lock.json,
+# add the CHANGELOG.md section, npm run build, commit and push main. Then:
+git tag v1.12.0 && git push origin v1.12.0
+```
+
+The workflow refuses to publish a release whose tag disagrees with the plugin
+header, that has no `CHANGELOG.md` section, or whose zip is missing runtime code
+or carrying development files.
+
+Self-updates are active only for installs that carry a bundled `vendor/` — that
+is how the plugin tells a release-zip install from a Composer-managed one, where
+Composer owns the version instead.
+
 ## Adding a block
 
 1. Create `src/blocks/<slug>/` with `block.json` (`apiVersion: 3`,

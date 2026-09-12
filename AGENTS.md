@@ -61,6 +61,12 @@ plugin.
   `view.js` is frontend and may use globals.
 - **WordPress Coding Standards.** `class-*.php`, `strict_types`, `ABSPATH` guard.
 - **`build/` is committed.** Do not gitignore it.
+- **One exclude list: `.distignore`.** It is what `wp dist-archive` and the
+  release workflow both pack from. Never inline a second list anywhere — a
+  second list is how `src/` (runtime code, not build input) once fell out of the
+  published zip while every check stayed green. The single documented exception
+  is the workflow re-including `vendor/`, which the zip needs and
+  `.distignore` drops. `tools/checks/60-dist.php` enforces all of this.
 - Block directory names must be globally unique — `blocks-manifest.php` is keyed
   by directory basename.
 
@@ -93,6 +99,29 @@ one-shot `build` and move on.
 Note: wp-cli cannot reach this Local site's database. Do not write verification
 steps that rely on `wp eval`, `wp option` or `wp plugin`. Use `tools/check.php`
 and Playwright over HTTP against `http://isudev-library.local/`.
+
+## Releasing
+
+A release is cut from a **tag**, never from a push to `main`:
+
+```bash
+# 1. Bump the version in isudev-library.php (header + VERSION), package.json
+#    and package-lock.json, and add the matching CHANGELOG.md section.
+# 2. npm run build, commit, push main.
+git tag v1.12.0 && git push origin v1.12.0
+```
+
+`.github/workflows/release.yml` then builds the zip, asserts it, and publishes
+the GitHub release. `workflow_dispatch` from `main` does the same and creates the
+tag itself.
+
+The workflow fails, deliberately, when the tag disagrees with the plugin header,
+when `CHANGELOG.md` has no section for the version, or when the artifact is
+missing runtime files or carries development ones. A failed release is the
+system working — read the failing step, do not work around it.
+
+Version lives in four places and they must agree: the plugin header, the
+`VERSION` const, `package.json`, `package-lock.json` (two entries).
 
 ## Docs
 
