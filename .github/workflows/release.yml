@@ -56,15 +56,27 @@ jobs:
           npm ci
           npm run build
 
-      # main stays source-only. The tag carries build/ as well, so Composer installs from this
-      # repository get a runnable plugin without a build step.
+      # The tag must carry build/, so Composer installs from this repository get a
+      # runnable plugin without a build step.
+      #
+      # build/ is committed on main (see AGENTS.md), so the rebuild above usually
+      # reproduces it byte for byte and there is nothing to commit. An
+      # unconditional `git commit` therefore exits 1 and, under `bash -e`, failed
+      # the whole release — it did exactly that on the first attempt at v1.11.0.
+      # Commit only when the rebuild actually changed something, which is the case
+      # a version bump pushed without a fresh build would produce.
       - name: Tag the release with built assets
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f build
-          git commit -m "Build v${{ steps.version.outputs.version }}"
+          if git diff --cached --quiet; then
+            echo "build/ on main already matches a fresh build; tagging as is."
+          else
+            echo "Rebuild differs from the committed build/; committing it onto the tag."
+            git commit -m "Build v${{ steps.version.outputs.version }}"
+          fi
           git tag "v${{ steps.version.outputs.version }}"
           git push origin "v${{ steps.version.outputs.version }}"
 
