@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.13.0 — 2026-09-24
+
+### Added
+
+- **Button colour for outline and link styles** extension (`button-color`,
+  off by default). Copies the colour picked on a Button block to
+  `--isudev-button-color` on its `.wp-block-button` wrapper, on the site and
+  in the editor canvas, so a theme can draw outline and text-only buttons —
+  and their icons — in that colour. Removes core's Outline style from the
+  editor, which renders as a filled button once a colour is picked. Filters:
+  `isudev_library/extensions/button_color/property`,
+  `isudev_library/extensions/button_color/remove_core_outline`.
+- Extensions may ship a static `editor.js` (no build step, WordPress
+  globals), enqueued from `boot()`; documented in `extensions/README.md`.
+
+### Changed
+
+- `AGENTS.md`: comments are written for agents, and every change updates the
+  README of what it touches — its upstream couplings, the contract a theme
+  relies on, and how to check it.
+
 ## 1.12.0 — 2026-09-12
 
 ### Fixed

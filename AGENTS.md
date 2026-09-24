@@ -70,6 +70,29 @@ plugin.
 - Block directory names must be globally unique — `blocks-manifest.php` is keyed
   by directory basename.
 
+## Working agentically
+
+This library is built and maintained by AI agents, across projects that consume
+it. Two rules keep that workable:
+
+- **Comments are for agents, not human readers.** Every comment costs context
+  on every read. Comment only what the code cannot say — public APIs,
+  non-obvious decisions, browser or core workarounds, security-sensitive logic,
+  couplings to core markup. One or two terse lines; longer background goes once
+  into the block's or extension's `README.md` (or `guides/`), and the comment
+  points there.
+- **Every change updates the docs of what it touches, in the same commit** — a
+  new setting, filter, class, markup change or dependency — so a later agent can
+  repair it without the conversation that built it (typically after a WordPress
+  core update breaks it). The block's or extension's `README.md` records:
+  - **what it relies on and does not own** — core hooks and filters, core block
+    markup and class names, WP APIs; these are what an upstream update breaks;
+  - **what a consuming theme can rely on** — its class contract, custom
+    properties, filters, `isudev.json` keys; changing those is a breaking change
+    and goes in `CHANGELOG.md`;
+  - **how to check it still works** — the page, the flow, the check in
+    `tools/checks/` or the e2e spec.
+
 ## Layout
 
 - `isudev-library.php` — bootstrap: constants, textdomain, requires, `boot()`.
@@ -77,8 +100,9 @@ plugin.
 - `src/blocks/<slug>/` — one block: `block.json`, `block.php` (descriptor),
   editor JS, `view.js`, styles, `render.php`, `inc/` for block-only PHP.
 - `extensions/<slug>/` — one extension: `extension.php` (descriptor),
-  `hooks.php`, `README.md`. PHP only, no build step, discovered at runtime —
-  so this tree is runtime code, like `src/`, and must survive `.distignore`.
+  `hooks.php`, `README.md`, optionally a static `editor.js` (no build step,
+  WordPress globals; see `extensions/README.md`). Discovered at runtime — so
+  this tree is runtime code, like `src/`, and must survive `.distignore`.
 - `src/admin/` — React panel.
 - `tools/check.php` + `tools/checks/` — plain-PHP checks for pure functions.
 - `e2e/` — Playwright + axe.

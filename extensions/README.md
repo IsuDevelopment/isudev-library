@@ -12,6 +12,7 @@ rename, a plugin integration. Each one is a directory here, switchable from
 | [Disable posts](disable-posts/README.md) | Content | — |
 | [Rename posts to articles](post-rename/README.md) | Content | — |
 | [Skip links](skip-links/README.md) | Accessibility | — |
+| [Button colour for outline and link styles](button-color/README.md) | Content | — |
 | [Gravity Forms block wrapper](gravity-forms-wrapper/README.md) | Plugin integrations | Gravity Forms |
 | [Lock the Gravity Forms block theme](gravity-forms-theme-lock/README.md) | Plugin integrations | Gravity Forms |
 
@@ -94,6 +95,16 @@ function boot(): void {
 	\add_filter( 'some_hook', __NAMESPACE__ . '\\do_the_thing' );
 }
 ```
+
+### `editor.js` — optional editor code
+
+An extension that needs block-editor behaviour (a `blocks.registerBlockType`
+filter, a style to unregister) ships a **static** `editor.js` next to
+`hooks.php`: no build step, WordPress globals (`window.wp`) with the script
+dependencies declared in `wp_enqueue_script()`, config passed with
+`wp_add_inline_script()`. Enqueue it from `boot()` on
+`enqueue_block_editor_assets`, so a disabled extension ships no JS.
+`button-color` is the reference.
 
 ### `README.md` — the instructions
 
