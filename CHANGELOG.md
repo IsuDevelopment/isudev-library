@@ -1,5 +1,60 @@
 # Changelog
 
+## 1.15.0 — 2026-10-07
+
+### Added
+
+- **Shared slider** for every carousel-style block: a PHP shell
+  `IsuDevLibrary\Utils\Slider\render()` (`includes/utils/slider.php`) and a
+  thin JS wrapper `src/utils/slider/` around **Embla Carousel 8.6.0** (+
+  Autoplay and Auto Scroll plugins, exact-pinned). Blocks import the
+  wrapper, never Embla. It provides region/slide semantics, prev/next (disabled
+  at the ends without loop), dot buttons with `aria-current`, Left/Right keys,
+  RTL, lazy init, a pause control whenever anything moves, pause on hover,
+  keyboard focus, drag and off-screen, and no motion with reduced motion.
+  Slide widths come from CSS (`--isudev-slider-slides`). Class contract
+  `isudev-slider`, `__viewport`, `__container`, `__slide`, `__controls`,
+  `__button` (`__prev`, `__next`, `__pause`), `__dots`, `__dot`; states
+  `is-ready`, `is-static`, `is-playing`, `is-paused`, `is-dragging`,
+  `has-autoplay`, `has-auto-scroll`; custom properties `--isudev-slider-*`,
+  each from `theme.json` `custom.isudev-slider.*` first. See
+  `guides/slider.md`. Checked by `tools/checks/55-slider.php`.
+- Icons `chevronLeft`, `chevronRight`, `pause`, `play` in the icon registry.
+
+### Changed
+
+- **`isudev/google-reviews` carousel moved from Swiper to the shared
+  slider.** `view.js` dropped from 70.9 KB (21.4 KB gzip) to 27.7 KB
+  (10.1 KB gzip) and `view.css` from 13.1 KB (3.9 KB gzip) to 3.4 KB
+  (0.9 KB gzip). Attributes, modes, cards per view (1 → 2 → 4 → 5;
+  continuous 1.5 on phones), loop, the classic controls and reduced-motion
+  behaviour are unchanged. Continuous mode now has a visible pause button
+  (WCAG 2.2.2) and also pauses on mouse hover and keyboard focus.
+- The rating stars in review cards are `role="img"`, so their `aria-label`
+  is announced (it was a prohibited attribute on a plain `<span>`).
+
+### Breaking — themes that styled the Google Reviews carousel
+
+- Removed classes: `swiper`, `swiper-initialized`, `swiper-wrapper`,
+  `swiper-slide`, `swiper-button-prev`, `swiper-button-next`,
+  `swiper-pagination` (and Swiper's bullets) and the
+  `data-google-reviews-slider` / `data-slider-mode` attributes. Swiper's own
+  CSS no longer loads.
+- In carousel mode `.isudev-google-reviews__list` is a `<div>`
+  (`.isudev-slider__container`) and every `.isudev-google-reviews__item` a
+  `<div>` (`.isudev-slider__slide`), not `<ul>`/`<li>`. The grid (carousel
+  off) is unchanged.
+- The carousel's `aria-label` ("Customer reviews") moved from the outer
+  `<section>` to the carousel region (`.isudev-google-reviews__viewport`).
+- Migration: `.swiper-wrapper` → `.isudev-slider__container`,
+  `.swiper-slide` → `.isudev-slider__slide`,
+  `.swiper-button-prev/next` → `.isudev-slider__prev/next`,
+  `.swiper-pagination` / `.swiper-pagination-bullet(-active)` →
+  `.isudev-slider__dots` / `.isudev-slider__dot` (`[aria-current="true"]`),
+  `.swiper-initialized` → `.is-ready`. Set the gap and cards per view with
+  `--isudev-slider-gap` / `--isudev-slider-slides` on
+  `.isudev-google-reviews__viewport`, not slide widths.
+
 ## 1.14.1 — 2026-10-06
 
 ### Added

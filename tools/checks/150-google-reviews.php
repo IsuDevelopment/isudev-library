@@ -13,8 +13,8 @@ require_once dirname( __DIR__, 2 ) . '/src/blocks/google-reviews-header/inc/rend
 
 use function IsuDevLibrary\Blocks\GoogleReviews\initials;
 use function IsuDevLibrary\Blocks\GoogleReviews\is_verified;
-use function IsuDevLibrary\Blocks\GoogleReviews\item_classes;
 use function IsuDevLibrary\Blocks\GoogleReviews\split_review_text;
+use function IsuDevLibrary\Blocks\GoogleReviews\viewport_classes;
 use function IsuDevLibrary\Blocks\GoogleReviewsHeader\title_tag;
 use function IsuDevLibrary\GoogleReviews\clamp_rating;
 use function IsuDevLibrary\GoogleReviews\maps_search_query_args;
@@ -93,11 +93,11 @@ Checks::is( 'initials: an empty name falls back to a placeholder', initials( '' 
 Checks::is( 'initials: a whitespace-only name falls back to a placeholder', initials( '   ' ), '?' );
 
 /*
- * item_classes(): the base class is always present; the Swiper slide class
- * appears only when the carousel is enabled.
+ * viewport_classes(): mode classes only with the carousel on, and no
+ * third-party carousel classes (the slider root adds isudev-slider itself).
  */
-Checks::is( 'item_classes: no carousel', item_classes( false ), array( 'isudev-google-reviews__item' ) );
-Checks::is( 'item_classes: with carousel', item_classes( true ), array( 'isudev-google-reviews__item', 'swiper-slide' ) );
+Checks::is( 'viewport_classes: no carousel', viewport_classes( false, 'continuous' ), array( 'isudev-google-reviews__viewport' ) );
+Checks::is( 'viewport_classes: classic carousel', viewport_classes( true, 'classic' ), array( 'isudev-google-reviews__viewport', 'is-slider', 'is-mode-classic' ) );
 
 /*
  * title_tag() (header block): only a heading with a valid level resolves to

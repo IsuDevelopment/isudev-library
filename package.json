@@ -1,6 +1,6 @@
 {
 	"name": "@isudev/library",
-	"version": "1.14.1",
+	"version": "1.15.0",
 	"description": "Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, toggleable.",
 	"license": "GPL-2.0-or-later",
 	"private": true,
@@ -10,7 +10,9 @@
 	},
 	"dependencies": {
 		"@isudev/gutenberg": "~0.1.1",
-		"swiper": "^11.2.10"
+		"embla-carousel": "8.6.0",
+		"embla-carousel-auto-scroll": "8.6.0",
+		"embla-carousel-autoplay": "8.6.0"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.12.1",

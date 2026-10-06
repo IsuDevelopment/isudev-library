@@ -53,6 +53,16 @@ plugin.
   `isudevIcons`) because the name is this plugin's own. `src/utils/config.js`
   is its JS mirror of `Config\resolve_block_value()` and must stay in step
   with it — there is no JS test runner to catch drift.
+- **Carousels use the shared slider, never Embla directly.** Markup comes
+  from `IsuDevLibrary\Utils\Slider\render()` (`includes/utils/slider.php`),
+  behaviour from `src/utils/slider/` imported into the block's `view.js`.
+  Only that wrapper imports `embla-carousel*` (exact-pinned), so an Embla
+  upgrade touches one directory. Slide widths are CSS
+  (`--isudev-slider-slides`), not JS. See `guides/slider.md`.
+- **Shared front-end code in `src/utils/` is bundled by import** into each
+  block's view script; there is no shared front-end handle. Never name a
+  shared stylesheet `style.scss`: wp-scripts splits that into a
+  `style-<entry>.css` chunk `block.json` does not load.
 - **Accessibility is non-negotiable.** The site-header markup contract (disclosure
   nav, drawer, link-vs-button rule, state on `.isudev-header`,
   `isudev-scroll-locked` on `<html>`) must keep the Playwright + axe suite green.
@@ -103,6 +113,10 @@ it. Two rules keep that workable:
   `hooks.php`, `README.md`, optionally a static `editor.js` (no build step,
   WordPress globals; see `extensions/README.md`). Discovered at runtime — so
   this tree is runtime code, like `src/`, and must survive `.distignore`.
+- `src/utils/` — shared JS: editor helpers and the front-end slider wrapper
+  (`src/utils/slider/`).
+- `includes/utils/` — shared pure-ish PHP: `array.php`, `icon.php`,
+  `slider.php` (slider shell markup).
 - `src/admin/` — React panel.
 - `tools/check.php` + `tools/checks/` — plain-PHP checks for pure functions.
 - `e2e/` — Playwright + axe.

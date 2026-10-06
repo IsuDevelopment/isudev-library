@@ -81,6 +81,10 @@ registering a different icon, not overriding its root at render time.
 | Name | viewBox | Used by |
 | --- | --- | --- |
 | `chevronDown` | `0 0 600 600` | Site-header submenu disclosure toggle |
+| `chevronLeft` | `0 0 24 24` | Slider previous button (`guides/slider.md`) |
+| `chevronRight` | `0 0 24 24` | Slider next button |
+| `pause` | `0 0 24 24` | Slider pause control |
+| `play` | `0 0 24 24` | Slider play control |
 | `burger` | `0 0 600 600` | Available to integrators; the header burger itself is CSS spans |
 | `close` | `0 0 600 600` | Site-header mobile drawer close button |
 | `arrowForward` | `0 0 24 24` | Read-more card arrow |

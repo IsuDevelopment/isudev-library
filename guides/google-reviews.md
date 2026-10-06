@@ -77,38 +77,39 @@ and badge blocks' aggregate stats use).
 `src/utils/use-review-accounts.js` is the shared `useReviewAccounts()` hook
 all three blocks' `edit.js` files import.
 
-## No T2 dependency: Swiper is bundled, not shared
+## Carousel: the shared slider
 
-The source plugin's carousel (`isudev/google-reviews` only) used a `swiper`
-script/style handle a theme (T2) registered, so the plugin itself never
-bundled Swiper. This plugin has no such theme dependency to lean on, so
-`view.js` bundles Swiper itself:
+Since 1.15.0 the carousel is the library's shared slider — the PHP shell
+`IsuDevLibrary\Utils\Slider\render()` and the Embla wrapper
+`src/utils/slider/` bundled into this block's `view.js`/`view.css`. See
+[`slider.md`](./slider.md) for the wrapper itself. Before 1.15.0 the block
+bundled Swiper; the migration notes are in `CHANGELOG.md` (1.15.0).
 
-```js
-import Swiper from 'swiper';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-```
+What this block sets on top of the shared slider:
 
-`swiper` is a direct `dependencies` entry in `package.json`, not a
-`devDependency` — it ships inside the built `view.js`/`view.css`, not
-resolved against a host-provided global. `block.json` declares
-`"viewStyle": "file:./view.css"` so WordPress enqueues the CSS webpack
-extracts from those imports alongside the view script.
+- `render.php` passes the review cards as slides, with
+  `class` = the viewport classes (`isudev-google-reviews__viewport is-slider
+  is-mode-{continuous|classic}`), `container_class` =
+  `isudev-google-reviews__list`, `slide_class` = `isudev-google-reviews__item`.
+  So `.isudev-google-reviews__viewport` **is** the slider root.
+- Options: `loop` when there is more than one review; *classic* → `align:
+  start`, prev/next + dots, no autoplay (as before); *continuous* → `align:
+  center`, `autoScroll: 0.5` px/frame (≈30 px/s, close to Swiper's old
+  10 s-per-card at four cards per view).
+- Slides per view, in `style.scss` via `--isudev-slider-slides`: 1 → 2
+  (768px) → 4 (1024px) → 5 (1440px); continuous starts at 1.5 below 768px
+  (1 with reduced motion). Gap 24px.
+- Continuous mode hides prev/next/dots while it auto-scrolls and shows only
+  the pause control; with `prefers-reduced-motion` no auto-scroll starts and
+  the manual controls show instead.
+- Opening a review's "Read more" pauses that carousel (`pause('expanded')`)
+  until every review in it is collapsed again.
+- In slider mode the slider root is the labelled carousel region ("Customer
+  reviews"), so the outer `<section>` carries no `aria-label` (it would be a
+  second landmark with the same name). The grid keeps the label on the
+  `<section>`.
 
-The carousel initializes ~400px before entering the viewport
-(`IntersectionObserver`, `rootMargin: '400px 0px'`), autoplays only while
-visible and no review is expanded, and respects
-`prefers-reduced-motion`. Before initialization, and with no JavaScript at
-all, reviews remain visible as a horizontally scrollable row of cards. The
-"Read more" expander is independent of the carousel — it works whether or
-not Swiper ever initializes.
-
-The Gutenberg block wrapper itself stays independent of Swiper: the
-`swiper`, `swiper-initialized` classes and Swiper's own transforms are
-applied only to the inner `.isudev-google-reviews__viewport`, so the block's
-own width/spacing settings never collide with the carousel's mechanics.
+The "Read more" expander is independent of the carousel and works without it.
 
 ## Assets
 
@@ -129,7 +130,11 @@ Renamed from nothing — the source plugin's classes were already namespaced
 
 - Root: `isudev-google-reviews`
 - `isudev-google-reviews__viewport`, `.is-slider`, `.is-mode-{continuous|classic}`
-- `isudev-google-reviews__list`, `isudev-google-reviews__item`
+  — in slider mode this element is also `.isudev-slider` (see `slider.md`
+  for the `isudev-slider__*` elements and `is-ready`/`has-auto-scroll`/… states)
+- `isudev-google-reviews__list`, `isudev-google-reviews__item` — `<ul>`/`<li>`
+  in the grid, `<div>`s (`.isudev-slider__container` / `.isudev-slider__slide`)
+  in the carousel
 - `isudev-google-reviews__review`, `__top`, `__content`, `__quote`,
   `__footer`, `__person`, `__author-row`, `__author`
 - `isudev-google-reviews__avatar` (plus `.is-fallback` for the initials badge),

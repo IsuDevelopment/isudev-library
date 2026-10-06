@@ -19,7 +19,7 @@ use function IsuDevLibrary\Utils\render_icon;
 
 $icons = default_icons();
 
-Checks::is( 'icons: exactly seventeen defaults', count( $icons ), 17 );
+Checks::is( 'icons: exactly twenty-one defaults', count( $icons ), 21 );
 
 $all_have_definitions = true;
 foreach ( $icons as $definition ) {

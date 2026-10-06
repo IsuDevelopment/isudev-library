@@ -1,87 +1,71 @@
-/* Google Reviews Block — frontend styles. Ported from the standalone
-   isudev-google-reviews plugin; block name and classes were already
-   namespaced `isudev-*`, so neither changes here.
+/* Google Reviews Block — frontend styles.
 
-   Swiper is bundled by this block's own view.js (`import 'swiper/css'`)
-   instead of depending on a `swiper` script/style handle registered by a
-   theme — see guides/google-reviews.md. */
+   The carousel is the shared slider (src/utils/slider, bundled into view.js
+   and view.css); this file only sets slides per view and mode details. Class
+   contract: README.md and guides/slider.md. */
 
-.isudev-google-reviews__list {
+.isudev-google-reviews__viewport:not(.is-slider) .isudev-google-reviews__list {
 	padding: 0;
 	margin: 0;
 	list-style: none;
-}
-
-.isudev-google-reviews__viewport:not(.is-slider) .isudev-google-reviews__list {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
 	gap: 24px;
 }
 
-.isudev-google-reviews__viewport.is-slider {
+/* Slides per view: 1 → 2 (768) → 4 (1024) → 5 (1440); continuous starts at
+   1.5 so the next card peeks in. Widths are CSS only, see guides/slider.md. */
+.isudev-google-reviews__viewport:where(.is-slider) {
+	--isudev-slider-gap: 24px;
+	--isudev-slider-slides: 1;
+
 	width: 100%;
 }
 
-.isudev-google-reviews__viewport.is-slider .isudev-google-reviews__item {
-	height: auto;
+.isudev-google-reviews__viewport:where(.is-mode-continuous) {
+	--isudev-slider-slides: 1.5;
 }
 
-.isudev-google-reviews__viewport.is-mode-continuous .swiper-wrapper {
-	transition-timing-function: linear;
+@media (min-width: 768px) {
+
+	.isudev-google-reviews__viewport:where(.is-slider) {
+		--isudev-slider-slides: 2;
+	}
 }
 
-.isudev-google-reviews.alignfull > .isudev-google-reviews__viewport.is-mode-continuous.swiper-initialized {
+@media (min-width: 1024px) {
+
+	.isudev-google-reviews__viewport:where(.is-slider) {
+		--isudev-slider-slides: 4;
+	}
+}
+
+@media (min-width: 1440px) {
+
+	.isudev-google-reviews__viewport:where(.is-slider) {
+		--isudev-slider-slides: 5;
+	}
+}
+
+/* Continuous mode shows only the pause control while it scrolls; with reduced
+   motion the wrapper starts no auto-scroll and the manual controls return. */
+.isudev-google-reviews__viewport.is-mode-continuous.has-auto-scroll .isudev-slider__prev,
+.isudev-google-reviews__viewport.is-mode-continuous.has-auto-scroll .isudev-slider__next,
+.isudev-google-reviews__viewport.is-mode-continuous.has-auto-scroll .isudev-slider__dots {
+	display: none;
+}
+
+.isudev-google-reviews.alignfull > .isudev-google-reviews__viewport.is-mode-continuous.has-auto-scroll .isudev-slider__viewport {
 	--isudev-google-reviews-edge-fade: clamp(48px, 8vw, 160px);
 
 	mask-image: linear-gradient(to right, transparent 0, #000 var(--isudev-google-reviews-edge-fade), #000 calc(100% - var(--isudev-google-reviews-edge-fade)), transparent 100%);
 	mask-repeat: no-repeat;
 }
 
-.isudev-google-reviews__viewport.is-mode-continuous .swiper-button-prev,
-.isudev-google-reviews__viewport.is-mode-continuous .swiper-button-next,
-.isudev-google-reviews__viewport.is-mode-continuous .swiper-pagination {
-	display: none;
-}
+@media (prefers-reduced-motion: reduce) and (max-width: 767px) {
 
-.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) {
-	overflow-x: auto;
-	scroll-snap-type: x proximity;
-}
-
-.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .isudev-google-reviews__list {
-	display: grid;
-	grid-auto-flow: column;
-	grid-auto-columns: min(80vw, 360px);
-	gap: 24px;
-	box-sizing: border-box;
-	width: auto;
-	height: auto;
-}
-
-.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .isudev-google-reviews__item {
-	width: auto;
-	scroll-snap-align: start;
-}
-
-.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .swiper-button-prev,
-.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .swiper-button-next,
-.isudev-google-reviews__viewport.is-slider:not(.swiper-initialized) .swiper-pagination {
-	display: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-	.isudev-google-reviews.alignfull > .isudev-google-reviews__viewport.is-mode-continuous {
-		mask-image: none;
-	}
-
-	.isudev-google-reviews__viewport.is-mode-continuous .swiper-button-prev,
-	.isudev-google-reviews__viewport.is-mode-continuous .swiper-button-next {
-		display: flex;
-	}
-
-	.isudev-google-reviews__viewport.is-mode-continuous .swiper-pagination {
-		display: block;
+	.isudev-google-reviews__viewport:where(.is-mode-continuous) {
+		--isudev-slider-slides: 1;
 	}
 }
 

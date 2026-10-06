@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: IsuDev Library 1.14.1\n"
+"Project-Id-Version: IsuDev Library 1.15.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/isudev-library\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-06T21:08:18+00:00\n"
+"POT-Creation-Date: 2026-10-06T23:06:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: isudev-library\n"
@@ -83,19 +83,29 @@ msgstr ""
 msgid "powered by"
 msgstr ""
 
-#: build/blocks/google-reviews/render.php:50
-#: src/blocks/google-reviews/render.php:50
+#: build/blocks/google-reviews/render.php:47
+#: src/blocks/google-reviews/render.php:47
+msgid "Customer reviews"
+msgstr ""
+
+#: build/blocks/google-reviews/render.php:68
+#: src/blocks/google-reviews/render.php:68
 msgid "Previous review"
 msgstr ""
 
-#: build/blocks/google-reviews/render.php:51
-#: src/blocks/google-reviews/render.php:51
+#: build/blocks/google-reviews/render.php:69
+#: src/blocks/google-reviews/render.php:69
 msgid "Next review"
 msgstr ""
 
-#: build/blocks/google-reviews/render.php:67
-#: src/blocks/google-reviews/render.php:67
-msgid "Customer reviews"
+#: build/blocks/google-reviews/render.php:70
+#: src/blocks/google-reviews/render.php:70
+msgid "Pause reviews"
+msgstr ""
+
+#: build/blocks/google-reviews/render.php:71
+#: src/blocks/google-reviews/render.php:71
+msgid "Play reviews"
 msgstr ""
 
 #. translators: Default prefix for the step label, e.g. "Step" → "Step 1" (the number is added by a CSS counter).
@@ -107,14 +117,14 @@ msgstr ""
 
 #: build/blocks/image-step-guide/render.php:39
 #: build/blocks/site-header/render.php:39
-#: includes/utils/icon.php:39
+#: includes/utils/icon.php:59
 #: src/blocks/image-step-guide/render.php:39
 #: src/blocks/site-header/render.php:39
 msgid "Close"
 msgstr ""
 
 #: build/blocks/read-more/render.php:69
-#: src/blocks/google-reviews/inc/render-helpers.php:303
+#: src/blocks/google-reviews/inc/render-helpers.php:263
 #: src/blocks/read-more/render.php:69
 #: build/blocks/read-more/index.js:1
 #: src/blocks/read-more/edit.js:291
@@ -127,7 +137,7 @@ msgid "Main"
 msgstr ""
 
 #: build/blocks/site-header/render.php:31
-#: includes/utils/icon.php:34
+#: includes/utils/icon.php:54
 #: src/blocks/site-header/render.php:31
 #: build/blocks/site-header/index.js:1
 #: src/blocks/site-header/edit.js:74
@@ -379,100 +389,154 @@ msgstr ""
 msgid "Chevron up"
 msgstr ""
 
+#: includes/utils/icon.php:34
+msgid "Chevron left"
+msgstr ""
+
+#: includes/utils/icon.php:39
+msgid "Chevron right"
+msgstr ""
+
 #: includes/utils/icon.php:44
-msgid "Arrow forward"
+msgid "Pause"
+msgstr ""
+
+#: includes/utils/icon.php:49
+msgid "Play"
 msgstr ""
 
 #: includes/utils/icon.php:64
+msgid "Arrow forward"
+msgstr ""
+
+#: includes/utils/icon.php:84
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:15
 msgid "Facebook"
 msgstr ""
 
-#: includes/utils/icon.php:69
+#: includes/utils/icon.php:89
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:19
 msgid "X (Twitter)"
 msgstr ""
 
-#: includes/utils/icon.php:74
+#: includes/utils/icon.php:94
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:23
 msgid "LinkedIn"
 msgstr ""
 
-#: includes/utils/icon.php:79
+#: includes/utils/icon.php:99
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:27
 msgid "WhatsApp"
 msgstr ""
 
-#: includes/utils/icon.php:84
+#: includes/utils/icon.php:104
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:31
 msgid "Bluesky"
 msgstr ""
 
-#: includes/utils/icon.php:89
+#: includes/utils/icon.php:109
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:35
 msgid "Threads"
 msgstr ""
 
-#: includes/utils/icon.php:94
+#: includes/utils/icon.php:114
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:39
 msgid "Mastodon"
 msgstr ""
 
-#: includes/utils/icon.php:99
+#: includes/utils/icon.php:119
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:43
 msgid "Substack"
 msgstr ""
 
-#: includes/utils/icon.php:104
+#: includes/utils/icon.php:124
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:47
 msgid "Email"
 msgstr ""
 
-#: includes/utils/icon.php:109
+#: includes/utils/icon.php:129
 msgid "Link"
 msgstr ""
 
-#: includes/utils/icon.php:114
+#: includes/utils/icon.php:134
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:63
 msgid "Print"
 msgstr ""
 
-#: includes/utils/icon.php:119
+#: includes/utils/icon.php:139
 #: src/blocks/social-share-network/inc/render-helpers.php:84
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:52
 msgid "Share"
 msgstr ""
 
+#: includes/utils/slider.php:70
+msgid "Carousel"
+msgstr ""
+
+#: includes/utils/slider.php:71
+msgid "Previous slide"
+msgstr ""
+
+#: includes/utils/slider.php:72
+msgid "Next slide"
+msgstr ""
+
+#. translators: %d: slide number.
+#: includes/utils/slider.php:74
+msgid "Go to slide %d"
+msgstr ""
+
+#. translators: 1: slide number, 2: number of slides.
+#: includes/utils/slider.php:76
+msgid "%1$d of %2$d"
+msgstr ""
+
+#: includes/utils/slider.php:77
+msgid "Pause carousel"
+msgstr ""
+
+#: includes/utils/slider.php:78
+msgid "Play carousel"
+msgstr ""
+
+#: includes/utils/slider.php:156
+msgid "slide"
+msgstr ""
+
+#: includes/utils/slider.php:210
+msgid "carousel"
+msgstr ""
+
 #. translators: %s: human-readable time difference, for example "2 months".
-#: src/blocks/google-reviews/inc/render-helpers.php:225
+#: src/blocks/google-reviews/inc/render-helpers.php:188
 msgid "%s ago"
 msgstr ""
 
 #. translators: %s: review rating from 0 to 5.
-#: src/blocks/google-reviews/inc/render-helpers.php:240
+#: src/blocks/google-reviews/inc/render-helpers.php:203
 msgid "Rating: %s out of 5"
 msgstr ""
 
-#: src/blocks/google-reviews/inc/render-helpers.php:253
+#: src/blocks/google-reviews/inc/render-helpers.php:216
 msgid "View the original review on Google"
 msgstr ""
 
-#: src/blocks/google-reviews/inc/render-helpers.php:263
+#: src/blocks/google-reviews/inc/render-helpers.php:226
 msgid "Verified author"
 msgstr ""
 
-#: src/blocks/google-reviews/inc/render-helpers.php:304
+#: src/blocks/google-reviews/inc/render-helpers.php:264
 msgid "Collapse"
 msgstr ""
 

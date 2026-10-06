@@ -115,6 +115,20 @@ if ( ! function_exists( '__' ) ) {
 	}
 }
 
+if ( ! function_exists( 'esc_attr__' ) ) {
+	/**
+	 * Translate (unchanged) and escape for an HTML attribute.
+	 *
+	 * @param string $text   Text to translate.
+	 * @param string $domain Text domain. Ignored.
+	 * @return string Escaped text.
+	 */
+	function esc_attr__( string $text, string $domain = 'default' ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Test-only shim for a WordPress function.
+		unset( $domain );
+		return esc_attr( $text );
+	}
+}
+
 if ( ! function_exists( 'apply_filters' ) ) {
 	/**
 	 * Return the filtered value unchanged, standing in for the hook system.

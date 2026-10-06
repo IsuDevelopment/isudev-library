@@ -1,15 +1,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: IsuDev Library 1.14.1\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: IsuDev Library 1.15.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/isudev-library\n"
+"POT-Creation-Date: 2026-10-06T23:06:58+00:00\n"
 "Last-Translator: IsuDev\n"
 "Language-Team: Polski\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 "X-Domain: isudev-library\n"
 
 #. Plugin Name of the plugin
@@ -31,21 +33,18 @@ msgid ""
 "toggleable from the admin."
 msgstr ""
 "Bloki Gutenberga i narzędzia od IsuDev do wielokrotnego użytku. Renderowane "
-"po stronie serwera, modułowe, włączane i wyłączane w panelu "
-"administracyjnym."
+"po stronie serwera, modułowe, włączane i wyłączane w panelu administracyjnym."
 
 #. Author of the plugin
 #: isudev-library.php
 msgid "IsuDev"
 msgstr "IsuDev"
 
-#. translators: 1: account name, 2: average rating, 3: total number of
-#. ratings.
+#. translators: 1: account name, 2: average rating, 3: total number of ratings.
 #: build/blocks/google-reviews-badge/render.php:51
 #: src/blocks/google-reviews-badge/render.php:51
 msgid "Open %1$s in Google Maps. Rating: %2$s out of 5 based on %3$s reviews"
-msgstr ""
-"Otwórz %1$s w Mapach Google. Ocena: %2$s na 5 na podstawie %3$s opinii"
+msgstr "Otwórz %1$s w Mapach Google. Ocena: %2$s na 5 na podstawie %3$s opinii"
 
 #. translators: %s: total number of Google ratings.
 #: build/blocks/google-reviews-badge/render.php:73
@@ -86,23 +85,32 @@ msgstr "Na podstawie %s opinii"
 msgid "powered by"
 msgstr "obsługiwane przez"
 
-#: build/blocks/google-reviews/render.php:50
-#: src/blocks/google-reviews/render.php:50
-msgid "Previous review"
-msgstr "Poprzednia opinia"
-
-#: build/blocks/google-reviews/render.php:51
-#: src/blocks/google-reviews/render.php:51
-msgid "Next review"
-msgstr "Następna opinia"
-
-#: build/blocks/google-reviews/render.php:67
-#: src/blocks/google-reviews/render.php:67
+#: build/blocks/google-reviews/render.php:47
+#: src/blocks/google-reviews/render.php:47
 msgid "Customer reviews"
 msgstr "Opinie klientów"
 
-#. translators: Default prefix for the step label, e.g. "Step" → "Step 1" (the
-#. number is added by a CSS counter).
+#: build/blocks/google-reviews/render.php:68
+#: src/blocks/google-reviews/render.php:68
+msgid "Previous review"
+msgstr "Poprzednia opinia"
+
+#: build/blocks/google-reviews/render.php:69
+#: src/blocks/google-reviews/render.php:69
+msgid "Next review"
+msgstr "Następna opinia"
+
+#: build/blocks/google-reviews/render.php:70
+#: src/blocks/google-reviews/render.php:70
+msgid "Pause reviews"
+msgstr "Wstrzymaj opinie"
+
+#: build/blocks/google-reviews/render.php:71
+#: src/blocks/google-reviews/render.php:71
+msgid "Play reviews"
+msgstr "Odtwarzaj opinie"
+
+#. translators: Default prefix for the step label, e.g. "Step" → "Step 1" (the number is added by a CSS counter).
 #: build/blocks/image-step-guide-step/render.php:44
 #: src/blocks/image-step-guide-step/render.php:44
 msgctxt "step label prefix"
@@ -110,14 +118,14 @@ msgid "Step"
 msgstr "Krok"
 
 #: build/blocks/image-step-guide/render.php:39
-#: build/blocks/site-header/render.php:39 includes/utils/icon.php:39
+#: build/blocks/site-header/render.php:39 includes/utils/icon.php:59
 #: src/blocks/image-step-guide/render.php:39
 #: src/blocks/site-header/render.php:39
 msgid "Close"
 msgstr "Zamknij"
 
 #: build/blocks/read-more/render.php:69
-#: src/blocks/google-reviews/inc/render-helpers.php:303
+#: src/blocks/google-reviews/inc/render-helpers.php:263
 #: src/blocks/read-more/render.php:69 build/blocks/read-more/index.js:1
 #: src/blocks/read-more/edit.js:291
 msgid "Read more"
@@ -127,7 +135,7 @@ msgstr "Czytaj więcej"
 msgid "Main"
 msgstr "Główne"
 
-#: build/blocks/site-header/render.php:31 includes/utils/icon.php:34
+#: build/blocks/site-header/render.php:31 includes/utils/icon.php:54
 #: src/blocks/site-header/render.php:31 build/blocks/site-header/index.js:1
 #: src/blocks/site-header/edit.js:74 src/blocks/site-header/edit.js:98
 #: src/blocks/site-header/edit.js:189
@@ -150,15 +158,15 @@ msgstr "Kolor przycisku dla stylów obrysu i linku"
 
 #: extensions/button-color/extension.php:15
 msgid ""
-"Exposes the colour picked on a Button block as a CSS custom property, in the"
-" editor and on the site, so a theme can draw outline and text-only buttons "
+"Exposes the colour picked on a Button block as a CSS custom property, in the "
+"editor and on the site, so a theme can draw outline and text-only buttons "
 "(and their icons) in that colour. Also removes core's Outline style, which "
 "turns into a filled button as soon as a colour is picked."
 msgstr ""
-"Udostępnia kolor wybrany w bloku Przycisk jako zmienną CSS — w edytorze i na"
-" stronie — dzięki czemu motyw może rysować w tym kolorze przyciski z obrysem"
-" i przyciski tekstowe (oraz ich ikony). Usuwa też wbudowany styl Obrys, "
-"który po wybraniu koloru zamienia się w wypełniony przycisk."
+"Udostępnia kolor wybrany w bloku Przycisk jako zmienną CSS — w edytorze i na "
+"stronie — dzięki czemu motyw może rysować w tym kolorze przyciski z obrysem "
+"i przyciski tekstowe (oraz ich ikony). Usuwa też wbudowany styl Obrys, który "
+"po wybraniu koloru zamienia się w wypełniony przycisk."
 
 #: extensions/disable-posts/extension.php:14
 msgid "Disable posts"
@@ -178,8 +186,8 @@ msgstr "Zablokuj motyw bloku Gravity Forms"
 
 #: extensions/gravity-forms-theme-lock/extension.php:15
 msgid ""
-"Pins every Gravity Forms block to one form theme and hides the theme picker,"
-" so forms cannot drift from the site styles."
+"Pins every Gravity Forms block to one form theme and hides the theme picker, "
+"so forms cannot drift from the site styles."
 msgstr ""
 "Przypina każdy blok Gravity Forms do jednego motywu formularza i ukrywa "
 "wybór motywu, aby formularze nie odbiegały od stylów strony."
@@ -190,8 +198,8 @@ msgstr "Kontener bloku Gravity Forms"
 
 #: extensions/gravity-forms-wrapper/extension.php:15
 msgid ""
-"Wraps the rendered Gravity Forms block in a styleable container, because the"
-" block outputs the form without one."
+"Wraps the rendered Gravity Forms block in a styleable container, because the "
+"block outputs the form without one."
 msgstr ""
 "Otacza blok Gravity Forms kontenerem, który można stylować, ponieważ sam "
 "blok wyświetla formularz bez niego."
@@ -317,8 +325,8 @@ msgid ""
 "Adds a site logo picker to Settings → General, so the logo can be changed "
 "without opening the site editor."
 msgstr ""
-"Dodaje wybór logo witryny w Ustawienia → Ogólne, aby można było zmienić logo"
-" bez otwierania edytora witryny."
+"Dodaje wybór logo witryny w Ustawienia → Ogólne, aby można było zmienić logo "
+"bez otwierania edytora witryny."
 
 #: extensions/site-logo-option/hooks.php:50
 msgid "Site logo"
@@ -337,8 +345,7 @@ msgstr "Usuń logo"
 msgid ""
 "The same logo the site editor uses. Changing it here changes it everywhere."
 msgstr ""
-"To samo logo, którego używa edytor witryny. Zmiana tutaj zmienia je "
-"wszędzie."
+"To samo logo, którego używa edytor witryny. Zmiana tutaj zmienia je wszędzie."
 
 #: extensions/site-logo-option/hooks.php:167
 msgid "Use as site logo"
@@ -419,90 +426,144 @@ msgstr "Strzałka w dół"
 msgid "Chevron up"
 msgstr "Strzałka w górę"
 
+#: includes/utils/icon.php:34
+msgid "Chevron left"
+msgstr "Strzałka w lewo"
+
+#: includes/utils/icon.php:39
+msgid "Chevron right"
+msgstr "Strzałka w prawo"
+
 #: includes/utils/icon.php:44
+msgid "Pause"
+msgstr "Wstrzymaj"
+
+#: includes/utils/icon.php:49
+msgid "Play"
+msgstr "Odtwórz"
+
+#: includes/utils/icon.php:64
 msgid "Arrow forward"
 msgstr "Strzałka w prawo"
 
-#: includes/utils/icon.php:64 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:84 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:15
 msgid "Facebook"
 msgstr "Facebook"
 
-#: includes/utils/icon.php:69 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:89 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:19
 msgid "X (Twitter)"
 msgstr "X (Twitter)"
 
-#: includes/utils/icon.php:74 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:94 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:23
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: includes/utils/icon.php:79 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:99 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:27
 msgid "WhatsApp"
 msgstr "WhatsApp"
 
-#: includes/utils/icon.php:84 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:104 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:31
 msgid "Bluesky"
 msgstr "Bluesky"
 
-#: includes/utils/icon.php:89 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:109 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:35
 msgid "Threads"
 msgstr "Threads"
 
-#: includes/utils/icon.php:94 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:114 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:39
 msgid "Mastodon"
 msgstr "Mastodon"
 
-#: includes/utils/icon.php:99 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:119 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:43
 msgid "Substack"
 msgstr "Substack"
 
-#: includes/utils/icon.php:104 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:124 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:47
 msgid "Email"
 msgstr "E-mail"
 
-#: includes/utils/icon.php:109
+#: includes/utils/icon.php:129
 msgid "Link"
 msgstr "Link"
 
-#: includes/utils/icon.php:114 build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:134 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:63
 msgid "Print"
 msgstr "Drukuj"
 
-#: includes/utils/icon.php:119
+#: includes/utils/icon.php:139
 #: src/blocks/social-share-network/inc/render-helpers.php:84
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:52
 msgid "Share"
 msgstr "Udostępnij"
 
+#: includes/utils/slider.php:70
+msgid "Carousel"
+msgstr "Karuzela"
+
+#: includes/utils/slider.php:71
+msgid "Previous slide"
+msgstr "Poprzedni slajd"
+
+#: includes/utils/slider.php:72
+msgid "Next slide"
+msgstr "Następny slajd"
+
+#. translators: %d: slide number.
+#: includes/utils/slider.php:74
+msgid "Go to slide %d"
+msgstr "Przejdź do slajdu %d"
+
+#. translators: 1: slide number, 2: number of slides.
+#: includes/utils/slider.php:76
+msgid "%1$d of %2$d"
+msgstr "%1$d z %2$d"
+
+#: includes/utils/slider.php:77
+msgid "Pause carousel"
+msgstr "Wstrzymaj karuzelę"
+
+#: includes/utils/slider.php:78
+msgid "Play carousel"
+msgstr "Odtwarzaj karuzelę"
+
+#: includes/utils/slider.php:156
+msgid "slide"
+msgstr "slajd"
+
+#: includes/utils/slider.php:210
+msgid "carousel"
+msgstr "karuzela"
+
 #. translators: %s: human-readable time difference, for example "2 months".
-#: src/blocks/google-reviews/inc/render-helpers.php:225
+#: src/blocks/google-reviews/inc/render-helpers.php:188
 msgid "%s ago"
 msgstr "%s temu"
 
 #. translators: %s: review rating from 0 to 5.
-#: src/blocks/google-reviews/inc/render-helpers.php:240
+#: src/blocks/google-reviews/inc/render-helpers.php:203
 msgid "Rating: %s out of 5"
 msgstr "Ocena: %s na 5"
 
-#: src/blocks/google-reviews/inc/render-helpers.php:253
+#: src/blocks/google-reviews/inc/render-helpers.php:216
 msgid "View the original review on Google"
 msgstr "Zobacz oryginalną opinię w Google"
 
-#: src/blocks/google-reviews/inc/render-helpers.php:263
+#: src/blocks/google-reviews/inc/render-helpers.php:226
 msgid "Verified author"
 msgstr "Zweryfikowany autor"
 
-#: src/blocks/google-reviews/inc/render-helpers.php:304
+#: src/blocks/google-reviews/inc/render-helpers.php:264
 msgid "Collapse"
 msgstr "Zwiń"
 
@@ -639,8 +700,8 @@ msgid ""
 "Disabling a block removes it entirely — no editor or frontend assets load, "
 "and blocks already inserted in content render as nothing."
 msgstr ""
-"Wyłączenie bloku usuwa go całkowicie — nie ładują się jego zasoby w edytorze"
-" ani na stronie, a bloki już wstawione do treści nic nie wyświetlają."
+"Wyłączenie bloku usuwa go całkowicie — nie ładują się jego zasoby w edytorze "
+"ani na stronie, a bloki już wstawione do treści nic nie wyświetlają."
 
 #. translators: 1: number of enabled blocks, 2: total number of blocks.
 #: build/admin/index.js:3 src/admin/components/blocks-tab.js:129
@@ -659,8 +720,7 @@ msgstr "Wyłącz wszystkie"
 msgid "Inner blocks"
 msgstr "Bloki wewnętrzne"
 
-#. translators: 1: number of enabled inner blocks, 2: total number of inner
-#. blocks.
+#. translators: 1: number of enabled inner blocks, 2: total number of inner blocks.
 #: build/admin/index.js:4 src/admin/components/blocks-tab.js:166
 msgid "%1$d of %2$d enabled"
 msgstr "Włączone: %1$d z %2$d"
@@ -686,8 +746,7 @@ msgstr ""
 "Rozszerzenia zmieniają panel lub stronę od razu po włączeniu. Zmiana działa "
 "od następnego wczytania strony."
 
-#. translators: 1: number of enabled extensions, 2: total number of
-#. extensions.
+#. translators: 1: number of enabled extensions, 2: total number of extensions.
 #: build/admin/index.js:6 src/admin/components/extensions-tab.js:93
 msgid "%1$d of %2$d extensions enabled"
 msgstr "Włączone rozszerzenia: %1$d z %2$d"
@@ -725,8 +784,7 @@ msgid "Extensions"
 msgstr "Rozszerzenia"
 
 #: build/admin/index.js:6 build/blocks/agenda-accordion-item/index.js:1
-#: build/blocks/selling-point/index.js:1
-#: build/blocks/selling-points/index.js:1
+#: build/blocks/selling-point/index.js:1 build/blocks/selling-points/index.js:1
 #: build/blocks/toggle-blocks/index.js:1 src/admin/app.js:51
 #: src/blocks/agenda-accordion-item/edit.js:104
 #: src/blocks/selling-point/edit.js:181 src/blocks/selling-points/edit.js:87
@@ -913,8 +971,7 @@ msgstr "Przyklejony panel boczny"
 #: src/blocks/content-sidebar/edit.js:143
 msgid "Keeps the sidebar in view while the content scrolls (wide screens)."
 msgstr ""
-"Panel boczny pozostaje widoczny podczas przewijania treści (szerokie "
-"ekrany)."
+"Panel boczny pozostaje widoczny podczas przewijania treści (szerokie ekrany)."
 
 #: build/blocks/google-reviews-badge/index.js:1
 #: build/blocks/google-reviews-header/index.js:1
@@ -1063,41 +1120,34 @@ msgstr "Długość tekstu opinii"
 msgid "Number of characters shown before the \"Read more\" button."
 msgstr "Liczba znaków wyświetlanych przed przyciskiem „Czytaj więcej”."
 
-#: build/blocks/google-reviews/index.js:2
-#: src/blocks/google-reviews/edit.js:108
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:108
 msgid "Enable carousel"
 msgstr "Włącz karuzelę"
 
-#: build/blocks/google-reviews/index.js:2
-#: src/blocks/google-reviews/edit.js:117
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:117
 msgid "Carousel mode"
 msgstr "Tryb karuzeli"
 
-#: build/blocks/google-reviews/index.js:2
-#: src/blocks/google-reviews/edit.js:132
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:132
 msgid "Google Reviews"
 msgstr "Opinie Google"
 
 #. translators: %s: selected carousel mode.
-#: build/blocks/google-reviews/index.js:3
-#: src/blocks/google-reviews/edit.js:137
+#: build/blocks/google-reviews/index.js:3 src/blocks/google-reviews/edit.js:137
 msgid "Carousel: %s"
 msgstr "Karuzela: %s"
 
-#: build/blocks/google-reviews/index.js:3
-#: src/blocks/google-reviews/edit.js:142
+#: build/blocks/google-reviews/index.js:3 src/blocks/google-reviews/edit.js:142
 msgid "List, no carousel"
 msgstr "Lista, bez karuzeli"
 
 #. translators: %d: maximum number of reviews.
-#: build/blocks/google-reviews/index.js:4
-#: src/blocks/google-reviews/edit.js:147
+#: build/blocks/google-reviews/index.js:4 src/blocks/google-reviews/edit.js:147
 msgid "Up to %d reviews."
 msgstr "Do %d opinii."
 
 #. translators: %d: maximum visible review text length.
-#: build/blocks/google-reviews/index.js:5
-#: src/blocks/google-reviews/edit.js:154
+#: build/blocks/google-reviews/index.js:5 src/blocks/google-reviews/edit.js:154
 msgid "Review excerpt: %d characters."
 msgstr "Fragment opinii (znaki): %d."
 
@@ -1353,19 +1403,15 @@ msgstr "Animuj pojawianie się"
 msgid "Reveal points as they scroll into view."
 msgstr "Pokazuj zalety z animacją, gdy pojawiają się na ekranie."
 
-#: build/blocks/selling-points/index.js:1
-#: src/blocks/selling-points/edit.js:102
+#: build/blocks/selling-points/index.js:1 src/blocks/selling-points/edit.js:102
 msgid "Render titles as headings"
 msgstr "Wyświetl tytuły jako nagłówki"
 
-#: build/blocks/selling-points/index.js:1
-#: src/blocks/selling-points/edit.js:110
+#: build/blocks/selling-points/index.js:1 src/blocks/selling-points/edit.js:110
 msgid "Otherwise each title is a plain, non-heading element."
-msgstr ""
-"W przeciwnym razie każdy tytuł jest zwykłym tekstem, a nie nagłówkiem."
+msgstr "W przeciwnym razie każdy tytuł jest zwykłym tekstem, a nie nagłówkiem."
 
-#: build/blocks/selling-points/index.js:1
-#: src/blocks/selling-points/edit.js:118
+#: build/blocks/selling-points/index.js:1 src/blocks/selling-points/edit.js:118
 msgid "Icon size"
 msgstr "Rozmiar ikony"
 
@@ -1600,8 +1646,8 @@ msgstr "Punkt agendy"
 #: src/blocks/agenda-accordion-item/block.json
 msgctxt "block description"
 msgid ""
-"One expandable item of an agenda: a title, an optional date and summary, and"
-" content that opens on click."
+"One expandable item of an agenda: a title, an optional date and summary, and "
+"content that opens on click."
 msgstr ""
 "Jeden rozwijany punkt agendy: tytuł, opcjonalna data i streszczenie oraz "
 "treść otwierana po kliknięciu."
@@ -1631,8 +1677,8 @@ msgstr "Kafelek bento"
 msgctxt "block description"
 msgid "One tile of a bento grid; drag its edges to make it wider or taller."
 msgstr ""
-"Jeden kafelek siatki bento; przeciągnij jego krawędzie, aby go poszerzyć lub"
-" wydłużyć."
+"Jeden kafelek siatki bento; przeciągnij jego krawędzie, aby go poszerzyć lub "
+"wydłużyć."
 
 #: build/blocks/bento-card/block.json build/blocks/bento-grid/block.json
 #: src/blocks/bento-card/block.json src/blocks/bento-grid/block.json
@@ -1747,8 +1793,7 @@ msgstr "Odznaka opinii Google"
 #: src/blocks/google-reviews-badge/block.json
 msgctxt "block description"
 msgid ""
-"A small badge with your Google rating that links to your Google Maps "
-"profile."
+"A small badge with your Google rating that links to your Google Maps profile."
 msgstr "Mała odznaka z oceną w Google, prowadząca do profilu w Mapach Google."
 
 #: build/blocks/google-reviews-badge/block.json
@@ -1865,8 +1910,7 @@ msgctxt "block description"
 msgid ""
 "One benefit: an icon or image, a title, a short description and an optional "
 "link."
-msgstr ""
-"Jedna zaleta: ikona lub obrazek, tytuł, krótki opis i opcjonalny link."
+msgstr "Jedna zaleta: ikona lub obrazek, tytuł, krótki opis i opcjonalny link."
 
 #: build/blocks/selling-points/block.json src/blocks/selling-points/block.json
 msgctxt "block title"
@@ -1877,8 +1921,7 @@ msgstr "Zalety"
 msgctxt "block description"
 msgid ""
 "A grid of your key benefits, each with an icon, title and short description."
-msgstr ""
-"Siatka najważniejszych zalet, każda z ikoną, tytułem i krótkim opisem."
+msgstr "Siatka najważniejszych zalet, każda z ikoną, tytułem i krótkim opisem."
 
 #: build/blocks/site-header/block.json src/blocks/site-header/block.json
 msgctxt "block title"
@@ -1888,8 +1931,8 @@ msgstr "Nagłówek witryny"
 #: build/blocks/site-header/block.json src/blocks/site-header/block.json
 msgctxt "block description"
 msgid ""
-"The top of every page: logo, navigation menu (with a mobile menu) and action"
-" buttons."
+"The top of every page: logo, navigation menu (with a mobile menu) and action "
+"buttons."
 msgstr ""
 "Górna część każdej strony: logo, menu nawigacyjne (z menu mobilnym) i "
 "przyciski akcji."

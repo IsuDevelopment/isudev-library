@@ -30,6 +30,26 @@ function default_icons(): array {
 			'icon'     => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8l-6 6l1.41 1.41L12 10.83l4.59 4.58L18 14z"/></svg>',
 			'keywords' => array( 'arrow', 'up', 'collapse', 'accordion' ),
 		),
+		'chevronLeft'    => array(
+			'label'    => __( 'Chevron left', 'isudev-library' ),
+			'icon'     => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6l6 6l1.41-1.41L10.83 12z"/></svg>',
+			'keywords' => array( 'arrow', 'left', 'previous', 'back' ),
+		),
+		'chevronRight'   => array(
+			'label'    => __( 'Chevron right', 'isudev-library' ),
+			'icon'     => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L10 18l6-6l-6-6l-1.41 1.41L13.17 12z"/></svg>',
+			'keywords' => array( 'arrow', 'right', 'next', 'forward' ),
+		),
+		'pause'          => array(
+			'label'    => __( 'Pause', 'isudev-library' ),
+			'icon'     => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>',
+			'keywords' => array( 'pause', 'stop', 'media' ),
+		),
+		'play'           => array(
+			'label'    => __( 'Play', 'isudev-library' ),
+			'icon'     => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+			'keywords' => array( 'play', 'start', 'media' ),
+		),
 		'burger'         => array(
 			'label'    => __( 'Menu', 'isudev-library' ),
 			'icon'     => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" fill="currentColor"><path d="M95.1 132c-9.5 2.3-15.4 12.4-13.1 22.4 1.7 7.8 7.9 13.1 16.3 14.1 2.9.3 95.7.5 206.2.3 215.6-.3 202.6 0 208.3-5.2 3.8-3.4 5.5-7.7 5.5-13.6s-1.7-10.2-5.5-13.6c-5.7-5.2 7.6-4.9-210.8-5.1-111.9 0-205 .3-206.9.7M95.1 282c-9.5 2.3-15.4 12.4-13.1 22.4 1.7 7.8 7.9 13.1 16.3 14.1 2.9.3 95.7.5 206.2.3 215.6-.3 202.6 0 208.3-5.2 3.8-3.4 5.5-7.7 5.5-13.6s-1.7-10.2-5.5-13.6c-5.7-5.2 7.6-4.9-210.8-5.1-111.9 0-205 .3-206.9.7M95.1 432c-9.5 2.3-15.4 12.4-13.1 22.4 1.7 7.8 7.9 13.1 16.3 14.1 2.9.3 95.7.5 206.2.3 215.6-.3 202.6 0 208.3-5.2 3.8-3.4 5.5-7.7 5.5-13.6s-1.7-10.2-5.5-13.6c-5.7-5.2 7.6-4.9-210.8-5.1-111.9 0-205 .3-206.9.7"/></svg>',

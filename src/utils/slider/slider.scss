@@ -1,0 +1,162 @@
+/* Shared slider base styles, bundled with src/utils/slider/index.js into the
+   consuming block's view.css. Named slider.scss on purpose: wp-scripts splits
+   any style.scss into a separate style-*.css chunk. Class contract and custom
+   properties: guides/slider.md. Slide width comes from --isudev-slider-slides,
+   never JS. */
+
+:where(body) {
+	--isudev-slider-slides: var(--wp--custom--isudev-slider--slides, 1);
+	--isudev-slider-gap: var(--wp--custom--isudev-slider--gap, 1.5rem);
+	--isudev-slider-controls-gap: var(--wp--custom--isudev-slider--controls-gap, 0.75rem);
+	--isudev-slider-button-size: var(--wp--custom--isudev-slider--button-size, 2.5rem);
+	--isudev-slider-button-color: var(--wp--custom--isudev-slider--button-color, currentcolor);
+	--isudev-slider-button-background: var(--wp--custom--isudev-slider--button-background, transparent);
+	--isudev-slider-button-border: var(--wp--custom--isudev-slider--button-border, 1px solid currentcolor);
+	--isudev-slider-button-radius: var(--wp--custom--isudev-slider--button-radius, 50%);
+	--isudev-slider-dot-size: var(--wp--custom--isudev-slider--dot-size, 0.625rem);
+	--isudev-slider-dot-color: var(--wp--custom--isudev-slider--dot-color, currentcolor);
+	--isudev-slider-dot-opacity: var(--wp--custom--isudev-slider--dot-opacity, 0.3);
+	--isudev-slider-focus-color: var(--wp--custom--isudev-slider--focus-color, currentcolor);
+}
+
+.isudev-slider {
+	position: relative;
+	min-width: 0;
+}
+
+.isudev-slider__viewport {
+	overflow: hidden;
+}
+
+.isudev-slider__viewport:focus-visible {
+	outline: 2px solid var(--isudev-slider-focus-color);
+	outline-offset: 2px;
+}
+
+/* Gap as slide padding + negative container margin: Embla's loop measures
+   slide boxes, and a flex `gap` would sit outside them. */
+.isudev-slider__container {
+	display: flex;
+	margin-inline-start: calc(var(--isudev-slider-gap) * -1);
+	touch-action: pan-y pinch-zoom;
+}
+
+.isudev-slider__slide {
+	box-sizing: border-box;
+	flex: 0 0 calc(100% / var(--isudev-slider-slides));
+	min-width: 0;
+	padding-inline-start: var(--isudev-slider-gap);
+}
+
+.isudev-slider.is-dragging .isudev-slider__container {
+	cursor: grabbing;
+	user-select: none;
+}
+
+/* Before init and without JS: a native, keyboard-scrollable row. */
+.isudev-slider:not(.is-ready) .isudev-slider__viewport {
+	overflow-x: auto;
+	scroll-snap-type: x proximity;
+}
+
+.isudev-slider:not(.is-ready) .isudev-slider__slide {
+	scroll-snap-align: start;
+}
+
+.isudev-slider__controls {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--isudev-slider-controls-gap);
+	justify-content: center;
+	margin-top: var(--isudev-slider-controls-gap);
+}
+
+.isudev-slider:not(.is-ready) .isudev-slider__controls,
+.isudev-slider.is-static .isudev-slider__controls {
+	display: none;
+}
+
+.isudev-slider__button {
+	align-items: center;
+	background: var(--isudev-slider-button-background);
+	border: var(--isudev-slider-button-border);
+	border-radius: var(--isudev-slider-button-radius);
+	color: var(--isudev-slider-button-color);
+	cursor: pointer;
+	display: inline-flex;
+	height: var(--isudev-slider-button-size);
+	justify-content: center;
+	padding: 0;
+	width: var(--isudev-slider-button-size);
+}
+
+.isudev-slider__button:disabled {
+	cursor: default;
+	opacity: 0.35;
+}
+
+.isudev-slider__button svg {
+	height: 60%;
+	width: 60%;
+}
+
+.isudev-slider__prev svg:dir(rtl),
+.isudev-slider__next svg:dir(rtl) {
+	transform: scaleX(-1);
+}
+
+/* Rendered whenever motion is configured; shown only while a motion plugin runs
+   (reduced motion starts none). */
+.isudev-slider:not(.has-autoplay, .has-auto-scroll) .isudev-slider__pause {
+	display: none;
+}
+
+.isudev-slider__pause .isudev-slider__icon-play,
+.isudev-slider.is-paused .isudev-slider__pause .isudev-slider__icon-pause {
+	display: none;
+}
+
+.isudev-slider.is-paused .isudev-slider__pause .isudev-slider__icon-play {
+	display: block;
+}
+
+.isudev-slider__dots {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--isudev-slider-dot-size) * 0.5);
+	justify-content: center;
+}
+
+/* The visible dot is drawn inside a 24px target (WCAG 2.5.8). */
+.isudev-slider__dot {
+	align-items: center;
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	display: inline-flex;
+	height: 24px;
+	justify-content: center;
+	min-width: 24px;
+	padding: 0;
+
+	&::before {
+		background: var(--isudev-slider-dot-color);
+		border-radius: 50%;
+		content: "";
+		height: var(--isudev-slider-dot-size);
+		opacity: var(--isudev-slider-dot-opacity);
+		width: var(--isudev-slider-dot-size);
+	}
+
+	&[aria-current="true"]::before {
+		opacity: 1;
+	}
+}
+
+.isudev-slider__button:focus-visible,
+.isudev-slider__dot:focus-visible {
+	outline: 2px solid var(--isudev-slider-focus-color);
+	outline-offset: 2px;
+}

@@ -14,6 +14,7 @@ declare( strict_types = 1 );
 namespace IsuDevLibrary\Blocks\GoogleReviews;
 
 use function IsuDevLibrary\GoogleReviews\find_visible;
+use function IsuDevLibrary\Utils\Slider\render as render_slider;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -38,42 +39,55 @@ if ( array() === $reviews ) {
 	return;
 }
 
-$items = '';
+$cards = array();
 foreach ( $reviews as $review ) {
-	$items .= render_review( $review, $is_slider, $text_limit );
+	$cards[] = render_review( $review, $text_limit );
 }
 
-$controls = '';
+$label           = \__( 'Customer reviews', 'isudev-library' );
+$viewport_class  = \implode( ' ', \array_map( '\sanitize_html_class', viewport_classes( $is_slider, $slider_mode ) ) );
+$is_continuous   = 'continuous' === $slider_mode;
+$has_many_slides = \count( $cards ) > 1;
+
 if ( $is_slider ) {
-	$controls = \sprintf(
-		'<button class="swiper-button-prev" type="button" aria-label="%1$s"></button><button class="swiper-button-next" type="button" aria-label="%2$s"></button><div class="swiper-pagination"></div>',
-		\esc_attr__( 'Previous review', 'isudev-library' ),
-		\esc_attr__( 'Next review', 'isudev-library' )
+	// The slider root is the labelled carousel region, so the section stays unnamed (not a second landmark).
+	$wrapper_attributes = \get_block_wrapper_attributes( array( 'class' => 'isudev-google-reviews' ) );
+	$inner              = render_slider(
+		$cards,
+		array(
+			'label'           => $label,
+			'class'           => $viewport_class,
+			'container_class' => 'isudev-google-reviews__list',
+			'slide_class'     => 'isudev-google-reviews__item',
+			'options'         => array(
+				'loop'       => $has_many_slides,
+				'align'      => $is_continuous ? 'center' : 'start',
+				'autoScroll' => $is_continuous ? 0.5 : false,
+			),
+			'labels'          => array(
+				'prev'  => \__( 'Previous review', 'isudev-library' ),
+				'next'  => \__( 'Next review', 'isudev-library' ),
+				'pause' => \__( 'Pause reviews', 'isudev-library' ),
+				'play'  => \__( 'Play reviews', 'isudev-library' ),
+			),
+		)
+	);
+} else {
+	$wrapper_attributes = \get_block_wrapper_attributes(
+		array(
+			'class'      => 'isudev-google-reviews',
+			'aria-label' => $label,
+		)
+	);
+	$inner              = \sprintf(
+		'<div class="%1$s"><ul class="isudev-google-reviews__list"><li class="isudev-google-reviews__item">%2$s</li></ul></div>',
+		\esc_attr( $viewport_class ),
+		\implode( '</li><li class="isudev-google-reviews__item">', $cards )
 	);
 }
 
-$viewport_attributes = \implode( ' ', \array_map( '\sanitize_html_class', viewport_classes( $is_slider, $slider_mode ) ) );
-$viewport_data       = $is_slider
-	? \sprintf( ' data-google-reviews-slider="true" data-slider-mode="%s"', \esc_attr( $slider_mode ) )
-	: '';
-
-$list_class = \implode( ' ', \array_map( '\sanitize_html_class', list_classes( $is_slider ) ) );
-
-$wrapper_attributes = \get_block_wrapper_attributes( array( 'class' => 'isudev-google-reviews' ) );
-
-$markup = \sprintf(
-	'<section %1$s aria-label="%2$s"><div class="%3$s"%4$s><ul class="%5$s">%6$s</ul>%7$s</div></section>',
-	$wrapper_attributes,
-	\esc_attr__( 'Customer reviews', 'isudev-library' ),
-	\esc_attr( $viewport_attributes ),
-	$viewport_data,
-	\esc_attr( $list_class ),
-	$items,
-	$controls
-);
-
 /*
- * $wrapper_attributes escapes its own output; every other piece is escaped
- * at its source inside render_review() and the sprintf() arguments above.
+ * $wrapper_attributes escapes its own output, render_slider() escapes what it
+ * adds, and render_review() escapes every card at its source.
  */
-echo $markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Each component is escaped at its source; see the comment above.
+echo '<section ' . $wrapper_attributes . '>' . $inner . '</section>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Each component is escaped at its source; see the comment above.

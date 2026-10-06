@@ -3,7 +3,7 @@
  * Plugin Name:       IsuDev Library
  * Plugin URI:        https://isudev.pl
  * Description:       Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, toggleable from the admin.
- * Version:           1.14.1
+ * Version:           1.15.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            IsuDev
@@ -25,7 +25,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '1.14.1';
+const VERSION = '1.15.0';
 
 define( 'IsuDevLibrary\\PATH', plugin_dir_path( __FILE__ ) );
 define( 'IsuDevLibrary\\URL', plugin_dir_url( __FILE__ ) );
@@ -58,6 +58,7 @@ if ( $isudev_library_self_updates && class_exists( PucFactory::class ) && ( is_a
 
 require_once PATH . 'includes/utils/array.php';
 require_once PATH . 'includes/utils/icon.php';
+require_once PATH . 'includes/utils/slider.php';
 require_once PATH . 'includes/config.php';
 require_once PATH . 'includes/variations.php';
 require_once PATH . 'includes/class-registry.php';

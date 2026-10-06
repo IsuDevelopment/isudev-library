@@ -127,41 +127,6 @@ function initials( string $name ): string {
 }
 
 /**
- * Build the review item's class list. Pure, and deliberately unsanitized.
- *
- * The caller passes each name through sanitize_html_class(), which is a
- * WordPress function and would break this file's purity.
- *
- * @param bool $is_slider Whether the carousel is enabled.
- * @return array
- */
-function item_classes( bool $is_slider ): array {
-	$classes = array( 'isudev-google-reviews__item' );
-
-	if ( $is_slider ) {
-		$classes[] = 'swiper-slide';
-	}
-
-	return $classes;
-}
-
-/**
- * Build the reviews list's class list. Pure, and deliberately unsanitized.
- *
- * @param bool $is_slider Whether the carousel is enabled.
- * @return array
- */
-function list_classes( bool $is_slider ): array {
-	$classes = array( 'isudev-google-reviews__list' );
-
-	if ( $is_slider ) {
-		$classes[] = 'swiper-wrapper';
-	}
-
-	return $classes;
-}
-
-/**
  * Build the viewport's class list. Pure, and deliberately unsanitized.
  *
  * @param bool   $is_slider   Whether the carousel is enabled.
@@ -174,7 +139,6 @@ function viewport_classes( bool $is_slider, string $slider_mode ): array {
 	if ( $is_slider ) {
 		$classes[] = 'is-slider';
 		$classes[] = 'is-mode-' . $slider_mode;
-		$classes[] = 'swiper';
 	}
 
 	return $classes;
@@ -185,14 +149,13 @@ function viewport_classes( bool $is_slider, string $slider_mode ): array {
  */
 
 /**
- * Render one review as a list item.
+ * Render one review card. The caller wraps it in a list item or a slider slide.
  *
  * @param array<string,mixed> $review     Raw review row from the database.
- * @param bool                $is_slider  Whether the carousel is enabled.
  * @param int                 $text_limit Visible review length before truncation.
  * @return string
  */
-function render_review( array $review, bool $is_slider, int $text_limit ): string {
+function render_review( array $review, int $text_limit ): string {
 	$name        = \sanitize_text_field( (string) ( $review['reviewer_name'] ?? '' ) );
 	$text        = \trim( (string) ( $review['review_text'] ?? '' ) );
 	$rating      = clamp_rating( (float) ( $review['rating'] ?? 0 ) );
@@ -233,7 +196,7 @@ function render_review( array $review, bool $is_slider, int $text_limit ): strin
 	if ( $rating > 0 ) {
 		$rating_decimals = 0.0 === \fmod( $rating, 1.0 ) ? 0 : 1;
 		$rating_markup   = \sprintf(
-			'<span class="isudev-google-reviews__rating" aria-label="%1$s"><span aria-hidden="true">%2$s</span></span>',
+			'<span class="isudev-google-reviews__rating" role="img" aria-label="%1$s"><span aria-hidden="true">%2$s</span></span>',
 			\esc_attr(
 				\sprintf(
 					/* translators: %s: review rating from 0 to 5. */
@@ -266,11 +229,8 @@ function render_review( array $review, bool $is_slider, int $text_limit ): strin
 
 	$text_markup = render_review_text( $text, $text_limit );
 
-	$item_class = \implode( ' ', \array_map( '\sanitize_html_class', item_classes( $is_slider ) ) );
-
 	return \sprintf(
-		'<li class="%1$s"><article class="isudev-google-reviews__review"><div class="isudev-google-reviews__top">%2$s%3$s</div><div class="isudev-google-reviews__content"><blockquote class="isudev-google-reviews__quote">%4$s</blockquote>%5$s</div><footer class="isudev-google-reviews__footer">%6$s<div class="isudev-google-reviews__person"><span class="isudev-google-reviews__author-row"><span class="isudev-google-reviews__author">%7$s</span>%8$s</span>%9$s</div></footer></article></li>',
-		\esc_attr( $item_class ),
+		'<article class="isudev-google-reviews__review"><div class="isudev-google-reviews__top">%1$s%2$s</div><div class="isudev-google-reviews__content"><blockquote class="isudev-google-reviews__quote">%3$s</blockquote>%4$s</div><footer class="isudev-google-reviews__footer">%5$s<div class="isudev-google-reviews__person"><span class="isudev-google-reviews__author-row"><span class="isudev-google-reviews__author">%6$s</span>%7$s</span>%8$s</div></footer></article>',
 		$rating_markup,
 		$source_link,
 		$text_markup['quote'],
