@@ -72,6 +72,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const renderTitlesAsHeadings =
 		context?.['isudev/sellingPointsRenderTitlesAsHeadings'] ?? false;
 	const headingLevel = context?.['isudev/sellingPointsHeadingLevel'] ?? 2;
+	const iconSize = context?.['isudev/sellingPointsIconSize'] ?? 28;
 
 	const hasIcon = getBlockConfig(
 		PARENT_BLOCK_NAME,
@@ -220,6 +221,12 @@ export default function Edit({ attributes, setAttributes, context }) {
 				{hasIcon && showIcon && (
 					<div className="isudev-selling-point__icon">
 						<IconSelect
+							// Canvas look matches the front end; see README "Icon on the canvas".
+							className={`isudev-selling-point__icon-select${icon ? ' is-selected' : ''}`}
+							style={{
+								width: 'auto',
+								'--isudev-selling-point-icon-size': `${iconSize}px`,
+							}}
 							label={__('Icon', 'isudev-library')}
 							defaultIcons={defaultIcons}
 							icons={allowedIcons ?? undefined}

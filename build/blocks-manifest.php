@@ -228,6 +228,113 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'render' => 'file:./render.php'
 	),
+	'content-sidebar' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/content-sidebar',
+		'version' => '1.0.0',
+		'title' => 'Content with sidebar',
+		'category' => 'design',
+		'icon' => 'align-pull-left',
+		'description' => 'A main column and a sidebar that can stay in view while the page scrolls. By IsuDev.',
+		'keywords' => array(
+			'sidebar',
+			'aside',
+			'columns',
+			'sticky'
+		),
+		'textdomain' => 'isudev-library',
+		'allowedBlocks' => array(
+			'isudev/content-sidebar-main',
+			'isudev/content-sidebar-aside'
+		),
+		'attributes' => array(
+			'align' => array(
+				'type' => 'string',
+				'default' => 'wide'
+			),
+			'sidebarPosition' => array(
+				'type' => 'string',
+				'enum' => array(
+					'left',
+					'right'
+				),
+				'default' => 'right'
+			),
+			'mobilePosition' => array(
+				'type' => 'string',
+				'enum' => array(
+					'top',
+					'bottom'
+				),
+				'default' => 'bottom'
+			),
+			'sticky' => array(
+				'type' => 'boolean',
+				'default' => true
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'anchor' => true,
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'editorStyle' => 'file:./index.css',
+		'render' => 'file:./render.php'
+	),
+	'content-sidebar-aside' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/content-sidebar-aside',
+		'version' => '1.0.0',
+		'title' => 'Sidebar layout: sidebar',
+		'category' => 'design',
+		'icon' => 'align-pull-right',
+		'description' => 'The sidebar column of Content with sidebar, rendered as an aside landmark. By IsuDev.',
+		'parent' => array(
+			'isudev/content-sidebar'
+		),
+		'textdomain' => 'isudev-library',
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'lock' => false,
+			'inserter' => false
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
+	'content-sidebar-main' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/content-sidebar-main',
+		'version' => '1.0.0',
+		'title' => 'Sidebar layout: content',
+		'category' => 'design',
+		'icon' => 'text-page',
+		'description' => 'The main column of Content with sidebar. By IsuDev.',
+		'parent' => array(
+			'isudev/content-sidebar'
+		),
+		'textdomain' => 'isudev-library',
+		'supports' => array(
+			'html' => false,
+			'reusable' => false,
+			'lock' => false,
+			'inserter' => false
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
 	'google-reviews' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -628,6 +735,12 @@ return array(
 		'supports' => array(
 			'html' => false,
 			'anchor' => true,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'gradients' => false,
+				'link' => false
+			),
 			'spacing' => array(
 				'margin' => true,
 				'padding' => true

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/content-sidebar",
+  "version": "1.0.0",
+  "title": "Content with sidebar",
+  "category": "design",
+  "icon": "align-pull-left",
+  "description": "A main column and a sidebar that can stay in view while the page scrolls. By IsuDev.",
+  "keywords": [
+    "sidebar",
+    "aside",
+    "columns",
+    "sticky"
+  ],
+  "textdomain": "isudev-library",
+  "allowedBlocks": [
+    "isudev/content-sidebar-main",
+    "isudev/content-sidebar-aside"
+  ],
+  "attributes": {
+    "align": {
+      "type": "string",
+      "default": "wide"
+    },
+    "sidebarPosition": {
+      "type": "string",
+      "enum": [
+        "left",
+        "right"
+      ],
+      "default": "right"
+    },
+    "mobilePosition": {
+      "type": "string",
+      "enum": [
+        "top",
+        "bottom"
+      ],
+      "default": "bottom"
+    },
+    "sticky": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

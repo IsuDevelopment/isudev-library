@@ -30,6 +30,9 @@ WordPress 6.7+, PHP 7.4+. Node 22.22.2 for development only.
 | [`isudev/bento-card`](src/blocks/bento-card/README.md) | A single card, resizable by drag — nested inside `isudev/bento-grid`. |
 | [`isudev/selling-points`](src/blocks/selling-points/README.md) | A container for selling points in a responsive grid, with optional reveal-on-scroll. |
 | [`isudev/selling-point`](src/blocks/selling-point/README.md) | A single point — icon, image, badge, title, description and link — nested inside `isudev/selling-points`. |
+| [`isudev/content-sidebar`](src/blocks/content-sidebar/README.md) | A main column and a sidebar that can stay in view while the page scrolls. |
+| [`isudev/content-sidebar-main`](src/blocks/content-sidebar-main/README.md) | The main column — nested inside `isudev/content-sidebar`. |
+| [`isudev/content-sidebar-aside`](src/blocks/content-sidebar-aside/README.md) | The sidebar column, an `<aside>` — nested inside `isudev/content-sidebar`. |
 | [`isudev/google-reviews`](src/blocks/google-reviews/README.md) | Reviews from WP Google Review Slider, as a card grid or a carousel. |
 | [`isudev/google-reviews-header`](src/blocks/google-reviews-header/README.md) | A Google account's rating, logo and a review button. |
 | [`isudev/google-reviews-badge`](src/blocks/google-reviews-badge/README.md) | A compact Google rating badge linking to the account's Maps profile. |

@@ -23,10 +23,27 @@ covers which of the settings below a theme can turn off entirely.
 | The description | Typed directly in the canvas | empty | Supporting text below the title. |
 | The link text | Typed directly in the canvas | empty | Shown separately from the point's own link — wrapped in its own `<a>` only when the point overall is not already a link, to avoid nesting an anchor inside an anchor. |
 | **Show link text** | Sidebar → *Settings* | off | Reveals the link text field. |
+| **Background / Text colour** | Sidebar → *Styles* → *Color* | none (inherits) | Core colour support on this point only. Lands on `.isudev-selling-point` as `has-background` / `has-<slug>-background-color`, `has-text-color` / `has-<slug>-color` or inline styles. The library sets no background of its own, so a chosen one is never overridden; with a background the point's border turns transparent. |
 
 Every row above except Width and the link itself can be turned off entirely
 for the whole grid by the theme — see the parent block's
 [guide](../../../guides/selling-points.md).
+
+## Icon on the canvas
+
+In the editor the icon is a button (`@isudev/gutenberg` `IconSelect`) that
+opens the icon picker. Once an icon is picked it looks like the front end:
+only the icon, at the grid's *Icon size*, in the text colour, with no button
+border, background or name text; the name stays in the button's
+`aria-label` ("Icon: Laptop") and the focus ring still shows on keyboard
+focus. With no icon picked it is a normal button reading *Select icon*.
+
+This is done by the class `isudev-selling-point__icon-select` (+ `is-selected`)
+and the CSS in `selling-points/editor.scss`. It relies on IconSelect's markup
+— icon `<span>` first, label `<span>` last, the icon box sized inline — so an
+`@isudev/gutenberg` update that changes that markup can bring the name back.
+**How to check:** pick an icon on a point in the editor; only the icon shows,
+and Tab to it shows the focus ring.
 
 ## Related
 

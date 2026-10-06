@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.14.0 — 2026-10-06
+
+### Added
+
+- **Content with sidebar** block family: `isudev/content-sidebar` with its
+  two locked children `isudev/content-sidebar-main` and
+  `isudev/content-sidebar-aside` (rendered as `<aside>`). Attributes
+  `sidebarPosition` (`right`|`left`), `mobilePosition` (`bottom`|`top`),
+  `sticky` (default on), align wide (default) or full. Flex layout, stacks
+  below 960px, sticky sidebar from 960px. Class contract
+  `isudev-content-sidebar` / `__main` / `__aside`, `is-sidebar-*`,
+  `is-mobile-sidebar-*`, `has-sticky-sidebar`; custom properties
+  `--isudev-content-sidebar-{gap,main-basis,aside-basis,main-gap,aside-gap,sticky-offset}`
+  (each from `theme.json` `custom.isudev-content-sidebar.*` first) and the
+  shared `--isudev-sticky-offset`; the admin bar height is always added to
+  the sticky offset. `isudev.json`: `enabled`, and
+  `sidebarPosition` / `mobilePosition` / `sticky` each as
+  `{ "disable": bool, "value": … }`. Ported from a project block
+  (`pcfix/content-sidebar`); see the block README for the class contract.
+- `isudev/selling-point` supports background and text colour (core colour
+  support, no gradients or link colour), applied on `.isudev-selling-point`.
+  The wrapper `isudev/selling-points` supports are unchanged.
+
+### Fixed
+
+- The selling point icon on the editor canvas showed the icon's name
+  ("Laptop") inside a button. It now looks like the front end — only the
+  icon, at the grid's icon size, no button chrome — while keeping the name
+  in the button's accessible label, a visible focus ring, and the
+  "Select icon" placeholder when nothing is picked.
+
 ## 1.13.0 — 2026-09-24
 
 ### Added

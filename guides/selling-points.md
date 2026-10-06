@@ -129,6 +129,11 @@ block rename.
 
 - Root: `isudev-selling-point`, `is-size-{20|25|33|50|75|100}` for an
   explicit Width, `has-icon` / `has-image` / `has-link`
+  — plus core colour-support classes when a background or text colour is
+  picked on the point (`has-background`, `has-<slug>-background-color`,
+  `has-text-color`, `has-<slug>-color`, or inline `background-color` /
+  `color`). The library sets no point background, so a theme default
+  belongs in `:where(.isudev-selling-point:not(.has-background))`.
 - `isudev-selling-point__icon`, `isudev-selling-point__badge`,
   `isudev-selling-point__figure`, `isudev-selling-point__title`,
   `isudev-selling-point__description`, `isudev-selling-point__link`

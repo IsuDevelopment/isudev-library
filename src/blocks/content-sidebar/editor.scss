@@ -1,0 +1,10 @@
+/* Content with sidebar — editor-only affordances. Do not add
+   `> .block-editor-block-list__layout { display: contents }`: with apiVersion 3
+   useInnerBlocksProps puts that class on the column itself and flattens it. */
+
+.isudev-content-sidebar__main:empty,
+.isudev-content-sidebar__aside:empty {
+	min-height: 120px;
+	outline: 1px dashed currentcolor;
+	opacity: 0.6;
+}

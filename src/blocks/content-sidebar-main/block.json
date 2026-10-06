@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/content-sidebar-main",
+	"version": "1.0.0",
+	"title": "Sidebar layout: content",
+	"category": "design",
+	"icon": "text-page",
+	"description": "The main column of Content with sidebar. By IsuDev.",
+	"parent": ["isudev/content-sidebar"],
+	"textdomain": "isudev-library",
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"lock": false,
+		"inserter": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

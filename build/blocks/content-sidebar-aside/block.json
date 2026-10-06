@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/content-sidebar-aside",
+  "version": "1.0.0",
+  "title": "Sidebar layout: sidebar",
+  "category": "design",
+  "icon": "align-pull-right",
+  "description": "The sidebar column of Content with sidebar, rendered as an aside landmark. By IsuDev.",
+  "parent": [
+    "isudev/content-sidebar"
+  ],
+  "textdomain": "isudev-library",
+  "supports": {
+    "html": false,
+    "reusable": false,
+    "lock": false,
+    "inserter": false
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

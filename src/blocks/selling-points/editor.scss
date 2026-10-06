@@ -11,3 +11,45 @@
 		grid-column: span 4;
 	}
 }
+
+/* The point's IconSelect on the canvas: once an icon is picked, show only the
+   icon at the front-end size — no label text, no button chrome. The label stays
+   in the button's aria-label. Couples to @isudev/gutenberg IconSelect markup:
+   the icon is the first <span>, the label the last. With no (resolvable) icon
+   the label is the only child, so the "Select icon" placeholder stays visible.
+   See src/blocks/selling-point/README.md. */
+.isudev-selling-point__icon .components-button.is-secondary.isudev-selling-point__icon-select.is-selected {
+
+	&,
+	&:hover:not(:disabled),
+	&:active:not(:disabled) {
+		background: transparent;
+		box-shadow: none;
+		color: inherit;
+		height: auto;
+		min-width: 0;
+		padding: 0;
+	}
+
+	&:focus-visible:not(:disabled) {
+		box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 2px) var(--wp-admin-theme-color, #3858e9);
+		outline: 2px solid transparent;
+	}
+
+	> span:not(:only-child):last-child {
+		display: none;
+	}
+
+	/* !important: Icon sizes its box inline from IconSelect's iconSize. */
+	> span:first-child:not(:only-child) {
+		height: var(--isudev-selling-point-icon-size, 28px) !important;
+		width: var(--isudev-selling-point-icon-size, 28px) !important;
+	}
+
+	svg,
+	img {
+		fill: currentcolor;
+		height: 100%;
+		width: 100%;
+	}
+}

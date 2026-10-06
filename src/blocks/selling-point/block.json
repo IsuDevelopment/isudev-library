@@ -12,6 +12,12 @@
 	"supports": {
 		"html": false,
 		"anchor": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": false,
+			"link": false
+		},
 		"spacing": {
 			"margin": true,
 			"padding": true
