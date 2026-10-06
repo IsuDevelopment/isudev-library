@@ -228,6 +228,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 								'--isudev-selling-point-icon-size': `${iconSize}px`,
 							}}
 							label={__('Icon', 'isudev-library')}
+							placeholder={__('Select icon', 'isudev-library')}
 							defaultIcons={defaultIcons}
 							icons={allowedIcons ?? undefined}
 							value={icon}

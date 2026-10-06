@@ -9,7 +9,7 @@
   ],
   "category": "design",
   "icon": "index-card",
-  "description": "A single selling point: an optional icon, image, badge, title, description and link. Lives only inside isudev/selling-points. By IsuDev.",
+  "description": "One benefit: an icon or image, a title, a short description and an optional link.",
   "textdomain": "isudev-library",
   "supports": {
     "html": false,

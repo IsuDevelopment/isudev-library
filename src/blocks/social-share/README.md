@@ -1,7 +1,7 @@
 # Social Share — `isudev/social-share`
 
 A container for share buttons: an optional prefix such as "Share:" and any
-number of [Social Share Network](../social-share-network/README.md) children.
+number of [Share Button](../social-share-network/README.md) children.
 
 The container renders nothing on its own — the buttons are the child blocks.
 
@@ -81,6 +81,6 @@ single network, which locks the set.
 
 ## Related
 
-- [Social Share Network](../social-share-network/README.md) — the button itself
+- [Share Button](../social-share-network/README.md) — the button itself
 - [`guides/social-share.md`](../../../guides/social-share.md) — theme configuration, classes, icon map
 - [`guides/work-with-icons.md`](../../../guides/work-with-icons.md) — the icon registry the buttons draw from

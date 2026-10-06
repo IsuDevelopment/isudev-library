@@ -70,7 +70,7 @@ $markup = \sprintf(
 	\esc_html(
 		\sprintf(
 			/* translators: %s: total number of Google ratings. */
-			\__( '%s reviews on Google', 'isudev-library' ),
+			\_n( '%s review on Google', '%s reviews on Google', $rating_count, 'isudev-library' ),
 			\number_format_i18n( $rating_count )
 		)
 	)

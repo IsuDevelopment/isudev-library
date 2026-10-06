@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.14.1 — 2026-10-06
+
+### Added
+
+- **Polish translation** shipped in the plugin: `languages/isudev-library-pl_PL`
+  `.po`, `.mo`, `.l10n.php` and the per-script JSON for every editor script,
+  covering PHP strings, block names, descriptions and keywords, and editor
+  controls. `Loader` now points every block script at `languages/` with
+  `wp_set_script_translations()` — core registers block.json scripts without
+  that path, so editor strings never translated from the plugin's own files.
+  The text domain loads at `init` priority 1, before blocks register.
+  `npm run i18n:build` compiles everything; `tools/checks/170-translations.php`
+  fails on an untranslated or uncompiled string.
+
+### Changed
+
+- Every block's title and description is now a plain, editor-facing sentence
+  about what the block does. Renamed titles: *Agenda Accordion Item* →
+  *Agenda Item*, *Read More Block* → *Read More*, *Site Header Block* →
+  *Site Header*, *Social Share Network* → *Share Button*, *Sidebar layout:
+  content* → *Main content*, *Sidebar layout: sidebar* → *Sidebar*. Block
+  names (`isudev/*`), markup and classes are unchanged.
+- The Google reviews badge count uses plural forms ("1 review", "2 reviews"),
+  so languages with several plurals read correctly.
+- The selling point icon picker's "Select icon" placeholder is translatable.
+
 ## 1.14.0 — 2026-10-06
 
 ### Added

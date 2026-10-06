@@ -1,4 +1,4 @@
-# Sidebar layout: content — `isudev/content-sidebar-main`
+# Main content — `isudev/content-sidebar-main`
 
 The main column of [Content with sidebar](../content-sidebar/README.md). It
 exists only inside that block — inserted with it, never on its own, and it

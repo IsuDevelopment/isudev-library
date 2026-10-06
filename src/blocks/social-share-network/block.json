@@ -3,11 +3,11 @@
 	"apiVersion": 3,
 	"name": "isudev/social-share-network",
 	"version": "1.0.0",
-	"title": "Social Share Network",
+	"title": "Share Button",
 	"parent": ["isudev/social-share"],
 	"category": "widgets",
 	"icon": "share",
-	"description": "A single social network share button. By IsuDev.",
+	"description": "A button that shares the page on one social network.",
 	"textdomain": "isudev-library",
 	"supports": {
 		"html": false,

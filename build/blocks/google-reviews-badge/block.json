@@ -6,7 +6,7 @@
   "title": "Google Reviews Badge",
   "category": "widgets",
   "icon": "star-filled",
-  "description": "Displays a compact rating badge for a Google account, sourced from the WP Google Review Slider plugin. By IsuDev.",
+  "description": "A small badge with your Google rating that links to your Google Maps profile.",
   "keywords": [
     "reviews",
     "google",

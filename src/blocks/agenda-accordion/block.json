@@ -6,7 +6,7 @@
 	"title": "Agenda Accordion",
 	"category": "design",
 	"icon": "list-view",
-	"description": "A container for accordion items: any number of isudev/agenda-accordion-item children. By IsuDev.",
+	"description": "A list of items that expand and collapse on click \u2014 for agendas, schedules or FAQs.",
 	"textdomain": "isudev-library",
 	"attributes": {
 		"_namespace": {

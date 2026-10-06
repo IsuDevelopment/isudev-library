@@ -3,10 +3,10 @@
   "apiVersion": 3,
   "name": "isudev/content-sidebar-main",
   "version": "1.0.0",
-  "title": "Sidebar layout: content",
+  "title": "Main content",
   "category": "design",
   "icon": "text-page",
-  "description": "The main column of Content with sidebar. By IsuDev.",
+  "description": "The main column of the layout.",
   "parent": [
     "isudev/content-sidebar"
   ],

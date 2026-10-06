@@ -6,7 +6,7 @@ a page or an external URL.
 
 ## Inserting it
 
-Block inserter → **Design** → *Read More Block*. The block starts as a
+Block inserter → **Design** → *Read More*. The block starts as a
 placeholder asking where the card should link; pick a link and the card appears.
 Everything else is optional.
 

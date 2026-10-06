@@ -6,7 +6,7 @@
 	"title": "Google Reviews Header",
 	"category": "widgets",
 	"icon": "star-filled",
-	"description": "Displays a Google account's rating, logo and a review button, sourced from the WP Google Review Slider plugin. By IsuDev.",
+	"description": "Your Google rating and logo, with a button inviting visitors to leave a review.",
 	"keywords": ["reviews", "google", "rating"],
 	"textdomain": "isudev-library",
 	"supports": {

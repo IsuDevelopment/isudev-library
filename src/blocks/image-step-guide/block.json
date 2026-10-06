@@ -6,7 +6,7 @@
 	"title": "Image Step Guide",
 	"category": "widgets",
 	"icon": "images-alt2",
-	"description": "A container for step-by-step content: any number of isudev/image-step-guide-step children, each an image alongside editable inner blocks. By IsuDev.",
+	"description": "Step-by-step instructions, each step with an image next to its description.",
 	"textdomain": "isudev-library",
 	"supports": {
 		"html": false,

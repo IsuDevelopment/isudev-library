@@ -1,4 +1,4 @@
-# Sidebar layout: sidebar — `isudev/content-sidebar-aside`
+# Sidebar — `isudev/content-sidebar-aside`
 
 The sidebar column of [Content with sidebar](../content-sidebar/README.md),
 rendered as an `<aside>`. It exists only inside that block — inserted with it,

@@ -1,4 +1,4 @@
-# Social Share Network — `isudev/social-share-network`
+# Share Button — `isudev/social-share-network`
 
 One share button. Lives only inside
 [Social Share](../social-share/README.md) — it cannot be inserted on its own,

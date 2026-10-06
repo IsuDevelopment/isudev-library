@@ -3,7 +3,7 @@
  * Plugin Name:       IsuDev Library
  * Plugin URI:        https://isudev.pl
  * Description:       Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, toggleable from the admin.
- * Version:           1.14.0
+ * Version:           1.14.1
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            IsuDev
@@ -25,7 +25,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '1.14.0';
+const VERSION = '1.14.1';
 
 define( 'IsuDevLibrary\\PATH', plugin_dir_path( __FILE__ ) );
 define( 'IsuDevLibrary\\URL', plugin_dir_url( __FILE__ ) );
@@ -80,11 +80,14 @@ Utils\boot_icons();
 Config\boot();
 
 /**
- * Load the plugin text domain for PHP translations.
+ * Load the plugin text domain from languages/ (.l10n.php / .mo).
+ *
+ * Priority 1: before Loader registers blocks at 5, so block.json titles and
+ * descriptions translate from this plugin's own files.
  *
  * @return void
  */
 function load_textdomain(): void {
 	load_plugin_textdomain( 'isudev-library', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
-add_action( 'init', __NAMESPACE__ . '\\load_textdomain' );
+add_action( 'init', __NAMESPACE__ . '\\load_textdomain', 1 );

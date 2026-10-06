@@ -1,0 +1,1927 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: IsuDev Library 1.14.1\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: IsuDev\n"
+"Language-Team: Polski\n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Domain: isudev-library\n"
+
+#. Plugin Name of the plugin
+#: isudev-library.php includes/admin.php:76 includes/admin.php:77
+#: build/admin/index.js:6 src/admin/app.js:83
+msgid "IsuDev Library"
+msgstr "IsuDev Library"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: isudev-library.php
+msgid "https://isudev.pl"
+msgstr "https://isudev.pl"
+
+#. Description of the plugin
+#: isudev-library.php
+msgid ""
+"Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, "
+"toggleable from the admin."
+msgstr ""
+"Bloki Gutenberga i narzędzia od IsuDev do wielokrotnego użytku. Renderowane "
+"po stronie serwera, modułowe, włączane i wyłączane w panelu "
+"administracyjnym."
+
+#. Author of the plugin
+#: isudev-library.php
+msgid "IsuDev"
+msgstr "IsuDev"
+
+#. translators: 1: account name, 2: average rating, 3: total number of
+#. ratings.
+#: build/blocks/google-reviews-badge/render.php:51
+#: src/blocks/google-reviews-badge/render.php:51
+msgid "Open %1$s in Google Maps. Rating: %2$s out of 5 based on %3$s reviews"
+msgstr ""
+"Otwórz %1$s w Mapach Google. Ocena: %2$s na 5 na podstawie %3$s opinii"
+
+#. translators: %s: total number of Google ratings.
+#: build/blocks/google-reviews-badge/render.php:73
+#: src/blocks/google-reviews-badge/render.php:73
+msgid "%s review on Google"
+msgid_plural "%s reviews on Google"
+msgstr[0] "%s opinia w Google"
+msgstr[1] "%s opinie w Google"
+msgstr[2] "%s opinii w Google"
+
+#: build/blocks/google-reviews-header/render.php:38
+#: src/blocks/google-reviews-header/render.php:38
+#: build/blocks/google-reviews-header/index.js:3
+#: src/blocks/google-reviews-header/edit.js:265
+msgid "Rate us"
+msgstr "Oceń nas"
+
+#. translators: %s: Google account name.
+#: build/blocks/google-reviews-header/render.php:88
+#: src/blocks/google-reviews-header/render.php:88
+msgid "Open %s in Google Maps"
+msgstr "Otwórz %s w Mapach Google"
+
+#. translators: %s: average Google rating from 0 to 5.
+#: build/blocks/google-reviews-header/render.php:121
+#: src/blocks/google-reviews-header/render.php:121
+msgid "Average rating: %s out of 5"
+msgstr "Średnia ocena: %s na 5"
+
+#. translators: %s: total number of Google ratings.
+#: build/blocks/google-reviews-header/render.php:129
+#: src/blocks/google-reviews-header/render.php:129
+msgid "Based on %s reviews"
+msgstr "Na podstawie %s opinii"
+
+#: build/blocks/google-reviews-header/render.php:149
+#: src/blocks/google-reviews-header/render.php:149
+msgid "powered by"
+msgstr "obsługiwane przez"
+
+#: build/blocks/google-reviews/render.php:50
+#: src/blocks/google-reviews/render.php:50
+msgid "Previous review"
+msgstr "Poprzednia opinia"
+
+#: build/blocks/google-reviews/render.php:51
+#: src/blocks/google-reviews/render.php:51
+msgid "Next review"
+msgstr "Następna opinia"
+
+#: build/blocks/google-reviews/render.php:67
+#: src/blocks/google-reviews/render.php:67
+msgid "Customer reviews"
+msgstr "Opinie klientów"
+
+#. translators: Default prefix for the step label, e.g. "Step" → "Step 1" (the
+#. number is added by a CSS counter).
+#: build/blocks/image-step-guide-step/render.php:44
+#: src/blocks/image-step-guide-step/render.php:44
+msgctxt "step label prefix"
+msgid "Step"
+msgstr "Krok"
+
+#: build/blocks/image-step-guide/render.php:39
+#: build/blocks/site-header/render.php:39 includes/utils/icon.php:39
+#: src/blocks/image-step-guide/render.php:39
+#: src/blocks/site-header/render.php:39
+msgid "Close"
+msgstr "Zamknij"
+
+#: build/blocks/read-more/render.php:69
+#: src/blocks/google-reviews/inc/render-helpers.php:303
+#: src/blocks/read-more/render.php:69 build/blocks/read-more/index.js:1
+#: src/blocks/read-more/edit.js:291
+msgid "Read more"
+msgstr "Czytaj więcej"
+
+#: build/blocks/site-header/render.php:22 src/blocks/site-header/render.php:22
+msgid "Main"
+msgstr "Główne"
+
+#: build/blocks/site-header/render.php:31 includes/utils/icon.php:34
+#: src/blocks/site-header/render.php:31 build/blocks/site-header/index.js:1
+#: src/blocks/site-header/edit.js:74 src/blocks/site-header/edit.js:98
+#: src/blocks/site-header/edit.js:189
+msgid "Menu"
+msgstr "Menu"
+
+#: build/blocks/social-share-network/render.php:113
+#: src/blocks/social-share-network/render.php:113
+msgid "The link was copied to your clipboard"
+msgstr "Skopiowano"
+
+#: build/blocks/social-share-network/render.php:117
+#: src/blocks/social-share-network/render.php:117
+msgid "Link copied to clipboard"
+msgstr "Skopiowano"
+
+#: extensions/button-color/extension.php:14
+msgid "Button colour for outline and link styles"
+msgstr "Kolor przycisku dla stylów obrysu i linku"
+
+#: extensions/button-color/extension.php:15
+msgid ""
+"Exposes the colour picked on a Button block as a CSS custom property, in the"
+" editor and on the site, so a theme can draw outline and text-only buttons "
+"(and their icons) in that colour. Also removes core's Outline style, which "
+"turns into a filled button as soon as a colour is picked."
+msgstr ""
+"Udostępnia kolor wybrany w bloku Przycisk jako zmienną CSS — w edytorze i na"
+" stronie — dzięki czemu motyw może rysować w tym kolorze przyciski z obrysem"
+" i przyciski tekstowe (oraz ich ikony). Usuwa też wbudowany styl Obrys, "
+"który po wybraniu koloru zamienia się w wypełniony przycisk."
+
+#: extensions/disable-posts/extension.php:14
+msgid "Disable posts"
+msgstr "Wyłącz wpisy"
+
+#: extensions/disable-posts/extension.php:15
+msgid ""
+"Hides the built-in Posts post type, its categories and tags: no admin menu, "
+"no front-end archives, no single views."
+msgstr ""
+"Ukrywa wbudowany typ treści Wpisy wraz z kategoriami i tagami: bez menu w "
+"panelu, bez archiwów i bez pojedynczych widoków na stronie."
+
+#: extensions/gravity-forms-theme-lock/extension.php:14
+msgid "Lock the Gravity Forms block theme"
+msgstr "Zablokuj motyw bloku Gravity Forms"
+
+#: extensions/gravity-forms-theme-lock/extension.php:15
+msgid ""
+"Pins every Gravity Forms block to one form theme and hides the theme picker,"
+" so forms cannot drift from the site styles."
+msgstr ""
+"Przypina każdy blok Gravity Forms do jednego motywu formularza i ukrywa "
+"wybór motywu, aby formularze nie odbiegały od stylów strony."
+
+#: extensions/gravity-forms-wrapper/extension.php:14
+msgid "Gravity Forms block wrapper"
+msgstr "Kontener bloku Gravity Forms"
+
+#: extensions/gravity-forms-wrapper/extension.php:15
+msgid ""
+"Wraps the rendered Gravity Forms block in a styleable container, because the"
+" block outputs the form without one."
+msgstr ""
+"Otacza blok Gravity Forms kontenerem, który można stylować, ponieważ sam "
+"blok wyświetla formularz bez niego."
+
+#: extensions/last-edited-column/extension.php:17
+msgid "Last edited column"
+msgstr "Kolumna „Ostatnio edytowane”"
+
+#: extensions/last-edited-column/extension.php:18
+msgid ""
+"Adds a sortable \"Last edited\" column to post type list screens, showing "
+"who changed a post and when."
+msgstr ""
+"Dodaje do list treści sortowaną kolumnę „Ostatnio edytowane”, pokazującą, "
+"kto i kiedy zmienił wpis."
+
+#: extensions/last-edited-column/hooks.php:63
+msgid "Last edited"
+msgstr "Ostatnio edytowane"
+
+#: extensions/post-rename/extension.php:14
+msgid "Rename posts to articles"
+msgstr "Zmień nazwę wpisów na artykuły"
+
+#: extensions/post-rename/extension.php:15
+msgid ""
+"Relabels the built-in Posts post type as Articles across the admin. Labels "
+"are filterable, so any other word works too."
+msgstr ""
+"Zmienia w całym panelu nazwę wbudowanego typu treści Wpisy na Artykuły. "
+"Etykiety można filtrować, więc działa też każde inne słowo."
+
+#: extensions/post-rename/hooks.php:36
+msgid "Article"
+msgstr "Artykuł"
+
+#: extensions/post-rename/hooks.php:37
+msgid "Articles"
+msgstr "Artykuły"
+
+#. translators: %s: singular post type name, e.g. Article.
+#: extensions/post-rename/hooks.php:76
+msgid "Add new %s"
+msgstr "Dodaj: %s"
+
+#. translators: %s: singular post type name, e.g. Article.
+#: extensions/post-rename/hooks.php:78
+msgid "Edit %s"
+msgstr "Edytuj: %s"
+
+#. translators: %s: singular post type name, e.g. Article.
+#: extensions/post-rename/hooks.php:80
+msgid "New %s"
+msgstr "Nowy: %s"
+
+#. translators: %s: singular post type name, e.g. Article.
+#. translators: %s: plural post type name, e.g. Articles.
+#: extensions/post-rename/hooks.php:82 extensions/post-rename/hooks.php:84
+msgid "View %s"
+msgstr "Zobacz: %s"
+
+#. translators: %s: plural post type name, e.g. Articles.
+#: extensions/post-rename/hooks.php:86
+msgid "Search %s"
+msgstr "Szukaj: %s"
+
+#. translators: %s: lowercase plural post type name, e.g. articles.
+#: extensions/post-rename/hooks.php:88
+msgid "No %s found."
+msgstr "Nie znaleziono: %s."
+
+#. translators: %s: lowercase plural post type name, e.g. articles.
+#: extensions/post-rename/hooks.php:90
+msgid "No %s found in Trash."
+msgstr "Nie znaleziono w koszu: %s."
+
+#. translators: %s: plural post type name, e.g. Articles.
+#: extensions/post-rename/hooks.php:92
+msgid "All %s"
+msgstr "Wszystkie: %s"
+
+#. translators: %s: plural post type name, e.g. Articles.
+#: extensions/post-rename/hooks.php:94
+msgid "%s archives"
+msgstr "Archiwa: %s"
+
+#. translators: %s: singular post type name, e.g. Article.
+#: extensions/post-rename/hooks.php:96
+msgid "%s attributes"
+msgstr "Atrybuty: %s"
+
+#. translators: %s: singular post type name, e.g. Article.
+#: extensions/post-rename/hooks.php:98
+msgid "Insert into %s"
+msgstr "Wstaw do: %s"
+
+#. translators: %s: singular post type name, e.g. Article.
+#: extensions/post-rename/hooks.php:100
+msgid "%s published."
+msgstr "Opublikowano: %s."
+
+#. translators: %s: singular post type name, e.g. Article.
+#: extensions/post-rename/hooks.php:102
+msgid "%s updated."
+msgstr "Zaktualizowano: %s."
+
+#. translators: %s: singular post type name, e.g. Article.
+#: extensions/post-rename/hooks.php:104
+msgid "%s scheduled."
+msgstr "Zaplanowano: %s."
+
+#. translators: %s: singular post type name, e.g. Article.
+#: extensions/post-rename/hooks.php:106
+msgid "%s reverted to draft."
+msgstr "Przywrócono do szkicu: %s."
+
+#: extensions/site-logo-option/extension.php:14
+msgid "Site logo in General settings"
+msgstr "Logo witryny w Ustawieniach ogólnych"
+
+#: extensions/site-logo-option/extension.php:15
+msgid ""
+"Adds a site logo picker to Settings → General, so the logo can be changed "
+"without opening the site editor."
+msgstr ""
+"Dodaje wybór logo witryny w Ustawienia → Ogólne, aby można było zmienić logo"
+" bez otwierania edytora witryny."
+
+#: extensions/site-logo-option/hooks.php:50
+msgid "Site logo"
+msgstr "Logo witryny"
+
+#: extensions/site-logo-option/hooks.php:118
+#: extensions/site-logo-option/hooks.php:166
+msgid "Select logo"
+msgstr "Wybierz logo"
+
+#: extensions/site-logo-option/hooks.php:122
+msgid "Remove logo"
+msgstr "Usuń logo"
+
+#: extensions/site-logo-option/hooks.php:126
+msgid ""
+"The same logo the site editor uses. Changing it here changes it everywhere."
+msgstr ""
+"To samo logo, którego używa edytor witryny. Zmiana tutaj zmienia je "
+"wszędzie."
+
+#: extensions/site-logo-option/hooks.php:167
+msgid "Use as site logo"
+msgstr "Użyj jako logo witryny"
+
+#: extensions/skip-links/extension.php:14 extensions/skip-links/hooks.php:114
+#: extensions/skip-links/hooks.php:116
+msgid "Skip links"
+msgstr "Linki pomijania"
+
+#: extensions/skip-links/extension.php:15
+msgid ""
+"Adds a keyboard-only skip navigation right after the opening body tag, "
+"replacing the core block theme skip link."
+msgstr ""
+"Dodaje zaraz po otwarciu znacznika body nawigację pomijania dostępną z "
+"klawiatury, zastępując wbudowany link pomijania motywów blokowych."
+
+#: extensions/skip-links/hooks.php:62
+msgid "Skip to main content"
+msgstr "Przejdź do treści"
+
+#: extensions/template-post-state/extension.php:14
+msgid "Show template name"
+msgstr "Pokaż nazwę szablonu"
+
+#: extensions/template-post-state/extension.php:15
+msgid ""
+"Shows the assigned page template as a badge next to the title on post type "
+"list screens."
+msgstr ""
+"Pokazuje przypisany szablon strony jako etykietę obok tytułu na listach "
+"treści."
+
+#: includes/class-extensions.php:56
+msgid "Admin experience"
+msgstr "Wygoda w panelu"
+
+#: includes/class-extensions.php:57
+msgid "Content"
+msgstr "Treść"
+
+#: includes/class-extensions.php:58
+msgid "Accessibility"
+msgstr "Dostępność"
+
+#: includes/class-extensions.php:59
+msgid "Plugin integrations"
+msgstr "Integracje z wtyczkami"
+
+#: includes/rest.php:227
+msgid "Unknown block."
+msgstr "Nieznany blok."
+
+#: includes/rest.php:235
+msgid "This block is managed in code and cannot be toggled here."
+msgstr "Ten blok jest zarządzany w kodzie i nie można go tutaj przełączyć."
+
+#: includes/rest.php:315
+msgid "Unknown extension."
+msgstr "Nieznane rozszerzenie."
+
+#. translators: %s: name of the required plugin.
+#: includes/rest.php:325
+msgid "This extension needs %s to be active."
+msgstr "To rozszerzenie wymaga aktywnej wtyczki %s."
+
+#: includes/rest.php:335
+msgid "This extension is managed in code and cannot be toggled here."
+msgstr ""
+"To rozszerzenie jest zarządzane w kodzie i nie można go tutaj przełączyć."
+
+#: includes/utils/icon.php:24
+msgid "Chevron down"
+msgstr "Strzałka w dół"
+
+#: includes/utils/icon.php:29
+msgid "Chevron up"
+msgstr "Strzałka w górę"
+
+#: includes/utils/icon.php:44
+msgid "Arrow forward"
+msgstr "Strzałka w prawo"
+
+#: includes/utils/icon.php:64 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:15
+msgid "Facebook"
+msgstr "Facebook"
+
+#: includes/utils/icon.php:69 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:19
+msgid "X (Twitter)"
+msgstr "X (Twitter)"
+
+#: includes/utils/icon.php:74 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:23
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: includes/utils/icon.php:79 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:27
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+#: includes/utils/icon.php:84 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:31
+msgid "Bluesky"
+msgstr "Bluesky"
+
+#: includes/utils/icon.php:89 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:35
+msgid "Threads"
+msgstr "Threads"
+
+#: includes/utils/icon.php:94 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:39
+msgid "Mastodon"
+msgstr "Mastodon"
+
+#: includes/utils/icon.php:99 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:43
+msgid "Substack"
+msgstr "Substack"
+
+#: includes/utils/icon.php:104 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:47
+msgid "Email"
+msgstr "E-mail"
+
+#: includes/utils/icon.php:109
+msgid "Link"
+msgstr "Link"
+
+#: includes/utils/icon.php:114 build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:63
+msgid "Print"
+msgstr "Drukuj"
+
+#: includes/utils/icon.php:119
+#: src/blocks/social-share-network/inc/render-helpers.php:84
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:52
+msgid "Share"
+msgstr "Udostępnij"
+
+#. translators: %s: human-readable time difference, for example "2 months".
+#: src/blocks/google-reviews/inc/render-helpers.php:225
+msgid "%s ago"
+msgstr "%s temu"
+
+#. translators: %s: review rating from 0 to 5.
+#: src/blocks/google-reviews/inc/render-helpers.php:240
+msgid "Rating: %s out of 5"
+msgstr "Ocena: %s na 5"
+
+#: src/blocks/google-reviews/inc/render-helpers.php:253
+msgid "View the original review on Google"
+msgstr "Zobacz oryginalną opinię w Google"
+
+#: src/blocks/google-reviews/inc/render-helpers.php:263
+msgid "Verified author"
+msgstr "Zweryfikowany autor"
+
+#: src/blocks/google-reviews/inc/render-helpers.php:304
+msgid "Collapse"
+msgstr "Zwiń"
+
+#. translators: %s: parent menu item label.
+#: src/blocks/site-header/inc/class-nav-walker.php:150
+msgid "Show submenu for %s"
+msgstr "Pokaż podmenu: %s"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:76
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:16
+msgid "Share on Facebook"
+msgstr "Udostępnij na Facebooku"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:77
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:20
+msgid "Share on X"
+msgstr "Udostępnij na X"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:78
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:24
+msgid "Share on LinkedIn"
+msgstr "Udostępnij na LinkedIn"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:79
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:28
+msgid "Share on WhatsApp"
+msgstr "Udostępnij przez WhatsApp"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:80
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:32
+msgid "Share on Bluesky"
+msgstr "Udostępnij na Bluesky"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:81
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:36
+msgid "Share on Threads"
+msgstr "Udostępnij na Threads"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:82
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:40
+msgid "Share on Mastodon"
+msgstr "Udostępnij na Mastodonie"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:83
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:44
+msgid "Share on Substack"
+msgstr "Udostępnij na Substacku"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:85
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:48
+msgid "Send email"
+msgstr "Wyślij e-mailem"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:86
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:60
+msgid "Copy link"
+msgstr "Kopiuj link"
+
+#: src/blocks/social-share-network/inc/render-helpers.php:87
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:64
+msgid "Print page"
+msgstr "Drukuj stronę"
+
+#. translators: %title% is the post title.
+#: src/blocks/social-share-network/inc/render-helpers.php:163
+msgid "Have a look at this article: %title%"
+msgstr "Zobacz: %title%"
+
+#. translators: %title% is the post title, %url% is the post permalink.
+#: src/blocks/social-share-network/inc/render-helpers.php:167
+msgid "You might be interested in this: %title%, %url%"
+msgstr "To może Cię zainteresować: %title%, %url%"
+
+#: src/blocks/toggle-blocks/inc/render-helpers.php:24
+msgid "Open content"
+msgstr "Otwórz treść"
+
+#: src/blocks/toggle-blocks/inc/render-helpers.php:33
+msgid "Close content"
+msgstr "Zamknij treść"
+
+#: build/admin/index.js:1 build/admin/index.js:4
+#: src/admin/components/block-card.js:25
+#: src/admin/components/extension-card.js:21
+msgid "Managed in isudev.json — change it there."
+msgstr "Zarządzane w isudev.json — zmień to tam."
+
+#: build/admin/index.js:1 src/admin/components/block-card.js:30
+msgid "Always enabled — this block cannot be turned off."
+msgstr "Zawsze włączony — tego bloku nie można wyłączyć."
+
+#. translators: %s: comma-separated list of block slugs.
+#: build/admin/index.js:2 src/admin/components/block-card.js:37
+msgid "Requires: %s. Enable those first."
+msgstr "Wymaga: %s. Najpierw je włącz."
+
+#: build/admin/index.js:2 src/admin/components/block-card.js:65
+msgid "Parent"
+msgstr "Nadrzędny"
+
+#: build/admin/index.js:2 build/admin/index.js:5
+#: src/admin/components/block-card.js:80
+#: src/admin/components/extension-card.js:66
+msgid "Enabled"
+msgstr "Włączony"
+
+#: build/admin/index.js:2 build/admin/index.js:5
+#: src/admin/components/block-card.js:81
+#: src/admin/components/extension-card.js:67
+msgid "Disabled"
+msgstr "Wyłączony"
+
+#: build/admin/index.js:2 src/admin/components/blocks-tab.js:51
+msgid "No blocks found. Run npm run build."
+msgstr "Nie znaleziono bloków. Uruchom npm run build."
+
+#: build/admin/index.js:2 src/admin/components/blocks-tab.js:61
+msgid "This also disables the blocks that depend on it. Continue?"
+msgstr "To wyłączy też bloki, które od niego zależą. Kontynuować?"
+
+#: build/admin/index.js:2 src/admin/components/blocks-tab.js:119
+msgid ""
+"Disabling a block removes it entirely — no editor or frontend assets load, "
+"and blocks already inserted in content render as nothing."
+msgstr ""
+"Wyłączenie bloku usuwa go całkowicie — nie ładują się jego zasoby w edytorze"
+" ani na stronie, a bloki już wstawione do treści nic nie wyświetlają."
+
+#. translators: 1: number of enabled blocks, 2: total number of blocks.
+#: build/admin/index.js:3 src/admin/components/blocks-tab.js:129
+msgid "%1$d of %2$d blocks enabled"
+msgstr "Włączone bloki: %1$d z %2$d"
+
+#: build/admin/index.js:3 src/admin/components/blocks-tab.js:136
+msgid "Enable all"
+msgstr "Włącz wszystkie"
+
+#: build/admin/index.js:3 src/admin/components/blocks-tab.js:139
+msgid "Disable all"
+msgstr "Wyłącz wszystkie"
+
+#: build/admin/index.js:3 src/admin/components/blocks-tab.js:160
+msgid "Inner blocks"
+msgstr "Bloki wewnętrzne"
+
+#. translators: 1: number of enabled inner blocks, 2: total number of inner
+#. blocks.
+#: build/admin/index.js:4 src/admin/components/blocks-tab.js:166
+msgid "%1$d of %2$d enabled"
+msgstr "Włączone: %1$d z %2$d"
+
+#: build/admin/index.js:4 src/admin/components/blocks-tab.js:175
+msgid "Unavailable while parent is disabled"
+msgstr "Niedostępny, gdy blok nadrzędny jest wyłączony"
+
+#. translators: %s: name of the required plugin.
+#: build/admin/index.js:5 src/admin/components/extension-card.js:28
+msgid "Needs %s to be active."
+msgstr "Wymaga aktywnej wtyczki %s."
+
+#: build/admin/index.js:5 src/admin/components/extensions-tab.js:63
+msgid "No extensions found."
+msgstr "Nie znaleziono rozszerzeń."
+
+#: build/admin/index.js:5 src/admin/components/extensions-tab.js:83
+msgid ""
+"Extensions change the admin or the front end as soon as they are enabled. A "
+"change takes effect on the next page load."
+msgstr ""
+"Rozszerzenia zmieniają panel lub stronę od razu po włączeniu. Zmiana działa "
+"od następnego wczytania strony."
+
+#. translators: 1: number of enabled extensions, 2: total number of
+#. extensions.
+#: build/admin/index.js:6 src/admin/components/extensions-tab.js:93
+msgid "%1$d of %2$d extensions enabled"
+msgstr "Włączone rozszerzenia: %1$d z %2$d"
+
+#: build/admin/index.js:6 src/admin/components/settings-tab.js:25
+msgid "Diagnostics"
+msgstr "Diagnostyka"
+
+#: build/admin/index.js:6 src/admin/components/settings-tab.js:31
+msgid "Version:"
+msgstr "Wersja:"
+
+#: build/admin/index.js:6 src/admin/components/settings-tab.js:35
+msgid "Blocks discovered:"
+msgstr "Znalezione bloki:"
+
+#: build/admin/index.js:6 src/admin/components/settings-tab.js:39
+msgid "Blocks registered:"
+msgstr "Zarejestrowane bloki:"
+
+#: build/admin/index.js:6 src/admin/components/settings-tab.js:43
+msgid "isudev.json:"
+msgstr "isudev.json:"
+
+#: build/admin/index.js:6 src/admin/components/settings-tab.js:18
+msgid "Not found — using block defaults."
+msgstr "Nie znaleziono — używane są domyślne ustawienia bloków."
+
+#: build/admin/index.js:6 src/admin/app.js:49
+msgid "Blocks"
+msgstr "Bloki"
+
+#: build/admin/index.js:6 src/admin/app.js:50
+msgid "Extensions"
+msgstr "Rozszerzenia"
+
+#: build/admin/index.js:6 build/blocks/agenda-accordion-item/index.js:1
+#: build/blocks/selling-point/index.js:1
+#: build/blocks/selling-points/index.js:1
+#: build/blocks/toggle-blocks/index.js:1 src/admin/app.js:51
+#: src/blocks/agenda-accordion-item/edit.js:104
+#: src/blocks/selling-point/edit.js:181 src/blocks/selling-points/edit.js:87
+#: src/blocks/toggle-blocks/edit.js:130
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: build/admin/index.js:6 src/admin/app.js:86
+msgid ""
+"Blocks to build pages with, and extensions that change how WordPress itself "
+"behaves. Everything here can be switched off."
+msgstr ""
+"Bloki do budowania stron i rozszerzenia zmieniające działanie samego "
+"WordPressa. Wszystko tutaj można wyłączyć."
+
+#: build/blocks/agenda-accordion-item/index.js:1
+#: src/blocks/agenda-accordion-item/edit.js:34
+msgid "Write description…"
+msgstr "Wpisz opis…"
+
+#: build/blocks/agenda-accordion-item/index.js:1
+#: src/blocks/agenda-accordion-item/edit.js:107
+msgid "Default open"
+msgstr "Domyślnie otwarty"
+
+#: build/blocks/agenda-accordion-item/index.js:1
+#: src/blocks/agenda-accordion-item/edit.js:112
+msgid "Show this item as initially open."
+msgstr "Pokaż ten element jako otwarty po wczytaniu strony."
+
+#: build/blocks/agenda-accordion-item/index.js:1
+#: src/blocks/agenda-accordion-item/edit.js:129
+msgid "Agenda date text"
+msgstr "Data w agendzie"
+
+#: build/blocks/agenda-accordion-item/index.js:1
+#: src/blocks/agenda-accordion-item/edit.js:130
+msgid "Time or date…"
+msgstr "Godzina lub data…"
+
+#: build/blocks/agenda-accordion-item/index.js:1
+#: src/blocks/agenda-accordion-item/edit.js:141
+msgid "Heading text"
+msgstr "Tekst nagłówka"
+
+#: build/blocks/agenda-accordion-item/index.js:1
+#: src/blocks/agenda-accordion-item/edit.js:142
+msgid "Write heading…"
+msgstr "Wpisz nagłówek…"
+
+#: build/blocks/agenda-accordion-item/index.js:1
+#: src/blocks/agenda-accordion-item/edit.js:161
+msgid "Excerpt text"
+msgstr "Tekst zajawki"
+
+#: build/blocks/agenda-accordion-item/index.js:1
+#: src/blocks/agenda-accordion-item/edit.js:162
+msgid "Write excerpt…"
+msgstr "Wpisz zajawkę…"
+
+#. translators: %s: breakpoint label, e.g. Tablet.
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:337
+msgid "Card position"
+msgstr "Położenie kafelka"
+
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:344
+msgid "Column span"
+msgstr "Szerokość w kolumnach"
+
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:352
+msgid "Row span"
+msgstr "Wysokość w wierszach"
+
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:383
+msgid "Resize card width"
+msgstr "Zmień szerokość kafelka"
+
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:393
+msgid "Resize card height"
+msgstr "Zmień wysokość kafelka"
+
+#. translators: %s: breakpoint label, e.g. Tablet.
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:26
+msgid "Layout 1"
+msgstr "Układ 1"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:87
+msgid "Layout 2"
+msgstr "Układ 2"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:147
+msgid "Layout 3"
+msgstr "Układ 3"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:224
+msgid "Layout 4"
+msgstr "Układ 4"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:335
+msgid "Layout 5"
+msgstr "Układ 5"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:318
+msgid "Bento Grid"
+msgstr "Siatka bento"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:319
+msgid "Choose a layout to get started:"
+msgstr "Na początek wybierz układ:"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:179
+msgid "Grid settings"
+msgstr "Ustawienia siatki"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:186
+msgid "Columns"
+msgstr "Kolumny"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:198
+msgid "Gap (px)"
+msgstr "Odstęp (px)"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:208
+msgid "Grid guide"
+msgstr "Linie siatki"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:209
+msgid "Shows the column grid in the editor. Does not affect the frontend."
+msgstr "Pokazuje siatkę kolumn w edytorze. Nie wpływa na stronę."
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:222
+msgid "Card size"
+msgstr "Rozmiar kafelka"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:227
+msgid "Min. card height (px)"
+msgstr "Min. wysokość kafelka (px)"
+
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:249
+msgid "Reset layout"
+msgstr "Resetuj układ"
+
+#: build/blocks/content-sidebar/index.js:1
+#: src/blocks/content-sidebar/edit.js:90
+msgid "Sidebar"
+msgstr "Panel boczny"
+
+#: build/blocks/content-sidebar/index.js:1
+#: src/blocks/content-sidebar/edit.js:95
+msgid "Sidebar position"
+msgstr "Położenie panelu bocznego"
+
+#: build/blocks/content-sidebar/index.js:1
+#: src/blocks/content-sidebar/edit.js:99
+msgid "Right"
+msgstr "Po prawej"
+
+#: build/blocks/content-sidebar/index.js:1
+#: src/blocks/content-sidebar/edit.js:103
+msgid "Left"
+msgstr "Po lewej"
+
+#: build/blocks/content-sidebar/index.js:1
+#: src/blocks/content-sidebar/edit.js:116
+msgid "On mobile"
+msgstr "Na telefonie"
+
+#: build/blocks/content-sidebar/index.js:1
+#: src/blocks/content-sidebar/edit.js:120
+msgid "Below the content"
+msgstr "Pod treścią"
+
+#: build/blocks/content-sidebar/index.js:1
+#: src/blocks/content-sidebar/edit.js:127
+msgid "Above the content"
+msgstr "Nad treścią"
+
+#: build/blocks/content-sidebar/index.js:1
+#: src/blocks/content-sidebar/edit.js:142
+msgid "Sticky sidebar"
+msgstr "Przyklejony panel boczny"
+
+#: build/blocks/content-sidebar/index.js:1
+#: src/blocks/content-sidebar/edit.js:143
+msgid "Keeps the sidebar in view while the content scrolls (wide screens)."
+msgstr ""
+"Panel boczny pozostaje widoczny podczas przewijania treści (szerokie "
+"ekrany)."
+
+#: build/blocks/google-reviews-badge/index.js:1
+#: build/blocks/google-reviews-header/index.js:1
+#: src/blocks/google-reviews-badge/edit.js:38
+#: src/blocks/google-reviews-header/edit.js:72
+msgid "Select a Google account"
+msgstr "Wybierz konto Google"
+
+#. translators: 1: account name, 2: total number of ratings.
+#. translators: 1: account name, 2: number of available reviews.
+#: build/blocks/google-reviews-badge/index.js:2
+#: build/blocks/google-reviews-header/index.js:2
+#: build/blocks/google-reviews/index.js:2
+#: src/blocks/google-reviews-badge/edit.js:42
+#: src/blocks/google-reviews-header/edit.js:76
+#: src/blocks/google-reviews/edit.js:52
+msgid "%1$s (%2$d reviews)"
+msgstr "%1$s (opinie: %2$d)"
+
+#: build/blocks/google-reviews-badge/index.js:2
+#: src/blocks/google-reviews-badge/edit.js:53
+msgid "Badge settings"
+msgstr "Ustawienia odznaki"
+
+#: build/blocks/google-reviews-badge/index.js:2
+#: build/blocks/google-reviews-header/index.js:2
+#: build/blocks/google-reviews/index.js:2
+#: src/blocks/google-reviews-badge/edit.js:56
+#: src/blocks/google-reviews-header/edit.js:126
+#: src/blocks/google-reviews/edit.js:91
+msgid "Google account"
+msgstr "Konto Google"
+
+#: build/blocks/google-reviews-badge/index.js:2
+#: build/blocks/google-reviews-header/index.js:2
+#: build/blocks/google-reviews/index.js:2
+#: src/blocks/google-reviews-badge/edit.js:64
+#: src/blocks/google-reviews-header/edit.js:132
+#: src/blocks/google-reviews/edit.js:99
+msgid "Could not load the account list."
+msgstr "Nie udało się wczytać listy kont."
+
+#: build/blocks/google-reviews-badge/index.js:2
+#: src/blocks/google-reviews-badge/edit.js:73
+msgid "Use light text"
+msgstr "Użyj jasnego tekstu"
+
+#. translators: %d: total number of Google ratings.
+#: build/blocks/google-reviews-badge/index.js:3
+#: src/blocks/google-reviews-badge/edit.js:103
+msgid "%d review on Google"
+msgid_plural "%d reviews on Google"
+msgstr[0] "%d opinia w Google"
+msgstr[1] "%d opinie w Google"
+msgstr[2] "%d opinii w Google"
+
+#: build/blocks/google-reviews-header/index.js:2
+#: src/blocks/google-reviews-header/edit.js:123
+msgid "Header settings"
+msgstr "Ustawienia nagłówka"
+
+#: build/blocks/google-reviews-header/index.js:2
+#: src/blocks/google-reviews-header/edit.js:141
+msgid "Button text"
+msgstr "Tekst przycisku"
+
+#: build/blocks/google-reviews-header/index.js:2
+#: src/blocks/google-reviews-header/edit.js:149
+msgid "Hide \"powered by Google\""
+msgstr "Ukryj „obsługiwane przez Google”"
+
+#: build/blocks/google-reviews-header/index.js:2
+#: src/blocks/google-reviews-header/edit.js:157
+msgid "Render title as heading"
+msgstr "Wyświetl tytuł jako nagłówek"
+
+#: build/blocks/google-reviews-header/index.js:2
+#: src/blocks/google-reviews-header/edit.js:174
+msgid "Company logo"
+msgstr "Logo firmy"
+
+#: build/blocks/google-reviews-header/index.js:2
+#: src/blocks/google-reviews-header/edit.js:179
+msgid "Maximum logo height (px)"
+msgstr "Maksymalna wysokość logo (px)"
+
+#: build/blocks/google-reviews-header/index.js:2
+#: build/blocks/site-header/index.js:1
+#: src/blocks/google-reviews-header/edit.js:197
+#: src/blocks/google-reviews-header/edit.js:216
+#: src/blocks/site-header/edit.js:121 src/blocks/site-header/edit.js:185
+msgid "Logo"
+msgstr "Logo"
+
+#: build/blocks/google-reviews-header/index.js:2
+#: src/blocks/google-reviews-header/edit.js:198
+msgid "Upload the company logo."
+msgstr "Prześlij logo firmy."
+
+#: build/blocks/google-reviews-header/index.js:2
+#: src/blocks/google-reviews-header/edit.js:226
+msgid "Review header…"
+msgstr "Nagłówek opinii…"
+
+#: build/blocks/google-reviews-header/index.js:2
+#: src/blocks/google-reviews-header/edit.js:236
+msgid "Optional text below the header…"
+msgstr "Opcjonalny tekst pod nagłówkiem…"
+
+#. translators: %d: total number of ratings.
+#: build/blocks/google-reviews-header/index.js:3
+#: src/blocks/google-reviews-header/edit.js:252
+msgid "Based on %d reviews"
+msgstr "Na podstawie %d opinii"
+
+#: build/blocks/google-reviews-header/index.js:3
+#: src/blocks/google-reviews-header/edit.js:261
+msgid "powered by Google"
+msgstr "obsługiwane przez Google"
+
+#: build/blocks/google-reviews/index.js:1 src/blocks/google-reviews/edit.js:20
+msgid "Continuous scroll"
+msgstr "Ciągłe przewijanie"
+
+#: build/blocks/google-reviews/index.js:1 src/blocks/google-reviews/edit.js:21
+msgid "Classic"
+msgstr "Klasyczna"
+
+#: build/blocks/google-reviews/index.js:1 src/blocks/google-reviews/edit.js:48
+msgid "All accounts"
+msgstr "Wszystkie konta"
+
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:63
+msgid "Review settings"
+msgstr "Ustawienia opinii"
+
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:66
+msgid "Number of reviews"
+msgstr "Liczba opinii"
+
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:76
+msgid "Review text length"
+msgstr "Długość tekstu opinii"
+
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:84
+msgid "Number of characters shown before the \"Read more\" button."
+msgstr "Liczba znaków wyświetlanych przed przyciskiem „Czytaj więcej”."
+
+#: build/blocks/google-reviews/index.js:2
+#: src/blocks/google-reviews/edit.js:108
+msgid "Enable carousel"
+msgstr "Włącz karuzelę"
+
+#: build/blocks/google-reviews/index.js:2
+#: src/blocks/google-reviews/edit.js:117
+msgid "Carousel mode"
+msgstr "Tryb karuzeli"
+
+#: build/blocks/google-reviews/index.js:2
+#: src/blocks/google-reviews/edit.js:132
+msgid "Google Reviews"
+msgstr "Opinie Google"
+
+#. translators: %s: selected carousel mode.
+#: build/blocks/google-reviews/index.js:3
+#: src/blocks/google-reviews/edit.js:137
+msgid "Carousel: %s"
+msgstr "Karuzela: %s"
+
+#: build/blocks/google-reviews/index.js:3
+#: src/blocks/google-reviews/edit.js:142
+msgid "List, no carousel"
+msgstr "Lista, bez karuzeli"
+
+#. translators: %d: maximum number of reviews.
+#: build/blocks/google-reviews/index.js:4
+#: src/blocks/google-reviews/edit.js:147
+msgid "Up to %d reviews."
+msgstr "Do %d opinii."
+
+#. translators: %d: maximum visible review text length.
+#: build/blocks/google-reviews/index.js:5
+#: src/blocks/google-reviews/edit.js:154
+msgid "Review excerpt: %d characters."
+msgstr "Fragment opinii (znaki): %d."
+
+#: build/blocks/image-step-guide-step/index.js:1
+#: src/blocks/image-step-guide-step/edit.js:37
+msgid "Add step title…"
+msgstr "Dodaj tytuł kroku…"
+
+#: build/blocks/image-step-guide-step/index.js:1
+#: src/blocks/image-step-guide-step/edit.js:44
+msgid "Add step description…"
+msgstr "Dodaj opis kroku…"
+
+#: build/blocks/image-step-guide-step/index.js:1
+#: src/blocks/image-step-guide-step/edit.js:124
+msgid "Step"
+msgstr "Krok"
+
+#: build/blocks/image-step-guide-step/index.js:1
+#: src/blocks/image-step-guide-step/edit.js:146
+msgid "Label override"
+msgstr "Własna etykieta"
+
+#: build/blocks/image-step-guide-step/index.js:1
+#: src/blocks/image-step-guide-step/edit.js:151
+msgid "Label prefix"
+msgstr "Przedrostek etykiety"
+
+#: build/blocks/image-step-guide-step/index.js:1
+#: src/blocks/image-step-guide-step/edit.js:157
+msgid "Leave empty to use the guide default."
+msgstr "Pozostaw puste, aby użyć domyślnej wartości przewodnika."
+
+#: build/blocks/image-step-guide-step/index.js:1
+#: src/blocks/image-step-guide-step/edit.js:164
+msgid "Hide this step's label"
+msgstr "Ukryj etykietę tego kroku"
+
+#: build/blocks/image-step-guide-step/index.js:1
+#: src/blocks/image-step-guide-step/edit.js:187
+#: src/blocks/image-step-guide-step/edit.js:197
+msgid "Step image"
+msgstr "Obrazek kroku"
+
+#: build/blocks/image-step-guide-step/index.js:1
+#: src/blocks/image-step-guide-step/edit.js:191
+msgid "Upload an image for this step."
+msgstr "Prześlij obrazek dla tego kroku."
+
+#: build/blocks/image-step-guide/index.js:1
+#: src/blocks/image-step-guide/edit.js:93
+msgid "Enlarge images on click"
+msgstr "Powiększaj obrazki po kliknięciu"
+
+#: build/blocks/image-step-guide/index.js:1
+#: src/blocks/image-step-guide/edit.js:110
+msgid "Images"
+msgstr "Obrazki"
+
+#: build/blocks/image-step-guide/index.js:1
+#: src/blocks/image-step-guide/edit.js:113
+msgid "Enlarge on click"
+msgstr "Powiększ po kliknięciu"
+
+#: build/blocks/image-step-guide/index.js:1
+#: src/blocks/image-step-guide/edit.js:118
+msgid "Open a larger version of the image when it is clicked."
+msgstr "Po kliknięciu otwiera większą wersję obrazka."
+
+#: build/blocks/image-step-guide/index.js:1
+#: src/blocks/image-step-guide/edit.js:129
+msgid "Layout"
+msgstr "Układ"
+
+#: build/blocks/image-step-guide/index.js:1
+#: src/blocks/image-step-guide/edit.js:132
+msgid "Display style"
+msgstr "Sposób wyświetlania"
+
+#: build/blocks/image-step-guide/index.js:1
+#: src/blocks/image-step-guide/edit.js:136
+msgid "List"
+msgstr "Lista"
+
+#: build/blocks/image-step-guide/index.js:1
+#: src/blocks/image-step-guide/edit.js:140
+msgid "Grid"
+msgstr "Siatka"
+
+#: build/blocks/read-more/index.js:1 build/blocks/selling-point/index.js:1
+#: src/blocks/read-more/edit.js:185 src/blocks/selling-point/edit.js:174
+msgid "Add link"
+msgstr "Dodaj link"
+
+#: build/blocks/read-more/index.js:1 build/blocks/selling-point/index.js:1
+#: src/blocks/read-more/edit.js:186 src/blocks/selling-point/edit.js:175
+msgid "Edit link"
+msgstr "Edytuj link"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:207
+msgid "Read More settings"
+msgstr "Ustawienia karty „Czytaj więcej”"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:210
+msgid "Show image"
+msgstr "Pokaż obrazek"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:218
+msgid "Read more badge"
+msgstr "Etykieta karty"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:219
+msgid "Show a small label above the title."
+msgstr "Pokaż małą etykietę nad tytułem."
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:230
+msgid "Use custom title"
+msgstr "Użyj własnego tytułu"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:231
+msgid "Otherwise the linked page title is used."
+msgstr "W przeciwnym razie używany jest tytuł podlinkowanej strony."
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:240
+#: src/blocks/read-more/edit.js:332
+msgid "Additional text"
+msgstr "Dodatkowy tekst"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:241
+msgid "Show supporting text below the title."
+msgstr "Pokaż tekst pomocniczy pod tytułem."
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:264
+#: src/blocks/read-more/edit.js:279
+msgid "Card image"
+msgstr "Obrazek karty"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:268
+msgid ""
+"Upload an image, or leave it empty to inherit the linked post’s featured "
+"image."
+msgstr ""
+"Prześlij obrazek lub pozostaw puste, aby użyć obrazka wyróżniającego "
+"podlinkowanego wpisu."
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:305
+msgid "Custom title"
+msgstr "Własny tytuł"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:321
+msgid "Untitled"
+msgstr "Bez tytułu"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:161
+msgid "Read More"
+msgstr "Czytaj więcej"
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:162
+msgid "Choose where this card should link to."
+msgstr "Wybierz, dokąd ma prowadzić ta karta."
+
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:168
+msgid "Pick link"
+msgstr "Wybierz link"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:37
+msgid "20%"
+msgstr "20%"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:38
+msgid "25%"
+msgstr "25%"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:39
+msgid "33.33%"
+msgstr "33,33%"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:40
+msgid "50%"
+msgstr "50%"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:41
+msgid "75%"
+msgstr "75%"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:42
+msgid "100%"
+msgstr "100%"
+
+#: build/blocks/selling-point/index.js:1 build/blocks/toggle-blocks/index.js:1
+#: src/blocks/selling-point/edit.js:120 src/blocks/toggle-blocks/edit.js:205
+msgid "Default"
+msgstr "Domyślnie"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:140
+msgid "Width"
+msgstr "Szerokość"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:159
+msgid "Hide icon"
+msgstr "Ukryj ikonę"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:160
+#: src/blocks/selling-point/edit.js:187
+msgid "Show icon"
+msgstr "Pokaż ikonę"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:197
+msgid "Show badge"
+msgstr "Pokaż etykietę"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:209
+msgid "Show link text"
+msgstr "Pokaż tekst linku"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:230
+msgid "Icon"
+msgstr "Ikona"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:231
+msgid "Select icon"
+msgstr "Wybierz ikonę"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:251
+msgid "Add badge text"
+msgstr "Dodaj tekst etykiety"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:265
+msgid "Image"
+msgstr "Obrazek"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:266
+msgid "Upload an image for this point."
+msgstr "Prześlij obrazek dla tej zalety."
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:280
+msgid "Add title…"
+msgstr "Dodaj tytuł…"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:291
+msgid "Add description"
+msgstr "Dodaj opis"
+
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:304
+msgid "Add link text"
+msgstr "Dodaj tekst linku"
+
+#: build/blocks/selling-points/index.js:1 src/blocks/selling-points/edit.js:90
+msgid "Animate in"
+msgstr "Animuj pojawianie się"
+
+#: build/blocks/selling-points/index.js:1 src/blocks/selling-points/edit.js:95
+msgid "Reveal points as they scroll into view."
+msgstr "Pokazuj zalety z animacją, gdy pojawiają się na ekranie."
+
+#: build/blocks/selling-points/index.js:1
+#: src/blocks/selling-points/edit.js:102
+msgid "Render titles as headings"
+msgstr "Wyświetl tytuły jako nagłówki"
+
+#: build/blocks/selling-points/index.js:1
+#: src/blocks/selling-points/edit.js:110
+msgid "Otherwise each title is a plain, non-heading element."
+msgstr ""
+"W przeciwnym razie każdy tytuł jest zwykłym tekstem, a nie nagłówkiem."
+
+#: build/blocks/selling-points/index.js:1
+#: src/blocks/selling-points/edit.js:118
+msgid "Icon size"
+msgstr "Rozmiar ikony"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/variations.js:9
+msgid "Minimal header (no actions)"
+msgstr "Minimalny nagłówek (bez akcji)"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/variations.js:10
+msgid "Logo and navigation only."
+msgstr "Tylko logo i nawigacja."
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:53
+msgid "Select a menu…"
+msgstr "Wybierz menu…"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:61
+msgid "Location"
+msgstr "Położenie"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:103
+msgid "Navigation source"
+msgstr "Źródło nawigacji"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:113
+msgid "Nav ARIA label"
+msgstr "Etykieta ARIA nawigacji"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:123
+msgid "Logo source"
+msgstr "Źródło logo"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:127
+msgid "Site logo / title"
+msgstr "Logo / tytuł witryny"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:134
+msgid "Custom image URL"
+msgstr "Własny adres URL obrazka"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:138
+msgid "None"
+msgstr "Brak"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:149
+msgid "Logo image URL"
+msgstr "Adres URL obrazka logo"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:158
+msgid "Behavior"
+msgstr "Zachowanie"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:160
+msgid "Sticky header"
+msgstr "Przyklejony nagłówek"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:166
+msgid "White-header body class"
+msgstr "Klasa body dla białego nagłówka"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:167
+msgid "When <body> has this class, the header is transparent until scrolled."
+msgstr ""
+"Gdy <body> ma tę klasę, nagłówek jest przezroczysty do momentu przewinięcia "
+"strony."
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:184
+msgid "(no logo)"
+msgstr "(brak logo)"
+
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:190
+msgid "No menu selected"
+msgstr "Nie wybrano menu"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:51
+msgid "System Share"
+msgstr "Udostępnianie systemowe"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:53
+msgid ""
+"Uses the native device share dialog (Web Share API), letting users choose "
+"their preferred app. Replaces platform-specific buttons. No third-party "
+"scripts — GDPR safe."
+msgstr ""
+"Używa systemowego okna udostępniania urządzenia (Web Share API), w którym "
+"użytkownik wybiera aplikację. Zastępuje przyciski poszczególnych serwisów. "
+"Bez skryptów zewnętrznych — zgodne z RODO."
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:59
+msgid "Copy Link"
+msgstr "Kopiuj link"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/edit.js:169
+msgid "Select network"
+msgstr "Wybierz serwis"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/edit.js:176
+msgid "Toggle label"
+msgstr "Pokaż/ukryj etykietę"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/edit.js:183
+msgid "Network settings"
+msgstr "Ustawienia serwisu"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/edit.js:187
+msgid "Social network"
+msgstr "Serwis społecznościowy"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/edit.js:205
+msgid "Show label"
+msgstr "Pokaż etykietę"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/edit.js:210
+msgid "Display the label visibly next to the icon."
+msgstr "Wyświetla etykietę obok ikony."
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/edit.js:219
+msgid "Label position"
+msgstr "Położenie etykiety"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/edit.js:226
+msgid "Before icon"
+msgstr "Przed ikoną"
+
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/edit.js:233
+msgid "After icon"
+msgstr "Za ikoną"
+
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:119
+msgid "Prefix settings"
+msgstr "Ustawienia tekstu wstępnego"
+
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:123
+msgid "Show prefix text"
+msgstr "Pokaż tekst wstępny"
+
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:133
+msgid "Prefix position"
+msgstr "Położenie tekstu wstępnego"
+
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:137
+msgid "Above icons"
+msgstr "Nad ikonami"
+
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:144
+msgid "Before icons"
+msgstr "Przed ikonami"
+
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:151
+msgid "After icons"
+msgstr "Za ikonami"
+
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:191
+#: src/blocks/social-share/edit.js:207 src/blocks/social-share/edit.js:223
+msgid "Share:"
+msgstr "Udostępnij:"
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:110
+msgid "Enter toggle text…"
+msgstr "Wpisz tekst przycisku…"
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:133
+msgid "Close text"
+msgstr "Tekst zamykania"
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:138
+msgid "Shown on the button while the content is open."
+msgstr "Wyświetlany na przycisku, gdy treść jest otwarta."
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:145
+msgid "Open by default"
+msgstr "Domyślnie otwarte"
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:150
+msgid "Expand the content when the page loads."
+msgstr "Rozwiń treść po wczytaniu strony."
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:157
+msgid "Scroll to content"
+msgstr "Przewiń do treści"
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:162
+msgid "Scroll the content into view when it opens."
+msgstr "Przewiń do treści po jej otwarciu."
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:168
+msgid ""
+"The toggle is always open in the editor so its content can be edited. It "
+"works as expected on the frontend."
+msgstr ""
+"W edytorze przełącznik jest zawsze otwarty, aby można było edytować jego "
+"treść. Na stronie działa normalnie."
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:177
+msgid "Style"
+msgstr "Styl"
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:180
+msgid "Button placement"
+msgstr "Położenie przycisku"
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:184
+msgid "Top"
+msgstr "Na górze"
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:188
+msgid "Bottom"
+msgstr "Na dole"
+
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:227
+msgid "Animation speed (ms)"
+msgstr "Szybkość animacji (ms)"
+
+#: build/blocks/agenda-accordion-item/block.json
+#: src/blocks/agenda-accordion-item/block.json
+msgctxt "block title"
+msgid "Agenda Item"
+msgstr "Punkt agendy"
+
+#: build/blocks/agenda-accordion-item/block.json
+#: src/blocks/agenda-accordion-item/block.json
+msgctxt "block description"
+msgid ""
+"One expandable item of an agenda: a title, an optional date and summary, and"
+" content that opens on click."
+msgstr ""
+"Jeden rozwijany punkt agendy: tytuł, opcjonalna data i streszczenie oraz "
+"treść otwierana po kliknięciu."
+
+#: build/blocks/agenda-accordion/block.json
+#: src/blocks/agenda-accordion/block.json
+msgctxt "block title"
+msgid "Agenda Accordion"
+msgstr "Agenda (akordeon)"
+
+#: build/blocks/agenda-accordion/block.json
+#: src/blocks/agenda-accordion/block.json
+msgctxt "block description"
+msgid ""
+"A list of items that expand and collapse on click — for agendas, schedules "
+"or FAQs."
+msgstr ""
+"Lista elementów rozwijanych i zwijanych po kliknięciu — do agend, "
+"harmonogramów i FAQ."
+
+#: build/blocks/bento-card/block.json src/blocks/bento-card/block.json
+msgctxt "block title"
+msgid "Bento Card"
+msgstr "Kafelek bento"
+
+#: build/blocks/bento-card/block.json src/blocks/bento-card/block.json
+msgctxt "block description"
+msgid "One tile of a bento grid; drag its edges to make it wider or taller."
+msgstr ""
+"Jeden kafelek siatki bento; przeciągnij jego krawędzie, aby go poszerzyć lub"
+" wydłużyć."
+
+#: build/blocks/bento-card/block.json build/blocks/bento-grid/block.json
+#: src/blocks/bento-card/block.json src/blocks/bento-grid/block.json
+msgctxt "block keyword"
+msgid "bento"
+msgstr "bento"
+
+#: build/blocks/bento-card/block.json src/blocks/bento-card/block.json
+msgctxt "block keyword"
+msgid "card"
+msgstr "kafelek"
+
+#: build/blocks/bento-card/block.json build/blocks/bento-grid/block.json
+#: src/blocks/bento-card/block.json src/blocks/bento-grid/block.json
+msgctxt "block keyword"
+msgid "grid"
+msgstr "siatka"
+
+#: build/blocks/bento-grid/block.json src/blocks/bento-grid/block.json
+msgctxt "block title"
+msgid "Bento Grid"
+msgstr "Siatka bento"
+
+#: build/blocks/bento-grid/block.json src/blocks/bento-grid/block.json
+msgctxt "block description"
+msgid ""
+"A mosaic of tiles in different sizes, arranged separately for desktop, "
+"tablet and mobile."
+msgstr ""
+"Mozaika kafelków w różnych rozmiarach, układana osobno dla komputera, "
+"tabletu i telefonu."
+
+#: build/blocks/bento-grid/block.json src/blocks/bento-grid/block.json
+msgctxt "block keyword"
+msgid "layout"
+msgstr "układ"
+
+#: build/blocks/content-sidebar-aside/block.json
+#: src/blocks/content-sidebar-aside/block.json
+msgctxt "block title"
+msgid "Sidebar"
+msgstr "Panel boczny"
+
+#: build/blocks/content-sidebar-aside/block.json
+#: src/blocks/content-sidebar-aside/block.json
+msgctxt "block description"
+msgid ""
+"The sidebar column, for related links, contact details or a call to action."
+msgstr ""
+"Kolumna panelu bocznego — na powiązane linki, dane kontaktowe lub wezwanie "
+"do działania."
+
+#: build/blocks/content-sidebar-main/block.json
+#: src/blocks/content-sidebar-main/block.json
+msgctxt "block title"
+msgid "Main content"
+msgstr "Treść główna"
+
+#: build/blocks/content-sidebar-main/block.json
+#: src/blocks/content-sidebar-main/block.json
+msgctxt "block description"
+msgid "The main column of the layout."
+msgstr "Główna kolumna układu."
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block title"
+msgid "Content with sidebar"
+msgstr "Treść z panelem bocznym"
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block description"
+msgid ""
+"A main column with a sidebar beside it that can stay in view while the page "
+"scrolls."
+msgstr ""
+"Główna kolumna z panelem bocznym obok, który może pozostawać widoczny "
+"podczas przewijania strony."
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block keyword"
+msgid "sidebar"
+msgstr "panel boczny"
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block keyword"
+msgid "aside"
+msgstr "aside"
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block keyword"
+msgid "columns"
+msgstr "kolumny"
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block keyword"
+msgid "sticky"
+msgstr "przyklejony"
+
+#: build/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-badge/block.json
+msgctxt "block title"
+msgid "Google Reviews Badge"
+msgstr "Odznaka opinii Google"
+
+#: build/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-badge/block.json
+msgctxt "block description"
+msgid ""
+"A small badge with your Google rating that links to your Google Maps "
+"profile."
+msgstr "Mała odznaka z oceną w Google, prowadząca do profilu w Mapach Google."
+
+#: build/blocks/google-reviews-badge/block.json
+#: build/blocks/google-reviews-header/block.json
+#: build/blocks/google-reviews/block.json
+#: src/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews/block.json
+msgctxt "block keyword"
+msgid "reviews"
+msgstr "opinie"
+
+#: build/blocks/google-reviews-badge/block.json
+#: build/blocks/google-reviews-header/block.json
+#: build/blocks/google-reviews/block.json
+#: src/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews/block.json
+msgctxt "block keyword"
+msgid "google"
+msgstr "google"
+
+#: build/blocks/google-reviews-badge/block.json
+#: build/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-header/block.json
+msgctxt "block keyword"
+msgid "rating"
+msgstr "ocena"
+
+#: build/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-badge/block.json
+msgctxt "block keyword"
+msgid "badge"
+msgstr "odznaka"
+
+#: build/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews-header/block.json
+msgctxt "block title"
+msgid "Google Reviews Header"
+msgstr "Nagłówek opinii Google"
+
+#: build/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews-header/block.json
+msgctxt "block description"
+msgid ""
+"Your Google rating and logo, with a button inviting visitors to leave a "
+"review."
+msgstr ""
+"Ocena w Google i logo, z przyciskiem zachęcającym odwiedzających do "
+"wystawienia opinii."
+
+#: build/blocks/google-reviews/block.json src/blocks/google-reviews/block.json
+msgctxt "block title"
+msgid "Google Reviews"
+msgstr "Opinie Google"
+
+#: build/blocks/google-reviews/block.json src/blocks/google-reviews/block.json
+msgctxt "block description"
+msgid "Your Google reviews, shown as cards or a carousel."
+msgstr "Opinie z Google wyświetlane jako karty lub karuzela."
+
+#: build/blocks/google-reviews/block.json src/blocks/google-reviews/block.json
+msgctxt "block keyword"
+msgid "testimonials"
+msgstr "referencje"
+
+#: build/blocks/image-step-guide-step/block.json
+#: src/blocks/image-step-guide-step/block.json
+msgctxt "block title"
+msgid "Step"
+msgstr "Krok"
+
+#: build/blocks/image-step-guide-step/block.json
+#: src/blocks/image-step-guide-step/block.json
+msgctxt "block description"
+msgid "One step of a guide: an image next to its description."
+msgstr "Jeden krok przewodnika: obrazek obok opisu."
+
+#: build/blocks/image-step-guide/block.json
+#: src/blocks/image-step-guide/block.json
+msgctxt "block title"
+msgid "Image Step Guide"
+msgstr "Przewodnik krok po kroku"
+
+#: build/blocks/image-step-guide/block.json
+#: src/blocks/image-step-guide/block.json
+msgctxt "block description"
+msgid ""
+"Step-by-step instructions, each step with an image next to its description."
+msgstr "Instrukcja krok po kroku, każdy krok z obrazkiem obok opisu."
+
+#: build/blocks/read-more/block.json src/blocks/read-more/block.json
+msgctxt "block title"
+msgid "Read More"
+msgstr "Czytaj więcej"
+
+#: build/blocks/read-more/block.json src/blocks/read-more/block.json
+msgctxt "block description"
+msgid ""
+"A clickable card leading to another page, post or website, with a title, "
+"image and short text."
+msgstr ""
+"Klikalna karta prowadząca do innej strony, wpisu lub witryny, z tytułem, "
+"obrazkiem i krótkim tekstem."
+
+#: build/blocks/selling-point/block.json src/blocks/selling-point/block.json
+msgctxt "block title"
+msgid "Selling Point"
+msgstr "Zaleta"
+
+#: build/blocks/selling-point/block.json src/blocks/selling-point/block.json
+msgctxt "block description"
+msgid ""
+"One benefit: an icon or image, a title, a short description and an optional "
+"link."
+msgstr ""
+"Jedna zaleta: ikona lub obrazek, tytuł, krótki opis i opcjonalny link."
+
+#: build/blocks/selling-points/block.json src/blocks/selling-points/block.json
+msgctxt "block title"
+msgid "Selling Points"
+msgstr "Zalety"
+
+#: build/blocks/selling-points/block.json src/blocks/selling-points/block.json
+msgctxt "block description"
+msgid ""
+"A grid of your key benefits, each with an icon, title and short description."
+msgstr ""
+"Siatka najważniejszych zalet, każda z ikoną, tytułem i krótkim opisem."
+
+#: build/blocks/site-header/block.json src/blocks/site-header/block.json
+msgctxt "block title"
+msgid "Site Header"
+msgstr "Nagłówek witryny"
+
+#: build/blocks/site-header/block.json src/blocks/site-header/block.json
+msgctxt "block description"
+msgid ""
+"The top of every page: logo, navigation menu (with a mobile menu) and action"
+" buttons."
+msgstr ""
+"Górna część każdej strony: logo, menu nawigacyjne (z menu mobilnym) i "
+"przyciski akcji."
+
+#: build/blocks/social-share-network/block.json
+#: src/blocks/social-share-network/block.json
+msgctxt "block title"
+msgid "Share Button"
+msgstr "Przycisk udostępniania"
+
+#: build/blocks/social-share-network/block.json
+#: src/blocks/social-share-network/block.json
+msgctxt "block description"
+msgid "A button that shares the page on one social network."
+msgstr "Przycisk udostępniający stronę w jednym serwisie społecznościowym."
+
+#: build/blocks/social-share/block.json src/blocks/social-share/block.json
+msgctxt "block title"
+msgid "Social Share"
+msgstr "Udostępnianie"
+
+#: build/blocks/social-share/block.json src/blocks/social-share/block.json
+msgctxt "block description"
+msgid "Buttons for sharing the page on social networks."
+msgstr "Przyciski do udostępniania strony w serwisach społecznościowych."
+
+#: build/blocks/toggle-blocks/block.json src/blocks/toggle-blocks/block.json
+msgctxt "block title"
+msgid "Toggle Content"
+msgstr "Rozwijana treść"
+
+#: build/blocks/toggle-blocks/block.json src/blocks/toggle-blocks/block.json
+msgctxt "block description"
+msgid "Content hidden behind a button and shown when a visitor clicks it."
+msgstr "Treść ukryta za przyciskiem, pokazywana po jego kliknięciu."

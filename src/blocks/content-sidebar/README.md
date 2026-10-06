@@ -2,8 +2,8 @@
 
 A two-column layout: a main column and a sidebar that can stay in view while
 the page scrolls. It always holds exactly one
-[Sidebar layout: content](../content-sidebar-main/README.md) and one
-[Sidebar layout: sidebar](../content-sidebar-aside/README.md) child — the pair
+[Main content](../content-sidebar-main/README.md) and one
+[Sidebar](../content-sidebar-aside/README.md) child — the pair
 is locked; what goes inside each column is free.
 
 ## Inserting it
@@ -109,5 +109,5 @@ sidebar follows the scroll, at <960px it stacks per *On mobile*.
 
 ## Related
 
-- [Sidebar layout: content](../content-sidebar-main/README.md)
-- [Sidebar layout: sidebar](../content-sidebar-aside/README.md)
+- [Main content](../content-sidebar-main/README.md)
+- [Sidebar](../content-sidebar-aside/README.md)

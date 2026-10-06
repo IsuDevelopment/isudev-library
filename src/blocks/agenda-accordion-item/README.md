@@ -1,4 +1,4 @@
-# Agenda Accordion Item — `isudev/agenda-accordion-item`
+# Agenda Item — `isudev/agenda-accordion-item`
 
 A single accordion item: a trigger with a title, an optional date and
 excerpt, and collapsible content. Lives only inside

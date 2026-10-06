@@ -3,13 +3,13 @@
   "apiVersion": 3,
   "name": "isudev/agenda-accordion-item",
   "version": "1.0.0",
-  "title": "Agenda Accordion Item",
+  "title": "Agenda Item",
   "parent": [
     "isudev/agenda-accordion"
   ],
   "category": "design",
   "icon": "list-view",
-  "description": "A single accordion item: a trigger with a title, optional date and excerpt, and collapsible content. Lives only inside isudev/agenda-accordion. By IsuDev.",
+  "description": "One expandable item of an agenda: a title, an optional date and summary, and content that opens on click.",
   "textdomain": "isudev-library",
   "attributes": {
     "agendaDate": {

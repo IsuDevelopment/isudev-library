@@ -7,7 +7,7 @@
 	"parent": ["isudev/image-step-guide"],
 	"category": "widgets",
 	"icon": "cover-image",
-	"description": "A single step: an image alongside editable inner blocks. Lives only inside isudev/image-step-guide. By IsuDev.",
+	"description": "One step of a guide: an image next to its description.",
 	"textdomain": "isudev-library",
 	"supports": {
 		"html": false,

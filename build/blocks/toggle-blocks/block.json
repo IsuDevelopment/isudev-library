@@ -6,7 +6,7 @@
   "title": "Toggle Content",
   "category": "design",
   "icon": "arrow-down-alt2",
-  "description": "A collapsible toggle: a button that shows or hides any inner blocks. By IsuDev.",
+  "description": "Content hidden behind a button and shown when a visitor clicks it.",
   "textdomain": "isudev-library",
   "supports": {
     "html": false,

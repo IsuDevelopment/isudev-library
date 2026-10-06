@@ -3,7 +3,7 @@
  */
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, ToggleControl } from '@wordpress/components';
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -100,7 +100,12 @@ export default function Edit({ attributes, setAttributes }) {
 					<span className="isudev-google-reviews-badge__count">
 						{sprintf(
 							/* translators: %d: total number of Google ratings. */
-							__('%d reviews on Google', 'isudev-library'),
+							_n(
+								'%d review on Google',
+								'%d reviews on Google',
+								selectedAccount?.totalReviewCount || 0,
+								'isudev-library'
+							),
 							selectedAccount?.totalReviewCount || 0
 						)}
 					</span>

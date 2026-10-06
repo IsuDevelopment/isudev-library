@@ -98,7 +98,30 @@ class Loader {
 				Variations\attach( $block['name'] );
 			}
 
-			\register_block_type( $build_path );
+			$block_type = \register_block_type( $build_path );
+
+			if ( $block_type instanceof \WP_Block_Type ) {
+				self::set_script_translations( $block_type );
+			}
+		}
+	}
+
+	/**
+	 * Point a block's scripts at this plugin's own languages/ directory.
+	 *
+	 * Core registers block.json scripts with the textdomain but no path, so it
+	 * only finds JSON translations in wp-content/languages/plugins/. The JSON
+	 * shipped in languages/ is named by the md5 of the build/ script path —
+	 * see "Translations" in AGENTS.md.
+	 *
+	 * @param \WP_Block_Type $block_type Registered block type.
+	 * @return void
+	 */
+	private static function set_script_translations( \WP_Block_Type $block_type ): void {
+		$handles = \array_merge( $block_type->editor_script_handles, $block_type->script_handles, $block_type->view_script_handles );
+
+		foreach ( \array_unique( $handles ) as $handle ) {
+			\wp_set_script_translations( $handle, 'isudev-library', PATH . 'languages' );
 		}
 	}
 

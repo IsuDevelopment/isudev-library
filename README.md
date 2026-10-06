@@ -13,6 +13,12 @@ copying blocks from project to project.
 
 WordPress 6.7+, PHP 7.4+. Node 22.22.2 for development only.
 
+## Translations
+
+Ships a complete Polish (`pl_PL`) translation in `languages/` — PHP, block
+names and descriptions, and editor strings. Rebuilding it is described in
+`AGENTS.md` → *Translations*.
+
 ## Blocks
 
 | Block | Description |

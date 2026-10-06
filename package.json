@@ -1,6 +1,6 @@
 {
 	"name": "@isudev/library",
-	"version": "1.14.0",
+	"version": "1.14.1",
 	"description": "Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, toggleable.",
 	"license": "GPL-2.0-or-later",
 	"private": true,
@@ -45,7 +45,9 @@
 		"test:e2e:report": "playwright show-report",
 		"test:e2e:install": "playwright install chromium",
 		"i18n:make-pot": "wp i18n make-pot . languages/isudev-library.pot --exclude=node_modules,vendor,e2e,tools,docs",
-		"i18n:make-json": "wp i18n make-json languages --no-purge",
-		"i18n:make-mo": "wp i18n make-mo languages"
+		"i18n:make-json": "rm -f languages/*.json && wp i18n make-json languages --no-purge && node tools/i18n-prune-json.js",
+		"i18n:make-mo": "wp i18n make-mo languages",
+		"i18n:make-php": "wp i18n make-php languages",
+		"i18n:build": "npm run i18n:make-mo && npm run i18n:make-php && npm run i18n:make-json"
 	}
 }

@@ -11,7 +11,7 @@ covers the full `isudev.json` schema and the CSS class contract.
 ## Inserting it
 
 Block inserter → **Design** → *Agenda Accordion*. It starts with one
-[Agenda Accordion Item](../agenda-accordion-item/README.md) child; add or
+[Agenda Item](../agenda-accordion-item/README.md) child; add or
 remove items like any other inner block.
 
 ## Behavior
@@ -33,6 +33,6 @@ trigger renders disabled, since there is nothing to expand.
 
 ## Related
 
-- [Agenda Accordion Item](../agenda-accordion-item/README.md) — the child block
+- [Agenda Item](../agenda-accordion-item/README.md) — the child block
 - [`guides/agenda-accordion.md`](../../../guides/agenda-accordion.md) — theme configuration, classes
 - [`CHANGELOG.md`](../../../CHANGELOG.md) — migration notes from `dekode-library/agenda-accordion`

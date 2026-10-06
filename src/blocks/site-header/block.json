@@ -3,10 +3,10 @@
 	"apiVersion": 3,
 	"name": "isudev/site-header",
 	"version": "1.0.0",
-	"title": "Site Header Block",
+	"title": "Site Header",
 	"category": "layout",
 	"icon": "menu-alt",
-	"description": "An accessibility-first site header: logo, disclosure navigation, mobile drawer, and an actions slot. By IsuDev.",
+	"description": "The top of every page: logo, navigation menu (with a mobile menu) and action buttons.",
 	"textdomain": "isudev-library",
 	"supports": {
 		"html": false,

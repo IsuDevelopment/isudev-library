@@ -124,6 +124,36 @@ Note: wp-cli cannot reach this Local site's database. Do not write verification
 steps that rely on `wp eval`, `wp option` or `wp plugin`. Use `tools/check.php`
 and Playwright over HTTP against `http://isudev-library.local/`.
 
+## Translations
+
+The plugin ships its own Polish translation in `languages/` (loaded from
+there by `load_plugin_textdomain()` at `init` priority 1, before blocks
+register). Every user-facing string uses the `isudev-library` text domain;
+block.json `title`/`description`/`keywords` translate through its
+`textdomain`.
+
+After adding or changing any string:
+
+```bash
+npm run build                 # JSON hashes are of build/ paths
+npm run i18n:make-pot         # scans PHP, src/ and build/ (+ block.json)
+# update languages/isudev-library-pl_PL.po from the new .pot — every entry
+# translated, plural forms nplurals=3 (WordPress pl_PL wording)
+npm run i18n:build            # .mo, .l10n.php and per-script JSON
+npm run test:php              # 170-translations.php fails on any gap
+```
+
+Editor JS strings live in `isudev-library-pl_PL-<md5>.json`, where `<md5>`
+is md5 of the script path relative to the plugin, e.g.
+`build/blocks/selling-point/index.js`. `i18n:make-json` deletes the JSON
+files made for `src/` references, which WordPress never looks up. Core
+registers block.json scripts without a translation path, so `Loader`
+calls `wp_set_script_translations()` with `languages/` for every block
+script handle; the admin panel does the same for its own handle. Use
+`_n()` for counts — Polish has three plural forms. Strings inside
+`@isudev/gutenberg` use the default domain; pass translated props (e.g.
+`IconSelect`'s `placeholder`) where the component allows it.
+
 ## Releasing
 
 A release is cut from a **tag**, never from a push to `main`:

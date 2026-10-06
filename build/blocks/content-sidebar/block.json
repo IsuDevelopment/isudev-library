@@ -6,7 +6,7 @@
   "title": "Content with sidebar",
   "category": "design",
   "icon": "align-pull-left",
-  "description": "A main column and a sidebar that can stay in view while the page scrolls. By IsuDev.",
+  "description": "A main column with a sidebar beside it that can stay in view while the page scrolls.",
   "keywords": [
     "sidebar",
     "aside",

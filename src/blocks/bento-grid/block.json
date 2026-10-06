@@ -6,7 +6,7 @@
 	"title": "Bento Grid",
 	"category": "design",
 	"icon": "grid-view",
-	"description": "A responsive bento grid layout: any number of isudev/bento-card children, each spanning a configurable number of columns and rows. By IsuDev.",
+	"description": "A mosaic of tiles in different sizes, arranged separately for desktop, tablet and mobile.",
 	"keywords": ["bento", "grid", "layout"],
 	"textdomain": "isudev-library",
 	"supports": {

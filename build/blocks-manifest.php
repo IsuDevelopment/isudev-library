@@ -9,7 +9,7 @@ return array(
 		'title' => 'Agenda Accordion',
 		'category' => 'design',
 		'icon' => 'list-view',
-		'description' => 'A container for accordion items: any number of isudev/agenda-accordion-item children. By IsuDev.',
+		'description' => 'A list of items that expand and collapse on click — for agendas, schedules or FAQs.',
 		'textdomain' => 'isudev-library',
 		'attributes' => array(
 			'_namespace' => array(
@@ -50,13 +50,13 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'isudev/agenda-accordion-item',
 		'version' => '1.0.0',
-		'title' => 'Agenda Accordion Item',
+		'title' => 'Agenda Item',
 		'parent' => array(
 			'isudev/agenda-accordion'
 		),
 		'category' => 'design',
 		'icon' => 'list-view',
-		'description' => 'A single accordion item: a trigger with a title, optional date and excerpt, and collapsible content. Lives only inside isudev/agenda-accordion. By IsuDev.',
+		'description' => 'One expandable item of an agenda: a title, an optional date and summary, and content that opens on click.',
 		'textdomain' => 'isudev-library',
 		'attributes' => array(
 			'agendaDate' => array(
@@ -105,7 +105,7 @@ return array(
 		),
 		'category' => 'design',
 		'icon' => 'screenoptions',
-		'description' => 'A single card within a Bento Grid, spanning a configurable number of columns and rows per breakpoint. By IsuDev.',
+		'description' => 'One tile of a bento grid; drag its edges to make it wider or taller.',
 		'keywords' => array(
 			'bento',
 			'card',
@@ -176,7 +176,7 @@ return array(
 		'title' => 'Bento Grid',
 		'category' => 'design',
 		'icon' => 'grid-view',
-		'description' => 'A responsive bento grid layout: any number of isudev/bento-card children, each spanning a configurable number of columns and rows. By IsuDev.',
+		'description' => 'A mosaic of tiles in different sizes, arranged separately for desktop, tablet and mobile.',
 		'keywords' => array(
 			'bento',
 			'grid',
@@ -236,7 +236,7 @@ return array(
 		'title' => 'Content with sidebar',
 		'category' => 'design',
 		'icon' => 'align-pull-left',
-		'description' => 'A main column and a sidebar that can stay in view while the page scrolls. By IsuDev.',
+		'description' => 'A main column with a sidebar beside it that can stay in view while the page scrolls.',
 		'keywords' => array(
 			'sidebar',
 			'aside',
@@ -296,10 +296,10 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'isudev/content-sidebar-aside',
 		'version' => '1.0.0',
-		'title' => 'Sidebar layout: sidebar',
+		'title' => 'Sidebar',
 		'category' => 'design',
 		'icon' => 'align-pull-right',
-		'description' => 'The sidebar column of Content with sidebar, rendered as an aside landmark. By IsuDev.',
+		'description' => 'The sidebar column, for related links, contact details or a call to action.',
 		'parent' => array(
 			'isudev/content-sidebar'
 		),
@@ -318,10 +318,10 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'isudev/content-sidebar-main',
 		'version' => '1.0.0',
-		'title' => 'Sidebar layout: content',
+		'title' => 'Main content',
 		'category' => 'design',
 		'icon' => 'text-page',
-		'description' => 'The main column of Content with sidebar. By IsuDev.',
+		'description' => 'The main column of the layout.',
 		'parent' => array(
 			'isudev/content-sidebar'
 		),
@@ -343,7 +343,7 @@ return array(
 		'title' => 'Google Reviews',
 		'category' => 'widgets',
 		'icon' => 'star-filled',
-		'description' => 'Displays reviews stored by the WP Google Review Slider plugin, as a card grid or a carousel. By IsuDev.',
+		'description' => 'Your Google reviews, shown as cards or a carousel.',
 		'keywords' => array(
 			'reviews',
 			'google',
@@ -403,7 +403,7 @@ return array(
 		'title' => 'Google Reviews Badge',
 		'category' => 'widgets',
 		'icon' => 'star-filled',
-		'description' => 'Displays a compact rating badge for a Google account, sourced from the WP Google Review Slider plugin. By IsuDev.',
+		'description' => 'A small badge with your Google rating that links to your Google Maps profile.',
 		'keywords' => array(
 			'reviews',
 			'google',
@@ -454,7 +454,7 @@ return array(
 		'title' => 'Google Reviews Header',
 		'category' => 'widgets',
 		'icon' => 'star-filled',
-		'description' => 'Displays a Google account\'s rating, logo and a review button, sourced from the WP Google Review Slider plugin. By IsuDev.',
+		'description' => 'Your Google rating and logo, with a button inviting visitors to leave a review.',
 		'keywords' => array(
 			'reviews',
 			'google',
@@ -526,7 +526,7 @@ return array(
 		'title' => 'Image Step Guide',
 		'category' => 'widgets',
 		'icon' => 'images-alt2',
-		'description' => 'A container for step-by-step content: any number of isudev/image-step-guide-step children, each an image alongside editable inner blocks. By IsuDev.',
+		'description' => 'Step-by-step instructions, each step with an image next to its description.',
 		'textdomain' => 'isudev-library',
 		'supports' => array(
 			'html' => false,
@@ -585,7 +585,7 @@ return array(
 		),
 		'category' => 'widgets',
 		'icon' => 'cover-image',
-		'description' => 'A single step: an image alongside editable inner blocks. Lives only inside isudev/image-step-guide. By IsuDev.',
+		'description' => 'One step of a guide: an image next to its description.',
 		'textdomain' => 'isudev-library',
 		'supports' => array(
 			'html' => false,
@@ -627,10 +627,10 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'isudev/read-more',
 		'version' => '1.0.0',
-		'title' => 'Read More Block',
+		'title' => 'Read More',
 		'category' => 'design',
 		'icon' => 'arrow-right-alt',
-		'description' => 'A linked card: title, optional image, optional badge and supporting text. Points anywhere — a post, a page or an external URL. By IsuDev.',
+		'description' => 'A clickable card leading to another page, post or website, with a title, image and short text.',
 		'textdomain' => 'isudev-library',
 		'supports' => array(
 			'html' => false,
@@ -730,7 +730,7 @@ return array(
 		),
 		'category' => 'design',
 		'icon' => 'index-card',
-		'description' => 'A single selling point: an optional icon, image, badge, title, description and link. Lives only inside isudev/selling-points. By IsuDev.',
+		'description' => 'One benefit: an icon or image, a title, a short description and an optional link.',
 		'textdomain' => 'isudev-library',
 		'supports' => array(
 			'html' => false,
@@ -817,7 +817,7 @@ return array(
 		'title' => 'Selling Points',
 		'category' => 'design',
 		'icon' => 'grid-view',
-		'description' => 'A container for selling points: any number of isudev/selling-point children in a responsive grid. By IsuDev.',
+		'description' => 'A grid of your key benefits, each with an icon, title and short description.',
 		'textdomain' => 'isudev-library',
 		'attributes' => array(
 			'_namespace' => array(
@@ -913,10 +913,10 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'isudev/site-header',
 		'version' => '1.0.0',
-		'title' => 'Site Header Block',
+		'title' => 'Site Header',
 		'category' => 'layout',
 		'icon' => 'menu-alt',
-		'description' => 'An accessibility-first site header: logo, disclosure navigation, mobile drawer, and an actions slot. By IsuDev.',
+		'description' => 'The top of every page: logo, navigation menu (with a mobile menu) and action buttons.',
 		'textdomain' => 'isudev-library',
 		'supports' => array(
 			'html' => false,
@@ -970,7 +970,7 @@ return array(
 		'title' => 'Social Share',
 		'category' => 'widgets',
 		'icon' => 'share',
-		'description' => 'A container for social share buttons: an optional prefix and any number of isudev/social-share-network children. By IsuDev.',
+		'description' => 'Buttons for sharing the page on social networks.',
 		'textdomain' => 'isudev-library',
 		'supports' => array(
 			'html' => false,
@@ -1050,13 +1050,13 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'isudev/social-share-network',
 		'version' => '1.0.0',
-		'title' => 'Social Share Network',
+		'title' => 'Share Button',
 		'parent' => array(
 			'isudev/social-share'
 		),
 		'category' => 'widgets',
 		'icon' => 'share',
-		'description' => 'A single social network share button. By IsuDev.',
+		'description' => 'A button that shares the page on one social network.',
 		'textdomain' => 'isudev-library',
 		'supports' => array(
 			'html' => false,
@@ -1119,7 +1119,7 @@ return array(
 		'title' => 'Toggle Content',
 		'category' => 'design',
 		'icon' => 'arrow-down-alt2',
-		'description' => 'A collapsible toggle: a button that shows or hides any inner blocks. By IsuDev.',
+		'description' => 'Content hidden behind a button and shown when a visitor clicks it.',
 		'textdomain' => 'isudev-library',
 		'supports' => array(
 			'html' => false,

@@ -9,7 +9,7 @@
   ],
   "category": "design",
   "icon": "screenoptions",
-  "description": "A single card within a Bento Grid, spanning a configurable number of columns and rows per breakpoint. By IsuDev.",
+  "description": "One tile of a bento grid; drag its edges to make it wider or taller.",
   "keywords": [
     "bento",
     "card",

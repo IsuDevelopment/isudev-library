@@ -3,10 +3,10 @@
   "apiVersion": 3,
   "name": "isudev/read-more",
   "version": "1.0.0",
-  "title": "Read More Block",
+  "title": "Read More",
   "category": "design",
   "icon": "arrow-right-alt",
-  "description": "A linked card: title, optional image, optional badge and supporting text. Points anywhere — a post, a page or an external URL. By IsuDev.",
+  "description": "A clickable card leading to another page, post or website, with a title, image and short text.",
   "textdomain": "isudev-library",
   "supports": {
     "html": false,

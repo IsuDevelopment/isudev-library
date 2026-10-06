@@ -6,7 +6,7 @@
   "title": "Social Share",
   "category": "widgets",
   "icon": "share",
-  "description": "A container for social share buttons: an optional prefix and any number of isudev/social-share-network children. By IsuDev.",
+  "description": "Buttons for sharing the page on social networks.",
   "textdomain": "isudev-library",
   "supports": {
     "html": false,

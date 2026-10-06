@@ -3,10 +3,10 @@
   "apiVersion": 3,
   "name": "isudev/content-sidebar-aside",
   "version": "1.0.0",
-  "title": "Sidebar layout: sidebar",
+  "title": "Sidebar",
   "category": "design",
   "icon": "align-pull-right",
-  "description": "The sidebar column of Content with sidebar, rendered as an aside landmark. By IsuDev.",
+  "description": "The sidebar column, for related links, contact details or a call to action.",
   "parent": [
     "isudev/content-sidebar"
   ],

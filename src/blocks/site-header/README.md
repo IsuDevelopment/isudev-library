@@ -8,7 +8,7 @@ Only one per template — WordPress will not let you insert a second.
 
 ## Inserting it
 
-Block inserter → **Layout** → *Site Header Block*. Intended for a header template
+Block inserter → **Layout** → *Site Header*. Intended for a header template
 part in a block theme, not for post content.
 
 The inserter also offers the variation **Minimal header (no actions)** — the same

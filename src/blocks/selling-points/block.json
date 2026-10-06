@@ -6,7 +6,7 @@
 	"title": "Selling Points",
 	"category": "design",
 	"icon": "grid-view",
-	"description": "A container for selling points: any number of isudev/selling-point children in a responsive grid. By IsuDev.",
+	"description": "A grid of your key benefits, each with an icon, title and short description.",
 	"textdomain": "isudev-library",
 	"attributes": {
 		"_namespace": {
