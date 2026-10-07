@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: IsuDev Library 1.16.0\n"
+"Project-Id-Version: IsuDev Library 1.16.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/isudev-library\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-07T06:54:18+00:00\n"
+"POT-Creation-Date: 2026-10-07T11:24:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: isudev-library\n"
@@ -170,6 +170,10 @@ msgstr ""
 
 #: extensions/disable-comments/extension.php:15
 msgid "Turns comments and pingbacks off site-wide: closes them on every post type, hides existing ones and removes Comments from the admin."
+msgstr ""
+
+#: extensions/disable-comments/hooks.php:283
+msgid "Comments are closed."
 msgstr ""
 
 #: extensions/disable-posts/extension.php:14

@@ -1,9 +1,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: IsuDev Library 1.16.0\n"
+"Project-Id-Version: IsuDev Library 1.16.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/isudev-library\n"
-"POT-Creation-Date: 2026-10-07T06:42:47+00:00\n"
+"POT-Creation-Date: 2026-10-07T11:22:03+00:00\n"
 "Last-Translator: IsuDev\n"
 "Language-Team: Polski\n"
 "Language: pl_PL\n"
@@ -179,6 +179,10 @@ msgid ""
 msgstr ""
 "Wyłącza komentarze i pingbacki w całej witrynie: zamyka je dla wszystkich "
 "typów treści, ukrywa istniejące i usuwa Komentarze z panelu."
+
+#: extensions/disable-comments/hooks.php:283
+msgid "Comments are closed."
+msgstr "Komentarze są wyłączone."
 
 #: extensions/disable-posts/extension.php:14
 msgid "Disable posts"

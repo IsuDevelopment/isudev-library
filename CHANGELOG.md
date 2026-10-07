@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.16.1 — 2026-10-07
+
+### Changed
+
+- **`disable-comments` refuses the spam endpoints outright.** A `POST` to
+  `wp-comments-post.php`, a trackback (`wp-trackback.php`, `/trackback/` URLs)
+  or `POST /wp/v2/comments` for a disabled post type now gets a bare `403`
+  before core looks up the post or runs spam checks, instead of a themed
+  "comments are closed" page. Anonymous REST and XML-RPC comments are forced
+  off and `wp.newComment` is removed from XML-RPC.
+
 ## 1.16.0 — 2026-10-07
 
 ### Added

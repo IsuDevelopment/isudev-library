@@ -31,6 +31,14 @@ function boot(): void {
 	\add_action( 'template_redirect', __NAMESPACE__ . '\\block_comment_feeds' );
 	\add_filter( 'wp_headers', __NAMESPACE__ . '\\remove_pingback_header' );
 	\add_filter( 'xmlrpc_methods', __NAMESPACE__ . '\\remove_pingback_methods' );
+	\add_filter( 'xmlrpc_allow_anonymous_comments', '__return_false' );
+	\add_filter( 'rest_allow_anonymous_comments', '__return_false' );
+
+	// Spam bots post straight to these; refuse before core does any work.
+	\add_action( 'wp_loaded', __NAMESPACE__ . '\\block_comment_endpoints', 0 );
+	\add_action( 'pre_comment_on_post', __NAMESPACE__ . '\\refuse_for_post', 0, 1 );
+	\add_action( 'pre_trackback_post', __NAMESPACE__ . '\\refuse_for_post', 0, 1 );
+	\add_filter( 'rest_pre_dispatch', __NAMESPACE__ . '\\block_rest_create', 0, 3 );
 
 	\add_action( 'admin_menu', __NAMESPACE__ . '\\remove_admin_menu' );
 	\add_action( 'admin_init', __NAMESPACE__ . '\\block_admin_screens' );
@@ -201,11 +209,90 @@ function filter_block( $block_content, $parsed_block, $block = null ): string {
 }
 
 /**
- * Send comment feeds to a 404.
+ * End the request with a bare 403. No template, no wp_die() page: the clients
+ * that reach this are bots.
+ *
+ * @return void
+ */
+function refuse(): void {
+	\status_header( 403 );
+	\nocache_headers();
+	\header( 'Content-Type: text/plain; charset=utf-8' );
+	echo 'Comments are closed.';
+	exit;
+}
+
+/**
+ * Refuse a comment or trackback on a disabled post type.
+ *
+ * @param int $post_id Post ID.
+ * @return void
+ */
+function refuse_for_post( $post_id ): void {
+	if ( is_disabled_for( (int) $post_id ) ) {
+		refuse();
+	}
+}
+
+/**
+ * Refuse wp-comments-post.php and trackbacks (wp-trackback.php or a
+ * /trackback/ URL) before core looks up the post or runs spam checks.
+ *
+ * @return void
+ */
+function block_comment_endpoints(): void {
+	$script = isset( $_SERVER['SCRIPT_FILENAME'] ) ? \basename( \sanitize_text_field( \wp_unslash( $_SERVER['SCRIPT_FILENAME'] ) ) ) : '';
+
+	// phpcs:disable WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended -- Refusing the request, not acting on it.
+	if ( 'wp-comments-post.php' === $script ) {
+		$post_id = isset( $_POST['comment_post_ID'] ) ? \absint( \wp_unslash( $_POST['comment_post_ID'] ) ) : 0;
+		refuse_for_post( $post_id );
+		return;
+	}
+
+	if ( 'wp-trackback.php' === $script ) {
+		$post_id = isset( $_GET['p'] ) ? \absint( \wp_unslash( $_GET['p'] ) ) : 0;
+		refuse_for_post( $post_id );
+	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended
+
+	// /post-name/trackback/ resolves in the main query; see block_comment_feeds().
+}
+
+/**
+ * Refuse comment creation over REST for a disabled post type, whoever asks.
+ *
+ * @param mixed            $result  Response so far.
+ * @param \WP_REST_Server  $server  Server.
+ * @param \WP_REST_Request $request Request.
+ * @return mixed
+ */
+function block_rest_create( $result, $server, $request ) {
+	if ( null !== $result || ! $request instanceof \WP_REST_Request ) {
+		return $result;
+	}
+
+	if ( 'POST' !== $request->get_method() || ! \preg_match( '#^/wp/v2/comments/?$#', $request->get_route() ) ) {
+		return $result;
+	}
+
+	if ( ! is_disabled_for( (int) $request->get_param( 'post' ) ) ) {
+		return $result;
+	}
+
+	return new \WP_Error( 'rest_comment_closed', \__( 'Comments are closed.', 'isudev-library' ), array( 'status' => 403 ) );
+}
+
+/**
+ * Send comment feeds to a 404 and refuse trackback URLs.
  *
  * @return void
  */
 function block_comment_feeds(): void {
+	if ( \is_trackback() ) {
+		refuse_for_post( (int) \get_queried_object_id() );
+	}
+
 	if ( ! \is_comment_feed() ) {
 		return;
 	}
@@ -231,14 +318,14 @@ function remove_pingback_header( $headers ): array {
 }
 
 /**
- * Drop the XML-RPC pingback methods.
+ * Drop the XML-RPC pingback methods and wp.newComment.
  *
  * @param array $methods XML-RPC methods.
  * @return array
  */
 function remove_pingback_methods( $methods ): array {
 	$methods = \is_array( $methods ) ? $methods : array();
-	unset( $methods['pingback.ping'], $methods['pingback.extensions.getPingbacks'] );
+	unset( $methods['pingback.ping'], $methods['pingback.extensions.getPingbacks'], $methods['wp.newComment'] );
 
 	return $methods;
 }
