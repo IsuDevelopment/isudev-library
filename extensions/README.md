@@ -10,9 +10,11 @@ rename, a plugin integration. Each one is a directory here, switchable from
 | [Show template name](template-post-state/README.md) | Admin experience | — |
 | [Site logo in General settings](site-logo-option/README.md) | Admin experience | — |
 | [Disable posts](disable-posts/README.md) | Content | — |
+| [Disable comments](disable-comments/README.md) | Content | — |
 | [Rename posts to articles](post-rename/README.md) | Content | — |
 | [Skip links](skip-links/README.md) | Accessibility | — |
 | [Button colour for outline and link styles](button-color/README.md) | Content | — |
+| [Custom HTML block wrapper](wrap-html-block/README.md) | Content | — |
 | [Gravity Forms block wrapper](gravity-forms-wrapper/README.md) | Plugin integrations | Gravity Forms |
 | [Lock the Gravity Forms block theme](gravity-forms-theme-lock/README.md) | Plugin integrations | Gravity Forms |
 

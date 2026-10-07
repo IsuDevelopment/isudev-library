@@ -1,9 +1,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: IsuDev Library 1.15.0\n"
+"Project-Id-Version: IsuDev Library 1.16.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/isudev-library\n"
-"POT-Creation-Date: 2026-10-06T23:06:58+00:00\n"
+"POT-Creation-Date: 2026-10-07T06:42:47+00:00\n"
 "Last-Translator: IsuDev\n"
 "Language-Team: Polski\n"
 "Language: pl_PL\n"
@@ -167,6 +167,18 @@ msgstr ""
 "stronie — dzięki czemu motyw może rysować w tym kolorze przyciski z obrysem "
 "i przyciski tekstowe (oraz ich ikony). Usuwa też wbudowany styl Obrys, który "
 "po wybraniu koloru zamienia się w wypełniony przycisk."
+
+#: extensions/disable-comments/extension.php:14
+msgid "Disable comments"
+msgstr "Wyłącz komentarze"
+
+#: extensions/disable-comments/extension.php:15
+msgid ""
+"Turns comments and pingbacks off site-wide: closes them on every post type, "
+"hides existing ones and removes Comments from the admin."
+msgstr ""
+"Wyłącza komentarze i pingbacki w całej witrynie: zamyka je dla wszystkich "
+"typów treści, ukrywa istniejące i usuwa Komentarze z panelu."
 
 #: extensions/disable-posts/extension.php:14
 msgid "Disable posts"
@@ -379,6 +391,18 @@ msgid ""
 msgstr ""
 "Pokazuje przypisany szablon strony jako etykietę obok tytułu na listach "
 "treści."
+
+#: extensions/wrap-html-block/extension.php:14
+msgid "Custom HTML block wrapper"
+msgstr "Kontener bloku Własny HTML"
+
+#: extensions/wrap-html-block/extension.php:15
+msgid ""
+"Wraps the rendered Custom HTML block in a container, so its markup and any "
+"trailing script stay together in the layout."
+msgstr ""
+"Otacza blok Własny HTML kontenerem, dzięki czemu jego kod i ewentualny "
+"skrypt na końcu pozostają w układzie jednym elementem."
 
 #: includes/class-extensions.php:56
 msgid "Admin experience"

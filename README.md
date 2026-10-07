@@ -61,7 +61,9 @@ front end the moment it loads.
 | [Show template name](extensions/template-post-state/README.md) | Admin experience | — |
 | [Site logo in General settings](extensions/site-logo-option/README.md) | Admin experience | — |
 | [Disable posts](extensions/disable-posts/README.md) | Content | — |
+| [Disable comments](extensions/disable-comments/README.md) | Content | — |
 | [Rename posts to articles](extensions/post-rename/README.md) | Content | — |
+| [Custom HTML block wrapper](extensions/wrap-html-block/README.md) | Content | — |
 | [Skip links](extensions/skip-links/README.md) | Accessibility | — |
 | [Gravity Forms block wrapper](extensions/gravity-forms-wrapper/README.md) | Plugin integrations | Gravity Forms |
 | [Lock the Gravity Forms block theme](extensions/gravity-forms-theme-lock/README.md) | Plugin integrations | Gravity Forms |

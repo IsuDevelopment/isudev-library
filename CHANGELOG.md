@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.16.0 — 2026-10-07
+
+### Added
+
+- **Extension `disable-comments`** (Content, off by default): closes comments
+  and pingbacks on every post type, hides existing comments and comment
+  blocks, removes Comments, Settings → Discussion and the admin-bar bubble,
+  404s comment feeds, drops the `X-Pingback` header and XML-RPC pingback
+  methods. Filters `isudev_library/extensions/disable_comments/post_types`
+  (keep e.g. `product` for WooCommerce reviews) and
+  `isudev_library/extensions/disable_comments/blocks`.
+- **Extension `wrap-html-block`** (Content, off by default): wraps the
+  rendered Custom HTML block in `<div class="wp-block-html">`, so markup and a
+  trailing `<script>` are one layout item. Filter
+  `isudev_library/extensions/wrap_html_block/class`.
+
 ## 1.15.0 — 2026-10-07
 
 ### Added
