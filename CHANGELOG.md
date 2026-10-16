@@ -1,5 +1,56 @@
 # Changelog
 
+## 1.17.0 — 2026-10-16
+
+### Added
+
+Twenty new extensions, all off by default. Each has a README in its directory.
+
+- **Admin experience:** `featured-image-column` (thumbnail column on post
+  list screens and, with `users.metaKey`, on Users; aspect ratio, max height
+  and width per post type in `isudev.json`), `reset-admin-dashboard` (removes
+  core and common plugin dashboard widgets; PHP and browser warnings stay).
+- **Content:** `disable-feeds` (every feed answers the theme's 404),
+  `remove-post-category`, `remove-post-tags` (keep posts, drop the taxonomy;
+  unused taxonomies leave the front end, REST, sitemaps and the inserter).
+- **Block editor:** `disable-block-directory`, `disable-openverse`,
+  `disable-fit-text`, `disable-custom-css` (removes the UI **and** stops saved
+  user CSS from loading; theme CSS keeps working), `remove-core-block-styles`
+  (keep-list in `isudev.json`), `remove-core-patterns`.
+- **Core blocks:** `button-icon` (icon before/after the Button text, size,
+  icon-only with the text kept for screen readers; reads T2's attributes as a
+  fallback), `core-accordion-custom-icons`, `core-accordion-faq-schema`
+  (FAQPage JSON-LD through Yoast, Rank Math or standalone),
+  `core-accordion-hash-navigation` (stable `#question` links).
+- **Security:** `disable-xmlrpc` (403 for every `xmlrpc.php` request, not only
+  the authenticated methods), `disable-application-passwords`,
+  `redirect-authors` (author archives 404 before core's canonical redirect
+  leaks the login; REST user lists, oEmbed author and the users sitemap closed).
+- **Accessibility:** `accessibility-statement-page` (Settings → Accessibility
+  statement, Polish *deklaracja dostępności* template following the gov.pl
+  structure, EU model template, block bindings source for footer links, Site
+  Health test).
+- **Theme:** `disable-emoji`, `enqueue-theme-block-styles` (per-block theme
+  stylesheets from `build/blocks/<namespace>/<block>.css`).
+- Extension categories **Block editor**, **Core blocks**, **Security** and
+  **Theme**; `Extensions::setting()` for per-extension `isudev.json` settings
+  and `Extensions::enqueue_build()` for extension scripts built from
+  `extensions/<slug>/src/<entry>.js`.
+
+### Changed
+
+- **`disable-posts` now switches off everything tied to posts:** every post
+  URL, archive (date, author, category, tag, format) and posts feed answers 404,
+  posts leave XML-RPC, sitemaps (core and Yoast) and the inserter (Latest Posts,
+  Archives, Calendar, Categories, Tag Cloud), the Query Loop defaults to pages,
+  and Site Health warns when the homepage shows latest posts. The `taxonomies`
+  filter default now also includes `post_format`.
+
+### Fixed
+
+- **`disable-comments`:** a comments feed answered 404 with an RSS body; it now
+  serves the theme's 404 page.
+
 ## 1.16.2 — 2026-10-16
 
 ### Fixed

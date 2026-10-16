@@ -55,7 +55,11 @@ class Extensions {
 		return array(
 			'admin'         => \__( 'Admin experience', 'isudev-library' ),
 			'content'       => \__( 'Content', 'isudev-library' ),
+			'editor'        => \__( 'Block editor', 'isudev-library' ),
+			'blocks'        => \__( 'Core blocks', 'isudev-library' ),
+			'security'      => \__( 'Security', 'isudev-library' ),
 			'accessibility' => \__( 'Accessibility', 'isudev-library' ),
+			'theme'         => \__( 'Theme', 'isudev-library' ),
 			'plugins'       => \__( 'Plugin integrations', 'isudev-library' ),
 		);
 	}
@@ -335,6 +339,69 @@ class Extensions {
 		$config = Config\get_config()[ self::CONFIG_KEY ] ?? array();
 
 		return \is_array( $config ) ? $config : array();
+	}
+
+	/**
+	 * One setting of an extension from isudev.json: `library.extensions.<slug>.<key>`.
+	 *
+	 * Lives next to `enabled` under the same slug, so a theme configures an
+	 * extension in the one place it can also pin it on or off.
+	 *
+	 * @param string $slug     Extension slug.
+	 * @param string $key      Setting key.
+	 * @param mixed  $fallback Returned when the key is absent.
+	 * @return mixed
+	 */
+	public static function setting( string $slug, string $key, $fallback = null ) {
+		$config = self::config()[ $slug ] ?? array();
+
+		return \is_array( $config ) && \array_key_exists( $key, $config ) ? $config[ $key ] : $fallback;
+	}
+
+	/**
+	 * Enqueue an extension script compiled by `npm run build`.
+	 *
+	 * Source is `extensions/<slug>/src/<entry>.js`, output
+	 * `build/extensions/<slug>/<entry>.js` with its `.asset.php`. A stylesheet
+	 * the entry imports is enqueued alongside. Static scripts that need no
+	 * build (see button-color) are enqueued by the extension itself.
+	 *
+	 * @param string $slug  Extension slug.
+	 * @param string $entry Entry name. Default `editor`.
+	 * @return string Script handle, or '' when the build output is missing.
+	 */
+	public static function enqueue_build( string $slug, string $entry = 'editor' ): string {
+		$relative = 'build/extensions/' . $slug . '/' . $entry;
+		$asset    = PATH . $relative . '.asset.php';
+
+		if ( ! \is_readable( $asset ) ) {
+			return '';
+		}
+
+		$meta   = require $asset;
+		$meta   = \is_array( $meta ) ? $meta : array();
+		$handle = 'isudev-library-' . $slug . '-' . $entry;
+
+		\wp_enqueue_script(
+			$handle,
+			URL . $relative . '.js',
+			(array) ( $meta['dependencies'] ?? array() ),
+			(string) ( $meta['version'] ?? VERSION ),
+			true
+		);
+
+		\wp_set_script_translations( $handle, 'isudev-library', PATH . 'languages' );
+
+		if ( \is_readable( PATH . $relative . '.css' ) ) {
+			\wp_enqueue_style(
+				$handle,
+				URL . $relative . '.css',
+				array(),
+				(string) ( $meta['version'] ?? VERSION )
+			);
+		}
+
+		return $handle;
 	}
 
 	/**

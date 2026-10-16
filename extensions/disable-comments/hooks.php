@@ -300,8 +300,18 @@ function block_comment_feeds(): void {
 	global $wp_query;
 
 	$wp_query->set_404();
+
+	// set_404() keeps is_feed, and template-loader.php would still call do_feed().
+	$wp_query->is_feed = false;
+
 	\status_header( 404 );
 	\nocache_headers();
+
+	if ( ! \headers_sent() ) {
+		// WP::send_headers() already queued a feed's Content-Type and ETag.
+		\header( 'Content-Type: ' . \get_option( 'html_type' ) . '; charset=' . \get_option( 'blog_charset' ) );
+		\header_remove( 'ETag' );
+	}
 }
 
 /**

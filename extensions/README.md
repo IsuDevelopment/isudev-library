@@ -7,14 +7,35 @@ rename, a plugin integration. Each one is a directory here, switchable from
 | Extension | Category | Needs |
 | --- | --- | --- |
 | [Last edited column](last-edited-column/README.md) | Admin experience | — |
+| [Featured image column](featured-image-column/README.md) | Admin experience | — |
+| [Clean up the dashboard](reset-admin-dashboard/README.md) | Admin experience | — |
 | [Show template name](template-post-state/README.md) | Admin experience | — |
 | [Site logo in General settings](site-logo-option/README.md) | Admin experience | — |
 | [Disable posts](disable-posts/README.md) | Content | — |
 | [Disable comments](disable-comments/README.md) | Content | — |
 | [Rename posts to articles](post-rename/README.md) | Content | — |
-| [Skip links](skip-links/README.md) | Accessibility | — |
 | [Button colour for outline and link styles](button-color/README.md) | Content | — |
 | [Custom HTML block wrapper](wrap-html-block/README.md) | Content | — |
+| [Disable feeds](disable-feeds/README.md) | Content | — |
+| [Remove categories from posts](remove-post-category/README.md) | Content | — |
+| [Remove tags from posts](remove-post-tags/README.md) | Content | — |
+| [Disable the block directory](disable-block-directory/README.md) | Block editor | — |
+| [Disable Openverse](disable-openverse/README.md) | Block editor | — |
+| [Disable fit text](disable-fit-text/README.md) | Block editor | — |
+| [Disable custom CSS](disable-custom-css/README.md) | Block editor | — |
+| [Remove core block styles](remove-core-block-styles/README.md) | Block editor | — |
+| [Remove core patterns](remove-core-patterns/README.md) | Block editor | — |
+| [Button icon](button-icon/README.md) | Core blocks | — |
+| [Accordion toggle icons](core-accordion-custom-icons/README.md) | Core blocks | — |
+| [Accordion FAQ structured data](core-accordion-faq-schema/README.md) | Core blocks | — |
+| [Accordion links](core-accordion-hash-navigation/README.md) | Core blocks | — |
+| [Disable XML-RPC](disable-xmlrpc/README.md) | Security | — |
+| [Disable application passwords](disable-application-passwords/README.md) | Security | — |
+| [Hide author archives and user lists](redirect-authors/README.md) | Security | — |
+| [Skip links](skip-links/README.md) | Accessibility | — |
+| [Accessibility statement page](accessibility-statement-page/README.md) | Accessibility | — |
+| [Disable emoji images](disable-emoji/README.md) | Theme | — |
+| [Load theme block styles per block](enqueue-theme-block-styles/README.md) | Theme | — |
 | [Gravity Forms block wrapper](gravity-forms-wrapper/README.md) | Plugin integrations | Gravity Forms |
 | [Lock the Gravity Forms block theme](gravity-forms-theme-lock/README.md) | Plugin integrations | Gravity Forms |
 
@@ -69,7 +90,7 @@ return array(
 | `slug` | yes | Must equal the directory name. |
 | `title` | yes | Shown in the panel. |
 | `description` | no | Shown under the title. Write it for the person deciding whether to switch it on, not for us. |
-| `category` | no | One of `admin`, `content`, `accessibility`, `plugins`. Defaults to `admin`. Add new ones in `Extensions::categories()`. |
+| `category` | no | One of `admin`, `content`, `editor`, `blocks`, `security`, `accessibility`, `theme`, `plugins`. Defaults to `admin`. Add new ones in `Extensions::categories()`. |
 | `default` | no | State when neither the panel nor `isudev.json` has an opinion. Defaults to `false` — see below. |
 | `bootstrap` | no | Files required, relative to the extension directory, before `boot` is called. |
 | `boot` | no | Callable name invoked after the bootstrap files load. |
@@ -107,6 +128,43 @@ dependencies declared in `wp_enqueue_script()`, config passed with
 `wp_add_inline_script()`. Enqueue it from `boot()` on
 `enqueue_block_editor_assets`, so a disabled extension ships no JS.
 `button-color` is the reference.
+
+### `src/<entry>.js` — editor code that needs a build
+
+When the editor code wants JSX or `@wordpress/*` imports, put it in
+`extensions/<slug>/src/editor.js` (any `src/<entry>.js` whose name is lowercase
+letters and dashes). `npm run build` compiles it to
+`build/extensions/<slug>/<entry>.js` with its `.asset.php`, and a stylesheet it
+imports to `<entry>.css` — never name that stylesheet `style.scss`. Enqueue it
+from `boot()`:
+
+```php
+\add_action(
+	'enqueue_block_editor_assets',
+	static fn() => \IsuDevLibrary\Extensions::enqueue_build( 'my-extension', 'editor' )
+);
+```
+
+It returns the script handle, or `''` when the build output is missing. Canvas
+styles still go through `wp_enqueue_block_style()` or `enqueue_block_assets`:
+the editor is always iframed from WordPress 7.1.
+
+### Settings from `isudev.json`
+
+An extension reads its theme-level settings next to `enabled`, under its own
+slug, with `Extensions::setting( '<slug>', '<key>', $fallback )`:
+
+```json
+{
+	"library": {
+		"extensions": {
+			"my-extension": { "enabled": true, "someKey": "value" }
+		}
+	}
+}
+```
+
+Editor code reads the same subtree from `window.isudevLibraryConfig.extensions`.
 
 ### `README.md` — the instructions
 

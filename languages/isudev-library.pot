@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-16T10:18:30+00:00\n"
+"POT-Creation-Date: 2026-10-16T11:30:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: isudev-library\n"
 
 #. Plugin Name of the plugin
@@ -42,12 +42,14 @@ msgstr ""
 #. translators: 1: account name, 2: average rating, 3: total number of ratings.
 #: build/blocks/google-reviews-badge/render.php:51
 #: src/blocks/google-reviews-badge/render.php:51
+#, php-format
 msgid "Open %1$s in Google Maps. Rating: %2$s out of 5 based on %3$s reviews"
 msgstr ""
 
 #. translators: %s: total number of Google ratings.
 #: build/blocks/google-reviews-badge/render.php:73
 #: src/blocks/google-reviews-badge/render.php:73
+#, php-format
 msgid "%s review on Google"
 msgid_plural "%s reviews on Google"
 msgstr[0] ""
@@ -63,18 +65,21 @@ msgstr ""
 #. translators: %s: Google account name.
 #: build/blocks/google-reviews-header/render.php:88
 #: src/blocks/google-reviews-header/render.php:88
+#, php-format
 msgid "Open %s in Google Maps"
 msgstr ""
 
 #. translators: %s: average Google rating from 0 to 5.
 #: build/blocks/google-reviews-header/render.php:121
 #: src/blocks/google-reviews-header/render.php:121
+#, php-format
 msgid "Average rating: %s out of 5"
 msgstr ""
 
 #. translators: %s: total number of Google ratings.
 #: build/blocks/google-reviews-header/render.php:129
 #: src/blocks/google-reviews-header/render.php:129
+#, php-format
 msgid "Based on %s reviews"
 msgstr ""
 
@@ -156,12 +161,325 @@ msgstr ""
 msgid "Link copied to clipboard"
 msgstr ""
 
+#: extensions/accessibility-statement-page/extension.php:14
+msgid "Accessibility statement page"
+msgstr ""
+
+#: extensions/accessibility-statement-page/extension.php:15
+msgid "Adds Settings → Accessibility statement, like core's Privacy page: pick the page with your accessibility statement or create a draft from a template (the Polish public-sector declaration or the EU model statement). Marks the page in the Pages list, protects it from deletion and warns in Site Health when it is missing, unpublished or older than a year."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:63
+msgid "ID of the page with the accessibility statement."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:279
+msgctxt "page label"
+msgid "Accessibility statement"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:292
+#: extensions/accessibility-statement-page/hooks.php:293
+#: extensions/accessibility-statement-page/hooks.php:333
+#: extensions/accessibility-statement-page/hooks.php:506
+#: extensions/accessibility-statement-page/hooks.php:622
+#: extensions/accessibility-statement-page/hooks.php:738
+msgid "Accessibility statement"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:327
+msgid "Poland: public-sector declaration (gov.pl structure, in Polish)"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:332
+msgid "EU model accessibility statement"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:392
+msgid "Sorry, you are not allowed to manage the accessibility statement."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:471
+msgid "Accessibility statement page updated."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:472
+msgid "Accessibility statement page removed."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:473
+msgid "No accessibility statement page is set."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:474
+msgid "That page cannot be used. Choose a page that is published or a draft."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:475
+msgid "The accessibility statement page could not be created."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:511
+msgid "The selected accessibility statement page does not exist. Create or select another page."
+msgstr ""
+
+#. translators: %s: URL of the Pages trash.
+#: extensions/accessibility-statement-page/hooks.php:516
+#, php-format
+msgid "The selected accessibility statement page is in the Trash. Create or select another page, or <a href=\"%s\">restore it</a>."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:523
+msgid "Choose the page that holds your accessibility statement, or create a draft from a template and complete it. Link to it from every page, usually in the footer."
+msgstr ""
+
+#. translators: 1: edit URL, 2: view URL.
+#: extensions/accessibility-statement-page/hooks.php:534
+#, php-format
+msgid "<a href=\"%1$s\">Edit</a> or <a href=\"%2$s\">view</a> the accessibility statement."
+msgstr ""
+
+#. translators: 1: edit URL, 2: preview URL.
+#: extensions/accessibility-statement-page/hooks.php:536
+#, php-format
+msgid "<a href=\"%1$s\">Edit</a> or <a href=\"%2$s\">preview</a> the accessibility statement. It is not published yet."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:549
+msgid "Create a new page"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:559
+msgid "Create draft"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:560
+msgid "Creates a draft page pre-filled from the template and opens it in the editor. Replace every placeholder in square brackets before publishing."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:565
+msgid "Use an existing page"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:576
+msgid "— Select —"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:583
+msgid "Use this page"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:688
+msgid "Statement URL"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:693
+msgid "Statement title"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:698
+msgid "Link to the statement"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:767
+msgid "Manage the accessibility statement"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:769
+msgid "An accessibility statement is published"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:772
+#: includes/class-extensions.php:61
+msgid "Accessibility"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:775
+msgid "Public-sector sites in the EU must publish an accessibility statement and review it at least once a year. Many other sites must describe the accessibility of their services under the European Accessibility Act."
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:785
+msgid "The accessibility statement page is not published"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:786
+msgid "No accessibility statement page is set"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:794
+msgid "The published accessibility statement still contains template placeholders"
+msgstr ""
+
+#: extensions/accessibility-statement-page/hooks.php:804
+msgid "The accessibility statement has not been updated for over a year"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:205
+msgid "[FILL IN: name of the organisation]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:206
+msgid "[FILL IN: name of the website]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:207
+msgid "[FILL IN: date]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:210
+msgid "[FILL IN: replace every placeholder in square brackets and delete these notes before publishing. Review the statement at least once a year.]"
+msgstr ""
+
+#. translators: 1: organisation name, 2: placeholder for the applicable law.
+#: extensions/accessibility-statement-page/template.php:215
+#, php-format
+msgid "%1$s is committed to making its website accessible, in accordance with %2$s."
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:217
+msgid "[FILL IN: the national law transposing Directive (EU) 2016/2102, or the European Accessibility Act]"
+msgstr ""
+
+#. translators: %s: link to the website.
+#: extensions/accessibility-statement-page/template.php:223
+#, php-format
+msgid "This accessibility statement applies to %s."
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:228
+msgid "Compliance status"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:229
+msgid "This website is partially compliant with EN 301 549 (WCAG 2.1 level AA) due to the non-compliances and exemptions listed below."
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:230
+msgid "[FILL IN: or \"fully compliant\" / \"not compliant\". When fully compliant, delete the next section.]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:232
+msgid "Non-accessible content"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:233
+msgid "The content listed below is non-accessible for the following reasons:"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:236
+msgid "[FILL IN: non-compliance with the requirements, e.g. some videos have no captions]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:237
+msgid "[FILL IN: content outside the scope of the applicable legislation, e.g. maps]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:241
+msgid "Preparation of this accessibility statement"
+msgstr ""
+
+#. translators: %s: date in YYYY-MM-DD format.
+#: extensions/accessibility-statement-page/template.php:245
+#, php-format
+msgid "This statement was prepared on %s. It is based on a self-assessment carried out by the organisation."
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:249
+msgid "[FILL IN: if a third party audited the website, name it here instead of the self-assessment.]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:251
+msgid "Feedback and contact information"
+msgstr ""
+
+#. translators: 1: contact person, 2: e-mail address, 3: phone number.
+#: extensions/accessibility-statement-page/template.php:255
+#, php-format
+msgid "If you find an accessibility problem on this website or need information in an accessible format, contact %1$s by e-mail at %2$s or by phone at %3$s."
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:256
+msgid "[FILL IN: contact person]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:257
+msgid "[FILL IN: e-mail address]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:258
+msgid "[FILL IN: phone number]"
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:262
+msgid "Enforcement procedure"
+msgstr ""
+
+#. translators: %s: placeholder for the enforcement body.
+#: extensions/accessibility-statement-page/template.php:266
+#, php-format
+msgid "If you are not satisfied with our response, you can contact %s."
+msgstr ""
+
+#: extensions/accessibility-statement-page/template.php:267
+msgid "[FILL IN: the national enforcement body and how to reach it]"
+msgstr ""
+
 #: extensions/button-color/extension.php:14
 msgid "Button colour for outline and link styles"
 msgstr ""
 
 #: extensions/button-color/extension.php:15
 msgid "Exposes the colour picked on a Button block as a CSS custom property, in the editor and on the site, so a theme can draw outline and text-only buttons (and their icons) in that colour. Also removes core's Outline style, which turns into a filled button as soon as a colour is picked."
+msgstr ""
+
+#: extensions/button-icon/extension.php:14
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:368
+msgid "Button icon"
+msgstr ""
+
+#: extensions/button-icon/extension.php:15
+msgid "Lets editors put an icon from the library's icon set before or after the text of a Button block, choose its size, or show the icon alone with the text kept for screen readers."
+msgstr ""
+
+#: extensions/core-accordion-custom-icons/extension.php:14
+msgid "Accordion toggle icons"
+msgstr ""
+
+#: extensions/core-accordion-custom-icons/extension.php:15
+msgid "Replaces the \"+\" on the core Accordion block with an icon from the icon library, one for closed and one for open items. Editors pick the icons and their size per accordion; the theme sets the defaults."
+msgstr ""
+
+#: extensions/core-accordion-faq-schema/extension.php:14
+msgid "Accordion FAQ structured data"
+msgstr ""
+
+#: extensions/core-accordion-faq-schema/extension.php:15
+msgid "Adds a switch to the core Accordion block that publishes its questions and answers as FAQPage structured data (JSON-LD), through Yoast SEO or Rank Math when one is active, or on its own otherwise."
+msgstr ""
+
+#: extensions/core-accordion-hash-navigation/extension.php:14
+msgid "Accordion links"
+msgstr ""
+
+#: extensions/core-accordion-hash-navigation/extension.php:15
+msgid "Gives every core Accordion item a stable, readable link (#question-title, or the heading's HTML anchor). Opening an item puts its link in the address bar, and visiting a link opens and scrolls to that item."
+msgstr ""
+
+#: extensions/disable-application-passwords/extension.php:14
+msgid "Disable application passwords"
+msgstr ""
+
+#: extensions/disable-application-passwords/extension.php:15
+msgid "Switches application passwords off: the profile section disappears and existing application passwords stop authenticating REST API and XML-RPC requests. Breaks apps and integrations that sign in with one."
+msgstr ""
+
+#: extensions/disable-block-directory/extension.php:14
+msgid "Disable the block directory"
+msgstr ""
+
+#: extensions/disable-block-directory/extension.php:15
+msgid "Stops the block inserter from suggesting and installing blocks from WordPress.org, and closes the block directory search endpoint. Plugins can still be installed from Plugins → Add New."
 msgstr ""
 
 #: extensions/disable-comments/extension.php:14
@@ -176,12 +494,123 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
+#: extensions/disable-custom-css/extension.php:14
+msgid "Disable custom CSS"
+msgstr ""
+
+#: extensions/disable-custom-css/extension.php:15
+msgid "Takes CSS out of editors' hands: removes Additional CSS from the Customizer, Global Styles and the block settings, and stops CSS already saved there from loading. CSS shipped by the theme keeps working."
+msgstr ""
+
+#: extensions/disable-emoji/extension.php:14
+msgid "Disable emoji images"
+msgstr ""
+
+#: extensions/disable-emoji/extension.php:15
+msgid "Stops WordPress from replacing emoji with images from WordPress.org: removes the detection script and its styles from every page, the admin and embeds. Emoji still show, drawn by the visitor's own system font."
+msgstr ""
+
+#: extensions/disable-feeds/extension.php:14
+msgid "Disable feeds"
+msgstr ""
+
+#: extensions/disable-feeds/extension.php:15
+msgid "Switches off every RSS, RDF and Atom feed, including comment feeds: feed URLs answer with the theme's 404 page and the feed links leave the page head."
+msgstr ""
+
+#: extensions/disable-fit-text/extension.php:14
+msgid "Disable fit text"
+msgstr ""
+
+#: extensions/disable-fit-text/extension.php:15
+msgid "Removes the \"Fit text\" typography option, which scales a heading or paragraph to fill its container with JavaScript and ignores the theme's font sizes. Blocks saved with it render at their normal size again."
+msgstr ""
+
+#: extensions/disable-openverse/extension.php:14
+msgid "Disable Openverse"
+msgstr ""
+
+#: extensions/disable-openverse/extension.php:15
+msgid "Removes the Openverse tab from the block inserter's Media section, so editors pick images from the Media Library only instead of hotlinking free-licence images from openverse.org."
+msgstr ""
+
 #: extensions/disable-posts/extension.php:14
 msgid "Disable posts"
 msgstr ""
 
 #: extensions/disable-posts/extension.php:15
-msgid "Hides the built-in Posts post type, its categories and tags: no admin menu, no front-end archives, no single views."
+msgid "Switches off the built-in Posts post type with its categories and tags: no admin menu, every post URL, archive and posts feed answers 404, and posts leave REST, XML-RPC, sitemaps and the block inserter. Set a static homepage first."
+msgstr ""
+
+#: extensions/disable-posts/hooks.php:554
+msgid "Reading settings and disabled posts"
+msgstr ""
+
+#: extensions/disable-posts/hooks.php:573
+msgid "Open Settings → Reading"
+msgstr ""
+
+#: extensions/disable-posts/hooks.php:576
+msgid "The homepage does not depend on posts"
+msgstr ""
+
+#: extensions/disable-posts/hooks.php:579
+#: includes/class-extensions.php:57
+msgid "Content"
+msgstr ""
+
+#: extensions/disable-posts/hooks.php:584
+msgid "Posts are disabled, and Settings → Reading shows a static page as the homepage."
+msgstr ""
+
+#: extensions/disable-posts/hooks.php:591
+msgid "The homepage shows latest posts, but posts are disabled"
+msgstr ""
+
+#: extensions/disable-posts/hooks.php:596
+msgid "With posts disabled, a homepage set to show the latest posts answers with “Page not found”. Choose a static page as the homepage."
+msgstr ""
+
+#: extensions/disable-posts/hooks.php:600
+msgid "A posts page is set, but posts are disabled"
+msgstr ""
+
+#. translators: %s: Page title.
+#: extensions/disable-posts/hooks.php:607
+#, php-format
+msgid "The page “%s” is set as the posts page, so it answers with “Page not found”. Set Posts page to “— Select —”."
+msgstr ""
+
+#: extensions/disable-xmlrpc/extension.php:14
+msgid "Disable XML-RPC"
+msgstr ""
+
+#: extensions/disable-xmlrpc/extension.php:15
+msgid "Refuses every request to xmlrpc.php with a 403 before any method runs, closing a common brute-force and pingback abuse route. Breaks Jetpack and old desktop or mobile publishing apps that still use XML-RPC."
+msgstr ""
+
+#: extensions/enqueue-theme-block-styles/extension.php:14
+msgid "Load theme block styles per block"
+msgstr ""
+
+#: extensions/enqueue-theme-block-styles/extension.php:15
+msgid "Loads each stylesheet the theme builds for a block (build/blocks/<namespace>/<block>.css) only on pages where that block appears, and in the editor. For themes built on the Dekode project base."
+msgstr ""
+
+#: extensions/featured-image-column/extension.php:17
+msgid "Featured image column"
+msgstr ""
+
+#: extensions/featured-image-column/extension.php:18
+msgid "Shows a thumbnail of the featured image at the start of every list screen whose post type supports featured images, and the profile image on the Users screen when one is set."
+msgstr ""
+
+#: extensions/featured-image-column/hooks.php:196
+msgid "Featured image"
+msgstr ""
+
+#: extensions/featured-image-column/hooks.php:297
+msgid "Profile image"
 msgstr ""
 
 #: extensions/gravity-forms-theme-lock/extension.php:14
@@ -230,16 +659,19 @@ msgstr ""
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:76
+#, php-format
 msgid "Add new %s"
 msgstr ""
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:78
+#, php-format
 msgid "Edit %s"
 msgstr ""
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:80
+#, php-format
 msgid "New %s"
 msgstr ""
 
@@ -247,62 +679,126 @@ msgstr ""
 #. translators: %s: plural post type name, e.g. Articles.
 #: extensions/post-rename/hooks.php:82
 #: extensions/post-rename/hooks.php:84
+#, php-format
 msgid "View %s"
 msgstr ""
 
 #. translators: %s: plural post type name, e.g. Articles.
 #: extensions/post-rename/hooks.php:86
+#, php-format
 msgid "Search %s"
 msgstr ""
 
 #. translators: %s: lowercase plural post type name, e.g. articles.
 #: extensions/post-rename/hooks.php:88
+#, php-format
 msgid "No %s found."
 msgstr ""
 
 #. translators: %s: lowercase plural post type name, e.g. articles.
 #: extensions/post-rename/hooks.php:90
+#, php-format
 msgid "No %s found in Trash."
 msgstr ""
 
 #. translators: %s: plural post type name, e.g. Articles.
 #: extensions/post-rename/hooks.php:92
+#, php-format
 msgid "All %s"
 msgstr ""
 
 #. translators: %s: plural post type name, e.g. Articles.
 #: extensions/post-rename/hooks.php:94
+#, php-format
 msgid "%s archives"
 msgstr ""
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:96
+#, php-format
 msgid "%s attributes"
 msgstr ""
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:98
+#, php-format
 msgid "Insert into %s"
 msgstr ""
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:100
+#, php-format
 msgid "%s published."
 msgstr ""
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:102
+#, php-format
 msgid "%s updated."
 msgstr ""
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:104
+#, php-format
 msgid "%s scheduled."
 msgstr ""
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:106
+#, php-format
 msgid "%s reverted to draft."
+msgstr ""
+
+#: extensions/redirect-authors/extension.php:16
+msgid "Hide author archives and user lists"
+msgstr ""
+
+#: extensions/redirect-authors/extension.php:17
+msgid "Author archives answer 404 instead of revealing login names, and visitors can no longer list users through the REST API, oEmbed or the users sitemap. Signed-in editors keep the editor's author picker."
+msgstr ""
+
+#: extensions/redirect-authors/hooks.php:161
+msgid "Sorry, you are not allowed to list users."
+msgstr ""
+
+#: extensions/remove-core-block-styles/extension.php:14
+msgid "Remove core block styles"
+msgstr ""
+
+#: extensions/remove-core-block-styles/extension.php:15
+msgid "Removes the styles WordPress ships for its own blocks (Outline button, Rounded image, Stripes table and the like) from the Styles panel, so editors choose only from the styles the theme registers. The theme can keep chosen ones."
+msgstr ""
+
+#: extensions/remove-core-patterns/extension.php:14
+msgid "Remove core patterns"
+msgstr ""
+
+#: extensions/remove-core-patterns/extension.php:15
+msgid "Removes the patterns WordPress itself ships and the ones it downloads from the WordPress.org pattern directory, so the pattern inserter lists only the theme's and the site's own patterns."
+msgstr ""
+
+#: extensions/remove-post-category/extension.php:14
+msgid "Remove categories from posts"
+msgstr ""
+
+#: extensions/remove-post-category/extension.php:15
+msgid "Keeps posts but drops categories: no Categories screen or editor panel, and when nothing else uses categories, their archives answer 404 and they leave REST, sitemaps and the inserter."
+msgstr ""
+
+#: extensions/remove-post-tags/extension.php:14
+msgid "Remove tags from posts"
+msgstr ""
+
+#: extensions/remove-post-tags/extension.php:15
+msgid "Keeps posts but drops tags: no Tags screen or editor panel, and when nothing else uses tags, their archives answer 404 and they leave REST, sitemaps and the inserter."
+msgstr ""
+
+#: extensions/reset-admin-dashboard/extension.php:14
+msgid "Clean up the dashboard"
+msgstr ""
+
+#: extensions/reset-admin-dashboard/extension.php:15
+msgid "Removes the default widgets from the admin dashboard — Welcome, At a Glance, Activity, Quick Draft, WordPress Events and News, Site Health and common plugin widgets. Security warnings about PHP and the browser stay."
 msgstr ""
 
 #: extensions/site-logo-option/extension.php:14
@@ -368,15 +864,23 @@ msgstr ""
 msgid "Admin experience"
 msgstr ""
 
-#: includes/class-extensions.php:57
-msgid "Content"
-msgstr ""
-
 #: includes/class-extensions.php:58
-msgid "Accessibility"
+msgid "Block editor"
 msgstr ""
 
 #: includes/class-extensions.php:59
+msgid "Core blocks"
+msgstr ""
+
+#: includes/class-extensions.php:60
+msgid "Security"
+msgstr ""
+
+#: includes/class-extensions.php:62
+msgid "Theme"
+msgstr ""
+
+#: includes/class-extensions.php:63
 msgid "Plugin integrations"
 msgstr ""
 
@@ -398,6 +902,7 @@ msgstr ""
 
 #. translators: %s: name of the required plugin.
 #: includes/rest.php:369
+#, php-format
 msgid "This extension needs %s to be active."
 msgstr ""
 
@@ -518,11 +1023,13 @@ msgstr ""
 
 #. translators: %d: slide number.
 #: includes/utils/slider.php:74
+#, php-format
 msgid "Go to slide %d"
 msgstr ""
 
 #. translators: 1: slide number, 2: number of slides.
 #: includes/utils/slider.php:76
+#, php-format
 msgid "%1$d of %2$d"
 msgstr ""
 
@@ -544,11 +1051,13 @@ msgstr ""
 
 #. translators: %s: human-readable time difference, for example "2 months".
 #: src/blocks/google-reviews/inc/render-helpers.php:188
+#, php-format
 msgid "%s ago"
 msgstr ""
 
 #. translators: %s: review rating from 0 to 5.
 #: src/blocks/google-reviews/inc/render-helpers.php:203
+#, php-format
 msgid "Rating: %s out of 5"
 msgstr ""
 
@@ -566,6 +1075,7 @@ msgstr ""
 
 #. translators: %s: parent menu item label.
 #: src/blocks/site-header/inc/class-nav-walker.php:150
+#, php-format
 msgid "Show submenu for %s"
 msgstr ""
 
@@ -642,6 +1152,7 @@ msgstr ""
 
 #. translators: %title% is the post title, %url% is the post permalink.
 #: src/blocks/social-share-network/inc/render-helpers.php:167
+#, php-format
 msgid "You might be interested in this: %title%, %url%"
 msgstr ""
 
@@ -668,6 +1179,7 @@ msgstr ""
 #. translators: %s: comma-separated list of block slugs.
 #: build/admin/index.js:2
 #: src/admin/components/block-card.js:37
+#, js-format
 msgid "Requires: %s. Enable those first."
 msgstr ""
 
@@ -708,6 +1220,7 @@ msgstr ""
 #. translators: 1: number of enabled blocks, 2: total number of blocks.
 #: build/admin/index.js:3
 #: src/admin/components/blocks-tab.js:128
+#, js-format
 msgid "%1$d of %2$d blocks enabled"
 msgstr ""
 
@@ -729,6 +1242,7 @@ msgstr ""
 #. translators: 1: number of enabled inner blocks, 2: total number of inner blocks.
 #: build/admin/index.js:4
 #: src/admin/components/blocks-tab.js:165
+#, js-format
 msgid "%1$d of %2$d enabled"
 msgstr ""
 
@@ -740,6 +1254,7 @@ msgstr ""
 #. translators: %s: name of the required plugin.
 #: build/admin/index.js:5
 #: src/admin/components/extension-card.js:28
+#, js-format
 msgid "Needs %s to be active."
 msgstr ""
 
@@ -756,6 +1271,7 @@ msgstr ""
 #. translators: 1: number of enabled extensions, 2: total number of extensions.
 #: build/admin/index.js:6
 #: src/admin/components/extensions-tab.js:94
+#, js-format
 msgid "%1$d of %2$d extensions enabled"
 msgstr ""
 
@@ -1024,6 +1540,7 @@ msgstr ""
 #: src/blocks/google-reviews-badge/edit.js:42
 #: src/blocks/google-reviews-header/edit.js:76
 #: src/blocks/google-reviews/edit.js:52
+#, js-format
 msgid "%1$s (%2$d reviews)"
 msgstr ""
 
@@ -1058,6 +1575,7 @@ msgstr ""
 #. translators: %d: total number of Google ratings.
 #: build/blocks/google-reviews-badge/index.js:3
 #: src/blocks/google-reviews-badge/edit.js:103
+#, js-format
 msgid "%d review on Google"
 msgid_plural "%d reviews on Google"
 msgstr[0] ""
@@ -1120,6 +1638,7 @@ msgstr ""
 #. translators: %d: total number of ratings.
 #: build/blocks/google-reviews-header/index.js:3
 #: src/blocks/google-reviews-header/edit.js:252
+#, js-format
 msgid "Based on %d reviews"
 msgstr ""
 
@@ -1181,6 +1700,7 @@ msgstr ""
 #. translators: %s: selected carousel mode.
 #: build/blocks/google-reviews/index.js:3
 #: src/blocks/google-reviews/edit.js:137
+#, js-format
 msgid "Carousel: %s"
 msgstr ""
 
@@ -1192,12 +1712,14 @@ msgstr ""
 #. translators: %d: maximum number of reviews.
 #: build/blocks/google-reviews/index.js:4
 #: src/blocks/google-reviews/edit.js:147
+#, js-format
 msgid "Up to %d reviews."
 msgstr ""
 
 #. translators: %d: maximum visible review text length.
 #: build/blocks/google-reviews/index.js:5
 #: src/blocks/google-reviews/edit.js:154
+#, js-format
 msgid "Review excerpt: %d characters."
 msgstr ""
 
@@ -1442,11 +1964,16 @@ msgid "Show link text"
 msgstr ""
 
 #: build/blocks/selling-point/index.js:1
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:249
+#: extensions/button-icon/src/editor.js:398
 #: src/blocks/selling-point/edit.js:230
 msgid "Icon"
 msgstr ""
 
 #: build/blocks/selling-point/index.js:1
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:264
 #: src/blocks/selling-point/edit.js:231
 msgid "Select icon"
 msgstr ""
@@ -1502,6 +2029,8 @@ msgid "Otherwise each title is a plain, non-heading element."
 msgstr ""
 
 #: build/blocks/selling-points/index.js:1
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:291
 #: src/blocks/selling-points/edit.js:118
 msgid "Icon size"
 msgstr ""
@@ -1751,6 +2280,104 @@ msgstr ""
 #: build/blocks/toggle-blocks/index.js:1
 #: src/blocks/toggle-blocks/edit.js:227
 msgid "Animation speed (ms)"
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:250
+#: extensions/button-icon/src/editor.js:251
+msgid "Search icons"
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:252
+msgid "No icons found."
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:253
+msgid "Remove icon"
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:273
+msgid "Icon position"
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:281
+msgid "Before text"
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:285
+msgid "After text"
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:292
+msgid "In pixels. Reset to follow the theme default."
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:310
+msgid "Show icon only"
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:311
+msgid "The text is hidden on the page but still read by screen readers."
+msgstr ""
+
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:320
+msgid "Type the button text: it is the accessible label screen readers announce, and a button without text is not shown on the page."
+msgstr ""
+
+#. translators: %s: icon name.
+#: build/extensions/core-accordion-custom-icons/editor.js:2
+#: extensions/core-accordion-custom-icons/src/editor.js:153
+#, js-format
+msgid "Default: %s"
+msgstr ""
+
+#: build/extensions/core-accordion-custom-icons/editor.js:2
+#: extensions/core-accordion-custom-icons/src/editor.js:175
+msgid "Toggle icons"
+msgstr ""
+
+#: build/extensions/core-accordion-custom-icons/editor.js:2
+#: extensions/core-accordion-custom-icons/src/editor.js:180
+msgid "Icons are switched off for this accordion. Turn \"Show icon\" back on to see them."
+msgstr ""
+
+#: build/extensions/core-accordion-custom-icons/editor.js:2
+#: extensions/core-accordion-custom-icons/src/editor.js:187
+msgid "Closed icon"
+msgstr ""
+
+#: build/extensions/core-accordion-custom-icons/editor.js:2
+#: extensions/core-accordion-custom-icons/src/editor.js:198
+msgid "Open icon"
+msgstr ""
+
+#: build/extensions/core-accordion-custom-icons/editor.js:2
+#: extensions/core-accordion-custom-icons/src/editor.js:211
+msgid "Icon size (px)"
+msgstr ""
+
+#: build/extensions/core-accordion-faq-schema/editor.js:1
+#: extensions/core-accordion-faq-schema/src/editor.js:49
+msgid "FAQ structured data"
+msgstr ""
+
+#: build/extensions/core-accordion-faq-schema/editor.js:1
+#: extensions/core-accordion-faq-schema/src/editor.js:54
+msgid "Publish as FAQ structured data"
+msgstr ""
+
+#: build/extensions/core-accordion-faq-schema/editor.js:1
+#: extensions/core-accordion-faq-schema/src/editor.js:58
+msgid "Adds every item of this accordion to the page as a question and answer in FAQPage JSON-LD. Use it only for real questions with one answer each."
 msgstr ""
 
 #: build/blocks/agenda-accordion-item/block.json

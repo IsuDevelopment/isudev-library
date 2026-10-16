@@ -1,0 +1,47 @@
+/*
+ * Accordion toggle icons. Child combinators throughout: an item only
+ * styles its own heading, never those of an accordion nested in its panel.
+ */
+
+/* Front end: hooks.php puts both icons in core's span and marks it. */
+.wp-block-accordion-heading__toggle-icon.is-isudev-icon {
+	flex-shrink: 0;
+	height: var(--isudev-accordion-icon-size, 1.2em);
+	width: var(--isudev-accordion-icon-size, 1.2em);
+}
+
+.wp-block-accordion-heading__toggle-icon.is-isudev-icon > .isudev-accordion-icon {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+.wp-block-accordion-item:not(.is-open) > .wp-block-accordion-heading > .wp-block-accordion-heading__toggle > .is-isudev-icon > .isudev-accordion-icon--open,
+.wp-block-accordion-item.is-open > .wp-block-accordion-heading > .wp-block-accordion-heading__toggle > .is-isudev-icon > .isudev-accordion-icon--closed {
+	display: none;
+}
+
+/* Core rotates its "+" by 45deg on open; the open icon already says "open". */
+.wp-block-accordion-item.is-open > .wp-block-accordion-heading > .wp-block-accordion-heading__toggle > .is-isudev-icon {
+	transform: none;
+}
+
+/*
+ * Editor canvas: React owns the heading's markup, so the icons are painted as a
+ * mask from custom properties editor.js sets on the accordion wrapper.
+ */
+.has-isudev-accordion-icons > .wp-block-accordion-item > .wp-block-accordion-heading > .wp-block-accordion-heading__toggle > .wp-block-accordion-heading__toggle-icon {
+	background-color: currentcolor;
+	flex-shrink: 0;
+	font-size: 0;
+	height: var(--isudev-accordion-icon-size);
+	-webkit-mask: var(--isudev-accordion-icon-closed) center / contain no-repeat;
+	mask: var(--isudev-accordion-icon-closed) center / contain no-repeat;
+	transform: none;
+	width: var(--isudev-accordion-icon-size);
+}
+
+.has-isudev-accordion-icons > .wp-block-accordion-item.is-open > .wp-block-accordion-heading > .wp-block-accordion-heading__toggle > .wp-block-accordion-heading__toggle-icon {
+	-webkit-mask-image: var(--isudev-accordion-icon-open);
+	mask-image: var(--isudev-accordion-icon-open);
+}
