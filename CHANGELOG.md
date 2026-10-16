@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.16.2 — 2026-10-16
+
+### Fixed
+
+- **Panel toggles no longer undo each other.** Every block or extension toggle
+  rewrote the whole option array, so two overlapping requests (a quick second
+  click) lost one change and the switch flipped back. Writes now take a MySQL
+  named lock and re-read the option inside it; the panel queues toggles one at
+  a time, flips the switch immediately and ignores stale reloads.
+
 ## 1.16.1 — 2026-10-07
 
 ### Changed

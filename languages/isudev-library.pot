@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: IsuDev Library 1.16.1\n"
+"Project-Id-Version: IsuDev Library 1.16.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/isudev-library\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-07T11:24:51+00:00\n"
+"POT-Creation-Date: 2026-10-16T10:18:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: isudev-library\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: includes/admin.php:76
 #: includes/admin.php:77
 #: build/admin/index.js:6
-#: src/admin/app.js:83
+#: src/admin/app.js:154
 msgid "IsuDev Library"
 msgstr ""
 
@@ -380,24 +380,28 @@ msgstr ""
 msgid "Plugin integrations"
 msgstr ""
 
-#: includes/rest.php:227
+#: includes/rest.php:132
+msgid "Another change is being saved. Try again."
+msgstr ""
+
+#: includes/rest.php:273
 msgid "Unknown block."
 msgstr ""
 
-#: includes/rest.php:235
+#: includes/rest.php:281
 msgid "This block is managed in code and cannot be toggled here."
 msgstr ""
 
-#: includes/rest.php:315
+#: includes/rest.php:359
 msgid "Unknown extension."
 msgstr ""
 
 #. translators: %s: name of the required plugin.
-#: includes/rest.php:325
+#: includes/rest.php:369
 msgid "This extension needs %s to be active."
 msgstr ""
 
-#: includes/rest.php:335
+#: includes/rest.php:379
 msgid "This extension is managed in code and cannot be toggled here."
 msgstr ""
 
@@ -697,39 +701,39 @@ msgid "This also disables the blocks that depend on it. Continue?"
 msgstr ""
 
 #: build/admin/index.js:2
-#: src/admin/components/blocks-tab.js:119
+#: src/admin/components/blocks-tab.js:118
 msgid "Disabling a block removes it entirely — no editor or frontend assets load, and blocks already inserted in content render as nothing."
 msgstr ""
 
 #. translators: 1: number of enabled blocks, 2: total number of blocks.
 #: build/admin/index.js:3
-#: src/admin/components/blocks-tab.js:129
+#: src/admin/components/blocks-tab.js:128
 msgid "%1$d of %2$d blocks enabled"
 msgstr ""
 
 #: build/admin/index.js:3
-#: src/admin/components/blocks-tab.js:136
+#: src/admin/components/blocks-tab.js:135
 msgid "Enable all"
 msgstr ""
 
 #: build/admin/index.js:3
-#: src/admin/components/blocks-tab.js:139
+#: src/admin/components/blocks-tab.js:138
 msgid "Disable all"
 msgstr ""
 
 #: build/admin/index.js:3
-#: src/admin/components/blocks-tab.js:160
+#: src/admin/components/blocks-tab.js:159
 msgid "Inner blocks"
 msgstr ""
 
 #. translators: 1: number of enabled inner blocks, 2: total number of inner blocks.
 #: build/admin/index.js:4
-#: src/admin/components/blocks-tab.js:166
+#: src/admin/components/blocks-tab.js:165
 msgid "%1$d of %2$d enabled"
 msgstr ""
 
 #: build/admin/index.js:4
-#: src/admin/components/blocks-tab.js:175
+#: src/admin/components/blocks-tab.js:174
 msgid "Unavailable while parent is disabled"
 msgstr ""
 
@@ -745,13 +749,13 @@ msgid "No extensions found."
 msgstr ""
 
 #: build/admin/index.js:5
-#: src/admin/components/extensions-tab.js:83
+#: src/admin/components/extensions-tab.js:84
 msgid "Extensions change the admin or the front end as soon as they are enabled. A change takes effect on the next page load."
 msgstr ""
 
 #. translators: 1: number of enabled extensions, 2: total number of extensions.
 #: build/admin/index.js:6
-#: src/admin/components/extensions-tab.js:93
+#: src/admin/components/extensions-tab.js:94
 msgid "%1$d of %2$d extensions enabled"
 msgstr ""
 
@@ -786,12 +790,12 @@ msgid "Not found — using block defaults."
 msgstr ""
 
 #: build/admin/index.js:6
-#: src/admin/app.js:49
+#: src/admin/app.js:120
 msgid "Blocks"
 msgstr ""
 
 #: build/admin/index.js:6
-#: src/admin/app.js:50
+#: src/admin/app.js:121
 msgid "Extensions"
 msgstr ""
 
@@ -800,7 +804,7 @@ msgstr ""
 #: build/blocks/selling-point/index.js:1
 #: build/blocks/selling-points/index.js:1
 #: build/blocks/toggle-blocks/index.js:1
-#: src/admin/app.js:51
+#: src/admin/app.js:122
 #: src/blocks/agenda-accordion-item/edit.js:104
 #: src/blocks/selling-point/edit.js:181
 #: src/blocks/selling-points/edit.js:87
@@ -809,7 +813,7 @@ msgid "Settings"
 msgstr ""
 
 #: build/admin/index.js:6
-#: src/admin/app.js:86
+#: src/admin/app.js:157
 msgid "Blocks to build pages with, and extensions that change how WordPress itself behaves. Everything here can be switched off."
 msgstr ""
 

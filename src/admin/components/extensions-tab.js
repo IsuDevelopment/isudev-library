@@ -44,8 +44,8 @@ function groupByCategory(extensions, categories) {
 export default function ExtensionsTab({
 	extensions,
 	categories,
-	onChanged,
-	onError,
+	mutate,
+	onOptimistic,
 }) {
 	const groups = useMemo(
 		() =>
@@ -64,13 +64,14 @@ export default function ExtensionsTab({
 	}
 
 	const toggle = (extension, enabled) => {
-		apiFetch({
-			path: `/isudev-library/v1/extensions/${extension.slug}`,
-			method: 'POST',
-			data: { enabled },
-		})
-			.then(onChanged)
-			.catch((err) => onError(err.message));
+		onOptimistic(extension.slug, enabled);
+		mutate(() =>
+			apiFetch({
+				path: `/isudev-library/v1/extensions/${extension.slug}`,
+				method: 'POST',
+				data: { enabled },
+			})
+		);
 	};
 
 	const enabledCount = extensions.filter(

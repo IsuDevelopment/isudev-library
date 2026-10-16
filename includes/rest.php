@@ -106,6 +106,52 @@ function register_routes(): void {
 }
 
 /**
+ * Write one slug => bool toggle into a panel option, safe against concurrent requests.
+ *
+ * Every toggle shares one option array, so two overlapping requests that each
+ * read, change one key and write the whole array back lose one of the changes —
+ * a quick second click in the panel silently undid the first. A MySQL named
+ * lock serialises the read-modify-write, and the option is re-read from the
+ * database inside the lock: the copy WordPress loaded at bootstrap (alloptions)
+ * predates whatever the request holding the lock before us just wrote.
+ *
+ * @param string $option  Option name.
+ * @param string $slug    Key to set.
+ * @param bool   $enabled New value.
+ * @return true|WP_Error
+ */
+function save_toggle( string $option, string $slug, bool $enabled ) {
+	global $wpdb;
+
+	$lock = $wpdb->prefix . $option;
+
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery -- A named lock, not data; there is nothing to cache.
+	if ( '1' !== (string) $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 10 )', $lock ) ) ) {
+		return new WP_Error(
+			'isudev_library_busy',
+			\__( 'Another change is being saved. Try again.', 'isudev-library' ),
+			array( 'status' => 409 )
+		);
+	}
+
+	\wp_cache_delete( 'alloptions', 'options' );
+	\wp_cache_delete( 'notoptions', 'options' );
+	\wp_cache_delete( $option, 'options' );
+
+	$value = \get_option( $option, array() );
+	$value = \is_array( $value ) ? $value : array();
+
+	$value[ $slug ] = $enabled;
+
+	\update_option( $option, $value );
+
+	$wpdb->query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock ) );
+	// phpcs:enable WordPress.DB.DirectDatabaseQuery
+
+	return true;
+}
+
+/**
  * Metadata from the compiled manifest, keyed by block directory name.
  *
  * The block type registry only holds blocks that were registered, and a disabled
@@ -237,12 +283,10 @@ function update_block( WP_REST_Request $request ) {
 		);
 	}
 
-	$option = \get_option( Registry::OPTION, array() );
-	$option = \is_array( $option ) ? $option : array();
-
-	$option[ $slug ] = (bool) $request->get_param( 'enabled' );
-
-	\update_option( Registry::OPTION, $option );
+	$saved = save_toggle( Registry::OPTION, $slug, (bool) $request->get_param( 'enabled' ) );
+	if ( \is_wp_error( $saved ) ) {
+		return $saved;
+	}
 	Registry::flush();
 
 	$refreshed = Registry::blocks();
@@ -337,12 +381,10 @@ function update_extension( WP_REST_Request $request ) {
 		);
 	}
 
-	$option = \get_option( Extensions::OPTION, array() );
-	$option = \is_array( $option ) ? $option : array();
-
-	$option[ $slug ] = (bool) $request->get_param( 'enabled' );
-
-	\update_option( Extensions::OPTION, $option );
+	$saved = save_toggle( Extensions::OPTION, $slug, (bool) $request->get_param( 'enabled' ) );
+	if ( \is_wp_error( $saved ) ) {
+		return $saved;
+	}
 	Extensions::flush();
 
 	/*

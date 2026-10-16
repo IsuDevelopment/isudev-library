@@ -36,7 +36,7 @@ function groupBlocks(blocks) {
 		}));
 }
 
-export default function BlocksTab({ blocks, onChanged, onError }) {
+export default function BlocksTab({ blocks, mutate, onOptimistic }) {
 	const groups = useMemo(
 		() => (blocks === null ? [] : groupBlocks(blocks)),
 		[blocks]
@@ -67,13 +67,14 @@ export default function BlocksTab({ blocks, onChanged, onError }) {
 			return;
 		}
 
-		apiFetch({
-			path: `/isudev-library/v1/blocks/${block.slug}`,
-			method: 'POST',
-			data: { enabled },
-		})
-			.then(onChanged)
-			.catch((err) => onError(err.message));
+		onOptimistic(block.slug, enabled);
+		mutate(() =>
+			apiFetch({
+				path: `/isudev-library/v1/blocks/${block.slug}`,
+				method: 'POST',
+				data: { enabled },
+			})
+		);
 	};
 
 	/**
@@ -84,9 +85,8 @@ export default function BlocksTab({ blocks, onChanged, onError }) {
 	 * racing that read-modify-write could silently drop one block's change.
 	 *
 	 * @param {boolean} enabled Target state for every unlocked block.
-	 * @return {Promise<void>}
 	 */
-	const setAll = async (enabled) => {
+	const setAll = (enabled) => {
 		const targets = blocks.filter(
 			(block) => !block.locked && block.enabled !== enabled
 		);
@@ -95,7 +95,9 @@ export default function BlocksTab({ blocks, onChanged, onError }) {
 			return;
 		}
 
-		try {
+		targets.forEach((block) => onOptimistic(block.slug, enabled));
+
+		mutate(async () => {
 			for (const block of targets) {
 				// Sequential by design — see the docblock above.
 				// eslint-disable-next-line no-await-in-loop
@@ -105,10 +107,7 @@ export default function BlocksTab({ blocks, onChanged, onError }) {
 					data: { enabled },
 				});
 			}
-			onChanged();
-		} catch (err) {
-			onError(err.message);
-		}
+		});
 	};
 
 	const enabledCount = blocks.filter((block) => block.enabled).length;
