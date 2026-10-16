@@ -58,13 +58,35 @@ front end the moment it loads.
 | Extension | Category | Needs |
 | --- | --- | --- |
 | [Last edited column](extensions/last-edited-column/README.md) | Admin experience | — |
+| [Featured image column](extensions/featured-image-column/README.md) | Admin experience | — |
+| [Clean up the dashboard](extensions/reset-admin-dashboard/README.md) | Admin experience | — |
 | [Show template name](extensions/template-post-state/README.md) | Admin experience | — |
 | [Site logo in General settings](extensions/site-logo-option/README.md) | Admin experience | — |
 | [Disable posts](extensions/disable-posts/README.md) | Content | — |
 | [Disable comments](extensions/disable-comments/README.md) | Content | — |
 | [Rename posts to articles](extensions/post-rename/README.md) | Content | — |
+| [Button colour for outline and link styles](extensions/button-color/README.md) | Content | — |
 | [Custom HTML block wrapper](extensions/wrap-html-block/README.md) | Content | — |
+| [Disable feeds](extensions/disable-feeds/README.md) | Content | — |
+| [Remove categories from posts](extensions/remove-post-category/README.md) | Content | — |
+| [Remove tags from posts](extensions/remove-post-tags/README.md) | Content | — |
+| [Disable the block directory](extensions/disable-block-directory/README.md) | Block editor | — |
+| [Disable Openverse](extensions/disable-openverse/README.md) | Block editor | — |
+| [Disable fit text](extensions/disable-fit-text/README.md) | Block editor | — |
+| [Disable custom CSS](extensions/disable-custom-css/README.md) | Block editor | — |
+| [Remove core block styles](extensions/remove-core-block-styles/README.md) | Block editor | — |
+| [Remove core patterns](extensions/remove-core-patterns/README.md) | Block editor | — |
+| [Button icon](extensions/button-icon/README.md) | Core blocks | — |
+| [Accordion toggle icons](extensions/core-accordion-custom-icons/README.md) | Core blocks | — |
+| [Accordion FAQ structured data](extensions/core-accordion-faq-schema/README.md) | Core blocks | — |
+| [Accordion links](extensions/core-accordion-hash-navigation/README.md) | Core blocks | — |
+| [Disable XML-RPC](extensions/disable-xmlrpc/README.md) | Security | — |
+| [Disable application passwords](extensions/disable-application-passwords/README.md) | Security | — |
+| [Hide author archives and user lists](extensions/redirect-authors/README.md) | Security | — |
 | [Skip links](extensions/skip-links/README.md) | Accessibility | — |
+| [Accessibility statement page](extensions/accessibility-statement-page/README.md) | Accessibility | — |
+| [Disable emoji images](extensions/disable-emoji/README.md) | Theme | — |
+| [Load theme block styles per block](extensions/enqueue-theme-block-styles/README.md) | Theme | — |
 | [Gravity Forms block wrapper](extensions/gravity-forms-wrapper/README.md) | Plugin integrations | Gravity Forms |
 | [Lock the Gravity Forms block theme](extensions/gravity-forms-theme-lock/README.md) | Plugin integrations | Gravity Forms |
 
@@ -75,6 +97,24 @@ nothing.
 Each ships a `README.md` in its own directory: what it changes, every filter it
 offers, and what to check when it appears to do nothing.
 [`extensions/README.md`](extensions/README.md) is the guide to writing a new one.
+
+## Dashboard
+
+**IsuDev Library → Dashboard** adds two widgets to the WordPress dashboard for
+the people who run the site. The feature is off until it is switched on there;
+each widget can then be turned off on its own.
+
+- **Content overview** — one row per content type with the type's own menu
+  icon, the total, counts by status (published, drafts, scheduled, pending,
+  private) and *View all* / *Add new*; Media closes the list. Choose which
+  types show; new ones appear automatically.
+- **Support** — isudev.com and support@isudev.com, plus an optional request
+  form (email, subject, problem type, description). It emails the request to
+  support with `Reply-To` set to the sender, and sends the sender a copy. The
+  email field is prefilled with the **client email** set in the tab, or the
+  signed-in user's own address.
+
+Details and filters: [`includes/dashboard/README.md`](includes/dashboard/README.md).
 
 ## Configuration
 

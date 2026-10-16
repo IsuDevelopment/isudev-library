@@ -28,6 +28,7 @@ Checks::is(
 		'bootstrap'   => array(),
 		'boot'        => '',
 		'requires'    => null,
+		'settings'    => array(),
 	)
 );
 
@@ -58,8 +59,32 @@ Checks::is(
 			'class'    => 'GFForms',
 			'function' => '',
 		),
+		'settings'    => array(),
 	)
 );
+
+// normalize_settings().
+Checks::is( 'ext settings: non-array is empty', Extensions::normalize_settings( 'x' ), array() );
+Checks::is(
+	'ext settings: invalid fields dropped, duplicate key keeps first',
+	Extensions::normalize_settings(
+		array(
+			array( 'key' => 'metaKey', 'type' => 'text', 'label' => 'Meta key', 'default' => ' a<b ' ),
+			array( 'key' => 'metaKey', 'type' => 'boolean', 'label' => 'Dup' ),
+			array( 'key' => 'Bad', 'type' => 'text', 'label' => 'Uppercase start' ),
+			array( 'key' => 'x', 'type' => 'color', 'label' => 'Unknown type' ),
+			array( 'key' => 'y', 'type' => 'text', 'label' => '' ),
+			array( 'key' => 'hidden', 'type' => 'post_types', 'label' => 'Hidden', 'supports' => 'thumbnail', 'default' => array( 'page', 'Bad Slug', 'page' ) ),
+		)
+	),
+	array(
+		array( 'key' => 'metaKey', 'type' => 'text', 'label' => 'Meta key', 'help' => '', 'default' => 'ab', 'supports' => '' ),
+		array( 'key' => 'hidden', 'type' => 'post_types', 'label' => 'Hidden', 'help' => '', 'default' => array( 'page' ), 'supports' => 'thumbnail' ),
+	)
+);
+Checks::is( 'ext setting value: boolean', Extensions::sanitize_setting_value( array( 'type' => 'boolean' ), '1' ), true );
+Checks::is( 'ext setting value: text strips control chars and tags brackets', Extensions::sanitize_setting_value( array( 'type' => 'text' ), "a\n<b>" ), 'ab' );
+Checks::is( 'ext setting value: text non-scalar is empty', Extensions::sanitize_setting_value( array( 'type' => 'text' ), array( 'x' ) ), '' );
 
 // normalize_requirement().
 Checks::is( 'ext requirement: non-array is dropped', Extensions::normalize_requirement( 'Gravity Forms' ), null );

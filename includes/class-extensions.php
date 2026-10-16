@@ -44,6 +44,20 @@ class Extensions {
 	const CONFIG_KEY = 'extensions';
 
 	/**
+	 * Option holding panel-managed extension settings, as slug => key => value.
+	 *
+	 * @var string
+	 */
+	const SETTINGS_OPTION = 'isudev_library_extension_settings';
+
+	/**
+	 * Field types an extension can declare in its descriptor's `settings`.
+	 *
+	 * @var string[]
+	 */
+	const SETTING_TYPES = array( 'boolean', 'text', 'email', 'post_types' );
+
+	/**
 	 * Known categories, in the order the admin panel shows them. Pure.
 	 *
 	 * Adding a category here is all that is needed for a descriptor to declare
@@ -90,7 +104,87 @@ class Extensions {
 			'bootstrap'   => self::string_list( $raw['bootstrap'] ?? array() ),
 			'boot'        => \is_string( $boot ) ? $boot : '',
 			'requires'    => self::normalize_requirement( $raw['requires'] ?? null ),
+			'settings'    => self::normalize_settings( $raw['settings'] ?? array() ),
 		);
+	}
+
+	/**
+	 * Normalize the optional `settings` field list of a descriptor. Pure.
+	 *
+	 * Each field is `key` (camelCase), `type` (see SETTING_TYPES), `label`,
+	 * optional `help`, optional `default`, and for `post_types` an optional
+	 * `supports` feature the listed post types must have. Invalid fields are
+	 * dropped; a duplicate key keeps the first.
+	 *
+	 * @param mixed $value Raw `settings` entry.
+	 * @return array List of normalized fields.
+	 */
+	public static function normalize_settings( $value ): array {
+		if ( ! \is_array( $value ) ) {
+			return array();
+		}
+
+		$fields = array();
+
+		foreach ( $value as $field ) {
+			if ( ! \is_array( $field ) ) {
+				continue;
+			}
+
+			$key   = $field['key'] ?? '';
+			$type  = $field['type'] ?? '';
+			$label = $field['label'] ?? '';
+
+			if ( ! \is_string( $key ) || 1 !== \preg_match( '/^[a-z][a-zA-Z0-9]{0,39}$/', $key ) || isset( $fields[ $key ] )
+				|| ! \in_array( $type, self::SETTING_TYPES, true ) || ! \is_string( $label ) || '' === $label ) {
+				continue;
+			}
+
+			$supports = $field['supports'] ?? '';
+
+			$fields[ $key ] = array(
+				'key'      => $key,
+				'type'     => $type,
+				'label'    => $label,
+				'help'     => \is_string( $field['help'] ?? null ) ? $field['help'] : '',
+				'default'  => self::sanitize_setting_value( array( 'type' => $type ), $field['default'] ?? null ),
+				'supports' => 'post_types' === $type && \is_string( $supports ) ? $supports : '',
+			);
+		}
+
+		return \array_values( $fields );
+	}
+
+	/**
+	 * Coerce a value to a field's type. Pure.
+	 *
+	 * `email` is only trimmed here; the WordPress adapter validates it with
+	 * is_email() before storing.
+	 *
+	 * @param array $field Normalized field (only `type` is read).
+	 * @param mixed $value Candidate value.
+	 * @return bool|string|array
+	 */
+	public static function sanitize_setting_value( array $field, $value ) {
+		switch ( $field['type'] ?? '' ) {
+			case 'boolean':
+				return (bool) $value;
+
+			case 'post_types':
+				$slugs = array();
+				foreach ( \is_array( $value ) ? $value : array() as $slug ) {
+					if ( \is_string( $slug ) && 1 === \preg_match( '/^[a-z0-9_-]{1,20}$/', $slug ) ) {
+						$slugs[] = $slug;
+					}
+				}
+				return \array_values( \array_unique( $slugs ) );
+
+			default:
+				$text = \is_scalar( $value ) ? \trim( (string) $value ) : '';
+				$text = (string) \preg_replace( '/[\x00-\x1F\x7F<>]/', '', $text );
+
+				return \function_exists( 'mb_substr' ) ? \mb_substr( $text, 0, 200 ) : \substr( $text, 0, 200 );
+		}
 	}
 
 	/**
@@ -355,7 +449,35 @@ class Extensions {
 	public static function setting( string $slug, string $key, $fallback = null ) {
 		$config = self::config()[ $slug ] ?? array();
 
-		return \is_array( $config ) && \array_key_exists( $key, $config ) ? $config[ $key ] : $fallback;
+		if ( \is_array( $config ) && \array_key_exists( $key, $config ) ) {
+			return $config[ $key ];
+		}
+
+		$panel = self::panel_settings( $slug );
+
+		return \array_key_exists( $key, $panel ) ? $panel[ $key ] : $fallback;
+	}
+
+	/**
+	 * Settings an operator saved in the panel for one extension, limited to the
+	 * fields its descriptor declares.
+	 *
+	 * @param string $slug Extension slug.
+	 * @return array key => value.
+	 */
+	public static function panel_settings( string $slug ): array {
+		$option = \get_option( self::SETTINGS_OPTION, array() );
+		$saved  = \is_array( $option ) && \is_array( $option[ $slug ] ?? null ) ? $option[ $slug ] : array();
+		$fields = self::descriptors()[ $slug ]['settings'] ?? array();
+		$values = array();
+
+		foreach ( $fields as $field ) {
+			if ( \array_key_exists( $field['key'], $saved ) ) {
+				$values[ $field['key'] ] = self::sanitize_setting_value( $field, $saved[ $field['key'] ] );
+			}
+		}
+
+		return $values;
 	}
 
 	/**

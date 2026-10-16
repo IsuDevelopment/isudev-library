@@ -90,6 +90,22 @@ function register_routes(): void {
 
 	\register_rest_route(
 		NAMESPACE_V1,
+		'/extensions/(?P<slug>[a-z0-9-]+)/settings',
+		array(
+			'methods'             => WP_REST_Server::CREATABLE,
+			'callback'            => __NAMESPACE__ . '\\update_extension_settings',
+			'permission_callback' => __NAMESPACE__ . '\\permission_check',
+			'args'                => array(
+				'values' => array(
+					'type'     => 'object',
+					'required' => true,
+				),
+			),
+		)
+	);
+
+	\register_rest_route(
+		NAMESPACE_V1,
 		'/extensions/(?P<slug>[a-z0-9-]+)',
 		array(
 			'methods'             => WP_REST_Server::CREATABLE,
@@ -115,12 +131,14 @@ function register_routes(): void {
  * database inside the lock: the copy WordPress loaded at bootstrap (alloptions)
  * predates whatever the request holding the lock before us just wrote.
  *
+ * Also stores an extension's panel settings array under its slug.
+ *
  * @param string $option  Option name.
  * @param string $slug    Key to set.
- * @param bool   $enabled New value.
+ * @param mixed  $enabled New value: a bool for a toggle, an array of settings.
  * @return true|WP_Error
  */
-function save_toggle( string $option, string $slug, bool $enabled ) {
+function save_toggle( string $option, string $slug, $enabled ) {
 	global $wpdb;
 
 	$lock = $wpdb->prefix . $option;
@@ -310,7 +328,109 @@ function prepare_extension( array $extension ): array {
 		'source'        => (string) $extension['source'],
 		'locked'        => (bool) $extension['locked'],
 		'requiresLabel' => null === $extension['requires'] ? '' : (string) $extension['requires']['label'],
+		'settings'      => prepare_extension_settings( $extension ),
 	);
+}
+
+/**
+ * An extension's settings fields with their current values for the panel.
+ *
+ * A key the theme sets in isudev.json is reported as `locked` with that value:
+ * the panel shows it but cannot change it, the same rule as `enabled`.
+ *
+ * @param array $extension Decorated descriptor.
+ * @return array List of fields.
+ */
+function prepare_extension_settings( array $extension ): array {
+	$config = Extensions::config()[ $extension['slug'] ] ?? array();
+	$config = \is_array( $config ) ? $config : array();
+	$panel  = Extensions::panel_settings( $extension['slug'] );
+	$fields = array();
+
+	foreach ( $extension['settings'] as $field ) {
+		$locked = \array_key_exists( $field['key'], $config );
+		$value  = $locked ? $config[ $field['key'] ] : ( $panel[ $field['key'] ] ?? $field['default'] );
+
+		$item = array(
+			'key'    => $field['key'],
+			'type'   => $field['type'],
+			'label'  => $field['label'],
+			'help'   => $field['help'],
+			'value'  => Extensions::sanitize_setting_value( $field, $value ),
+			'locked' => $locked,
+		);
+
+		if ( 'post_types' === $field['type'] ) {
+			$item['choices'] = array();
+
+			foreach ( \get_post_types( array( 'show_ui' => true ), 'objects' ) as $slug => $object ) {
+				if ( '' === $field['supports'] || \post_type_supports( $slug, $field['supports'] ) ) {
+					$item['choices'][] = array(
+						'value' => $slug,
+						'label' => (string) $object->labels->name,
+					);
+				}
+			}
+		}
+
+		$fields[] = $item;
+	}
+
+	return $fields;
+}
+
+/**
+ * POST /extensions/<slug>/settings
+ *
+ * Stores only the declared, unlocked fields, each coerced to its type.
+ *
+ * @param WP_REST_Request $request Request object.
+ * @return WP_REST_Response|WP_Error
+ */
+function update_extension_settings( WP_REST_Request $request ) {
+	$slug       = (string) $request->get_param( 'slug' );
+	$extensions = Extensions::all();
+
+	if ( ! isset( $extensions[ $slug ] ) || array() === $extensions[ $slug ]['settings'] ) {
+		return new WP_Error(
+			'isudev_library_unknown_extension',
+			\__( 'Unknown extension.', 'isudev-library' ),
+			array( 'status' => 404 )
+		);
+	}
+
+	$incoming = $request->get_param( 'values' );
+	$incoming = \is_array( $incoming ) ? $incoming : array();
+	$config   = Extensions::config()[ $slug ] ?? array();
+	$config   = \is_array( $config ) ? $config : array();
+	$values   = Extensions::panel_settings( $slug );
+
+	foreach ( $extensions[ $slug ]['settings'] as $field ) {
+		if ( \array_key_exists( $field['key'], $config ) || ! \array_key_exists( $field['key'], $incoming ) ) {
+			continue;
+		}
+
+		$value = Extensions::sanitize_setting_value( $field, $incoming[ $field['key'] ] );
+
+		if ( 'email' === $field['type'] && '' !== $value && ! \is_email( $value ) ) {
+			return new WP_Error(
+				'isudev_library_invalid_setting',
+				/* translators: %s: setting label. */
+				\sprintf( \__( '%s is not a valid email address.', 'isudev-library' ), $field['label'] ),
+				array( 'status' => 400 )
+			);
+		}
+
+		$values[ $field['key'] ] = $value;
+	}
+
+	$saved = save_toggle( Extensions::SETTINGS_OPTION, $slug, $values );
+	if ( \is_wp_error( $saved ) ) {
+		return $saved;
+	}
+	Extensions::flush();
+
+	return new WP_REST_Response( prepare_extension( Extensions::all()[ $slug ] ), 200 );
 }
 
 /**

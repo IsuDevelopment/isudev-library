@@ -95,17 +95,20 @@ function boot(): void {
 /**
  * Post types that get the column: those with a UI that support featured images.
  *
- * Setting `postTypes.<type>` to false in isudev.json drops one.
+ * Setting `postTypes.<type>` to false in isudev.json, or ticking the type in
+ * the panel, drops one.
  *
  * @return array List of post type slugs.
  */
 function post_types(): array {
 	$config     = Extensions::setting( SLUG, 'postTypes', array() );
 	$config     = \is_array( $config ) ? $config : array();
+	$hidden     = Extensions::setting( SLUG, 'hiddenPostTypes', array() );
+	$hidden     = \is_array( $hidden ) ? $hidden : array();
 	$post_types = array();
 
 	foreach ( \get_post_types( array( 'show_ui' => true ) ) as $post_type ) {
-		if ( \post_type_supports( $post_type, 'thumbnail' ) && false !== ( $config[ $post_type ] ?? null ) ) {
+		if ( \post_type_supports( $post_type, 'thumbnail' ) && false !== ( $config[ $post_type ] ?? null ) && ! \in_array( $post_type, $hidden, true ) ) {
 			$post_types[] = $post_type;
 		}
 	}
@@ -263,13 +266,18 @@ function render_column( $column, $post_id ): void {
 /**
  * User meta key that holds a user's image: an attachment ID or an image URL.
  *
- * Set with isudev.json `users.metaKey`. Empty means no user column.
+ * Set with isudev.json `users.metaKey`, or in the panel. Empty means no user column.
  *
  * @return string
  */
 function user_meta_key(): string {
 	$users = Extensions::setting( SLUG, 'users', array() );
 	$key   = \is_array( $users ) && \is_string( $users['metaKey'] ?? null ) ? $users['metaKey'] : '';
+
+	if ( '' === $key ) {
+		$panel = Extensions::setting( SLUG, 'userMetaKey', '' );
+		$key   = \is_string( $panel ) ? $panel : '';
+	}
 
 	/**
 	 * Filters the user meta key holding the user's image (attachment ID or URL).

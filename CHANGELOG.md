@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.18.0 — 2026-10-16
+
+### Added
+
+- **Client dashboard** (IsuDev Library → Dashboard, off by default): two
+  dashboard widgets, each switchable.
+  - **Content overview:** a row per content type with its own menu icon,
+    total, counts by status linking to the filtered list, View all / Add new;
+    Media last. Choose the types shown; new ones show by default.
+  - **Support:** isudev.com and support@isudev.com, and a request form (email,
+    subject, problem type, description). It sends an HTML email to support with
+    Reply-To set to the sender and a copy to the sender; the email field
+    defaults to the client email set in the tab. One request per user per
+    minute. See `includes/dashboard/README.md`.
+- **Extension settings in the panel.** An extension declares `settings` fields
+  (`boolean`, `text`, `email`, `post_types`) in its descriptor; the panel
+  shows them under the enabled extension. `Extensions::setting()` reads
+  `isudev.json` first (shown locked in the panel), then the panel.
+  `featured-image-column` is the first: hide the column per post type and set
+  the user image meta key.
+
+### Changed
+
+- The main README's extension table lists every extension again.
+
 ## 1.17.0 — 2026-10-16
 
 ### Added

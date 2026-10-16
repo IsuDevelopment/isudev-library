@@ -10,6 +10,11 @@ import {
 import { sprintf, __ } from '@wordpress/i18n';
 
 /**
+ * Internal dependencies
+ */
+import ExtensionSettings from './extension-settings';
+
+/**
  * Explanation for why an extension's toggle is locked.
  *
  * @param {Object} extension Extension payload from the REST endpoint.
@@ -33,7 +38,7 @@ function stateNotice(extension) {
 	}
 }
 
-export default function ExtensionCard({ extension, onToggle }) {
+export default function ExtensionCard({ extension, onToggle, onSaveSettings }) {
 	return (
 		<div className="isudev-admin__card">
 			<Flex align="flex-start" gap={4}>
@@ -73,6 +78,13 @@ export default function ExtensionCard({ extension, onToggle }) {
 					/>
 				</FlexItem>
 			</Flex>
+			{extension.enabled && extension.settings?.length > 0 && (
+				<ExtensionSettings
+					key={JSON.stringify(extension.settings)}
+					extension={extension}
+					onSave={onSaveSettings}
+				/>
+			)}
 		</div>
 	);
 }

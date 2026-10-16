@@ -17,8 +17,8 @@ msgstr ""
 #: isudev-library.php
 #: includes/admin.php:76
 #: includes/admin.php:77
-#: build/admin/index.js:6
-#: src/admin/app.js:154
+#: build/admin/index.js:7
+#: src/admin/app.js:160
 msgid "IsuDev Library"
 msgstr "IsuDev Library"
 
@@ -380,43 +380,44 @@ msgstr "Kontener bloku Własny HTML"
 msgid "Wraps the rendered Custom HTML block in a container, so its markup and any trailing script stay together in the layout."
 msgstr "Otacza blok Własny HTML kontenerem, dzięki czemu jego kod i ewentualny skrypt na końcu pozostają w układzie jednym elementem."
 
-#: includes/class-extensions.php:56
+#: includes/class-extensions.php:70
 msgid "Admin experience"
 msgstr "Wygoda w panelu"
 
 #: extensions/disable-posts/hooks.php:579
-#: includes/class-extensions.php:57
+#: includes/class-extensions.php:71
 msgid "Content"
 msgstr "Treść"
 
 #: extensions/accessibility-statement-page/hooks.php:772
-#: includes/class-extensions.php:61
+#: includes/class-extensions.php:75
 msgid "Accessibility"
 msgstr "Dostępność"
 
-#: includes/class-extensions.php:63
+#: includes/class-extensions.php:77
 msgid "Plugin integrations"
 msgstr "Integracje z wtyczkami"
 
-#: includes/rest.php:273
+#: includes/rest.php:291
 msgid "Unknown block."
 msgstr "Nieznany blok."
 
-#: includes/rest.php:281
+#: includes/rest.php:299
 msgid "This block is managed in code and cannot be toggled here."
 msgstr "Ten blok jest zarządzany w kodzie i nie można go tutaj przełączyć."
 
-#: includes/rest.php:359
+#: includes/rest.php:397
+#: includes/rest.php:479
 msgid "Unknown extension."
 msgstr "Nieznane rozszerzenie."
 
 #. translators: %s: name of the required plugin.
-#: includes/rest.php:369
+#: includes/rest.php:489
 #, php-format
 msgid "This extension needs %s to be active."
 msgstr "To rozszerzenie wymaga aktywnej wtyczki %s."
 
-#: includes/rest.php:379
+#: includes/rest.php:499
 msgid "This extension is managed in code and cannot be toggled here."
 msgstr "To rozszerzenie jest zarządzane w kodzie i nie można go tutaj przełączyć."
 
@@ -496,6 +497,7 @@ msgstr "Mastodon"
 msgid "Substack"
 msgstr "Substack"
 
+#: includes/dashboard/support.php:90
 #: includes/utils/icon.php:124
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:47
@@ -675,9 +677,10 @@ msgid "Close content"
 msgstr "Zamknij treść"
 
 #: build/admin/index.js:1
-#: build/admin/index.js:4
+#: build/admin/index.js:5
 #: src/admin/components/block-card.js:25
-#: src/admin/components/extension-card.js:21
+#: src/admin/components/extension-card.js:26
+#: src/admin/components/extension-settings.js:24
 msgid "Managed in isudev.json — change it there."
 msgstr "Zarządzane w isudev.json — zmień to tam."
 
@@ -699,16 +702,16 @@ msgid "Parent"
 msgstr "Nadrzędny"
 
 #: build/admin/index.js:2
-#: build/admin/index.js:5
+#: build/admin/index.js:6
 #: src/admin/components/block-card.js:80
-#: src/admin/components/extension-card.js:66
+#: src/admin/components/extension-card.js:71
 msgid "Enabled"
 msgstr "Włączony"
 
 #: build/admin/index.js:2
-#: build/admin/index.js:5
+#: build/admin/index.js:6
 #: src/admin/components/block-card.js:81
-#: src/admin/components/extension-card.js:67
+#: src/admin/components/extension-card.js:72
 msgid "Disabled"
 msgstr "Wyłączony"
 
@@ -762,75 +765,75 @@ msgid "Unavailable while parent is disabled"
 msgstr "Niedostępny, gdy blok nadrzędny jest wyłączony"
 
 #. translators: %s: name of the required plugin.
-#: build/admin/index.js:5
-#: src/admin/components/extension-card.js:28
+#: build/admin/index.js:6
+#: src/admin/components/extension-card.js:33
 #, js-format
 msgid "Needs %s to be active."
 msgstr "Wymaga aktywnej wtyczki %s."
 
-#: build/admin/index.js:5
+#: build/admin/index.js:6
 #: src/admin/components/extensions-tab.js:63
 msgid "No extensions found."
 msgstr "Nie znaleziono rozszerzeń."
 
-#: build/admin/index.js:5
-#: src/admin/components/extensions-tab.js:84
+#: build/admin/index.js:6
+#: src/admin/components/extensions-tab.js:93
 msgid "Extensions change the admin or the front end as soon as they are enabled. A change takes effect on the next page load."
 msgstr "Rozszerzenia zmieniają panel lub stronę od razu po włączeniu. Zmiana działa od następnego wczytania strony."
 
 #. translators: 1: number of enabled extensions, 2: total number of extensions.
-#: build/admin/index.js:6
-#: src/admin/components/extensions-tab.js:94
+#: build/admin/index.js:7
+#: src/admin/components/extensions-tab.js:103
 #, js-format
 msgid "%1$d of %2$d extensions enabled"
 msgstr "Włączone rozszerzenia: %1$d z %2$d"
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:25
 msgid "Diagnostics"
 msgstr "Diagnostyka"
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:31
 msgid "Version:"
 msgstr "Wersja:"
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:35
 msgid "Blocks discovered:"
 msgstr "Znalezione bloki:"
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:39
 msgid "Blocks registered:"
 msgstr "Zarejestrowane bloki:"
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:43
 msgid "isudev.json:"
 msgstr "isudev.json:"
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:18
 msgid "Not found — using block defaults."
 msgstr "Nie znaleziono — używane są domyślne ustawienia bloków."
 
-#: build/admin/index.js:6
-#: src/admin/app.js:120
+#: build/admin/index.js:7
+#: src/admin/app.js:121
 msgid "Blocks"
 msgstr "Bloki"
 
-#: build/admin/index.js:6
-#: src/admin/app.js:121
+#: build/admin/index.js:7
+#: src/admin/app.js:122
 msgid "Extensions"
 msgstr "Rozszerzenia"
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: build/blocks/agenda-accordion-item/index.js:1
 #: build/blocks/selling-point/index.js:1
 #: build/blocks/selling-points/index.js:1
 #: build/blocks/toggle-blocks/index.js:1
-#: src/admin/app.js:122
+#: src/admin/app.js:124
 #: src/blocks/agenda-accordion-item/edit.js:104
 #: src/blocks/selling-point/edit.js:181
 #: src/blocks/selling-points/edit.js:87
@@ -838,8 +841,8 @@ msgstr "Rozszerzenia"
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: build/admin/index.js:6
-#: src/admin/app.js:157
+#: build/admin/index.js:7
+#: src/admin/app.js:163
 msgid "Blocks to build pages with, and extensions that change how WordPress itself behaves. Everything here can be switched off."
 msgstr "Bloki do budowania stron i rozszerzenia zmieniające działanie samego WordPressa. Wszystko tutaj można wyłączyć."
 
@@ -2113,7 +2116,7 @@ msgctxt "block description"
 msgid "Content hidden behind a button and shown when a visitor clicks it."
 msgstr "Treść ukryta za przyciskiem, pokazywana po jego kliknięciu."
 
-#: includes/rest.php:132
+#: includes/rest.php:150
 msgid "Another change is being saved. Try again."
 msgstr "Trwa zapisywanie innej zmiany. Spróbuj ponownie."
 
@@ -2571,19 +2574,20 @@ msgstr "Uporządkuj kokpit"
 msgid "Removes the default widgets from the admin dashboard — Welcome, At a Glance, Activity, Quick Draft, WordPress Events and News, Site Health and common plugin widgets. Security warnings about PHP and the browser stay."
 msgstr "Usuwa domyślne widgety z kokpitu: Witaj, W skrócie, Aktywność, Szybki szkic, Wydarzenia i aktualności WordPressa, Stan witryny oraz popularne widgety wtyczek. Ostrzeżenia bezpieczeństwa dotyczące PHP i przeglądarki pozostają."
 
-#: includes/class-extensions.php:58
+#: includes/class-extensions.php:72
 msgid "Block editor"
 msgstr "Edytor bloków"
 
-#: includes/class-extensions.php:59
+#: includes/class-extensions.php:73
 msgid "Core blocks"
 msgstr "Bloki core"
 
-#: includes/class-extensions.php:60
+#: includes/class-extensions.php:74
 msgid "Security"
 msgstr "Bezpieczeństwo"
 
-#: includes/class-extensions.php:62
+#: includes/class-extensions.php:76
+#: includes/dashboard/support.php:235
 msgid "Theme"
 msgstr "Motyw"
 
@@ -2693,10 +2697,346 @@ msgstr "Kolumna obrazka wyróżniającego"
 msgid "Shows a thumbnail of the featured image at the start of every list screen whose post type supports featured images, and the profile image on the Users screen when one is set."
 msgstr "Pokazuje miniaturę obrazka wyróżniającego na początku każdej listy treści, której typ obsługuje obrazki wyróżniające, oraz zdjęcie profilowe na ekranie Użytkownicy, jeśli je ustawiono."
 
-#: extensions/featured-image-column/hooks.php:196
+#: extensions/featured-image-column/hooks.php:199
 msgid "Featured image"
 msgstr "Obrazek wyróżniający"
 
-#: extensions/featured-image-column/hooks.php:297
+#: extensions/featured-image-column/hooks.php:305
 msgid "Profile image"
 msgstr "Zdjęcie profilowe"
+
+#: extensions/featured-image-column/extension.php:28
+msgid "Hide the column on"
+msgstr "Ukryj kolumnę na"
+
+#: extensions/featured-image-column/extension.php:33
+msgid "User image meta key"
+msgstr "Klucz meta zdjęcia użytkownika"
+
+#: extensions/featured-image-column/extension.php:34
+msgid "The user field that holds a profile image (attachment ID or URL). Empty: no column on Users."
+msgstr "Pole użytkownika ze zdjęciem profilowym (ID załącznika lub adres URL). Puste: brak kolumny na ekranie Użytkownicy."
+
+#: includes/dashboard/content-overview.php:162
+msgid "Upload"
+msgstr "Prześlij"
+
+#: includes/dashboard/content-overview.php:190
+msgid "Add new"
+msgstr "Dodaj nowy"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:211
+#, php-format
+msgid "%s published"
+msgid_plural "%s published"
+msgstr[0] "%s opublikowany"
+msgstr[1] "%s opublikowane"
+msgstr[2] "%s opublikowanych"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:214
+#, php-format
+msgid "%s draft"
+msgid_plural "%s drafts"
+msgstr[0] "%s szkic"
+msgstr[1] "%s szkice"
+msgstr[2] "%s szkiców"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:217
+#, php-format
+msgid "%s scheduled"
+msgid_plural "%s scheduled"
+msgstr[0] "%s zaplanowany"
+msgstr[1] "%s zaplanowane"
+msgstr[2] "%s zaplanowanych"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:220
+#, php-format
+msgid "%s pending review"
+msgid_plural "%s pending review"
+msgstr[0] "%s oczekuje na sprawdzenie"
+msgstr[1] "%s oczekują na sprawdzenie"
+msgstr[2] "%s oczekuje na sprawdzenie"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:223
+#, php-format
+msgid "%s private"
+msgid_plural "%s private"
+msgstr[0] "%s prywatny"
+msgstr[1] "%s prywatne"
+msgstr[2] "%s prywatnych"
+
+#: includes/dashboard/content-overview.php:236
+msgid "No content types to show."
+msgstr "Brak typów treści do wyświetlenia."
+
+#: includes/dashboard/content-overview.php:283
+msgid "View all"
+msgstr "Zobacz wszystkie"
+
+#. translators: %s: number of items.
+#: includes/dashboard/content-overview.php:305
+#, php-format
+msgid "%s item awaiting review"
+msgid_plural "%s items awaiting review"
+msgstr[0] "%s element czeka na sprawdzenie"
+msgstr[1] "%s elementy czekają na sprawdzenie"
+msgstr[2] "%s elementów czeka na sprawdzenie"
+
+#: includes/dashboard/content-overview.php:306
+msgid "Nothing awaiting review"
+msgstr "Nic nie czeka na sprawdzenie"
+
+#. translators: %s: number of items.
+#: includes/dashboard/content-overview.php:309
+#, php-format
+msgid "%s item total"
+msgid_plural "%s items total"
+msgstr[0] "%s element łącznie"
+msgstr[1] "%s elementy łącznie"
+msgstr[2] "%s elementów łącznie"
+
+#: includes/dashboard/settings.php:205
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:125
+msgid "Content overview"
+msgstr "Przegląd treści"
+
+#: includes/dashboard/settings.php:214
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:165
+msgid "Support"
+msgstr "Wsparcie"
+
+#: includes/dashboard/support.php:33
+msgid "Bug / something broken"
+msgstr "Błąd / coś nie działa"
+
+#: includes/dashboard/support.php:34
+msgid "Content or editing question"
+msgstr "Pytanie o treść lub edycję"
+
+#: includes/dashboard/support.php:35
+msgid "Access or login"
+msgstr "Dostęp lub logowanie"
+
+#: includes/dashboard/support.php:36
+msgid "Feature request"
+msgstr "Prośba o nową funkcję"
+
+#: includes/dashboard/support.php:37
+msgid "Other"
+msgstr "Inne"
+
+#: includes/dashboard/support.php:81
+msgid "Developer"
+msgstr "Wykonawca"
+
+#. translators: Accessibility text for a link that opens in a new tab.
+#: includes/dashboard/support.php:85
+msgid "(opens in a new tab)"
+msgstr "(otwiera się w nowej karcie)"
+
+#: includes/dashboard/support.php:113
+#: includes/dashboard/support.php:173
+msgid "Show form"
+msgstr "Pokaż formularz"
+
+#: includes/dashboard/support.php:120
+msgid "Your email"
+msgstr "Twój e-mail"
+
+#: includes/dashboard/support.php:126
+#: includes/dashboard/support.php:257
+msgid "Subject"
+msgstr "Temat"
+
+#: includes/dashboard/support.php:129
+#: includes/dashboard/support.php:258
+msgid "Problem type"
+msgstr "Rodzaj problemu"
+
+#: includes/dashboard/support.php:137
+msgid "Description"
+msgstr "Opis"
+
+#: includes/dashboard/support.php:143
+#: includes/dashboard/support.php:176
+msgid "Send request"
+msgstr "Wyślij zgłoszenie"
+
+#: includes/dashboard/support.php:144
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: includes/dashboard/support.php:174
+msgid "Hide form"
+msgstr "Ukryj formularz"
+
+#: includes/dashboard/support.php:175
+msgid "Sending…"
+msgstr "Wysyłanie…"
+
+#: includes/dashboard/support.php:177
+#: includes/dashboard/support.php:301
+msgid "Fill in your email, the subject and the description."
+msgstr "Uzupełnij e-mail, temat i opis."
+
+#: includes/dashboard/support.php:178
+#: includes/dashboard/support.php:330
+msgid "The request could not be sent. Try again, or write to us directly."
+msgstr "Nie udało się wysłać zgłoszenia. Spróbuj ponownie lub napisz do nas bezpośrednio."
+
+#: includes/dashboard/support.php:231
+#: includes/dashboard/support.php:345
+msgid "Site"
+msgstr "Witryna"
+
+#: includes/dashboard/support.php:232
+msgid "Sent by"
+msgstr "Wysłane przez"
+
+#: includes/dashboard/support.php:233
+msgid "WordPress"
+msgstr "WordPress"
+
+#: includes/dashboard/support.php:234
+msgid "PHP"
+msgstr "PHP"
+
+#: includes/dashboard/support.php:236
+msgid "Plugin"
+msgstr "Wtyczka"
+
+#: includes/dashboard/support.php:259
+msgid "Reply to"
+msgstr "Odpowiedz na"
+
+#: includes/dashboard/support.php:288
+msgid "A request was sent a moment ago. Wait a minute before sending another."
+msgstr "Zgłoszenie zostało wysłane przed chwilą. Odczekaj minutę przed wysłaniem kolejnego."
+
+#. translators: 1: site name, 2: request subject.
+#: includes/dashboard/support.php:318
+#, php-format
+msgid "[Support form] %1$s: %2$s"
+msgstr "[Formularz wsparcia] %1$s: %2$s"
+
+#. translators: %s: site name.
+#: includes/dashboard/support.php:321
+#, php-format
+msgid "Support request from %s"
+msgstr "Zgłoszenie do wsparcia z witryny %s"
+
+#: includes/dashboard/support.php:322
+msgid "Sent from the Support form on the WordPress dashboard."
+msgstr "Wysłane z formularza Wsparcie w kokpicie WordPressa."
+
+#. translators: %s: request subject.
+#: includes/dashboard/support.php:339
+#, php-format
+msgid "We received your support request: %s"
+msgstr "Otrzymaliśmy Twoje zgłoszenie: %s"
+
+#: includes/dashboard/support.php:341
+msgid "Your request has been sent"
+msgstr "Twoje zgłoszenie zostało wysłane"
+
+#. translators: %s: support email address.
+#: includes/dashboard/support.php:343
+#, php-format
+msgid "This is a copy of what you sent. We will reply to this address; you can also write to %s."
+msgstr "To kopia wysłanej wiadomości. Odpowiemy na ten adres; możesz też napisać na %s."
+
+#. translators: %s: email address.
+#: includes/dashboard/support.php:354
+#, php-format
+msgid "Thanks — your request has been sent. A copy went to %s."
+msgstr "Dziękujemy — zgłoszenie zostało wysłane. Kopia trafiła na adres %s."
+
+#. translators: %s: setting label.
+#: includes/rest.php:419
+#, php-format
+msgid "%s is not a valid email address."
+msgstr "%s nie jest prawidłowym adresem e-mail."
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:93
+msgid "Widgets on the WordPress dashboard for the people who run the site: what content there is, and how to reach support."
+msgstr "Widgety w kokpicie WordPressa dla osób prowadzących witrynę: jakie treści są na stronie i jak skontaktować się ze wsparciem."
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:108
+msgid "Dashboard widgets"
+msgstr "Widgety kokpitu"
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:109
+msgid "Off: nothing is added to the dashboard."
+msgstr "Wyłączone: nic nie jest dodawane do kokpitu."
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:128
+msgid "One row per content type with its icon, counts by status and View all / Add new."
+msgstr "Jeden wiersz na typ treści z ikoną, liczbą wpisów według statusu oraz przyciskami Zobacz wszystkie / Dodaj nowy."
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:135
+msgid "Show Content overview"
+msgstr "Pokaż Przegląd treści"
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:147
+msgid "Content types shown"
+msgstr "Wyświetlane typy treści"
+
+#. translators: 1: website, 2: email address.
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:170
+#, js-format
+msgid "Shows %1$s and %2$s, and a form that emails a request there with a copy to the sender."
+msgstr "Pokazuje %1$s i %2$s oraz formularz, który wysyła tam zgłoszenie e-mailem z kopią do nadawcy."
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:180
+msgid "Show Support"
+msgstr "Pokaż Wsparcie"
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:189
+msgid "Support request form"
+msgstr "Formularz zgłoszenia"
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:198
+msgid "Client email"
+msgstr "E-mail klienta"
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:199
+msgid "Prefilled in the form and used for the copy. Empty: the signed-in user’s own email."
+msgstr "Wstawiany do formularza i używany do wysłania kopii. Puste: e-mail zalogowanego użytkownika."
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:79
+msgid "Dashboard settings saved."
+msgstr "Zapisano ustawienia kokpitu."
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:219
+msgid "Save"
+msgstr "Zapisz"
+
+#: build/admin/index.js:5
+#: src/admin/components/extension-settings.js:133
+msgid "Save settings"
+msgstr "Zapisz ustawienia"
+
+#: build/admin/index.js:7
+#: src/admin/app.js:123
+msgid "Dashboard"
+msgstr "Kokpit"

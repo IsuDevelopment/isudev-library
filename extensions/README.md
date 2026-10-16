@@ -95,6 +95,7 @@ return array(
 | `bootstrap` | no | Files required, relative to the extension directory, before `boot` is called. |
 | `boot` | no | Callable name invoked after the bootstrap files load. |
 | `requires` | no | A third-party dependency: `label` (shown in the panel) plus `class` or `function` to detect it by. Unmet means the extension cannot be enabled at all. |
+| `settings` | no | Fields the panel shows under the enabled extension: a list of `key` (camelCase), `type` (`boolean`, `text`, `email`, `post_types`), `label`, optional `help`, `default`, and for `post_types` an optional `supports` feature. Read them with `Extensions::setting()`; a key the theme sets in `isudev.json` wins and is shown locked. |
 
 ### `hooks.php` — the code
 
@@ -151,8 +152,10 @@ the editor is always iframed from WordPress 7.1.
 
 ### Settings from `isudev.json`
 
-An extension reads its theme-level settings next to `enabled`, under its own
-slug, with `Extensions::setting( '<slug>', '<key>', $fallback )`:
+An extension reads its settings with
+`Extensions::setting( '<slug>', '<key>', $fallback )`. The theme's `isudev.json`
+wins (next to `enabled`, under the extension's slug), then a value saved in the
+panel for a field the descriptor declares in `settings`, then `$fallback`:
 
 ```json
 {

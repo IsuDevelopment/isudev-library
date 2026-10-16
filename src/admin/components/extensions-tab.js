@@ -74,6 +74,15 @@ export default function ExtensionsTab({
 		);
 	};
 
+	const saveSettings = (extension, values) =>
+		mutate(() =>
+			apiFetch({
+				path: `/isudev-library/v1/extensions/${extension.slug}/settings`,
+				method: 'POST',
+				data: { values },
+			})
+		);
+
 	const enabledCount = extensions.filter(
 		(extension) => extension.enabled
 	).length;
@@ -108,6 +117,7 @@ export default function ExtensionsTab({
 							key={extension.slug}
 							extension={extension}
 							onToggle={toggle}
+							onSaveSettings={saveSettings}
 						/>
 					))}
 				</div>

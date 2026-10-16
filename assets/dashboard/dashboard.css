@@ -1,0 +1,220 @@
+/* Client dashboard widgets: Content overview and Support. Core admin tokens. */
+
+#isudev-content-overview .inside,
+#isudev-support .inside {
+	margin: 0;
+	padding: 0;
+}
+
+#isudev-support .hndle {
+	justify-content: flex-start;
+}
+
+#isudev-support .hndle::before {
+	content: "\f468";
+	font: 400 18px/1 dashicons, sans-serif;
+	color: #2271b1;
+	margin-inline-end: 8px;
+}
+
+.isudev-dash__rows {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.isudev-dash__row {
+	display: grid;
+	grid-template-columns: 32px minmax(0, 1fr) auto;
+	gap: 12px;
+	align-items: center;
+	margin: 0;
+	padding: 8px 12px;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.isudev-dash__row:hover {
+	background: #f6f7f7;
+}
+
+.isudev-dash__row.is-contact {
+	grid-template-columns: 32px minmax(0, 1fr);
+}
+
+.isudev-dash__tile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 4px;
+	background: #f0f6fc;
+	color: #2271b1;
+}
+
+.isudev-dash__tile .dashicons {
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+}
+
+.isudev-dash__tile img {
+	width: 20px;
+	height: 20px;
+}
+
+.isudev-dash__main {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.isudev-dash__name {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.isudev-dash__name a,
+.isudev-dash__value {
+	text-decoration: none;
+}
+
+.isudev-dash__badge {
+	display: inline-block;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 7px;
+	border-radius: 9px;
+	background: #dcdcde;
+	color: #1d2327;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 18px;
+	text-align: center;
+	vertical-align: 1px;
+}
+
+.isudev-dash__statuses {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 8px;
+	font-size: 11px;
+	line-height: 16px;
+}
+
+.isudev-dash__status {
+	color: #646970;
+	text-decoration: none;
+}
+
+.isudev-dash__status.is-scheduled {
+	color: #2271b1;
+}
+
+.isudev-dash__status.is-pending {
+	color: #b32d2e;
+}
+
+.isudev-dash__status:hover,
+.isudev-dash__status:focus {
+	text-decoration: underline;
+}
+
+.isudev-dash__actions {
+	display: flex;
+	gap: 6px;
+	white-space: nowrap;
+}
+
+.isudev-dash__footer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 4px 12px;
+	margin: 0;
+	padding: 10px 12px;
+	background: #f6f7f7;
+	color: #646970;
+	font-size: 12px;
+}
+
+.isudev-dash__empty {
+	margin: 0;
+	padding: 12px;
+}
+
+.isudev-dash__label {
+	color: #646970;
+	font-size: 11px;
+}
+
+.isudev-dash__value {
+	font-size: 14px;
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+.isudev-dash__support {
+	padding: 12px;
+}
+
+.isudev-dash__toggle .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	vertical-align: -3px;
+}
+
+.isudev-dash__form {
+	display: grid;
+	gap: 10px;
+	margin-top: 12px;
+	padding: 12px;
+	border: 1px solid #dcdcde;
+	background: #f6f7f7;
+}
+
+.isudev-dash__form[hidden] {
+	display: none;
+}
+
+.isudev-dash__form p {
+	margin: 0;
+}
+
+.isudev-dash__form label {
+	display: block;
+	margin-bottom: 4px;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.isudev-dash__form input,
+.isudev-dash__form select,
+.isudev-dash__form textarea {
+	width: 100%;
+	max-width: none;
+}
+
+.isudev-dash__form textarea {
+	resize: vertical;
+}
+
+.isudev-dash__form-actions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	white-space: nowrap;
+}
+
+.isudev-dash__cancel.button-link {
+	color: #b32d2e;
+}
+
+.isudev-dash__notice:empty {
+	display: none;
+}
+
+.isudev-dash__notice .notice {
+	margin: 0 0 12px;
+}

@@ -10,6 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
  * Internal dependencies
  */
 import BlocksTab from './components/blocks-tab';
+import DashboardTab from './components/dashboard-tab';
 import ExtensionsTab from './components/extensions-tab';
 import SettingsTab from './components/settings-tab';
 
@@ -119,6 +120,7 @@ export default function App() {
 	const tabs = [
 		{ name: 'blocks', title: __('Blocks', 'isudev-library') },
 		{ name: 'extensions', title: __('Extensions', 'isudev-library') },
+		{ name: 'dashboard', title: __('Dashboard', 'isudev-library') },
 		{ name: 'settings', title: __('Settings', 'isudev-library') },
 	];
 
@@ -142,6 +144,10 @@ export default function App() {
 					onOptimistic={setExtensionEnabled}
 				/>
 			);
+		}
+
+		if (tab.name === 'dashboard') {
+			return <DashboardTab />;
 		}
 
 		return <SettingsTab diagnostics={diagnostics} />;

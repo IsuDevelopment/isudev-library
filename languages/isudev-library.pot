@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: IsuDev Library 1.16.2\n"
+"Project-Id-Version: IsuDev Library 1.17.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/isudev-library\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-16T11:30:51+00:00\n"
+"POT-Creation-Date: 2026-10-16T20:56:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: isudev-library\n"
@@ -18,8 +18,8 @@ msgstr ""
 #: isudev-library.php
 #: includes/admin.php:76
 #: includes/admin.php:77
-#: build/admin/index.js:6
-#: src/admin/app.js:154
+#: build/admin/index.js:7
+#: src/admin/app.js:160
 msgid "IsuDev Library"
 msgstr ""
 
@@ -290,7 +290,7 @@ msgid "An accessibility statement is published"
 msgstr ""
 
 #: extensions/accessibility-statement-page/hooks.php:772
-#: includes/class-extensions.php:61
+#: includes/class-extensions.php:75
 msgid "Accessibility"
 msgstr ""
 
@@ -555,7 +555,7 @@ msgid "The homepage does not depend on posts"
 msgstr ""
 
 #: extensions/disable-posts/hooks.php:579
-#: includes/class-extensions.php:57
+#: includes/class-extensions.php:71
 msgid "Content"
 msgstr ""
 
@@ -605,11 +605,23 @@ msgstr ""
 msgid "Shows a thumbnail of the featured image at the start of every list screen whose post type supports featured images, and the profile image on the Users screen when one is set."
 msgstr ""
 
-#: extensions/featured-image-column/hooks.php:196
+#: extensions/featured-image-column/extension.php:28
+msgid "Hide the column on"
+msgstr ""
+
+#: extensions/featured-image-column/extension.php:33
+msgid "User image meta key"
+msgstr ""
+
+#: extensions/featured-image-column/extension.php:34
+msgid "The user field that holds a profile image (attachment ID or URL). Empty: no column on Users."
+msgstr ""
+
+#: extensions/featured-image-column/hooks.php:199
 msgid "Featured image"
 msgstr ""
 
-#: extensions/featured-image-column/hooks.php:297
+#: extensions/featured-image-column/hooks.php:305
 msgid "Profile image"
 msgstr ""
 
@@ -860,53 +872,302 @@ msgstr ""
 msgid "Wraps the rendered Custom HTML block in a container, so its markup and any trailing script stay together in the layout."
 msgstr ""
 
-#: includes/class-extensions.php:56
+#: includes/class-extensions.php:70
 msgid "Admin experience"
 msgstr ""
 
-#: includes/class-extensions.php:58
+#: includes/class-extensions.php:72
 msgid "Block editor"
 msgstr ""
 
-#: includes/class-extensions.php:59
+#: includes/class-extensions.php:73
 msgid "Core blocks"
 msgstr ""
 
-#: includes/class-extensions.php:60
+#: includes/class-extensions.php:74
 msgid "Security"
 msgstr ""
 
-#: includes/class-extensions.php:62
+#: includes/class-extensions.php:76
+#: includes/dashboard/support.php:235
 msgid "Theme"
 msgstr ""
 
-#: includes/class-extensions.php:63
+#: includes/class-extensions.php:77
 msgid "Plugin integrations"
 msgstr ""
 
-#: includes/rest.php:132
+#: includes/dashboard/content-overview.php:162
+msgid "Upload"
+msgstr ""
+
+#: includes/dashboard/content-overview.php:190
+msgid "Add new"
+msgstr ""
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:211
+#, php-format
+msgid "%s published"
+msgid_plural "%s published"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:214
+#, php-format
+msgid "%s draft"
+msgid_plural "%s drafts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:217
+#, php-format
+msgid "%s scheduled"
+msgid_plural "%s scheduled"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:220
+#, php-format
+msgid "%s pending review"
+msgid_plural "%s pending review"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:223
+#, php-format
+msgid "%s private"
+msgid_plural "%s private"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/dashboard/content-overview.php:236
+msgid "No content types to show."
+msgstr ""
+
+#: includes/dashboard/content-overview.php:283
+msgid "View all"
+msgstr ""
+
+#. translators: %s: number of items.
+#: includes/dashboard/content-overview.php:305
+#, php-format
+msgid "%s item awaiting review"
+msgid_plural "%s items awaiting review"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/dashboard/content-overview.php:306
+msgid "Nothing awaiting review"
+msgstr ""
+
+#. translators: %s: number of items.
+#: includes/dashboard/content-overview.php:309
+#, php-format
+msgid "%s item total"
+msgid_plural "%s items total"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/dashboard/settings.php:205
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:125
+msgid "Content overview"
+msgstr ""
+
+#: includes/dashboard/settings.php:214
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:165
+msgid "Support"
+msgstr ""
+
+#: includes/dashboard/support.php:33
+msgid "Bug / something broken"
+msgstr ""
+
+#: includes/dashboard/support.php:34
+msgid "Content or editing question"
+msgstr ""
+
+#: includes/dashboard/support.php:35
+msgid "Access or login"
+msgstr ""
+
+#: includes/dashboard/support.php:36
+msgid "Feature request"
+msgstr ""
+
+#: includes/dashboard/support.php:37
+msgid "Other"
+msgstr ""
+
+#: includes/dashboard/support.php:81
+msgid "Developer"
+msgstr ""
+
+#. translators: Accessibility text for a link that opens in a new tab.
+#: includes/dashboard/support.php:85
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: includes/dashboard/support.php:90
+#: includes/utils/icon.php:124
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:47
+msgid "Email"
+msgstr ""
+
+#: includes/dashboard/support.php:113
+#: includes/dashboard/support.php:173
+msgid "Show form"
+msgstr ""
+
+#: includes/dashboard/support.php:120
+msgid "Your email"
+msgstr ""
+
+#: includes/dashboard/support.php:126
+#: includes/dashboard/support.php:257
+msgid "Subject"
+msgstr ""
+
+#: includes/dashboard/support.php:129
+#: includes/dashboard/support.php:258
+msgid "Problem type"
+msgstr ""
+
+#: includes/dashboard/support.php:137
+msgid "Description"
+msgstr ""
+
+#: includes/dashboard/support.php:143
+#: includes/dashboard/support.php:176
+msgid "Send request"
+msgstr ""
+
+#: includes/dashboard/support.php:144
+msgid "Cancel"
+msgstr ""
+
+#: includes/dashboard/support.php:174
+msgid "Hide form"
+msgstr ""
+
+#: includes/dashboard/support.php:175
+msgid "Sending…"
+msgstr ""
+
+#: includes/dashboard/support.php:177
+#: includes/dashboard/support.php:301
+msgid "Fill in your email, the subject and the description."
+msgstr ""
+
+#: includes/dashboard/support.php:178
+#: includes/dashboard/support.php:330
+msgid "The request could not be sent. Try again, or write to us directly."
+msgstr ""
+
+#: includes/dashboard/support.php:231
+#: includes/dashboard/support.php:345
+msgid "Site"
+msgstr ""
+
+#: includes/dashboard/support.php:232
+msgid "Sent by"
+msgstr ""
+
+#: includes/dashboard/support.php:233
+msgid "WordPress"
+msgstr ""
+
+#: includes/dashboard/support.php:234
+msgid "PHP"
+msgstr ""
+
+#: includes/dashboard/support.php:236
+msgid "Plugin"
+msgstr ""
+
+#: includes/dashboard/support.php:259
+msgid "Reply to"
+msgstr ""
+
+#: includes/dashboard/support.php:288
+msgid "A request was sent a moment ago. Wait a minute before sending another."
+msgstr ""
+
+#. translators: 1: site name, 2: request subject.
+#: includes/dashboard/support.php:318
+#, php-format
+msgid "[Support form] %1$s: %2$s"
+msgstr ""
+
+#. translators: %s: site name.
+#: includes/dashboard/support.php:321
+#, php-format
+msgid "Support request from %s"
+msgstr ""
+
+#: includes/dashboard/support.php:322
+msgid "Sent from the Support form on the WordPress dashboard."
+msgstr ""
+
+#. translators: %s: request subject.
+#: includes/dashboard/support.php:339
+#, php-format
+msgid "We received your support request: %s"
+msgstr ""
+
+#: includes/dashboard/support.php:341
+msgid "Your request has been sent"
+msgstr ""
+
+#. translators: %s: support email address.
+#: includes/dashboard/support.php:343
+#, php-format
+msgid "This is a copy of what you sent. We will reply to this address; you can also write to %s."
+msgstr ""
+
+#. translators: %s: email address.
+#: includes/dashboard/support.php:354
+#, php-format
+msgid "Thanks — your request has been sent. A copy went to %s."
+msgstr ""
+
+#: includes/rest.php:150
 msgid "Another change is being saved. Try again."
 msgstr ""
 
-#: includes/rest.php:273
+#: includes/rest.php:291
 msgid "Unknown block."
 msgstr ""
 
-#: includes/rest.php:281
+#: includes/rest.php:299
 msgid "This block is managed in code and cannot be toggled here."
 msgstr ""
 
-#: includes/rest.php:359
+#: includes/rest.php:397
+#: includes/rest.php:479
 msgid "Unknown extension."
 msgstr ""
 
+#. translators: %s: setting label.
+#: includes/rest.php:419
+#, php-format
+msgid "%s is not a valid email address."
+msgstr ""
+
 #. translators: %s: name of the required plugin.
-#: includes/rest.php:369
+#: includes/rest.php:489
 #, php-format
 msgid "This extension needs %s to be active."
 msgstr ""
 
-#: includes/rest.php:379
+#: includes/rest.php:499
 msgid "This extension is managed in code and cannot be toggled here."
 msgstr ""
 
@@ -984,12 +1245,6 @@ msgstr ""
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:43
 msgid "Substack"
-msgstr ""
-
-#: includes/utils/icon.php:124
-#: build/blocks/social-share-network/index.js:1
-#: src/blocks/social-share-network/network-config.js:47
-msgid "Email"
 msgstr ""
 
 #: includes/utils/icon.php:129
@@ -1165,9 +1420,10 @@ msgid "Close content"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:4
+#: build/admin/index.js:5
 #: src/admin/components/block-card.js:25
-#: src/admin/components/extension-card.js:21
+#: src/admin/components/extension-card.js:26
+#: src/admin/components/extension-settings.js:24
 msgid "Managed in isudev.json — change it there."
 msgstr ""
 
@@ -1189,16 +1445,16 @@ msgid "Parent"
 msgstr ""
 
 #: build/admin/index.js:2
-#: build/admin/index.js:5
+#: build/admin/index.js:6
 #: src/admin/components/block-card.js:80
-#: src/admin/components/extension-card.js:66
+#: src/admin/components/extension-card.js:71
 msgid "Enabled"
 msgstr ""
 
 #: build/admin/index.js:2
-#: build/admin/index.js:5
+#: build/admin/index.js:6
 #: src/admin/components/block-card.js:81
-#: src/admin/components/extension-card.js:67
+#: src/admin/components/extension-card.js:72
 msgid "Disabled"
 msgstr ""
 
@@ -1251,76 +1507,153 @@ msgstr ""
 msgid "Unavailable while parent is disabled"
 msgstr ""
 
-#. translators: %s: name of the required plugin.
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:93
+msgid "Widgets on the WordPress dashboard for the people who run the site: what content there is, and how to reach support."
+msgstr ""
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:108
+msgid "Dashboard widgets"
+msgstr ""
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:109
+msgid "Off: nothing is added to the dashboard."
+msgstr ""
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:128
+msgid "One row per content type with its icon, counts by status and View all / Add new."
+msgstr ""
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:135
+msgid "Show Content overview"
+msgstr ""
+
+#: build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:147
+msgid "Content types shown"
+msgstr ""
+
+#. translators: 1: website, 2: email address.
 #: build/admin/index.js:5
-#: src/admin/components/extension-card.js:28
+#: src/admin/components/dashboard-tab.js:170
+#, js-format
+msgid "Shows %1$s and %2$s, and a form that emails a request there with a copy to the sender."
+msgstr ""
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:180
+msgid "Show Support"
+msgstr ""
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:189
+msgid "Support request form"
+msgstr ""
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:198
+msgid "Client email"
+msgstr ""
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:199
+msgid "Prefilled in the form and used for the copy. Empty: the signed-in user’s own email."
+msgstr ""
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:79
+msgid "Dashboard settings saved."
+msgstr ""
+
+#: build/admin/index.js:5
+#: src/admin/components/dashboard-tab.js:219
+msgid "Save"
+msgstr ""
+
+#: build/admin/index.js:5
+#: src/admin/components/extension-settings.js:133
+msgid "Save settings"
+msgstr ""
+
+#. translators: %s: name of the required plugin.
+#: build/admin/index.js:6
+#: src/admin/components/extension-card.js:33
 #, js-format
 msgid "Needs %s to be active."
 msgstr ""
 
-#: build/admin/index.js:5
+#: build/admin/index.js:6
 #: src/admin/components/extensions-tab.js:63
 msgid "No extensions found."
 msgstr ""
 
-#: build/admin/index.js:5
-#: src/admin/components/extensions-tab.js:84
+#: build/admin/index.js:6
+#: src/admin/components/extensions-tab.js:93
 msgid "Extensions change the admin or the front end as soon as they are enabled. A change takes effect on the next page load."
 msgstr ""
 
 #. translators: 1: number of enabled extensions, 2: total number of extensions.
-#: build/admin/index.js:6
-#: src/admin/components/extensions-tab.js:94
+#: build/admin/index.js:7
+#: src/admin/components/extensions-tab.js:103
 #, js-format
 msgid "%1$d of %2$d extensions enabled"
 msgstr ""
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:25
 msgid "Diagnostics"
 msgstr ""
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:31
 msgid "Version:"
 msgstr ""
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:35
 msgid "Blocks discovered:"
 msgstr ""
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:39
 msgid "Blocks registered:"
 msgstr ""
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:43
 msgid "isudev.json:"
 msgstr ""
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
 #: src/admin/components/settings-tab.js:18
 msgid "Not found — using block defaults."
 msgstr ""
 
-#: build/admin/index.js:6
-#: src/admin/app.js:120
+#: build/admin/index.js:7
+#: src/admin/app.js:121
 msgid "Blocks"
 msgstr ""
 
-#: build/admin/index.js:6
-#: src/admin/app.js:121
+#: build/admin/index.js:7
+#: src/admin/app.js:122
 msgid "Extensions"
 msgstr ""
 
-#: build/admin/index.js:6
+#: build/admin/index.js:7
+#: src/admin/app.js:123
+msgid "Dashboard"
+msgstr ""
+
+#: build/admin/index.js:7
 #: build/blocks/agenda-accordion-item/index.js:1
 #: build/blocks/selling-point/index.js:1
 #: build/blocks/selling-points/index.js:1
 #: build/blocks/toggle-blocks/index.js:1
-#: src/admin/app.js:122
+#: src/admin/app.js:124
 #: src/blocks/agenda-accordion-item/edit.js:104
 #: src/blocks/selling-point/edit.js:181
 #: src/blocks/selling-points/edit.js:87
@@ -1328,8 +1661,8 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: build/admin/index.js:6
-#: src/admin/app.js:157
+#: build/admin/index.js:7
+#: src/admin/app.js:163
 msgid "Blocks to build pages with, and extensions that change how WordPress itself behaves. Everything here can be switched off."
 msgstr ""
 

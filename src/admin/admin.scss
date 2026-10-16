@@ -196,4 +196,64 @@
 			margin-block: 0.25rem;
 		}
 	}
+
+	&__group.is-parent-disabled {
+		opacity: 0.55;
+	}
+
+	&__dashboard {
+		display: grid;
+		gap: 12px;
+		max-width: 760px;
+
+		> .components-button {
+			justify-self: start;
+		}
+	}
+
+	&__dash-group {
+		display: grid;
+		gap: 12px;
+	}
+
+	&__dash-card {
+		display: grid;
+		gap: 12px;
+		margin: 0;
+
+		> h3,
+		> p {
+			margin: 0;
+		}
+	}
+
+	&__checkboxes {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		gap: 8px 16px;
+		margin: 16px 0 0;
+		padding: 0;
+		border: 0;
+
+		legend {
+			margin-bottom: 8px;
+			font-weight: 600;
+		}
+	}
+
+	&__extension-settings {
+		display: grid;
+		gap: 12px;
+		margin-top: 16px;
+		padding-top: 16px;
+		border-top: 1px solid #f0f0f1;
+
+		> .components-button {
+			justify-self: start;
+		}
+
+		.isudev-admin__checkboxes {
+			margin: 0;
+		}
+	}
 }

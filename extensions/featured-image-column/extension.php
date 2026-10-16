@@ -20,4 +20,18 @@ return array(
 	'default'     => false,
 	'bootstrap'   => array( 'hooks.php' ),
 	'boot'        => 'IsuDevLibrary\\Extensions\\FeaturedImageColumn\\boot',
+	'settings'    => array(
+		array(
+			'key'      => 'hiddenPostTypes',
+			'type'     => 'post_types',
+			'supports' => 'thumbnail',
+			'label'    => \__( 'Hide the column on', 'isudev-library' ),
+		),
+		array(
+			'key'   => 'userMetaKey',
+			'type'  => 'text',
+			'label' => \__( 'User image meta key', 'isudev-library' ),
+			'help'  => \__( 'The user field that holds a profile image (attachment ID or URL). Empty: no column on Users.', 'isudev-library' ),
+		),
+	),
 );
