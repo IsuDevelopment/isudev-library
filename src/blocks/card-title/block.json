@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/card-title",
+	"version": "1.0.0",
+	"title": "Card Title",
+	"category": "theme",
+	"icon": "heading",
+	"description": "The card's post title, or its custom title, linked to the post. The link covers the whole card.",
+	"keywords": ["card", "title", "heading"],
+	"textdomain": "isudev-library",
+	"usesContext": ["postId", "postType", "isudev/cardOptions"],
+	"supports": {
+		"html": false,
+		"className": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	},
+	"attributes": {
+		"level": { "type": "number", "default": 3 },
+		"isLink": { "type": "boolean", "default": true },
+		"stretchLink": { "type": "boolean", "default": true }
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

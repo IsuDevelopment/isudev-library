@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/card-slot",
+  "version": "1.0.0",
+  "title": "Card Slot",
+  "category": "theme",
+  "icon": "editor-code",
+  "description": "A named place in a card template that the theme fills from PHP with the isudev_library/post_card/slot/{name} filter.",
+  "keywords": [
+    "card",
+    "slot",
+    "hook",
+    "dynamic"
+  ],
+  "textdomain": "isudev-library",
+  "usesContext": [
+    "postId",
+    "postType",
+    "isudev/cardOptions"
+  ],
+  "supports": {
+    "html": false,
+    "className": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "default": ""
+    },
+    "tagName": {
+      "type": "string",
+      "enum": [
+        "div",
+        "p",
+        "span"
+      ],
+      "default": "div"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

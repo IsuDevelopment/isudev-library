@@ -103,10 +103,29 @@ it. Two rules keep that workable:
   - **how to check it still works** — the page, the flow, the check in
     `tools/checks/` or the e2e spec.
 
+## Docs for agents in consuming projects
+
+Projects that install this plugin are mostly worked on by agents too. They read
+`agents/README.md` (shipped, vendored into the project by `bin/agents-init.php`):
+consumer rules plus a generated catalog of blocks, extensions and hooks.
+
+- **Every hook (`isudev_library/*` PHP, `isudevLibrary.*` JS) is documented** in a
+  shipped README or guide, by its full name, with an example.
+- **After adding or renaming a block, extension, hook or guide** run
+  `php tools/agents-catalog.php` and commit `agents/README.md`.
+  `tools/checks/320-agents-catalog.php` fails when the catalog is stale or a hook
+  is undocumented.
+- `guides/`, `agents/` and `bin/agents-init.php` ship; `docs/` (specs, plans) does not.
+- New theme files the plugin reads go into rule 7 of `agents/README.md`.
+
 ## Layout
 
 - `isudev-library.php` — bootstrap: constants, textdomain, requires, `boot()`.
 - `includes/` — registry, loader, config reader, variations, REST, admin, utils.
+  Feature modules in subdirectories (`dashboard/`, `google-reviews/`,
+  `post-cards/`) boot from `isudev-library.php`; post cards: `guides/post-cards.md`.
+- `agents/README.md` — consumer agent guide with the generated catalog;
+  `bin/agents-init.php` vendors it into a project; `tools/agents-catalog.php` builds it.
 - `src/blocks/<slug>/` — one block: `block.json`, `block.php` (descriptor),
   editor JS, `view.js`, styles, `render.php`, `inc/` for block-only PHP.
 - `extensions/<slug>/` — one extension: `extension.php` (descriptor),
@@ -194,6 +213,7 @@ Version lives in four places and they must agree: the plugin header, the
 ## Docs
 
 - Design spec: `docs/superpowers/specs/2026-07-29-isudev-library-design.md`
+- Post cards: `docs/superpowers/specs/2026-11-02-post-cards-design.md`
 - Implementation plan: `docs/superpowers/plans/2026-07-29-isudev-library-v1.md`
 
 <!-- isudev-gutenberg:begin -->
@@ -205,5 +225,5 @@ that touches components, controls, fields or hooks from it, read
 every public module, its narrowest import and where the full documentation for that
 module lives. Import from the narrowest subpath; never from `dist/`.
 
-Pinned to @isudev/gutenberg@0.1.1. Refresh with `npx @isudev/gutenberg init`.
+Pinned to @isudev/gutenberg@0.2.0. Refresh with `npx @isudev/gutenberg init`.
 <!-- isudev-gutenberg:end -->

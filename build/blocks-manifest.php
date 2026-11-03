@@ -228,6 +228,169 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'render' => 'file:./render.php'
 	),
+	'card-excerpt' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/card-excerpt',
+		'version' => '1.0.0',
+		'title' => 'Card Excerpt',
+		'category' => 'theme',
+		'icon' => 'excerpt-view',
+		'description' => 'The card\'s custom excerpt, or the post excerpt trimmed to a word count. Hidden by the Hide excerpt option.',
+		'keywords' => array(
+			'card',
+			'excerpt',
+			'summary'
+		),
+		'textdomain' => 'isudev-library',
+		'usesContext' => array(
+			'postId',
+			'postType',
+			'isudev/cardOptions'
+		),
+		'supports' => array(
+			'html' => false,
+			'className' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true
+			)
+		),
+		'attributes' => array(
+			'words' => array(
+				'type' => 'number',
+				'default' => 25
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
+	'card-image' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/card-image',
+		'version' => '1.0.0',
+		'title' => 'Card Image',
+		'category' => 'theme',
+		'icon' => 'format-image',
+		'description' => 'The card\'s custom image, or the post\'s featured image.',
+		'keywords' => array(
+			'card',
+			'image',
+			'featured image',
+			'thumbnail'
+		),
+		'textdomain' => 'isudev-library',
+		'usesContext' => array(
+			'postId',
+			'postType',
+			'isudev/cardOptions'
+		),
+		'supports' => array(
+			'html' => false,
+			'className' => true
+		),
+		'attributes' => array(
+			'sizeSlug' => array(
+				'type' => 'string',
+				'default' => 'medium_large'
+			),
+			'aspectRatio' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
+	'card-slot' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/card-slot',
+		'version' => '1.0.0',
+		'title' => 'Card Slot',
+		'category' => 'theme',
+		'icon' => 'editor-code',
+		'description' => 'A named place in a card template that the theme fills from PHP with the isudev_library/post_card/slot/{name} filter.',
+		'keywords' => array(
+			'card',
+			'slot',
+			'hook',
+			'dynamic'
+		),
+		'textdomain' => 'isudev-library',
+		'usesContext' => array(
+			'postId',
+			'postType',
+			'isudev/cardOptions'
+		),
+		'supports' => array(
+			'html' => false,
+			'className' => true
+		),
+		'attributes' => array(
+			'name' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'tagName' => array(
+				'type' => 'string',
+				'enum' => array(
+					'div',
+					'p',
+					'span'
+				),
+				'default' => 'div'
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
+	'card-title' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/card-title',
+		'version' => '1.0.0',
+		'title' => 'Card Title',
+		'category' => 'theme',
+		'icon' => 'heading',
+		'description' => 'The card\'s post title, or its custom title, linked to the post. The link covers the whole card.',
+		'keywords' => array(
+			'card',
+			'title',
+			'heading'
+		),
+		'textdomain' => 'isudev-library',
+		'usesContext' => array(
+			'postId',
+			'postType',
+			'isudev/cardOptions'
+		),
+		'supports' => array(
+			'html' => false,
+			'className' => true,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true
+			)
+		),
+		'attributes' => array(
+			'level' => array(
+				'type' => 'number',
+				'default' => 3
+			),
+			'isLink' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'stretchLink' => array(
+				'type' => 'boolean',
+				'default' => true
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
 	'content-sidebar' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -620,6 +783,189 @@ return array(
 			'isudev/imageStepGuideNamespace'
 		),
 		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
+	'post-card' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/post-card',
+		'version' => '1.0.0',
+		'title' => 'Post Card',
+		'category' => 'theme',
+		'icon' => 'id-alt',
+		'description' => 'One post as a card, drawn from the theme\'s card template for its post type. Works on its own, in Post Cards and in a Query Loop.',
+		'keywords' => array(
+			'card',
+			'post',
+			'featured',
+			'teaser'
+		),
+		'textdomain' => 'isudev-library',
+		'usesContext' => array(
+			'postId',
+			'postType',
+			'queryId',
+			'isudev/cardsOptions',
+			'isudev/cardsVariant',
+			'isudev/cardsColumns',
+			'isudev/cardsColumnsTablet',
+			'isudev/cardsColumnsMobile',
+			'isudev/slotPostId',
+			'isudev/inList',
+			'isudev/cardsWrapper'
+		),
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'reusable' => false
+		),
+		'attributes' => array(
+			'source' => array(
+				'type' => 'string',
+				'enum' => array(
+					'post',
+					'query'
+				),
+				'default' => 'post'
+			),
+			'postId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'variant' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'cardOptions' => array(
+				'type' => 'object',
+				'default' => array(
+					
+				)
+			),
+			'layout' => array(
+				'type' => 'string',
+				'enum' => array(
+					'template',
+					'custom'
+				),
+				'default' => 'template'
+			),
+			'span' => array(
+				'type' => 'number'
+			),
+			'spanTablet' => array(
+				'type' => 'number'
+			),
+			'spanMobile' => array(
+				'type' => 'number'
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'editorStyle' => 'file:./index.css',
+		'render' => 'file:./render.php'
+	),
+	'post-cards' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'isudev/post-cards',
+		'version' => '1.0.0',
+		'title' => 'Post Cards',
+		'category' => 'theme',
+		'icon' => 'grid-view',
+		'description' => 'A grid or carousel of post cards: hand-picked posts, query slots filled automatically, or both.',
+		'keywords' => array(
+			'cards',
+			'posts',
+			'featured',
+			'grid',
+			'carousel',
+			'hand-picked'
+		),
+		'textdomain' => 'isudev-library',
+		'usesContext' => array(
+			'postId'
+		),
+		'providesContext' => array(
+			'isudev/cardsOptions' => 'cardOptions',
+			'isudev/cardsVariant' => 'variant',
+			'isudev/cardsColumns' => 'columns',
+			'isudev/cardsColumnsTablet' => 'columnsTablet',
+			'isudev/cardsColumnsMobile' => 'columnsMobile'
+		),
+		'supports' => array(
+			'html' => false,
+			'anchor' => true,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'spacing' => array(
+				'margin' => true
+			)
+		),
+		'attributes' => array(
+			'layout' => array(
+				'type' => 'string',
+				'enum' => array(
+					'grid',
+					'slider'
+				),
+				'default' => 'grid'
+			),
+			'columns' => array(
+				'type' => 'number',
+				'default' => 3
+			),
+			'columnsTablet' => array(
+				'type' => 'number',
+				'default' => 2
+			),
+			'columnsMobile' => array(
+				'type' => 'number',
+				'default' => 1
+			),
+			'query' => array(
+				'type' => 'object',
+				'default' => array(
+					'postType' => 'post',
+					'taxonomy' => '',
+					'terms' => array(
+						
+					),
+					'orderBy' => 'date',
+					'order' => 'desc',
+					'offset' => 0,
+					'excludeCurrent' => true
+				)
+			),
+			'variant' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'cardOptions' => array(
+				'type' => 'object',
+				'default' => array(
+					
+				)
+			),
+			'uniqueOnPage' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'label' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'allowedBlocks' => array(
+			'isudev/post-card'
+		),
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'editorStyle' => 'file:./index.css',
+		'viewScript' => 'file:./view.js',
+		'viewStyle' => 'file:./view.css',
 		'render' => 'file:./render.php'
 	),
 	'read-more' => array(

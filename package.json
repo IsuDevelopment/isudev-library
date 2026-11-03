@@ -1,6 +1,6 @@
 {
 	"name": "@isudev/library",
-	"version": "1.18.0",
+	"version": "1.19.0",
 	"description": "Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, toggleable.",
 	"license": "GPL-2.0-or-later",
 	"private": true,
@@ -9,7 +9,7 @@
 		"npm": ">=10"
 	},
 	"dependencies": {
-		"@isudev/gutenberg": "~0.1.1",
+		"@isudev/gutenberg": "~0.2.0",
 		"embla-carousel": "8.6.0",
 		"embla-carousel-auto-scroll": "8.6.0",
 		"embla-carousel-autoplay": "8.6.0"
@@ -21,6 +21,7 @@
 		"@wordpress/block-editor": "^15.16.0",
 		"@wordpress/blocks": "^15.16.0",
 		"@wordpress/components": "^36.1.0",
+		"@wordpress/compose": "^8.10.0",
 		"@wordpress/core-data": "^7.51.0",
 		"@wordpress/data": "^10.51.0",
 		"@wordpress/editor": "^14.52.0",

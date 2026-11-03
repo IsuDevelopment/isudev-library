@@ -1,0 +1,26 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/card-excerpt",
+	"version": "1.0.0",
+	"title": "Card Excerpt",
+	"category": "theme",
+	"icon": "excerpt-view",
+	"description": "The card's custom excerpt, or the post excerpt trimmed to a word count. Hidden by the Hide excerpt option.",
+	"keywords": ["card", "excerpt", "summary"],
+	"textdomain": "isudev-library",
+	"usesContext": ["postId", "postType", "isudev/cardOptions"],
+	"supports": {
+		"html": false,
+		"className": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	},
+	"attributes": {
+		"words": { "type": "number", "default": 25 }
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

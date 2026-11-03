@@ -1,0 +1,78 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/post-card",
+  "version": "1.0.0",
+  "title": "Post Card",
+  "category": "theme",
+  "icon": "id-alt",
+  "description": "One post as a card, drawn from the theme's card template for its post type. Works on its own, in Post Cards and in a Query Loop.",
+  "keywords": [
+    "card",
+    "post",
+    "featured",
+    "teaser"
+  ],
+  "textdomain": "isudev-library",
+  "usesContext": [
+    "postId",
+    "postType",
+    "queryId",
+    "isudev/cardsOptions",
+    "isudev/cardsVariant",
+    "isudev/cardsColumns",
+    "isudev/cardsColumnsTablet",
+    "isudev/cardsColumnsMobile",
+    "isudev/slotPostId",
+    "isudev/inList",
+    "isudev/cardsWrapper"
+  ],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "reusable": false
+  },
+  "attributes": {
+    "source": {
+      "type": "string",
+      "enum": [
+        "post",
+        "query"
+      ],
+      "default": "post"
+    },
+    "postId": {
+      "type": "number",
+      "default": 0
+    },
+    "variant": {
+      "type": "string",
+      "default": ""
+    },
+    "cardOptions": {
+      "type": "object",
+      "default": {}
+    },
+    "layout": {
+      "type": "string",
+      "enum": [
+        "template",
+        "custom"
+      ],
+      "default": "template"
+    },
+    "span": {
+      "type": "number"
+    },
+    "spanTablet": {
+      "type": "number"
+    },
+    "spanMobile": {
+      "type": "number"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

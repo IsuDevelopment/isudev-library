@@ -1,0 +1,61 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "isudev/post-cards",
+	"version": "1.0.0",
+	"title": "Post Cards",
+	"category": "theme",
+	"icon": "grid-view",
+	"description": "A grid or carousel of post cards: hand-picked posts, query slots filled automatically, or both.",
+	"keywords": ["cards", "posts", "featured", "grid", "carousel", "hand-picked"],
+	"textdomain": "isudev-library",
+	"usesContext": ["postId"],
+	"providesContext": {
+		"isudev/cardsOptions": "cardOptions",
+		"isudev/cardsVariant": "variant",
+		"isudev/cardsColumns": "columns",
+		"isudev/cardsColumnsTablet": "columnsTablet",
+		"isudev/cardsColumnsMobile": "columnsMobile"
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true
+		}
+	},
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"enum": ["grid", "slider"],
+			"default": "grid"
+		},
+		"columns": { "type": "number", "default": 3 },
+		"columnsTablet": { "type": "number", "default": 2 },
+		"columnsMobile": { "type": "number", "default": 1 },
+		"query": {
+			"type": "object",
+			"default": {
+				"postType": "post",
+				"taxonomy": "",
+				"terms": [],
+				"orderBy": "date",
+				"order": "desc",
+				"offset": 0,
+				"excludeCurrent": true
+			}
+		},
+		"variant": { "type": "string", "default": "" },
+		"cardOptions": { "type": "object", "default": {} },
+		"uniqueOnPage": { "type": "boolean", "default": false },
+		"label": { "type": "string", "default": "" }
+	},
+	"allowedBlocks": ["isudev/post-card"],
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"editorStyle": "file:./index.css",
+	"viewScript": "file:./view.js",
+	"viewStyle": "file:./view.css",
+	"render": "file:./render.php"
+}

@@ -3,7 +3,7 @@
  * Plugin Name:       IsuDev Library
  * Plugin URI:        https://isudev.pl
  * Description:       Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, toggleable from the admin.
- * Version:           1.18.0
+ * Version:           1.19.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            IsuDev
@@ -25,7 +25,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '1.18.0';
+const VERSION = '1.19.0';
 
 define( 'IsuDevLibrary\\PATH', plugin_dir_path( __FILE__ ) );
 define( 'IsuDevLibrary\\URL', plugin_dir_url( __FILE__ ) );
@@ -73,6 +73,13 @@ require_once PATH . 'includes/dashboard/support.php';
 require_once PATH . 'includes/google-reviews/repository.php';
 require_once PATH . 'includes/google-reviews/render-helpers.php';
 require_once PATH . 'includes/google-reviews/rest.php';
+require_once PATH . 'includes/post-cards/options.php';
+require_once PATH . 'includes/post-cards/class-option-registry.php';
+require_once PATH . 'includes/post-cards/templates.php';
+require_once PATH . 'includes/post-cards/query.php';
+require_once PATH . 'includes/post-cards/render.php';
+require_once PATH . 'includes/post-cards/rest.php';
+require_once PATH . 'includes/post-cards/boot.php';
 
 Loader::boot();
 Extensions::boot();
@@ -81,6 +88,7 @@ Admin\boot();
 REST\boot();
 Dashboard\boot();
 GoogleReviews\Rest\boot();
+PostCards\boot();
 Utils\boot_icons();
 Config\boot();
 

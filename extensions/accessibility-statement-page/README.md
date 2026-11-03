@@ -201,6 +201,9 @@ add_filter( 'isudev_library/extensions/accessibility_statement_page/default_temp
 
 ### `url` and `link`
 
+Full names: `isudev_library/extensions/accessibility_statement_page/url` and
+`isudev_library/extensions/accessibility_statement_page/link`.
+
 The statement URL (`$url, $page_id`) and the link markup (`$link, $url`)
 returned by the template tags and the binding source.
 

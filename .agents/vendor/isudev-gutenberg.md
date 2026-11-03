@@ -1,4 +1,4 @@
-<!-- Vendored from @isudev/gutenberg@0.1.1. Do not edit.
+<!-- Vendored from @isudev/gutenberg@0.2.0. Do not edit.
      Refresh with `npx @isudev/gutenberg init` after upgrading the package. -->
 
 # `@isudev/gutenberg` — guide for coding agents
@@ -77,7 +77,7 @@ the post editor unconditionally, and `apiVersion 2` blocks stop working there.
 
 ## Module catalog
 
-`@isudev/gutenberg@0.1.1` — 28 public modules.
+`@isudev/gutenberg@0.2.0` — 33 public modules.
 Read the listed `Full docs` file before using a module; it documents every prop,
 behaviour and example. The paths are relative to the package root, so from a consumer
 project they resolve as `node_modules/@isudev/gutenberg/<path>`.
@@ -93,6 +93,7 @@ project they resolve as `node_modules/@isudev/gutenberg/<path>`.
 | `IconSelect` | Shows the current icon and label in a compact WordPress button. Clicking it opens `IconPicker` in a popover; with no selected value, no icon preview is rendered. | `@isudev/gutenberg/components/IconSelect` | 20 | `src/components/IconSelect/README.md` |
 | `MediaFocalPointControl` | A standalone wrapper around WordPress' `FocalPointPicker` for a serializable image or video value. It can be imported without any media modal, toolbar or inspector controls. | `@isudev/gutenberg/components/MediaFocalPointControl` | 10 | `src/components/MediaFocalPointControl/README.md` |
 | `MediaPreview` | Renders a serializable `MediaValue` as an image or video. It is props-only, performs no REST requests, and maps an optional focal point to safe CSS `object-position` values. | `@isudev/gutenberg/components/MediaPreview` | 12 | `src/components/MediaPreview/README.md` |
+| `SortablePostList` | An ordered list of posts with a drag handle, optional thumbnail, title, meta line and remove button. Rows are reordered by drag and drop or with the arrow keys on the handle. Pure UI: it never fetches, it only reports moves and removals. | `@isudev/gutenberg/components/SortablePostList` | 7 | `src/components/SortablePostList/README.md` |
 
 ### Controls
 
@@ -107,6 +108,9 @@ project they resolve as `node_modules/@isudev/gutenberg/<path>`.
 | `MediaSidebarControl` | Adds a media panel to `InspectorControls` with independently configurable actions and one of three preview modes: static media, interactive focal point, or no preview. | `@isudev/gutenberg/controls/MediaSidebarControl` | 17 | `src/controls/MediaSidebarControl/README.md` |
 | `MediaSourceControl` | Provides the native image-block source workflow as either inline placeholder buttons or a replacement dropdown: media library, upload, direct URL, current post featured image and drag-and-drop. Every source is independently configurable. | `@isudev/gutenberg/controls/MediaSourceControl` | 18 | `src/controls/MediaSourceControl/README.md` |
 | `MediaToolbarControl` | Adds state-aware select/replace and remove actions to Gutenberg's block toolbar without rendering any block content or inspector UI. | `@isudev/gutenberg/controls/MediaToolbarControl` | 11 | `src/controls/MediaToolbarControl/README.md` |
+| `PostPickerControl` | Opens the post picker modal from any trigger you render. Controlled: the selection comes in through `value` and leaves through `onChange`, so it can be a block attribute, post meta or component state — nothing is synced for you. | `@isudev/gutenberg/controls/PostPickerControl` | 17 | `src/controls/PostPickerControl/README.md` |
+| `PostPickerModal` | A modal for searching, filtering and selecting posts across one or more post types: search, post type, per-type taxonomy filters, sort, "All / Selected" tabs, a maximum and "Save selection". It edits a draft; `onChange` fires once, on save. | `@isudev/gutenberg/controls/PostPickerModal` | 15 | `src/controls/PostPickerModal/README.md` |
+| `PostSelectorControl` | The all-in-one post selection UI: a heading with an "x / max" counter, a drag-and-drop sortable list of the selected posts (thumbnail, title, term · date, remove), a reorder hint and a "Choose posts" / "Change selection" button that opens the picker modal. Controlled, or bound to post meta through `valueBinding`. | `@isudev/gutenberg/controls/PostSelectorControl` | 18 | `src/controls/PostSelectorControl/README.md` |
 | `ResponsiveControl` | Makes any control responsive: renders a label and a breakpoint switcher, then hands the resolved per-breakpoint value to a render prop. | `@isudev/gutenberg/controls/ResponsiveControl` | 11 | `src/controls/ResponsiveControl/README.md` |
 
 ### Fields (advanced mode)
@@ -120,6 +124,7 @@ project they resolve as `node_modules/@isudev/gutenberg/<path>`.
 
 | Module | What it does | Narrowest import | Props | Full docs |
 | --- | --- | --- | --- | --- |
+| `MetaPostSelectorControl` | Easy mode for `PostSelectorControl`: pass a meta key and get the complete sortable post selection UI reading and writing that post meta. | `@isudev/gutenberg/meta/MetaPostSelectorControl` | 17 | `src/meta/MetaPostSelectorControl/README.md` |
 | `MetaRadioControl` | A radio group bound to a single post meta value — pass the meta key, get a working `RadioControl` that reads and writes it, with the options coming from wherever you like. | `@isudev/gutenberg/meta/MetaRadioControl` | 9 | `src/meta/MetaRadioControl/README.md` |
 | `MetaSelectControl` | A dropdown bound to a single post meta value — pass the meta key, get a working `SelectControl` that reads and writes it, with the options coming from wherever you like. | `@isudev/gutenberg/meta/MetaSelectControl` | 9 | `src/meta/MetaSelectControl/README.md` |
 

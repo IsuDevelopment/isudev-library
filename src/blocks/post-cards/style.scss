@@ -1,0 +1,52 @@
+/* Post Cards — class contract: guides/post-cards.md → "Markup and CSS". */
+
+.isudev-post-cards {
+	--isudev-cards-gap: var(--wp--custom--isudev-post-cards--gap, 1.5rem);
+}
+
+.isudev-post-cards__grid {
+	display: grid;
+	grid-template-columns: repeat(var(--isudev-cards-columns, 3), minmax(0, 1fr));
+	gap: var(--isudev-cards-gap);
+}
+
+.isudev-post-cards__grid > .isudev-post-card {
+	grid-column: span var(--isudev-card-span, 1);
+}
+
+.isudev-post-cards__slider {
+	--isudev-slider-slides: var(--isudev-cards-columns, 3);
+	--isudev-slider-gap: var(--isudev-cards-gap);
+}
+
+/* Tablet: 768px - 1023px, matching the editor's breakpoint switcher. */
+@media (max-width: 1023px) {
+
+	.isudev-post-cards__grid {
+		grid-template-columns: repeat(var(--isudev-cards-columns-tablet, 2), minmax(0, 1fr));
+	}
+
+	.isudev-post-cards__grid > .isudev-post-card {
+		grid-column: span var(--isudev-card-span-tablet, 1);
+	}
+
+	.isudev-post-cards__slider {
+		--isudev-slider-slides: var(--isudev-cards-columns-tablet, 2);
+	}
+}
+
+/* Mobile: below 768px. */
+@media (max-width: 767px) {
+
+	.isudev-post-cards__grid {
+		grid-template-columns: repeat(var(--isudev-cards-columns-mobile, 1), minmax(0, 1fr));
+	}
+
+	.isudev-post-cards__grid > .isudev-post-card {
+		grid-column: span var(--isudev-card-span-mobile, 1);
+	}
+
+	.isudev-post-cards__slider {
+		--isudev-slider-slides: var(--isudev-cards-columns-mobile, 1);
+	}
+}

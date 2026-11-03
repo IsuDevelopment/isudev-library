@@ -1,24 +1,22 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: IsuDev Library 1.16.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/isudev-library\n"
+"POT-Creation-Date: 2026-11-02T22:21:49+00:00\n"
+"PO-Revision-Date: 2026-10-16T10:18:32+00:00\n"
 "Last-Translator: IsuDev\n"
 "Language-Team: Polski\n"
+"Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-07T11:22:03+00:00\n"
-"PO-Revision-Date: 2026-10-16T10:18:32+00:00\n"
-"Language: pl_PL\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Domain: isudev-library\n"
 
 #. Plugin Name of the plugin
-#: isudev-library.php
-#: includes/admin.php:76
-#: includes/admin.php:77
-#: build/admin/index.js:7
-#: src/admin/app.js:160
+#: isudev-library.php includes/admin.php:76 includes/admin.php:77
+#: build/admin/index.js:7 src/admin/app.js:160
 msgid "IsuDev Library"
 msgstr "IsuDev Library"
 
@@ -30,25 +28,30 @@ msgstr "https://isudev.pl"
 
 #. Description of the plugin
 #: isudev-library.php
-msgid "Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, toggleable from the admin."
-msgstr "Bloki Gutenberga i narzędzia od IsuDev do wielokrotnego użytku. Renderowane po stronie serwera, modułowe, włączane i wyłączane w panelu administracyjnym."
+msgid ""
+"Reusable Gutenberg blocks and tools by IsuDev. Server-rendered, modular, "
+"toggleable from the admin."
+msgstr ""
+"Bloki Gutenberga i narzędzia od IsuDev do wielokrotnego użytku. Renderowane "
+"po stronie serwera, modułowe, włączane i wyłączane w panelu "
+"administracyjnym."
 
 #. Author of the plugin
 #: isudev-library.php
 msgid "IsuDev"
 msgstr "IsuDev"
 
-#. translators: 1: account name, 2: average rating, 3: total number of ratings.
+#. translators: 1: account name, 2: average rating, 3: total number of
+#. ratings.
 #: build/blocks/google-reviews-badge/render.php:51
 #: src/blocks/google-reviews-badge/render.php:51
-#, php-format
 msgid "Open %1$s in Google Maps. Rating: %2$s out of 5 based on %3$s reviews"
-msgstr "Otwórz %1$s w Mapach Google. Ocena: %2$s na 5 na podstawie %3$s opinii"
+msgstr ""
+"Otwórz %1$s w Mapach Google. Ocena: %2$s na 5 na podstawie %3$s opinii"
 
 #. translators: %s: total number of Google ratings.
 #: build/blocks/google-reviews-badge/render.php:73
 #: src/blocks/google-reviews-badge/render.php:73
-#, php-format
 msgid "%s review on Google"
 msgid_plural "%s reviews on Google"
 msgstr[0] "%s opinia w Google"
@@ -65,21 +68,18 @@ msgstr "Oceń nas"
 #. translators: %s: Google account name.
 #: build/blocks/google-reviews-header/render.php:88
 #: src/blocks/google-reviews-header/render.php:88
-#, php-format
 msgid "Open %s in Google Maps"
 msgstr "Otwórz %s w Mapach Google"
 
 #. translators: %s: average Google rating from 0 to 5.
 #: build/blocks/google-reviews-header/render.php:121
 #: src/blocks/google-reviews-header/render.php:121
-#, php-format
 msgid "Average rating: %s out of 5"
 msgstr "Średnia ocena: %s na 5"
 
 #. translators: %s: total number of Google ratings.
 #: build/blocks/google-reviews-header/render.php:129
 #: src/blocks/google-reviews-header/render.php:129
-#, php-format
 msgid "Based on %s reviews"
 msgstr "Na podstawie %s opinii"
 
@@ -113,7 +113,8 @@ msgstr "Wstrzymaj opinie"
 msgid "Play reviews"
 msgstr "Odtwarzaj opinie"
 
-#. translators: Default prefix for the step label, e.g. "Step" → "Step 1" (the number is added by a CSS counter).
+#. translators: Default prefix for the step label, e.g. "Step" → "Step 1" (the
+#. number is added by a CSS counter).
 #: build/blocks/image-step-guide-step/render.php:44
 #: src/blocks/image-step-guide-step/render.php:44
 msgctxt "step label prefix"
@@ -121,8 +122,7 @@ msgid "Step"
 msgstr "Krok"
 
 #: build/blocks/image-step-guide/render.php:39
-#: build/blocks/site-header/render.php:39
-#: includes/utils/icon.php:59
+#: build/blocks/site-header/render.php:39 includes/utils/icon.php:59
 #: src/blocks/image-step-guide/render.php:39
 #: src/blocks/site-header/render.php:39
 msgid "Close"
@@ -130,23 +130,18 @@ msgstr "Zamknij"
 
 #: build/blocks/read-more/render.php:69
 #: src/blocks/google-reviews/inc/render-helpers.php:263
-#: src/blocks/read-more/render.php:69
-#: build/blocks/read-more/index.js:1
+#: src/blocks/read-more/render.php:69 build/blocks/read-more/index.js:1
 #: src/blocks/read-more/edit.js:291
 msgid "Read more"
 msgstr "Czytaj więcej"
 
-#: build/blocks/site-header/render.php:22
-#: src/blocks/site-header/render.php:22
+#: build/blocks/site-header/render.php:22 src/blocks/site-header/render.php:22
 msgid "Main"
 msgstr "Główne"
 
-#: build/blocks/site-header/render.php:31
-#: includes/utils/icon.php:54
-#: src/blocks/site-header/render.php:31
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:74
-#: src/blocks/site-header/edit.js:98
+#: build/blocks/site-header/render.php:31 includes/utils/icon.php:54
+#: src/blocks/site-header/render.php:31 build/blocks/site-header/index.js:1
+#: src/blocks/site-header/edit.js:74 src/blocks/site-header/edit.js:98
 #: src/blocks/site-header/edit.js:189
 msgid "Menu"
 msgstr "Menu"
@@ -161,53 +156,706 @@ msgstr "Skopiowano"
 msgid "Link copied to clipboard"
 msgstr "Skopiowano"
 
+#: extensions/accessibility-statement-page/extension.php:14
+msgid "Accessibility statement page"
+msgstr "Strona deklaracji dostępności"
+
+#: extensions/accessibility-statement-page/extension.php:15
+msgid ""
+"Adds Settings → Accessibility statement, like core's Privacy page: pick the "
+"page with your accessibility statement or create a draft from a template "
+"(the Polish public-sector declaration or the EU model statement). Marks the "
+"page in the Pages list, protects it from deletion and warns in Site Health "
+"when it is missing, unpublished or older than a year."
+msgstr ""
+"Dodaje Ustawienia → Deklaracja dostępności, podobnie jak ekran Prywatność w "
+"WordPressie: wybierz stronę z deklaracją dostępności albo utwórz szkic z "
+"szablonu (deklaracja podmiotu publicznego lub wzorcowa deklaracja UE). "
+"Oznacza stronę na liście stron, chroni ją przed usunięciem i ostrzega w "
+"Kondycji witryny, gdy jej brakuje, nie jest opublikowana lub jest starsza "
+"niż rok."
+
+#: extensions/accessibility-statement-page/hooks.php:63
+msgid "ID of the page with the accessibility statement."
+msgstr "Identyfikator strony z deklaracją dostępności."
+
+#: extensions/accessibility-statement-page/hooks.php:279
+msgctxt "page label"
+msgid "Accessibility statement"
+msgstr "Deklaracja dostępności"
+
+#: extensions/accessibility-statement-page/hooks.php:292
+#: extensions/accessibility-statement-page/hooks.php:293
+#: extensions/accessibility-statement-page/hooks.php:333
+#: extensions/accessibility-statement-page/hooks.php:506
+#: extensions/accessibility-statement-page/hooks.php:622
+#: extensions/accessibility-statement-page/hooks.php:738
+msgid "Accessibility statement"
+msgstr "Deklaracja dostępności"
+
+#: extensions/accessibility-statement-page/hooks.php:327
+msgid "Poland: public-sector declaration (gov.pl structure, in Polish)"
+msgstr ""
+"Polska: deklaracja dostępności podmiotu publicznego (struktura gov.pl, po "
+"polsku)"
+
+#: extensions/accessibility-statement-page/hooks.php:332
+msgid "EU model accessibility statement"
+msgstr "Wzorcowa deklaracja dostępności UE"
+
+#: extensions/accessibility-statement-page/hooks.php:392
+msgid "Sorry, you are not allowed to manage the accessibility statement."
+msgstr "Niestety, nie masz uprawnień do zarządzania deklaracją dostępności."
+
+#: extensions/accessibility-statement-page/hooks.php:471
+msgid "Accessibility statement page updated."
+msgstr "Zaktualizowano stronę deklaracji dostępności."
+
+#: extensions/accessibility-statement-page/hooks.php:472
+msgid "Accessibility statement page removed."
+msgstr "Usunięto stronę deklaracji dostępności."
+
+#: extensions/accessibility-statement-page/hooks.php:473
+msgid "No accessibility statement page is set."
+msgstr "Nie ustawiono strony deklaracji dostępności."
+
+#: extensions/accessibility-statement-page/hooks.php:474
+msgid "That page cannot be used. Choose a page that is published or a draft."
+msgstr "Nie można użyć tej strony. Wybierz stronę opublikowaną lub szkic."
+
+#: extensions/accessibility-statement-page/hooks.php:475
+msgid "The accessibility statement page could not be created."
+msgstr "Nie udało się utworzyć strony deklaracji dostępności."
+
+#: extensions/accessibility-statement-page/hooks.php:511
+msgid ""
+"The selected accessibility statement page does not exist. Create or select "
+"another page."
+msgstr ""
+"Wybrana strona deklaracji dostępności nie istnieje. Utwórz lub wybierz inną "
+"stronę."
+
+#. translators: %s: URL of the Pages trash.
+#: extensions/accessibility-statement-page/hooks.php:516
+msgid ""
+"The selected accessibility statement page is in the Trash. Create or select "
+"another page, or <a href=\"%s\">restore it</a>."
+msgstr ""
+"Wybrana strona deklaracji dostępności jest w koszu. Utwórz lub wybierz inną "
+"stronę albo <a href=\"%s\">przywróć ją</a>."
+
+#: extensions/accessibility-statement-page/hooks.php:523
+msgid ""
+"Choose the page that holds your accessibility statement, or create a draft "
+"from a template and complete it. Link to it from every page, usually in the "
+"footer."
+msgstr ""
+"Wybierz stronę z deklaracją dostępności albo utwórz szkic z szablonu i "
+"uzupełnij go. Umieść link do niej na każdej stronie, zwykle w stopce."
+
+#. translators: 1: edit URL, 2: view URL.
+#: extensions/accessibility-statement-page/hooks.php:534
+msgid ""
+"<a href=\"%1$s\">Edit</a> or <a href=\"%2$s\">view</a> the accessibility "
+"statement."
+msgstr ""
+"<a href=\"%1$s\">Edytuj</a> lub <a href=\"%2$s\">zobacz</a> deklarację "
+"dostępności."
+
+#. translators: 1: edit URL, 2: preview URL.
+#: extensions/accessibility-statement-page/hooks.php:536
+msgid ""
+"<a href=\"%1$s\">Edit</a> or <a href=\"%2$s\">preview</a> the accessibility "
+"statement. It is not published yet."
+msgstr ""
+"<a href=\"%1$s\">Edytuj</a> lub <a href=\"%2$s\">wyświetl podgląd</a> "
+"deklaracji dostępności. Nie została jeszcze opublikowana."
+
+#: extensions/accessibility-statement-page/hooks.php:549
+msgid "Create a new page"
+msgstr "Utwórz nową stronę"
+
+#: extensions/accessibility-statement-page/hooks.php:559
+msgid "Create draft"
+msgstr "Utwórz szkic"
+
+#: extensions/accessibility-statement-page/hooks.php:560
+msgid ""
+"Creates a draft page pre-filled from the template and opens it in the "
+"editor. Replace every placeholder in square brackets before publishing."
+msgstr ""
+"Tworzy szkic strony wypełniony szablonem i otwiera go w edytorze. Przed "
+"publikacją zastąp wszystkie fragmenty w nawiasach kwadratowych."
+
+#: extensions/accessibility-statement-page/hooks.php:565
+msgid "Use an existing page"
+msgstr "Użyj istniejącej strony"
+
+#: extensions/accessibility-statement-page/hooks.php:576
+msgid "— Select —"
+msgstr "— Wybierz —"
+
+#: extensions/accessibility-statement-page/hooks.php:583
+msgid "Use this page"
+msgstr "Użyj tej strony"
+
+#: extensions/accessibility-statement-page/hooks.php:688
+msgid "Statement URL"
+msgstr "Adres URL deklaracji"
+
+#: extensions/accessibility-statement-page/hooks.php:693
+msgid "Statement title"
+msgstr "Tytuł deklaracji"
+
+#: extensions/accessibility-statement-page/hooks.php:698
+msgid "Link to the statement"
+msgstr "Odnośnik do deklaracji"
+
+#: extensions/accessibility-statement-page/hooks.php:767
+msgid "Manage the accessibility statement"
+msgstr "Zarządzaj deklaracją dostępności"
+
+#: extensions/accessibility-statement-page/hooks.php:769
+msgid "An accessibility statement is published"
+msgstr "Deklaracja dostępności jest opublikowana"
+
+#: extensions/accessibility-statement-page/hooks.php:772
+#: includes/class-extensions.php:75
+msgid "Accessibility"
+msgstr "Dostępność"
+
+#: extensions/accessibility-statement-page/hooks.php:775
+msgid ""
+"Public-sector sites in the EU must publish an accessibility statement and "
+"review it at least once a year. Many other sites must describe the "
+"accessibility of their services under the European Accessibility Act."
+msgstr ""
+"Strony podmiotów publicznych w UE muszą publikować deklarację dostępności i "
+"aktualizować ją co najmniej raz w roku. Wiele innych witryn musi opisywać "
+"dostępność swoich usług na podstawie Europejskiego aktu o dostępności."
+
+#: extensions/accessibility-statement-page/hooks.php:785
+msgid "The accessibility statement page is not published"
+msgstr "Strona deklaracji dostępności nie jest opublikowana"
+
+#: extensions/accessibility-statement-page/hooks.php:786
+msgid "No accessibility statement page is set"
+msgstr "Nie ustawiono strony deklaracji dostępności"
+
+#: extensions/accessibility-statement-page/hooks.php:794
+msgid ""
+"The published accessibility statement still contains template placeholders"
+msgstr ""
+"Opublikowana deklaracja dostępności nadal zawiera fragmenty szablonu do "
+"uzupełnienia"
+
+#: extensions/accessibility-statement-page/hooks.php:804
+msgid "The accessibility statement has not been updated for over a year"
+msgstr "Deklaracja dostępności nie była aktualizowana od ponad roku"
+
+#: extensions/accessibility-statement-page/template.php:205
+msgid "[FILL IN: name of the organisation]"
+msgstr "[UZUPEŁNIJ: nazwa organizacji]"
+
+#: extensions/accessibility-statement-page/template.php:206
+msgid "[FILL IN: name of the website]"
+msgstr "[UZUPEŁNIJ: nazwa strony internetowej]"
+
+#: extensions/accessibility-statement-page/template.php:207
+msgid "[FILL IN: date]"
+msgstr "[UZUPEŁNIJ: data]"
+
+#: extensions/accessibility-statement-page/template.php:210
+msgid ""
+"[FILL IN: replace every placeholder in square brackets and delete these "
+"notes before publishing. Review the statement at least once a year.]"
+msgstr ""
+"[UZUPEŁNIJ: przed publikacją zastąp wszystkie fragmenty w nawiasach "
+"kwadratowych i usuń te uwagi. Aktualizuj deklarację co najmniej raz w roku.]"
+
+#. translators: 1: organisation name, 2: placeholder for the applicable law.
+#: extensions/accessibility-statement-page/template.php:215
+msgid ""
+"%1$s is committed to making its website accessible, in accordance with %2$s."
+msgstr ""
+"%1$s zobowiązuje się zapewnić dostępność swojej strony internetowej zgodnie "
+"z %2$s."
+
+#: extensions/accessibility-statement-page/template.php:217
+msgid ""
+"[FILL IN: the national law transposing Directive (EU) 2016/2102, or the "
+"European Accessibility Act]"
+msgstr ""
+"[UZUPEŁNIJ: przepisy krajowe wdrażające dyrektywę (UE) 2016/2102 lub "
+"Europejski akt o dostępności]"
+
+#. translators: %s: link to the website.
+#: extensions/accessibility-statement-page/template.php:223
+msgid "This accessibility statement applies to %s."
+msgstr "Niniejsza deklaracja dostępności dotyczy strony %s."
+
+#: extensions/accessibility-statement-page/template.php:228
+msgid "Compliance status"
+msgstr "Status zgodności"
+
+#: extensions/accessibility-statement-page/template.php:229
+msgid ""
+"This website is partially compliant with EN 301 549 (WCAG 2.1 level AA) due "
+"to the non-compliances and exemptions listed below."
+msgstr ""
+"Strona internetowa jest częściowo zgodna z normą EN 301 549 (WCAG 2.1 na "
+"poziomie AA) z powodu niezgodności i wyłączeń wymienionych poniżej."
+
+#: extensions/accessibility-statement-page/template.php:230
+msgid ""
+"[FILL IN: or \"fully compliant\" / \"not compliant\". When fully compliant, "
+"delete the next section.]"
+msgstr ""
+"[UZUPEŁNIJ: albo „w pełni zgodna” / „niezgodna”. Przy pełnej zgodności usuń "
+"następną sekcję.]"
+
+#: extensions/accessibility-statement-page/template.php:232
+msgid "Non-accessible content"
+msgstr "Treści niedostępne"
+
+#: extensions/accessibility-statement-page/template.php:233
+msgid "The content listed below is non-accessible for the following reasons:"
+msgstr "Wymienione poniżej treści są niedostępne z następujących powodów:"
+
+#: extensions/accessibility-statement-page/template.php:236
+msgid ""
+"[FILL IN: non-compliance with the requirements, e.g. some videos have no "
+"captions]"
+msgstr ""
+"[UZUPEŁNIJ: niezgodność z wymaganiami, np. część filmów nie ma napisów]"
+
+#: extensions/accessibility-statement-page/template.php:237
+msgid ""
+"[FILL IN: content outside the scope of the applicable legislation, e.g. "
+"maps]"
+msgstr ""
+"[UZUPEŁNIJ: treści wyłączone z zakresu obowiązujących przepisów, np. mapy]"
+
+#: extensions/accessibility-statement-page/template.php:241
+msgid "Preparation of this accessibility statement"
+msgstr "Sporządzenie deklaracji dostępności"
+
+#. translators: %s: date in YYYY-MM-DD format.
+#: extensions/accessibility-statement-page/template.php:245
+msgid ""
+"This statement was prepared on %s. It is based on a self-assessment carried "
+"out by the organisation."
+msgstr ""
+"Deklarację sporządzono dnia %s na podstawie samooceny przeprowadzonej przez "
+"organizację."
+
+#: extensions/accessibility-statement-page/template.php:249
+msgid ""
+"[FILL IN: if a third party audited the website, name it here instead of the "
+"self-assessment.]"
+msgstr ""
+"[UZUPEŁNIJ: jeśli stronę zbadał podmiot zewnętrzny, podaj tu jego nazwę "
+"zamiast samooceny.]"
+
+#: extensions/accessibility-statement-page/template.php:251
+msgid "Feedback and contact information"
+msgstr "Informacje zwrotne i dane kontaktowe"
+
+#. translators: 1: contact person, 2: e-mail address, 3: phone number.
+#: extensions/accessibility-statement-page/template.php:255
+msgid ""
+"If you find an accessibility problem on this website or need information in "
+"an accessible format, contact %1$s by e-mail at %2$s or by phone at %3$s."
+msgstr ""
+"Jeśli napotkasz problem z dostępnością tej strony lub potrzebujesz "
+"informacji w dostępnej formie, skontaktuj się z: %1$s, e-mail: %2$s, "
+"telefon: %3$s."
+
+#: extensions/accessibility-statement-page/template.php:256
+msgid "[FILL IN: contact person]"
+msgstr "[UZUPEŁNIJ: osoba kontaktowa]"
+
+#: extensions/accessibility-statement-page/template.php:257
+msgid "[FILL IN: e-mail address]"
+msgstr "[UZUPEŁNIJ: adres e-mail]"
+
+#: extensions/accessibility-statement-page/template.php:258
+msgid "[FILL IN: phone number]"
+msgstr "[UZUPEŁNIJ: numer telefonu]"
+
+#: extensions/accessibility-statement-page/template.php:262
+msgid "Enforcement procedure"
+msgstr "Procedura egzekwowania"
+
+#. translators: %s: placeholder for the enforcement body.
+#: extensions/accessibility-statement-page/template.php:266
+msgid "If you are not satisfied with our response, you can contact %s."
+msgstr ""
+"Jeśli nasza odpowiedź Cię nie satysfakcjonuje, możesz zwrócić się do: %s."
+
+#: extensions/accessibility-statement-page/template.php:267
+msgid "[FILL IN: the national enforcement body and how to reach it]"
+msgstr "[UZUPEŁNIJ: krajowy organ nadzorczy i sposób kontaktu z nim]"
+
 #: extensions/button-color/extension.php:14
 msgid "Button colour for outline and link styles"
 msgstr "Kolor przycisku dla stylów obrysu i linku"
 
 #: extensions/button-color/extension.php:15
-msgid "Exposes the colour picked on a Button block as a CSS custom property, in the editor and on the site, so a theme can draw outline and text-only buttons (and their icons) in that colour. Also removes core's Outline style, which turns into a filled button as soon as a colour is picked."
-msgstr "Udostępnia kolor wybrany w bloku Przycisk jako zmienną CSS — w edytorze i na stronie — dzięki czemu motyw może rysować w tym kolorze przyciski z obrysem i przyciski tekstowe (oraz ich ikony). Usuwa też wbudowany styl Obrys, który po wybraniu koloru zamienia się w wypełniony przycisk."
+msgid ""
+"Exposes the colour picked on a Button block as a CSS custom property, in the"
+" editor and on the site, so a theme can draw outline and text-only buttons "
+"(and their icons) in that colour. Also removes core's Outline style, which "
+"turns into a filled button as soon as a colour is picked."
+msgstr ""
+"Udostępnia kolor wybrany w bloku Przycisk jako zmienną CSS — w edytorze i na"
+" stronie — dzięki czemu motyw może rysować w tym kolorze przyciski z obrysem"
+" i przyciski tekstowe (oraz ich ikony). Usuwa też wbudowany styl Obrys, "
+"który po wybraniu koloru zamienia się w wypełniony przycisk."
+
+#: extensions/button-icon/extension.php:14
+#: build/extensions/button-icon/editor.js:1
+#: extensions/button-icon/src/editor.js:368
+msgid "Button icon"
+msgstr "Ikona przycisku"
+
+#: extensions/button-icon/extension.php:15
+msgid ""
+"Lets editors put an icon from the library's icon set before or after the "
+"text of a Button block, choose its size, or show the icon alone with the "
+"text kept for screen readers."
+msgstr ""
+"Pozwala redaktorom dodać ikonę z zestawu ikon biblioteki przed tekstem lub "
+"za tekstem bloku Przycisk, wybrać jej rozmiar albo pokazać samą ikonę, "
+"zachowując tekst dla czytników ekranu."
+
+#: extensions/core-accordion-custom-icons/extension.php:14
+msgid "Accordion toggle icons"
+msgstr "Ikony przełącznika akordeonu"
+
+#: extensions/core-accordion-custom-icons/extension.php:15
+msgid ""
+"Replaces the \"+\" on the core Accordion block with an icon from the icon "
+"library, one for closed and one for open items. Editors pick the icons and "
+"their size per accordion; the theme sets the defaults."
+msgstr ""
+"Zastępuje znak „+” w bloku Akordeon ikoną z biblioteki ikon – osobną dla "
+"zwiniętych i rozwiniętych elementów. Redaktorzy wybierają ikony i ich "
+"rozmiar dla każdego akordeonu, a motyw ustala wartości domyślne."
+
+#: extensions/core-accordion-faq-schema/extension.php:14
+msgid "Accordion FAQ structured data"
+msgstr "Dane strukturalne FAQ dla akordeonu"
+
+#: extensions/core-accordion-faq-schema/extension.php:15
+msgid ""
+"Adds a switch to the core Accordion block that publishes its questions and "
+"answers as FAQPage structured data (JSON-LD), through Yoast SEO or Rank Math"
+" when one is active, or on its own otherwise."
+msgstr ""
+"Dodaje do bloku Akordeon przełącznik, który publikuje jego pytania i "
+"odpowiedzi jako dane strukturalne FAQPage (JSON-LD) – przez Yoast SEO lub "
+"Rank Math, jeśli jedna z tych wtyczek jest włączona, a w przeciwnym razie "
+"samodzielnie."
+
+#: extensions/core-accordion-hash-navigation/extension.php:14
+msgid "Accordion links"
+msgstr "Linki do elementów akordeonu"
+
+#: extensions/core-accordion-hash-navigation/extension.php:15
+msgid ""
+"Gives every core Accordion item a stable, readable link (#question-title, or"
+" the heading's HTML anchor). Opening an item puts its link in the address "
+"bar, and visiting a link opens and scrolls to that item."
+msgstr ""
+"Nadaje każdemu elementowi bloku Akordeon stały, czytelny link (#tytul-"
+"pytania lub kotwica HTML nagłówka). Rozwinięcie elementu umieszcza jego link"
+" w pasku adresu, a wejście z linku rozwija ten element i przewija do niego."
+
+#: extensions/disable-application-passwords/extension.php:14
+msgid "Disable application passwords"
+msgstr "Wyłącz hasła aplikacji"
+
+#: extensions/disable-application-passwords/extension.php:15
+msgid ""
+"Switches application passwords off: the profile section disappears and "
+"existing application passwords stop authenticating REST API and XML-RPC "
+"requests. Breaks apps and integrations that sign in with one."
+msgstr ""
+"Wyłącza hasła aplikacji: sekcja w profilu znika, a istniejące hasła "
+"aplikacji przestają uwierzytelniać żądania REST API i XML-RPC. Przestają "
+"działać aplikacje i integracje, które logują się za ich pomocą."
+
+#: extensions/disable-block-directory/extension.php:14
+msgid "Disable the block directory"
+msgstr "Wyłącz katalog bloków"
+
+#: extensions/disable-block-directory/extension.php:15
+msgid ""
+"Stops the block inserter from suggesting and installing blocks from "
+"WordPress.org, and closes the block directory search endpoint. Plugins can "
+"still be installed from Plugins → Add New."
+msgstr ""
+"Wyłącza podpowiadanie i instalowanie bloków z WordPress.org w oknie "
+"wstawiania bloków oraz zamyka punkt końcowy wyszukiwania w katalogu bloków. "
+"Wtyczki nadal można instalować w Wtyczki → Dodaj nową wtyczkę."
 
 #: extensions/disable-comments/extension.php:14
 msgid "Disable comments"
 msgstr "Wyłącz komentarze"
 
 #: extensions/disable-comments/extension.php:15
-msgid "Turns comments and pingbacks off site-wide: closes them on every post type, hides existing ones and removes Comments from the admin."
-msgstr "Wyłącza komentarze i pingbacki w całej witrynie: zamyka je dla wszystkich typów treści, ukrywa istniejące i usuwa Komentarze z panelu."
+msgid ""
+"Turns comments and pingbacks off site-wide: closes them on every post type, "
+"hides existing ones and removes Comments from the admin."
+msgstr ""
+"Wyłącza komentarze i pingbacki w całej witrynie: zamyka je dla wszystkich "
+"typów treści, ukrywa istniejące i usuwa Komentarze z panelu."
 
 #: extensions/disable-comments/hooks.php:283
 msgid "Comments are closed."
 msgstr "Komentarze są wyłączone."
 
+#: extensions/disable-custom-css/extension.php:14
+msgid "Disable custom CSS"
+msgstr "Wyłącz własny CSS"
+
+#: extensions/disable-custom-css/extension.php:15
+msgid ""
+"Takes CSS out of editors' hands: removes Additional CSS from the Customizer,"
+" Global Styles and the block settings, and stops CSS already saved there "
+"from loading. CSS shipped by the theme keeps working."
+msgstr ""
+"Odbiera redaktorom możliwość pisania CSS: usuwa Dodatkowy CSS z "
+"Personalizacji, stylów globalnych i ustawień bloków oraz przestaje wczytywać"
+" zapisany tam już CSS. CSS dostarczany przez motyw działa nadal."
+
+#: extensions/disable-emoji/extension.php:14
+msgid "Disable emoji images"
+msgstr "Wyłącz obrazki emoji"
+
+#: extensions/disable-emoji/extension.php:15
+msgid ""
+"Stops WordPress from replacing emoji with images from WordPress.org: removes"
+" the detection script and its styles from every page, the admin and embeds. "
+"Emoji still show, drawn by the visitor's own system font."
+msgstr ""
+"Wyłącza zastępowanie emoji obrazkami z WordPress.org: usuwa skrypt "
+"wykrywający i jego style ze wszystkich stron, kokpitu i osadzeń. Emoji nadal"
+" są widoczne, wyświetlane czcionką systemową odwiedzającego."
+
+#: extensions/disable-feeds/extension.php:14
+msgid "Disable feeds"
+msgstr "Wyłącz kanały"
+
+#: extensions/disable-feeds/extension.php:15
+msgid ""
+"Switches off every RSS, RDF and Atom feed, including comment feeds: feed "
+"URLs answer with the theme's 404 page and the feed links leave the page "
+"head."
+msgstr ""
+"Wyłącza wszystkie kanały RSS, RDF i Atom, także kanały komentarzy: adresy "
+"kanałów zwracają stronę 404 motywu, a odnośniki do kanałów znikają z sekcji "
+"head strony."
+
+#: extensions/disable-fit-text/extension.php:14
+msgid "Disable fit text"
+msgstr "Wyłącz dopasowanie tekstu"
+
+#: extensions/disable-fit-text/extension.php:15
+msgid ""
+"Removes the \"Fit text\" typography option, which scales a heading or "
+"paragraph to fill its container with JavaScript and ignores the theme's font"
+" sizes. Blocks saved with it render at their normal size again."
+msgstr ""
+"Usuwa opcję typografii „Dopasuj tekst”, która za pomocą JavaScriptu skaluje "
+"nagłówek lub akapit tak, by wypełniał kontener, ignorując rozmiary czcionek "
+"motywu. Bloki zapisane z tą opcją znów wyświetlają się w normalnym "
+"rozmiarze."
+
+#: extensions/disable-openverse/extension.php:14
+msgid "Disable Openverse"
+msgstr "Wyłącz Openverse"
+
+#: extensions/disable-openverse/extension.php:15
+msgid ""
+"Removes the Openverse tab from the block inserter's Media section, so "
+"editors pick images from the Media Library only instead of hotlinking free-"
+"licence images from openverse.org."
+msgstr ""
+"Usuwa kartę Openverse z sekcji Multimedia w oknie wstawiania bloków, dzięki "
+"czemu redaktorzy wybierają obrazki wyłącznie z biblioteki multimediów, "
+"zamiast osadzać bezpośrednio obrazki na wolnych licencjach z openverse.org."
+
 #: extensions/disable-posts/extension.php:14
 msgid "Disable posts"
 msgstr "Wyłącz wpisy"
+
+#: extensions/disable-posts/extension.php:15
+msgid ""
+"Switches off the built-in Posts post type with its categories and tags: no "
+"admin menu, every post URL, archive and posts feed answers 404, and posts "
+"leave REST, XML-RPC, sitemaps and the block inserter. Set a static homepage "
+"first."
+msgstr ""
+"Wyłącza wbudowany typ treści Wpisy wraz z kategoriami i tagami: bez menu w "
+"kokpicie, każdy adres wpisu, archiwum i kanał wpisów zwraca błąd 404, a "
+"wpisy znikają z REST API, XML-RPC, map witryny i listy bloków do wstawienia."
+" Najpierw ustaw statyczną stronę główną."
+
+#: extensions/disable-posts/hooks.php:554
+msgid "Reading settings and disabled posts"
+msgstr "Ustawienia czytania a wyłączone wpisy"
+
+#: extensions/disable-posts/hooks.php:573
+msgid "Open Settings → Reading"
+msgstr "Otwórz Ustawienia → Czytanie"
+
+#: extensions/disable-posts/hooks.php:576
+msgid "The homepage does not depend on posts"
+msgstr "Strona główna nie zależy od wpisów"
+
+#: extensions/disable-posts/hooks.php:579 includes/class-extensions.php:71
+msgid "Content"
+msgstr "Treść"
+
+#: extensions/disable-posts/hooks.php:584
+msgid ""
+"Posts are disabled, and Settings → Reading shows a static page as the "
+"homepage."
+msgstr ""
+"Wpisy są wyłączone, a w Ustawieniach → Czytanie jako strona główna "
+"wyświetlana jest strona statyczna."
+
+#: extensions/disable-posts/hooks.php:591
+msgid "The homepage shows latest posts, but posts are disabled"
+msgstr "Strona główna wyświetla najnowsze wpisy, ale wpisy są wyłączone"
+
+#: extensions/disable-posts/hooks.php:596
+msgid ""
+"With posts disabled, a homepage set to show the latest posts answers with "
+"“Page not found”. Choose a static page as the homepage."
+msgstr ""
+"Przy wyłączonych wpisach strona główna ustawiona na wyświetlanie najnowszych"
+" wpisów zwraca „Nie znaleziono strony”. Wybierz stronę statyczną jako stronę"
+" główną."
+
+#: extensions/disable-posts/hooks.php:600
+msgid "A posts page is set, but posts are disabled"
+msgstr "Ustawiono stronę z wpisami, ale wpisy są wyłączone"
+
+#. translators: %s: Page title.
+#: extensions/disable-posts/hooks.php:607
+msgid ""
+"The page “%s” is set as the posts page, so it answers with “Page not found”."
+" Set Posts page to “— Select —”."
+msgstr ""
+"Strona „%s” jest ustawiona jako strona z wpisami, więc zwraca „Nie "
+"znaleziono strony”. Ustaw stronę z wpisami na „— Wybierz —”."
+
+#: extensions/disable-xmlrpc/extension.php:14
+msgid "Disable XML-RPC"
+msgstr "Wyłącz XML-RPC"
+
+#: extensions/disable-xmlrpc/extension.php:15
+msgid ""
+"Refuses every request to xmlrpc.php with a 403 before any method runs, "
+"closing a common brute-force and pingback abuse route. Breaks Jetpack and "
+"old desktop or mobile publishing apps that still use XML-RPC."
+msgstr ""
+"Odrzuca każde żądanie do xmlrpc.php kodem 403, zanim uruchomi się "
+"jakakolwiek metoda, zamykając popularną drogę ataków siłowych i nadużyć "
+"pingbacków. Przestaje działać Jetpack oraz starsze aplikacje do publikowania"
+" na komputer lub telefon, które wciąż używają XML-RPC."
+
+#: extensions/enqueue-theme-block-styles/extension.php:14
+msgid "Load theme block styles per block"
+msgstr "Wczytuj style bloków motywu osobno dla każdego bloku"
+
+#: extensions/enqueue-theme-block-styles/extension.php:15
+msgid ""
+"Loads each stylesheet the theme builds for a block "
+"(build/blocks/<namespace>/<block>.css) only on pages where that block "
+"appears, and in the editor. For themes built on the Dekode project base."
+msgstr ""
+"Wczytuje każdy arkusz stylów zbudowany przez motyw dla bloku "
+"(build/blocks/<namespace>/<block>.css) tylko na stronach, na których ten "
+"blok występuje, oraz w edytorze. Dla motywów opartych na Dekode project "
+"base."
+
+#: extensions/featured-image-column/extension.php:17
+msgid "Featured image column"
+msgstr "Kolumna obrazka wyróżniającego"
+
+#: extensions/featured-image-column/extension.php:18
+msgid ""
+"Shows a thumbnail of the featured image at the start of every list screen "
+"whose post type supports featured images, and the profile image on the Users"
+" screen when one is set."
+msgstr ""
+"Pokazuje miniaturę obrazka wyróżniającego na początku każdej listy treści, "
+"której typ obsługuje obrazki wyróżniające, oraz zdjęcie profilowe na ekranie"
+" Użytkownicy, jeśli je ustawiono."
+
+#: extensions/featured-image-column/extension.php:28
+msgid "Hide the column on"
+msgstr "Ukryj kolumnę na"
+
+#: extensions/featured-image-column/extension.php:33
+msgid "User image meta key"
+msgstr "Klucz meta zdjęcia użytkownika"
+
+#: extensions/featured-image-column/extension.php:34
+msgid ""
+"The user field that holds a profile image (attachment ID or URL). Empty: no "
+"column on Users."
+msgstr ""
+"Pole użytkownika ze zdjęciem profilowym (ID załącznika lub adres URL). "
+"Puste: brak kolumny na ekranie Użytkownicy."
+
+#: extensions/featured-image-column/hooks.php:199
+msgid "Featured image"
+msgstr "Obrazek wyróżniający"
+
+#: extensions/featured-image-column/hooks.php:305
+msgid "Profile image"
+msgstr "Zdjęcie profilowe"
 
 #: extensions/gravity-forms-theme-lock/extension.php:14
 msgid "Lock the Gravity Forms block theme"
 msgstr "Zablokuj motyw bloku Gravity Forms"
 
 #: extensions/gravity-forms-theme-lock/extension.php:15
-msgid "Pins every Gravity Forms block to one form theme and hides the theme picker, so forms cannot drift from the site styles."
-msgstr "Przypina każdy blok Gravity Forms do jednego motywu formularza i ukrywa wybór motywu, aby formularze nie odbiegały od stylów strony."
+msgid ""
+"Pins every Gravity Forms block to one form theme and hides the theme picker,"
+" so forms cannot drift from the site styles."
+msgstr ""
+"Przypina każdy blok Gravity Forms do jednego motywu formularza i ukrywa "
+"wybór motywu, aby formularze nie odbiegały od stylów strony."
 
 #: extensions/gravity-forms-wrapper/extension.php:14
 msgid "Gravity Forms block wrapper"
 msgstr "Kontener bloku Gravity Forms"
 
 #: extensions/gravity-forms-wrapper/extension.php:15
-msgid "Wraps the rendered Gravity Forms block in a styleable container, because the block outputs the form without one."
-msgstr "Otacza blok Gravity Forms kontenerem, który można stylować, ponieważ sam blok wyświetla formularz bez niego."
+msgid ""
+"Wraps the rendered Gravity Forms block in a styleable container, because the"
+" block outputs the form without one."
+msgstr ""
+"Otacza blok Gravity Forms kontenerem, który można stylować, ponieważ sam "
+"blok wyświetla formularz bez niego."
 
 #: extensions/last-edited-column/extension.php:17
 msgid "Last edited column"
 msgstr "Kolumna „Ostatnio edytowane”"
 
 #: extensions/last-edited-column/extension.php:18
-msgid "Adds a sortable \"Last edited\" column to post type list screens, showing who changed a post and when."
-msgstr "Dodaje do list treści sortowaną kolumnę „Ostatnio edytowane”, pokazującą, kto i kiedy zmienił wpis."
+msgid ""
+"Adds a sortable \"Last edited\" column to post type list screens, showing "
+"who changed a post and when."
+msgstr ""
+"Dodaje do list treści sortowaną kolumnę „Ostatnio edytowane”, pokazującą, "
+"kto i kiedy zmienił wpis."
 
 #: extensions/last-edited-column/hooks.php:63
 msgid "Last edited"
@@ -218,8 +866,12 @@ msgid "Rename posts to articles"
 msgstr "Zmień nazwę wpisów na artykuły"
 
 #: extensions/post-rename/extension.php:15
-msgid "Relabels the built-in Posts post type as Articles across the admin. Labels are filterable, so any other word works too."
-msgstr "Zmienia w całym panelu nazwę wbudowanego typu treści Wpisy na Artykuły. Etykiety można filtrować, więc działa też każde inne słowo."
+msgid ""
+"Relabels the built-in Posts post type as Articles across the admin. Labels "
+"are filterable, so any other word works too."
+msgstr ""
+"Zmienia w całym panelu nazwę wbudowanego typu treści Wpisy na Artykuły. "
+"Etykiety można filtrować, więc działa też każde inne słowo."
 
 #: extensions/post-rename/hooks.php:36
 msgid "Article"
@@ -231,103 +883,185 @@ msgstr "Artykuły"
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:76
-#, php-format
 msgid "Add new %s"
 msgstr "Dodaj: %s"
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:78
-#, php-format
 msgid "Edit %s"
 msgstr "Edytuj: %s"
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:80
-#, php-format
 msgid "New %s"
 msgstr "Nowy: %s"
 
 #. translators: %s: singular post type name, e.g. Article.
 #. translators: %s: plural post type name, e.g. Articles.
-#: extensions/post-rename/hooks.php:82
-#: extensions/post-rename/hooks.php:84
-#, php-format
+#: extensions/post-rename/hooks.php:82 extensions/post-rename/hooks.php:84
 msgid "View %s"
 msgstr "Zobacz: %s"
 
 #. translators: %s: plural post type name, e.g. Articles.
 #: extensions/post-rename/hooks.php:86
-#, php-format
 msgid "Search %s"
 msgstr "Szukaj: %s"
 
 #. translators: %s: lowercase plural post type name, e.g. articles.
 #: extensions/post-rename/hooks.php:88
-#, php-format
 msgid "No %s found."
 msgstr "Nie znaleziono: %s."
 
 #. translators: %s: lowercase plural post type name, e.g. articles.
 #: extensions/post-rename/hooks.php:90
-#, php-format
 msgid "No %s found in Trash."
 msgstr "Nie znaleziono w koszu: %s."
 
 #. translators: %s: plural post type name, e.g. Articles.
-#: extensions/post-rename/hooks.php:92
-#, php-format
+#. translators: %s: taxonomy name.
+#: extensions/post-rename/hooks.php:92 build/blocks/post-card/index.js:31
+#: build/blocks/post-cards/index.js:31
+#: src/utils/post-cards/picker-labels.js:24
 msgid "All %s"
 msgstr "Wszystkie: %s"
 
 #. translators: %s: plural post type name, e.g. Articles.
 #: extensions/post-rename/hooks.php:94
-#, php-format
 msgid "%s archives"
 msgstr "Archiwa: %s"
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:96
-#, php-format
 msgid "%s attributes"
 msgstr "Atrybuty: %s"
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:98
-#, php-format
 msgid "Insert into %s"
 msgstr "Wstaw do: %s"
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:100
-#, php-format
 msgid "%s published."
 msgstr "Opublikowano: %s."
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:102
-#, php-format
 msgid "%s updated."
 msgstr "Zaktualizowano: %s."
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:104
-#, php-format
 msgid "%s scheduled."
 msgstr "Zaplanowano: %s."
 
 #. translators: %s: singular post type name, e.g. Article.
 #: extensions/post-rename/hooks.php:106
-#, php-format
 msgid "%s reverted to draft."
 msgstr "Przywrócono do szkicu: %s."
+
+#: extensions/redirect-authors/extension.php:16
+msgid "Hide author archives and user lists"
+msgstr "Ukryj archiwa autorów i listy użytkowników"
+
+#: extensions/redirect-authors/extension.php:17
+msgid ""
+"Author archives answer 404 instead of revealing login names, and visitors "
+"can no longer list users through the REST API, oEmbed or the users sitemap. "
+"Signed-in editors keep the editor's author picker."
+msgstr ""
+"Archiwa autorów zwracają 404 zamiast ujawniać nazwy użytkowników, a "
+"odwiedzający nie mogą już wyświetlić listy użytkowników przez REST API, "
+"oEmbed ani mapę witryny użytkowników. Zalogowani redaktorzy zachowują wybór "
+"autora w edytorze."
+
+#: extensions/redirect-authors/hooks.php:161
+msgid "Sorry, you are not allowed to list users."
+msgstr "Nie masz uprawnień do wyświetlania listy użytkowników."
+
+#: extensions/remove-core-block-styles/extension.php:14
+msgid "Remove core block styles"
+msgstr "Usuń wbudowane style bloków"
+
+#: extensions/remove-core-block-styles/extension.php:15
+msgid ""
+"Removes the styles WordPress ships for its own blocks (Outline button, "
+"Rounded image, Stripes table and the like) from the Styles panel, so editors"
+" choose only from the styles the theme registers. The theme can keep chosen "
+"ones."
+msgstr ""
+"Usuwa z panelu Style style, które WordPress dostarcza dla własnych bloków "
+"(przycisk z obramowaniem, zaokrąglony obrazek, tabela w paski itp.), dzięki "
+"czemu redaktorzy wybierają wyłącznie spośród stylów zarejestrowanych przez "
+"motyw. Motyw może zachować wybrane z nich."
+
+#: extensions/remove-core-patterns/extension.php:14
+msgid "Remove core patterns"
+msgstr "Usuń wbudowane wzorce"
+
+#: extensions/remove-core-patterns/extension.php:15
+msgid ""
+"Removes the patterns WordPress itself ships and the ones it downloads from "
+"the WordPress.org pattern directory, so the pattern inserter lists only the "
+"theme's and the site's own patterns."
+msgstr ""
+"Usuwa wzorce dostarczane przez sam WordPress oraz pobierane z katalogu "
+"wzorców WordPress.org, dzięki czemu przy wstawianiu wzorców widoczne są "
+"tylko wzorce motywu i witryny."
+
+#: extensions/remove-post-category/extension.php:14
+msgid "Remove categories from posts"
+msgstr "Usuń kategorie z wpisów"
+
+#: extensions/remove-post-category/extension.php:15
+msgid ""
+"Keeps posts but drops categories: no Categories screen or editor panel, and "
+"when nothing else uses categories, their archives answer 404 and they leave "
+"REST, sitemaps and the inserter."
+msgstr ""
+"Zachowuje wpisy, ale usuwa z nich kategorie: bez ekranu Kategorie i panelu w"
+" edytorze, a gdy nic innego nie używa kategorii, ich archiwa zwracają 404 i "
+"znikają z REST API, map witryny oraz listy bloków do wstawienia."
+
+#: extensions/remove-post-tags/extension.php:14
+msgid "Remove tags from posts"
+msgstr "Usuń tagi z wpisów"
+
+#: extensions/remove-post-tags/extension.php:15
+msgid ""
+"Keeps posts but drops tags: no Tags screen or editor panel, and when nothing"
+" else uses tags, their archives answer 404 and they leave REST, sitemaps and"
+" the inserter."
+msgstr ""
+"Zachowuje wpisy, ale usuwa z nich tagi: bez ekranu Tagi i panelu w edytorze,"
+" a gdy nic innego nie używa tagów, ich archiwa zwracają 404 i znikają z REST"
+" API, map witryny oraz listy bloków do wstawienia."
+
+#: extensions/reset-admin-dashboard/extension.php:14
+msgid "Clean up the dashboard"
+msgstr "Uporządkuj kokpit"
+
+#: extensions/reset-admin-dashboard/extension.php:15
+msgid ""
+"Removes the default widgets from the admin dashboard — Welcome, At a Glance,"
+" Activity, Quick Draft, WordPress Events and News, Site Health and common "
+"plugin widgets. Security warnings about PHP and the browser stay."
+msgstr ""
+"Usuwa domyślne widgety z kokpitu: Witaj, W skrócie, Aktywność, Szybki szkic,"
+" Wydarzenia i aktualności WordPressa, Stan witryny oraz popularne widgety "
+"wtyczek. Ostrzeżenia bezpieczeństwa dotyczące PHP i przeglądarki pozostają."
 
 #: extensions/site-logo-option/extension.php:14
 msgid "Site logo in General settings"
 msgstr "Logo witryny w Ustawieniach ogólnych"
 
 #: extensions/site-logo-option/extension.php:15
-msgid "Adds a site logo picker to Settings → General, so the logo can be changed without opening the site editor."
-msgstr "Dodaje wybór logo witryny w Ustawienia → Ogólne, aby można było zmienić logo bez otwierania edytora witryny."
+msgid ""
+"Adds a site logo picker to Settings → General, so the logo can be changed "
+"without opening the site editor."
+msgstr ""
+"Dodaje wybór logo witryny w Ustawienia → Ogólne, aby można było zmienić logo"
+" bez otwierania edytora witryny."
 
 #: extensions/site-logo-option/hooks.php:50
 msgid "Site logo"
@@ -343,22 +1077,28 @@ msgid "Remove logo"
 msgstr "Usuń logo"
 
 #: extensions/site-logo-option/hooks.php:126
-msgid "The same logo the site editor uses. Changing it here changes it everywhere."
-msgstr "To samo logo, którego używa edytor witryny. Zmiana tutaj zmienia je wszędzie."
+msgid ""
+"The same logo the site editor uses. Changing it here changes it everywhere."
+msgstr ""
+"To samo logo, którego używa edytor witryny. Zmiana tutaj zmienia je "
+"wszędzie."
 
 #: extensions/site-logo-option/hooks.php:167
 msgid "Use as site logo"
 msgstr "Użyj jako logo witryny"
 
-#: extensions/skip-links/extension.php:14
-#: extensions/skip-links/hooks.php:114
+#: extensions/skip-links/extension.php:14 extensions/skip-links/hooks.php:114
 #: extensions/skip-links/hooks.php:116
 msgid "Skip links"
 msgstr "Linki pomijania"
 
 #: extensions/skip-links/extension.php:15
-msgid "Adds a keyboard-only skip navigation right after the opening body tag, replacing the core block theme skip link."
-msgstr "Dodaje zaraz po otwarciu znacznika body nawigację pomijania dostępną z klawiatury, zastępując wbudowany link pomijania motywów blokowych."
+msgid ""
+"Adds a keyboard-only skip navigation right after the opening body tag, "
+"replacing the core block theme skip link."
+msgstr ""
+"Dodaje zaraz po otwarciu znacznika body nawigację pomijania dostępną z "
+"klawiatury, zastępując wbudowany link pomijania motywów blokowych."
 
 #: extensions/skip-links/hooks.php:62
 msgid "Skip to main content"
@@ -369,34 +1109,335 @@ msgid "Show template name"
 msgstr "Pokaż nazwę szablonu"
 
 #: extensions/template-post-state/extension.php:15
-msgid "Shows the assigned page template as a badge next to the title on post type list screens."
-msgstr "Pokazuje przypisany szablon strony jako etykietę obok tytułu na listach treści."
+msgid ""
+"Shows the assigned page template as a badge next to the title on post type "
+"list screens."
+msgstr ""
+"Pokazuje przypisany szablon strony jako etykietę obok tytułu na listach "
+"treści."
 
 #: extensions/wrap-html-block/extension.php:14
 msgid "Custom HTML block wrapper"
 msgstr "Kontener bloku Własny HTML"
 
 #: extensions/wrap-html-block/extension.php:15
-msgid "Wraps the rendered Custom HTML block in a container, so its markup and any trailing script stay together in the layout."
-msgstr "Otacza blok Własny HTML kontenerem, dzięki czemu jego kod i ewentualny skrypt na końcu pozostają w układzie jednym elementem."
+msgid ""
+"Wraps the rendered Custom HTML block in a container, so its markup and any "
+"trailing script stay together in the layout."
+msgstr ""
+"Otacza blok Własny HTML kontenerem, dzięki czemu jego kod i ewentualny "
+"skrypt na końcu pozostają w układzie jednym elementem."
 
 #: includes/class-extensions.php:70
 msgid "Admin experience"
 msgstr "Wygoda w panelu"
 
-#: extensions/disable-posts/hooks.php:579
-#: includes/class-extensions.php:71
-msgid "Content"
-msgstr "Treść"
+#: includes/class-extensions.php:72
+msgid "Block editor"
+msgstr "Edytor bloków"
 
-#: extensions/accessibility-statement-page/hooks.php:772
-#: includes/class-extensions.php:75
-msgid "Accessibility"
-msgstr "Dostępność"
+#: includes/class-extensions.php:73
+msgid "Core blocks"
+msgstr "Bloki core"
+
+#: includes/class-extensions.php:74
+msgid "Security"
+msgstr "Bezpieczeństwo"
+
+#: includes/class-extensions.php:76 includes/dashboard/support.php:235
+msgid "Theme"
+msgstr "Motyw"
 
 #: includes/class-extensions.php:77
 msgid "Plugin integrations"
 msgstr "Integracje z wtyczkami"
+
+#: includes/dashboard/content-overview.php:162
+msgid "Upload"
+msgstr "Prześlij"
+
+#: includes/dashboard/content-overview.php:190
+msgid "Add new"
+msgstr "Dodaj nowy"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:211
+msgid "%s published"
+msgid_plural "%s published"
+msgstr[0] "%s opublikowany"
+msgstr[1] "%s opublikowane"
+msgstr[2] "%s opublikowanych"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:214
+msgid "%s draft"
+msgid_plural "%s drafts"
+msgstr[0] "%s szkic"
+msgstr[1] "%s szkice"
+msgstr[2] "%s szkiców"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:217
+msgid "%s scheduled"
+msgid_plural "%s scheduled"
+msgstr[0] "%s zaplanowany"
+msgstr[1] "%s zaplanowane"
+msgstr[2] "%s zaplanowanych"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:220
+msgid "%s pending review"
+msgid_plural "%s pending review"
+msgstr[0] "%s oczekuje na sprawdzenie"
+msgstr[1] "%s oczekują na sprawdzenie"
+msgstr[2] "%s oczekuje na sprawdzenie"
+
+#. translators: %s: number of posts.
+#: includes/dashboard/content-overview.php:223
+msgid "%s private"
+msgid_plural "%s private"
+msgstr[0] "%s prywatny"
+msgstr[1] "%s prywatne"
+msgstr[2] "%s prywatnych"
+
+#: includes/dashboard/content-overview.php:236
+msgid "No content types to show."
+msgstr "Brak typów treści do wyświetlenia."
+
+#: includes/dashboard/content-overview.php:283
+msgid "View all"
+msgstr "Zobacz wszystkie"
+
+#. translators: %s: number of items.
+#: includes/dashboard/content-overview.php:305
+msgid "%s item awaiting review"
+msgid_plural "%s items awaiting review"
+msgstr[0] "%s element czeka na sprawdzenie"
+msgstr[1] "%s elementy czekają na sprawdzenie"
+msgstr[2] "%s elementów czeka na sprawdzenie"
+
+#: includes/dashboard/content-overview.php:306
+msgid "Nothing awaiting review"
+msgstr "Nic nie czeka na sprawdzenie"
+
+#. translators: %s: number of items.
+#: includes/dashboard/content-overview.php:309
+msgid "%s item total"
+msgid_plural "%s items total"
+msgstr[0] "%s element łącznie"
+msgstr[1] "%s elementy łącznie"
+msgstr[2] "%s elementów łącznie"
+
+#: includes/dashboard/settings.php:205 build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:125
+msgid "Content overview"
+msgstr "Przegląd treści"
+
+#: includes/dashboard/settings.php:214 build/admin/index.js:4
+#: src/admin/components/dashboard-tab.js:165
+msgid "Support"
+msgstr "Wsparcie"
+
+#: includes/dashboard/support.php:33
+msgid "Bug / something broken"
+msgstr "Błąd / coś nie działa"
+
+#: includes/dashboard/support.php:34
+msgid "Content or editing question"
+msgstr "Pytanie o treść lub edycję"
+
+#: includes/dashboard/support.php:35
+msgid "Access or login"
+msgstr "Dostęp lub logowanie"
+
+#: includes/dashboard/support.php:36
+msgid "Feature request"
+msgstr "Prośba o nową funkcję"
+
+#: includes/dashboard/support.php:37
+msgid "Other"
+msgstr "Inne"
+
+#: includes/dashboard/support.php:81
+msgid "Developer"
+msgstr "Wykonawca"
+
+#. translators: Accessibility text for a link that opens in a new tab.
+#: includes/dashboard/support.php:85
+msgid "(opens in a new tab)"
+msgstr "(otwiera się w nowej karcie)"
+
+#: includes/dashboard/support.php:90 includes/utils/icon.php:124
+#: build/blocks/social-share-network/index.js:1
+#: src/blocks/social-share-network/network-config.js:47
+msgid "Email"
+msgstr "E-mail"
+
+#: includes/dashboard/support.php:113 includes/dashboard/support.php:173
+msgid "Show form"
+msgstr "Pokaż formularz"
+
+#: includes/dashboard/support.php:120
+msgid "Your email"
+msgstr "Twój e-mail"
+
+#: includes/dashboard/support.php:126 includes/dashboard/support.php:257
+msgid "Subject"
+msgstr "Temat"
+
+#: includes/dashboard/support.php:129 includes/dashboard/support.php:258
+msgid "Problem type"
+msgstr "Rodzaj problemu"
+
+#: includes/dashboard/support.php:137
+msgid "Description"
+msgstr "Opis"
+
+#: includes/dashboard/support.php:143 includes/dashboard/support.php:176
+msgid "Send request"
+msgstr "Wyślij zgłoszenie"
+
+#: includes/dashboard/support.php:144 build/blocks/post-card/index.js:39
+#: build/blocks/post-cards/index.js:39
+#: src/utils/post-cards/picker-labels.js:38
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: includes/dashboard/support.php:174
+msgid "Hide form"
+msgstr "Ukryj formularz"
+
+#: includes/dashboard/support.php:175
+msgid "Sending…"
+msgstr "Wysyłanie…"
+
+#: includes/dashboard/support.php:177 includes/dashboard/support.php:301
+msgid "Fill in your email, the subject and the description."
+msgstr "Uzupełnij e-mail, temat i opis."
+
+#: includes/dashboard/support.php:178 includes/dashboard/support.php:330
+msgid "The request could not be sent. Try again, or write to us directly."
+msgstr ""
+"Nie udało się wysłać zgłoszenia. Spróbuj ponownie lub napisz do nas "
+"bezpośrednio."
+
+#: includes/dashboard/support.php:231 includes/dashboard/support.php:345
+msgid "Site"
+msgstr "Witryna"
+
+#: includes/dashboard/support.php:232
+msgid "Sent by"
+msgstr "Wysłane przez"
+
+#: includes/dashboard/support.php:233
+msgid "WordPress"
+msgstr "WordPress"
+
+#: includes/dashboard/support.php:234
+msgid "PHP"
+msgstr "PHP"
+
+#: includes/dashboard/support.php:236
+msgid "Plugin"
+msgstr "Wtyczka"
+
+#: includes/dashboard/support.php:259
+msgid "Reply to"
+msgstr "Odpowiedz na"
+
+#: includes/dashboard/support.php:288
+msgid "A request was sent a moment ago. Wait a minute before sending another."
+msgstr ""
+"Zgłoszenie zostało wysłane przed chwilą. Odczekaj minutę przed wysłaniem "
+"kolejnego."
+
+#. translators: 1: site name, 2: request subject.
+#: includes/dashboard/support.php:318
+msgid "[Support form] %1$s: %2$s"
+msgstr "[Formularz wsparcia] %1$s: %2$s"
+
+#. translators: %s: site name.
+#: includes/dashboard/support.php:321
+msgid "Support request from %s"
+msgstr "Zgłoszenie do wsparcia z witryny %s"
+
+#: includes/dashboard/support.php:322
+msgid "Sent from the Support form on the WordPress dashboard."
+msgstr "Wysłane z formularza Wsparcie w kokpicie WordPressa."
+
+#. translators: %s: request subject.
+#: includes/dashboard/support.php:339
+msgid "We received your support request: %s"
+msgstr "Otrzymaliśmy Twoje zgłoszenie: %s"
+
+#: includes/dashboard/support.php:341
+msgid "Your request has been sent"
+msgstr "Twoje zgłoszenie zostało wysłane"
+
+#. translators: %s: support email address.
+#: includes/dashboard/support.php:343
+msgid ""
+"This is a copy of what you sent. We will reply to this address; you can also"
+" write to %s."
+msgstr ""
+"To kopia wysłanej wiadomości. Odpowiemy na ten adres; możesz też napisać na "
+"%s."
+
+#. translators: %s: email address.
+#: includes/dashboard/support.php:354
+msgid "Thanks — your request has been sent. A copy went to %s."
+msgstr "Dziękujemy — zgłoszenie zostało wysłane. Kopia trafiła na adres %s."
+
+#: includes/post-cards/options.php:235 build/blocks/read-more/index.js:1
+#: src/blocks/read-more/edit.js:305
+msgid "Custom title"
+msgstr "Własny tytuł"
+
+#: includes/post-cards/options.php:236
+msgid "Replaces the post title on this card only."
+msgstr "Zastępuje tytuł wpisu tylko na tej karcie."
+
+#: includes/post-cards/options.php:242
+msgid "Custom excerpt"
+msgstr "Własna zajawka"
+
+#: includes/post-cards/options.php:243
+msgid "Replaces the post excerpt on this card only."
+msgstr "Zastępuje zajawkę wpisu tylko na tej karcie."
+
+#: includes/post-cards/options.php:248
+msgid "Hide excerpt"
+msgstr "Ukryj zajawkę"
+
+#: includes/post-cards/options.php:252
+msgid "Custom image"
+msgstr "Własny obrazek"
+
+#: includes/post-cards/options.php:253
+msgid "Replaces the featured image on this card only."
+msgstr "Zastępuje obrazek wyróżniający tylko na tej karcie."
+
+#: includes/post-cards/templates.php:374 build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/edit.js:228
+msgid "Cards"
+msgstr "Karty"
+
+#: includes/post-cards/templates.php:375
+msgid ""
+"Post card templates used by the Post Card block, one per post type or "
+"variant."
+msgstr ""
+"Szablony kart wpisów używane przez blok Karta wpisu, po jednym na typ treści"
+" lub wariant."
+
+#. translators: %s: card template slug, e.g. "post-wide".
+#: includes/post-cards/templates.php:414
+msgid "Card: %s"
+msgstr "Karta: %s"
+
+#: includes/rest.php:150
+msgid "Another change is being saved. Try again."
+msgstr "Trwa zapisywanie innej zmiany. Spróbuj ponownie."
 
 #: includes/rest.php:291
 msgid "Unknown block."
@@ -406,20 +1447,24 @@ msgstr "Nieznany blok."
 msgid "This block is managed in code and cannot be toggled here."
 msgstr "Ten blok jest zarządzany w kodzie i nie można go tutaj przełączyć."
 
-#: includes/rest.php:397
-#: includes/rest.php:479
+#: includes/rest.php:397 includes/rest.php:479
 msgid "Unknown extension."
 msgstr "Nieznane rozszerzenie."
 
+#. translators: %s: setting label.
+#: includes/rest.php:419
+msgid "%s is not a valid email address."
+msgstr "%s nie jest prawidłowym adresem e-mail."
+
 #. translators: %s: name of the required plugin.
 #: includes/rest.php:489
-#, php-format
 msgid "This extension needs %s to be active."
 msgstr "To rozszerzenie wymaga aktywnej wtyczki %s."
 
 #: includes/rest.php:499
 msgid "This extension is managed in code and cannot be toggled here."
-msgstr "To rozszerzenie jest zarządzane w kodzie i nie można go tutaj przełączyć."
+msgstr ""
+"To rozszerzenie jest zarządzane w kodzie i nie można go tutaj przełączyć."
 
 #: includes/utils/icon.php:24
 msgid "Chevron down"
@@ -449,67 +1494,52 @@ msgstr "Odtwórz"
 msgid "Arrow forward"
 msgstr "Strzałka w prawo"
 
-#: includes/utils/icon.php:84
-#: build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:84 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:15
 msgid "Facebook"
 msgstr "Facebook"
 
-#: includes/utils/icon.php:89
-#: build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:89 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:19
 msgid "X (Twitter)"
 msgstr "X (Twitter)"
 
-#: includes/utils/icon.php:94
-#: build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:94 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:23
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: includes/utils/icon.php:99
-#: build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:99 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:27
 msgid "WhatsApp"
 msgstr "WhatsApp"
 
-#: includes/utils/icon.php:104
-#: build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:104 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:31
 msgid "Bluesky"
 msgstr "Bluesky"
 
-#: includes/utils/icon.php:109
-#: build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:109 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:35
 msgid "Threads"
 msgstr "Threads"
 
-#: includes/utils/icon.php:114
-#: build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:114 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:39
 msgid "Mastodon"
 msgstr "Mastodon"
 
-#: includes/utils/icon.php:119
-#: build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:119 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:43
 msgid "Substack"
 msgstr "Substack"
 
-#: includes/dashboard/support.php:90
-#: includes/utils/icon.php:124
-#: build/blocks/social-share-network/index.js:1
-#: src/blocks/social-share-network/network-config.js:47
-msgid "Email"
-msgstr "E-mail"
-
-#: includes/utils/icon.php:129
+#: includes/utils/icon.php:129 build/blocks/card-title/index.js:1
+#: src/blocks/card-title/edit.js:41
 msgid "Link"
 msgstr "Link"
 
-#: includes/utils/icon.php:134
-#: build/blocks/social-share-network/index.js:1
+#: includes/utils/icon.php:134 build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:63
 msgid "Print"
 msgstr "Drukuj"
@@ -521,7 +1551,8 @@ msgstr "Drukuj"
 msgid "Share"
 msgstr "Udostępnij"
 
-#: includes/utils/slider.php:70
+#: includes/utils/slider.php:70 build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/edit.js:177
 msgid "Carousel"
 msgstr "Karuzela"
 
@@ -535,13 +1566,11 @@ msgstr "Następny slajd"
 
 #. translators: %d: slide number.
 #: includes/utils/slider.php:74
-#, php-format
 msgid "Go to slide %d"
 msgstr "Przejdź do slajdu %d"
 
 #. translators: 1: slide number, 2: number of slides.
 #: includes/utils/slider.php:76
-#, php-format
 msgid "%1$d of %2$d"
 msgstr "%1$d z %2$d"
 
@@ -563,13 +1592,11 @@ msgstr "karuzela"
 
 #. translators: %s: human-readable time difference, for example "2 months".
 #: src/blocks/google-reviews/inc/render-helpers.php:188
-#, php-format
 msgid "%s ago"
 msgstr "%s temu"
 
 #. translators: %s: review rating from 0 to 5.
 #: src/blocks/google-reviews/inc/render-helpers.php:203
-#, php-format
 msgid "Rating: %s out of 5"
 msgstr "Ocena: %s na 5"
 
@@ -587,7 +1614,6 @@ msgstr "Zwiń"
 
 #. translators: %s: parent menu item label.
 #: src/blocks/site-header/inc/class-nav-walker.php:150
-#, php-format
 msgid "Show submenu for %s"
 msgstr "Pokaż podmenu: %s"
 
@@ -664,7 +1690,6 @@ msgstr "Zobacz: %title%"
 
 #. translators: %title% is the post title, %url% is the post permalink.
 #: src/blocks/social-share-network/inc/render-helpers.php:167
-#, php-format
 msgid "You might be interested in this: %title%, %url%"
 msgstr "To może Cię zainteresować: %title%, %url%"
 
@@ -676,175 +1701,230 @@ msgstr "Otwórz treść"
 msgid "Close content"
 msgstr "Zamknij treść"
 
-#: build/admin/index.js:1
-#: build/admin/index.js:5
+#: build/admin/index.js:1 build/admin/index.js:5
 #: src/admin/components/block-card.js:25
 #: src/admin/components/extension-card.js:26
 #: src/admin/components/extension-settings.js:24
 msgid "Managed in isudev.json — change it there."
 msgstr "Zarządzane w isudev.json — zmień to tam."
 
-#: build/admin/index.js:1
-#: src/admin/components/block-card.js:30
+#: build/admin/index.js:1 src/admin/components/block-card.js:30
 msgid "Always enabled — this block cannot be turned off."
 msgstr "Zawsze włączony — tego bloku nie można wyłączyć."
 
 #. translators: %s: comma-separated list of block slugs.
-#: build/admin/index.js:2
-#: src/admin/components/block-card.js:37
-#, js-format
+#: build/admin/index.js:2 src/admin/components/block-card.js:37
 msgid "Requires: %s. Enable those first."
 msgstr "Wymaga: %s. Najpierw je włącz."
 
-#: build/admin/index.js:2
-#: src/admin/components/block-card.js:65
+#: build/admin/index.js:2 src/admin/components/block-card.js:65
 msgid "Parent"
 msgstr "Nadrzędny"
 
-#: build/admin/index.js:2
-#: build/admin/index.js:6
+#: build/admin/index.js:2 build/admin/index.js:6
 #: src/admin/components/block-card.js:80
 #: src/admin/components/extension-card.js:71
 msgid "Enabled"
 msgstr "Włączony"
 
-#: build/admin/index.js:2
-#: build/admin/index.js:6
+#: build/admin/index.js:2 build/admin/index.js:6
 #: src/admin/components/block-card.js:81
 #: src/admin/components/extension-card.js:72
 msgid "Disabled"
 msgstr "Wyłączony"
 
-#: build/admin/index.js:2
-#: src/admin/components/blocks-tab.js:51
+#: build/admin/index.js:2 src/admin/components/blocks-tab.js:51
 msgid "No blocks found. Run npm run build."
 msgstr "Nie znaleziono bloków. Uruchom npm run build."
 
-#: build/admin/index.js:2
-#: src/admin/components/blocks-tab.js:61
+#: build/admin/index.js:2 src/admin/components/blocks-tab.js:61
 msgid "This also disables the blocks that depend on it. Continue?"
 msgstr "To wyłączy też bloki, które od niego zależą. Kontynuować?"
 
-#: build/admin/index.js:2
-#: src/admin/components/blocks-tab.js:118
-msgid "Disabling a block removes it entirely — no editor or frontend assets load, and blocks already inserted in content render as nothing."
-msgstr "Wyłączenie bloku usuwa go całkowicie — nie ładują się jego zasoby w edytorze ani na stronie, a bloki już wstawione do treści nic nie wyświetlają."
+#: build/admin/index.js:2 src/admin/components/blocks-tab.js:118
+msgid ""
+"Disabling a block removes it entirely — no editor or frontend assets load, "
+"and blocks already inserted in content render as nothing."
+msgstr ""
+"Wyłączenie bloku usuwa go całkowicie — nie ładują się jego zasoby w edytorze"
+" ani na stronie, a bloki już wstawione do treści nic nie wyświetlają."
 
 #. translators: 1: number of enabled blocks, 2: total number of blocks.
-#: build/admin/index.js:3
-#: src/admin/components/blocks-tab.js:128
-#, js-format
+#: build/admin/index.js:3 src/admin/components/blocks-tab.js:128
 msgid "%1$d of %2$d blocks enabled"
 msgstr "Włączone bloki: %1$d z %2$d"
 
-#: build/admin/index.js:3
-#: src/admin/components/blocks-tab.js:135
+#: build/admin/index.js:3 src/admin/components/blocks-tab.js:135
 msgid "Enable all"
 msgstr "Włącz wszystkie"
 
-#: build/admin/index.js:3
-#: src/admin/components/blocks-tab.js:138
+#: build/admin/index.js:3 src/admin/components/blocks-tab.js:138
 msgid "Disable all"
 msgstr "Wyłącz wszystkie"
 
-#: build/admin/index.js:3
-#: src/admin/components/blocks-tab.js:159
+#: build/admin/index.js:3 src/admin/components/blocks-tab.js:159
 msgid "Inner blocks"
 msgstr "Bloki wewnętrzne"
 
-#. translators: 1: number of enabled inner blocks, 2: total number of inner blocks.
-#: build/admin/index.js:4
-#: src/admin/components/blocks-tab.js:165
-#, js-format
+#. translators: 1: number of enabled inner blocks, 2: total number of inner
+#. blocks.
+#: build/admin/index.js:4 src/admin/components/blocks-tab.js:165
 msgid "%1$d of %2$d enabled"
 msgstr "Włączone: %1$d z %2$d"
 
-#: build/admin/index.js:4
-#: src/admin/components/blocks-tab.js:174
+#: build/admin/index.js:4 src/admin/components/blocks-tab.js:174
 msgid "Unavailable while parent is disabled"
 msgstr "Niedostępny, gdy blok nadrzędny jest wyłączony"
 
+#: build/admin/index.js:4 src/admin/components/dashboard-tab.js:93
+msgid ""
+"Widgets on the WordPress dashboard for the people who run the site: what "
+"content there is, and how to reach support."
+msgstr ""
+"Widgety w kokpicie WordPressa dla osób prowadzących witrynę: jakie treści są"
+" na stronie i jak skontaktować się ze wsparciem."
+
+#: build/admin/index.js:4 src/admin/components/dashboard-tab.js:108
+msgid "Dashboard widgets"
+msgstr "Widgety kokpitu"
+
+#: build/admin/index.js:4 src/admin/components/dashboard-tab.js:109
+msgid "Off: nothing is added to the dashboard."
+msgstr "Wyłączone: nic nie jest dodawane do kokpitu."
+
+#: build/admin/index.js:4 src/admin/components/dashboard-tab.js:128
+msgid ""
+"One row per content type with its icon, counts by status and View all / Add "
+"new."
+msgstr ""
+"Jeden wiersz na typ treści z ikoną, liczbą wpisów według statusu oraz "
+"przyciskami Zobacz wszystkie / Dodaj nowy."
+
+#: build/admin/index.js:4 src/admin/components/dashboard-tab.js:135
+msgid "Show Content overview"
+msgstr "Pokaż Przegląd treści"
+
+#: build/admin/index.js:4 src/admin/components/dashboard-tab.js:147
+msgid "Content types shown"
+msgstr "Wyświetlane typy treści"
+
+#. translators: 1: website, 2: email address.
+#: build/admin/index.js:5 src/admin/components/dashboard-tab.js:170
+msgid ""
+"Shows %1$s and %2$s, and a form that emails a request there with a copy to "
+"the sender."
+msgstr ""
+"Pokazuje %1$s i %2$s oraz formularz, który wysyła tam zgłoszenie e-mailem z "
+"kopią do nadawcy."
+
+#: build/admin/index.js:5 src/admin/components/dashboard-tab.js:180
+msgid "Show Support"
+msgstr "Pokaż Wsparcie"
+
+#: build/admin/index.js:5 src/admin/components/dashboard-tab.js:189
+msgid "Support request form"
+msgstr "Formularz zgłoszenia"
+
+#: build/admin/index.js:5 src/admin/components/dashboard-tab.js:198
+msgid "Client email"
+msgstr "E-mail klienta"
+
+#: build/admin/index.js:5 src/admin/components/dashboard-tab.js:199
+msgid ""
+"Prefilled in the form and used for the copy. Empty: the signed-in user’s own"
+" email."
+msgstr ""
+"Wstawiany do formularza i używany do wysłania kopii. Puste: e-mail "
+"zalogowanego użytkownika."
+
+#: build/admin/index.js:5 src/admin/components/dashboard-tab.js:79
+msgid "Dashboard settings saved."
+msgstr "Zapisano ustawienia kokpitu."
+
+#: build/admin/index.js:5 src/admin/components/dashboard-tab.js:219
+msgid "Save"
+msgstr "Zapisz"
+
+#: build/admin/index.js:5 src/admin/components/extension-settings.js:133
+msgid "Save settings"
+msgstr "Zapisz ustawienia"
+
 #. translators: %s: name of the required plugin.
-#: build/admin/index.js:6
-#: src/admin/components/extension-card.js:33
-#, js-format
+#: build/admin/index.js:6 src/admin/components/extension-card.js:33
 msgid "Needs %s to be active."
 msgstr "Wymaga aktywnej wtyczki %s."
 
-#: build/admin/index.js:6
-#: src/admin/components/extensions-tab.js:63
+#: build/admin/index.js:6 src/admin/components/extensions-tab.js:63
 msgid "No extensions found."
 msgstr "Nie znaleziono rozszerzeń."
 
-#: build/admin/index.js:6
-#: src/admin/components/extensions-tab.js:93
-msgid "Extensions change the admin or the front end as soon as they are enabled. A change takes effect on the next page load."
-msgstr "Rozszerzenia zmieniają panel lub stronę od razu po włączeniu. Zmiana działa od następnego wczytania strony."
+#: build/admin/index.js:6 src/admin/components/extensions-tab.js:93
+msgid ""
+"Extensions change the admin or the front end as soon as they are enabled. A "
+"change takes effect on the next page load."
+msgstr ""
+"Rozszerzenia zmieniają panel lub stronę od razu po włączeniu. Zmiana działa "
+"od następnego wczytania strony."
 
-#. translators: 1: number of enabled extensions, 2: total number of extensions.
-#: build/admin/index.js:7
-#: src/admin/components/extensions-tab.js:103
-#, js-format
+#. translators: 1: number of enabled extensions, 2: total number of
+#. extensions.
+#: build/admin/index.js:7 src/admin/components/extensions-tab.js:103
 msgid "%1$d of %2$d extensions enabled"
 msgstr "Włączone rozszerzenia: %1$d z %2$d"
 
-#: build/admin/index.js:7
-#: src/admin/components/settings-tab.js:25
+#: build/admin/index.js:7 src/admin/components/settings-tab.js:25
 msgid "Diagnostics"
 msgstr "Diagnostyka"
 
-#: build/admin/index.js:7
-#: src/admin/components/settings-tab.js:31
+#: build/admin/index.js:7 src/admin/components/settings-tab.js:31
 msgid "Version:"
 msgstr "Wersja:"
 
-#: build/admin/index.js:7
-#: src/admin/components/settings-tab.js:35
+#: build/admin/index.js:7 src/admin/components/settings-tab.js:35
 msgid "Blocks discovered:"
 msgstr "Znalezione bloki:"
 
-#: build/admin/index.js:7
-#: src/admin/components/settings-tab.js:39
+#: build/admin/index.js:7 src/admin/components/settings-tab.js:39
 msgid "Blocks registered:"
 msgstr "Zarejestrowane bloki:"
 
-#: build/admin/index.js:7
-#: src/admin/components/settings-tab.js:43
+#: build/admin/index.js:7 src/admin/components/settings-tab.js:43
 msgid "isudev.json:"
 msgstr "isudev.json:"
 
-#: build/admin/index.js:7
-#: src/admin/components/settings-tab.js:18
+#: build/admin/index.js:7 src/admin/components/settings-tab.js:18
 msgid "Not found — using block defaults."
 msgstr "Nie znaleziono — używane są domyślne ustawienia bloków."
 
-#: build/admin/index.js:7
-#: src/admin/app.js:121
+#: build/admin/index.js:7 src/admin/app.js:121
 msgid "Blocks"
 msgstr "Bloki"
 
-#: build/admin/index.js:7
-#: src/admin/app.js:122
+#: build/admin/index.js:7 src/admin/app.js:122
 msgid "Extensions"
 msgstr "Rozszerzenia"
 
-#: build/admin/index.js:7
-#: build/blocks/agenda-accordion-item/index.js:1
+#: build/admin/index.js:7 src/admin/app.js:123
+msgid "Dashboard"
+msgstr "Kokpit"
+
+#: build/admin/index.js:7 build/blocks/agenda-accordion-item/index.js:1
 #: build/blocks/selling-point/index.js:1
 #: build/blocks/selling-points/index.js:1
-#: build/blocks/toggle-blocks/index.js:1
-#: src/admin/app.js:124
+#: build/blocks/toggle-blocks/index.js:1 src/admin/app.js:124
 #: src/blocks/agenda-accordion-item/edit.js:104
-#: src/blocks/selling-point/edit.js:181
-#: src/blocks/selling-points/edit.js:87
+#: src/blocks/selling-point/edit.js:181 src/blocks/selling-points/edit.js:87
 #: src/blocks/toggle-blocks/edit.js:130
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: build/admin/index.js:7
-#: src/admin/app.js:163
-msgid "Blocks to build pages with, and extensions that change how WordPress itself behaves. Everything here can be switched off."
-msgstr "Bloki do budowania stron i rozszerzenia zmieniające działanie samego WordPressa. Wszystko tutaj można wyłączyć."
+#: build/admin/index.js:7 src/admin/app.js:163
+msgid ""
+"Blocks to build pages with, and extensions that change how WordPress itself "
+"behaves. Everything here can be switched off."
+msgstr ""
+"Bloki do budowania stron i rozszerzenia zmieniające działanie samego "
+"WordPressa. Wszystko tutaj można wyłączyć."
 
 #: build/blocks/agenda-accordion-item/index.js:1
 #: src/blocks/agenda-accordion-item/edit.js:34
@@ -892,106 +1972,180 @@ msgid "Write excerpt…"
 msgstr "Wpisz zajawkę…"
 
 #. translators: %s: breakpoint label, e.g. Tablet.
-#: build/blocks/bento-card/index.js:4
-#: src/blocks/bento-card/edit.js:337
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:337
 msgid "Card position"
 msgstr "Położenie kafelka"
 
-#: build/blocks/bento-card/index.js:4
-#: src/blocks/bento-card/edit.js:344
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:344
 msgid "Column span"
 msgstr "Szerokość w kolumnach"
 
-#: build/blocks/bento-card/index.js:4
-#: src/blocks/bento-card/edit.js:352
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:352
 msgid "Row span"
 msgstr "Wysokość w wierszach"
 
-#: build/blocks/bento-card/index.js:4
-#: src/blocks/bento-card/edit.js:383
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:383
 msgid "Resize card width"
 msgstr "Zmień szerokość kafelka"
 
-#: build/blocks/bento-card/index.js:4
-#: src/blocks/bento-card/edit.js:393
+#: build/blocks/bento-card/index.js:4 src/blocks/bento-card/edit.js:393
 msgid "Resize card height"
 msgstr "Zmień wysokość kafelka"
 
 #. translators: %s: breakpoint label, e.g. Tablet.
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/variations.js:26
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:26
 msgid "Layout 1"
 msgstr "Układ 1"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/variations.js:87
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:87
 msgid "Layout 2"
 msgstr "Układ 2"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/variations.js:147
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:147
 msgid "Layout 3"
 msgstr "Układ 3"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/variations.js:224
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:224
 msgid "Layout 4"
 msgstr "Układ 4"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/variations.js:335
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/variations.js:335
 msgid "Layout 5"
 msgstr "Układ 5"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:318
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:318
 msgid "Bento Grid"
 msgstr "Siatka bento"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:319
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:319
 msgid "Choose a layout to get started:"
 msgstr "Na początek wybierz układ:"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:179
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:179
 msgid "Grid settings"
 msgstr "Ustawienia siatki"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:186
+#: build/blocks/bento-grid/index.js:4 build/blocks/post-cards/index.js:47
+#: src/blocks/bento-grid/edit.js:186 src/blocks/post-cards/edit.js:194
 msgid "Columns"
 msgstr "Kolumny"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:198
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:198
 msgid "Gap (px)"
 msgstr "Odstęp (px)"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:208
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:208
 msgid "Grid guide"
 msgstr "Linie siatki"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:209
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:209
 msgid "Shows the column grid in the editor. Does not affect the frontend."
 msgstr "Pokazuje siatkę kolumn w edytorze. Nie wpływa na stronę."
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:222
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:222
 msgid "Card size"
 msgstr "Rozmiar kafelka"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:227
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:227
 msgid "Min. card height (px)"
 msgstr "Min. wysokość kafelka (px)"
 
-#: build/blocks/bento-grid/index.js:4
-#: src/blocks/bento-grid/edit.js:249
+#: build/blocks/bento-grid/index.js:4 src/blocks/bento-grid/edit.js:249
 msgid "Reset layout"
 msgstr "Resetuj układ"
+
+#: build/blocks/card-excerpt/index.js:1 src/blocks/card-excerpt/edit.js:31
+msgid "The excerpt of the post shown in the card."
+msgstr "Zajawka wpisu pokazanego na karcie."
+
+#: build/blocks/card-excerpt/index.js:1 src/blocks/card-excerpt/edit.js:40
+msgid "Excerpt"
+msgstr "Zajawka"
+
+#: build/blocks/card-excerpt/index.js:1 src/blocks/card-excerpt/edit.js:42
+msgid "Maximum words"
+msgstr "Maksymalna liczba słów"
+
+#: build/blocks/card-excerpt/index.js:1 src/blocks/card-excerpt/edit.js:43
+msgid ""
+"Applies to an excerpt made from the content. A written excerpt is shown "
+"whole."
+msgstr ""
+"Dotyczy zajawki tworzonej z treści. Napisana zajawka jest pokazywana w "
+"całości."
+
+#: build/blocks/card-image/index.js:1 build/blocks/selling-point/index.js:1
+#: src/blocks/card-image/edit.js:52 src/blocks/selling-point/edit.js:265
+msgid "Image"
+msgstr "Obrazek"
+
+#: build/blocks/card-image/index.js:1 src/blocks/card-image/edit.js:54
+msgid "Image size"
+msgstr "Rozmiar obrazka"
+
+#: build/blocks/card-image/index.js:1 src/blocks/card-image/edit.js:65
+msgid "Aspect ratio"
+msgstr "Proporcje"
+
+#: build/blocks/card-image/index.js:1 src/blocks/card-image/edit.js:66
+msgid "For example 16/9 or 4/5. Empty keeps the image’s own."
+msgstr "Na przykład 16/9 lub 4/5. Puste pole zachowuje proporcje obrazka."
+
+#: build/blocks/card-image/index.js:1 build/blocks/read-more/index.js:1
+#: src/blocks/card-image/edit.js:88 src/blocks/read-more/edit.js:264
+#: src/blocks/read-more/edit.js:279
+msgid "Card image"
+msgstr "Obrazek karty"
+
+#: build/blocks/card-slot/index.js:1 src/blocks/card-slot/edit.js:15
+msgid "Slot"
+msgstr "Slot"
+
+#: build/blocks/card-slot/index.js:1 src/blocks/card-slot/edit.js:17
+msgid "Slot name"
+msgstr "Nazwa slotu"
+
+#. translators: %s: filter name.
+#: build/blocks/card-slot/index.js:2 src/blocks/card-slot/edit.js:22
+msgid "Filled by the %s filter."
+msgstr "Wypełniany przez filtr %s."
+
+#: build/blocks/card-slot/index.js:2 src/blocks/card-slot/edit.js:28
+msgid "Lowercase letters, numbers, - and _."
+msgstr "Małe litery, cyfry, - i _."
+
+#: build/blocks/card-slot/index.js:2 src/blocks/card-slot/edit.js:45
+msgid "HTML element"
+msgstr "Element HTML"
+
+#. translators: %s: slot name.
+#: build/blocks/card-slot/index.js:3 src/blocks/card-slot/edit.js:61
+msgid "Slot: %s"
+msgstr "Slot: %s"
+
+#: build/blocks/card-slot/index.js:3 src/blocks/card-slot/edit.js:62
+msgid "Slot without a name"
+msgstr "Slot bez nazwy"
+
+#: build/blocks/card-title/index.js:1 src/blocks/card-title/edit.js:29
+msgid "Card title"
+msgstr "Tytuł karty"
+
+#: build/blocks/card-title/index.js:1 src/blocks/card-title/edit.js:43
+msgid "Link to the post"
+msgstr "Odnośnik do wpisu"
+
+#: build/blocks/card-title/index.js:1 src/blocks/card-title/edit.js:50
+msgid "Make the whole card clickable"
+msgstr "Cała karta jest klikalna"
+
+#: build/blocks/card-title/index.js:1 src/blocks/card-title/edit.js:54
+msgid ""
+"Stretches this link over the card. Turn it off when the card has another "
+"main link."
+msgstr ""
+"Rozciąga ten odnośnik na całą kartę. Wyłącz, gdy karta ma inny główny "
+"odnośnik."
 
 #: build/blocks/content-sidebar/index.js:1
 #: src/blocks/content-sidebar/edit.js:90
@@ -1036,7 +2190,9 @@ msgstr "Przyklejony panel boczny"
 #: build/blocks/content-sidebar/index.js:1
 #: src/blocks/content-sidebar/edit.js:143
 msgid "Keeps the sidebar in view while the content scrolls (wide screens)."
-msgstr "Panel boczny pozostaje widoczny podczas przewijania treści (szerokie ekrany)."
+msgstr ""
+"Panel boczny pozostaje widoczny podczas przewijania treści (szerokie "
+"ekrany)."
 
 #: build/blocks/google-reviews-badge/index.js:1
 #: build/blocks/google-reviews-header/index.js:1
@@ -1053,7 +2209,6 @@ msgstr "Wybierz konto Google"
 #: src/blocks/google-reviews-badge/edit.js:42
 #: src/blocks/google-reviews-header/edit.js:76
 #: src/blocks/google-reviews/edit.js:52
-#, js-format
 msgid "%1$s (%2$d reviews)"
 msgstr "%1$s (opinie: %2$d)"
 
@@ -1088,7 +2243,6 @@ msgstr "Użyj jasnego tekstu"
 #. translators: %d: total number of Google ratings.
 #: build/blocks/google-reviews-badge/index.js:3
 #: src/blocks/google-reviews-badge/edit.js:103
-#, js-format
 msgid "%d review on Google"
 msgid_plural "%d reviews on Google"
 msgstr[0] "%d opinia w Google"
@@ -1129,8 +2283,7 @@ msgstr "Maksymalna wysokość logo (px)"
 #: build/blocks/site-header/index.js:1
 #: src/blocks/google-reviews-header/edit.js:197
 #: src/blocks/google-reviews-header/edit.js:216
-#: src/blocks/site-header/edit.js:121
-#: src/blocks/site-header/edit.js:185
+#: src/blocks/site-header/edit.js:121 src/blocks/site-header/edit.js:185
 msgid "Logo"
 msgstr "Logo"
 
@@ -1152,7 +2305,6 @@ msgstr "Opcjonalny tekst pod nagłówkiem…"
 #. translators: %d: total number of ratings.
 #: build/blocks/google-reviews-header/index.js:3
 #: src/blocks/google-reviews-header/edit.js:252
-#, js-format
 msgid "Based on %d reviews"
 msgstr "Na podstawie %d opinii"
 
@@ -1161,38 +2313,31 @@ msgstr "Na podstawie %d opinii"
 msgid "powered by Google"
 msgstr "obsługiwane przez Google"
 
-#: build/blocks/google-reviews/index.js:1
-#: src/blocks/google-reviews/edit.js:20
+#: build/blocks/google-reviews/index.js:1 src/blocks/google-reviews/edit.js:20
 msgid "Continuous scroll"
 msgstr "Ciągłe przewijanie"
 
-#: build/blocks/google-reviews/index.js:1
-#: src/blocks/google-reviews/edit.js:21
+#: build/blocks/google-reviews/index.js:1 src/blocks/google-reviews/edit.js:21
 msgid "Classic"
 msgstr "Klasyczna"
 
-#: build/blocks/google-reviews/index.js:1
-#: src/blocks/google-reviews/edit.js:48
+#: build/blocks/google-reviews/index.js:1 src/blocks/google-reviews/edit.js:48
 msgid "All accounts"
 msgstr "Wszystkie konta"
 
-#: build/blocks/google-reviews/index.js:2
-#: src/blocks/google-reviews/edit.js:63
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:63
 msgid "Review settings"
 msgstr "Ustawienia opinii"
 
-#: build/blocks/google-reviews/index.js:2
-#: src/blocks/google-reviews/edit.js:66
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:66
 msgid "Number of reviews"
 msgstr "Liczba opinii"
 
-#: build/blocks/google-reviews/index.js:2
-#: src/blocks/google-reviews/edit.js:76
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:76
 msgid "Review text length"
 msgstr "Długość tekstu opinii"
 
-#: build/blocks/google-reviews/index.js:2
-#: src/blocks/google-reviews/edit.js:84
+#: build/blocks/google-reviews/index.js:2 src/blocks/google-reviews/edit.js:84
 msgid "Number of characters shown before the \"Read more\" button."
 msgstr "Liczba znaków wyświetlanych przed przyciskiem „Czytaj więcej”."
 
@@ -1214,7 +2359,6 @@ msgstr "Opinie Google"
 #. translators: %s: selected carousel mode.
 #: build/blocks/google-reviews/index.js:3
 #: src/blocks/google-reviews/edit.js:137
-#, js-format
 msgid "Carousel: %s"
 msgstr "Karuzela: %s"
 
@@ -1226,14 +2370,12 @@ msgstr "Lista, bez karuzeli"
 #. translators: %d: maximum number of reviews.
 #: build/blocks/google-reviews/index.js:4
 #: src/blocks/google-reviews/edit.js:147
-#, js-format
 msgid "Up to %d reviews."
 msgstr "Do %d opinii."
 
 #. translators: %d: maximum visible review text length.
 #: build/blocks/google-reviews/index.js:5
 #: src/blocks/google-reviews/edit.js:154
-#, js-format
 msgid "Review excerpt: %d characters."
 msgstr "Fragment opinii (znaki): %d."
 
@@ -1304,7 +2446,8 @@ msgid "Open a larger version of the image when it is clicked."
 msgstr "Po kliknięciu otwiera większą wersję obrazka."
 
 #: build/blocks/image-step-guide/index.js:1
-#: src/blocks/image-step-guide/edit.js:129
+#: build/blocks/post-cards/index.js:47 src/blocks/image-step-guide/edit.js:129
+#: src/blocks/post-cards/edit.js:166
 msgid "Layout"
 msgstr "Układ"
 
@@ -1319,161 +2462,556 @@ msgid "List"
 msgstr "Lista"
 
 #: build/blocks/image-step-guide/index.js:1
-#: src/blocks/image-step-guide/edit.js:140
+#: build/blocks/post-cards/index.js:47 src/blocks/image-step-guide/edit.js:140
+#: src/blocks/post-cards/edit.js:173
 msgid "Grid"
 msgstr "Siatka"
 
-#: build/blocks/read-more/index.js:1
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/read-more/edit.js:185
-#: src/blocks/selling-point/edit.js:174
+#. translators: %s: the setting's label, e.g. Column Gap.
+#: build/blocks/post-card/index.js:28 build/blocks/post-cards/index.js:28
+#: src/utils/post-cards/options-panel.js:38
+msgid "Inherit (on)"
+msgstr "Dziedzicz (włączone)"
+
+#: build/blocks/post-card/index.js:28 build/blocks/post-cards/index.js:28
+#: src/utils/post-cards/options-panel.js:39
+msgid "Inherit (off)"
+msgstr "Dziedzicz (wyłączone)"
+
+#. translators: %s: inherited value.
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:44
+msgid "Inherit (%s)"
+msgstr "Dziedzicz (%s)"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:45
+msgid "Inherit"
+msgstr "Dziedzicz"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:68
+msgid "On"
+msgstr "Włączone"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:69
+msgid "Off"
+msgstr "Wyłączone"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: build/blocks/selling-point/index.js:1 build/blocks/toggle-blocks/index.js:1
+#: src/blocks/selling-point/edit.js:120 src/blocks/toggle-blocks/edit.js:205
+#: src/utils/post-cards/options-panel.js:75
+msgid "Default"
+msgstr "Domyślnie"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:154
+msgid "Replace image"
+msgstr "Zastąp obrazek"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:155
+msgid "Choose image"
+msgstr "Wybierz obrazek"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:163
+msgid "Remove"
+msgstr "Usuń"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:212
+msgid "Options for every card"
+msgstr "Opcje dla wszystkich kart"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:213
+msgid "Card options"
+msgstr "Opcje karty"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/options-panel.js:219
+msgid ""
+"Options limited to some post types apply only when this card shows one of "
+"them."
+msgstr ""
+"Opcje ograniczone do wybranych typów treści działają tylko wtedy, gdy karta "
+"pokazuje jeden z nich."
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/picker-labels.js:18
+msgid "Select a post"
+msgstr "Wybierz wpis"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/picker-labels.js:19
+msgid "Select posts"
+msgstr "Wybierz wpisy"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/picker-labels.js:20
+msgid "Search posts"
+msgstr "Szukaj wpisów"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:111
+#: src/utils/post-cards/picker-labels.js:21
+msgid "Post type"
+msgstr "Typ treści"
+
+#: build/blocks/post-card/index.js:29 build/blocks/post-cards/index.js:29
+#: src/utils/post-cards/picker-labels.js:22
+msgid "All types"
+msgstr "Wszystkie typy"
+
+#: build/blocks/post-card/index.js:31 build/blocks/post-cards/index.js:31
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:148
+#: src/utils/post-cards/picker-labels.js:25
+msgid "Order by"
+msgstr "Sortuj według"
+
+#: build/blocks/post-card/index.js:31 build/blocks/post-cards/index.js:31
+#: src/utils/post-cards/picker-labels.js:26
+msgid "Newest"
+msgstr "Najnowsze"
+
+#: build/blocks/post-card/index.js:31 build/blocks/post-cards/index.js:31
+#: src/utils/post-cards/picker-labels.js:27
+msgid "Oldest"
+msgstr "Najstarsze"
+
+#: build/blocks/post-card/index.js:31 build/blocks/post-cards/index.js:31
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:161
+#: src/utils/post-cards/picker-labels.js:28
+msgid "Title A → Z"
+msgstr "Tytuł A → Z"
+
+#: build/blocks/post-card/index.js:31 build/blocks/post-cards/index.js:31
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:165
+#: src/utils/post-cards/picker-labels.js:29
+msgid "Title Z → A"
+msgstr "Tytuł Z → A"
+
+#. translators: %d: number of posts.
+#: build/blocks/post-card/index.js:33 build/blocks/post-cards/index.js:33
+#: src/utils/post-cards/picker-labels.js:31
+msgid "All (%d)"
+msgstr "Wszystkie (%d)"
+
+#. translators: %d: number of selected posts.
+#: build/blocks/post-card/index.js:35 build/blocks/post-cards/index.js:35
+#: src/utils/post-cards/picker-labels.js:33
+msgid "Selected (%d)"
+msgstr "Wybrane (%d)"
+
+#. translators: 1: number of selected posts, 2: maximum.
+#: build/blocks/post-card/index.js:37 build/blocks/post-cards/index.js:37
+#: src/utils/post-cards/picker-labels.js:35
+msgid "Selected %1$d of %2$d"
+msgstr "Wybrano %1$d z %2$d"
+
+#. translators: %d: number of selected posts.
+#: build/blocks/post-card/index.js:39 build/blocks/post-cards/index.js:39
+#: src/utils/post-cards/picker-labels.js:37
+msgid "Selected %d"
+msgstr "Wybrano: %d"
+
+#: build/blocks/post-card/index.js:39 build/blocks/post-cards/index.js:39
+#: src/utils/post-cards/picker-labels.js:39
+msgid "Save selection"
+msgstr "Zapisz wybór"
+
+#: build/blocks/post-card/index.js:39 build/blocks/post-cards/index.js:39
+#: src/utils/post-cards/picker-labels.js:40
+msgid "Load more"
+msgstr "Wczytaj więcej"
+
+#: build/blocks/post-card/index.js:39 build/blocks/post-cards/index.js:39
+#: src/utils/post-cards/picker-labels.js:41
+msgid "No posts found."
+msgstr "Nie znaleziono wpisów."
+
+#: build/blocks/post-card/index.js:39 build/blocks/post-cards/index.js:39
+#: src/utils/post-cards/picker-labels.js:42
+msgid "Nothing selected yet."
+msgstr "Nic jeszcze nie wybrano."
+
+#: build/blocks/post-card/index.js:39 build/blocks/post-cards/index.js:39
+#: src/utils/post-cards/picker-labels.js:43
+msgid "Choose posts"
+msgstr "Wybierz wpisy"
+
+#: build/blocks/post-card/index.js:39 build/blocks/post-cards/index.js:39
+#: src/utils/post-cards/picker-labels.js:44
+msgid "Change selection"
+msgstr "Zmień wybór"
+
+#. translators: %s: post title.
+#: build/blocks/post-card/index.js:41 build/blocks/post-cards/index.js:41
+#: src/utils/post-cards/picker-labels.js:46
+msgid "Remove %s"
+msgstr "Usuń: %s"
+
+#. translators: %s: post title.
+#: build/blocks/post-card/index.js:43 build/blocks/post-cards/index.js:43
+#: src/utils/post-cards/picker-labels.js:48
+msgid "Reorder %s"
+msgstr "Zmień kolejność: %s"
+
+#: build/blocks/post-card/index.js:43 build/blocks/post-cards/index.js:43
+#: src/utils/post-cards/picker-labels.js:49
+msgid "Drag to reorder."
+msgstr "Przeciągnij, aby zmienić kolejność."
+
+#. translators: 1: new position, 2: number of items.
+#: build/blocks/post-card/index.js:45 build/blocks/post-cards/index.js:45
+#: src/utils/post-cards/picker-labels.js:51
+msgid "Moved to position %1$d of %2$d."
+msgstr "Przeniesiono na pozycję %1$d z %2$d."
+
+#. translators: %d: post ID.
+#: build/blocks/post-card/index.js:47 build/blocks/post-cards/index.js:47
+#: src/utils/post-cards/picker-labels.js:53
+msgid "Unavailable post (#%d)"
+msgstr "Niedostępny wpis (#%d)"
+
+#: build/blocks/post-card/index.js:47 build/blocks/post-cards/index.js:47
+#: src/utils/post-cards/picker-labels.js:54
+msgid "The posts could not be loaded."
+msgstr "Nie udało się wczytać wpisów."
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:139
+msgid "Card"
+msgstr "Karta"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:142
+msgid "Source"
+msgstr "Źródło"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:147
+msgid "Hand-picked post"
+msgstr "Wybrany ręcznie wpis"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:151
+msgid "Next post from the query"
+msgstr "Następny wpis z zapytania"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:159
+msgid "Filled from the Post Cards query, skipping hand-picked posts."
+msgstr ""
+"Wypełniana z zapytania bloku Karty wpisów, z pominięciem wpisów wybranych "
+"ręcznie."
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:174
+#: src/blocks/post-card/edit.js:343
+msgid "Replace post"
+msgstr "Zmień wpis"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:175
+#: src/blocks/post-card/edit.js:270
+msgid "Choose post"
+msgstr "Wybierz wpis"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:181
+msgid "Template"
+msgstr "Szablon"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:187
+msgid "Same as Post Cards"
+msgstr "Jak w bloku Karty wpisów"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:188
+msgid "Default for the post type"
+msgstr "Domyślny dla typu treści"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:198
+msgid "The theme has no template variants for this post type."
+msgstr "Motyw nie ma wariantów szablonu dla tego typu treści."
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:210
+msgid "Use the template again"
+msgstr "Wróć do szablonu"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:105
+msgid ""
+"This card uses a PHP template, which cannot be edited as blocks. Edit the "
+"template file in the theme instead."
+msgstr ""
+"Ta karta używa szablonu PHP, którego nie da się edytować jako bloki. Zmień "
+"plik szablonu w motywie."
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:218
+msgid "Edit this card's layout"
+msgstr "Edytuj układ tej karty"
+
+#: build/blocks/post-card/index.js:47 build/blocks/selling-point/index.js:1
+#: src/blocks/post-card/edit.js:229 src/blocks/selling-point/edit.js:140
+msgid "Width"
+msgstr "Szerokość"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:232
+msgid "Columns spanned"
+msgstr "Liczba zajmowanych kolumn"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:264
+#: src/blocks/post-card/edit.js:285 src/blocks/post-card/edit.js:291
+msgid "Post Card"
+msgstr "Karta wpisu"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:265
+msgid "Choose the post this card shows."
+msgstr "Wybierz wpis, który pokazuje ta karta."
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:276
+msgid "Fill from the query"
+msgstr "Wypełnij z zapytania"
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:286
+msgid "The card preview could not be loaded."
+msgstr "Nie udało się wczytać podglądu karty."
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:293
+msgid "No post left for this query slot. It renders nothing on the page."
+msgstr ""
+"Dla tego slotu zapytania nie został żaden wpis. Na stronie nic się nie "
+"wyświetli."
+
+#: build/blocks/post-card/index.js:47 src/blocks/post-card/edit.js:297
+msgid ""
+"This post is not published or no longer exists. The card renders nothing on "
+"the page."
+msgstr ""
+"Ten wpis nie jest opublikowany albo już nie istnieje. Karta nie wyświetli "
+"się na stronie."
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:101
+msgid "Query slots"
+msgstr "Sloty zapytania"
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:105
+msgid ""
+"Cards set to \"Next post from the query\" are filled from these settings, in"
+" order, skipping hand-picked posts."
+msgstr ""
+"Karty ustawione na „Następny wpis z zapytania” są wypełniane według tych "
+"ustawień, po kolei, z pominięciem wpisów wybranych ręcznie."
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:125
+msgid "Filter by"
+msgstr "Filtruj według"
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:128
+msgid "No filter"
+msgstr "Bez filtra"
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:153
+msgid "Newest first"
+msgstr "Od najnowszych"
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:157
+msgid "Oldest first"
+msgstr "Od najstarszych"
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:169
+msgid "Recently updated"
+msgstr "Ostatnio zaktualizowane"
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:173
+msgid "Page order"
+msgstr "Kolejność stron"
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:177
+msgid "Random"
+msgstr "Losowo"
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:190
+msgid "Skip first posts"
+msgstr "Pomiń pierwsze wpisy"
+
+#: build/blocks/post-cards/index.js:47
+#: src/blocks/post-cards/query-panel.js:199
+msgid "Leave out the current post"
+msgstr "Pomiń bieżący wpis"
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:156
+msgid "Add posts"
+msgstr "Dodaj wpisy"
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:161
+msgid "Add query slot"
+msgstr "Dodaj slot zapytania"
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:168
+msgid "Display as"
+msgstr "Wyświetl jako"
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:182
+msgid ""
+"The carousel runs on the page; the editor shows the cards as a grid. Columns"
+" set how many cards are in view."
+msgstr ""
+"Karuzela działa na stronie; w edytorze karty są pokazane jako siatka. "
+"Kolumny określają, ile kart widać naraz."
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:210
+msgid "Accessible name"
+msgstr "Nazwa dostępna"
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:211
+msgid "Read out by screen readers for the list or carousel, e.g. \"Latest news\"."
+msgstr ""
+"Odczytywana przez czytniki ekranu dla listy lub karuzeli, np. „Najnowsze "
+"aktualności”."
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:232
+msgid "Template for every card"
+msgstr "Szablon dla wszystkich kart"
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:237
+msgid "Default for each post type"
+msgstr "Domyślny dla każdego typu treści"
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:244
+msgid ""
+"A card without this variant for its post type uses its default template. "
+"Each card can choose its own."
+msgstr ""
+"Karta, której typ treści nie ma tego wariantu, używa szablonu domyślnego. "
+"Każda karta może wybrać własny."
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:253
+msgid "No repeats on this page"
+msgstr "Bez powtórzeń na stronie"
+
+#: build/blocks/post-cards/index.js:47 src/blocks/post-cards/edit.js:254
+msgid ""
+"Query slots skip posts already shown by cards earlier on the page. The "
+"editor preview only skips this block’s own hand-picked posts."
+msgstr ""
+"Sloty zapytania pomijają wpisy pokazane już przez karty wyżej na stronie. "
+"Podgląd w edytorze pomija tylko wpisy wybrane ręcznie w tym bloku."
+
+#: build/blocks/read-more/index.js:1 build/blocks/selling-point/index.js:1
+#: src/blocks/read-more/edit.js:185 src/blocks/selling-point/edit.js:174
 msgid "Add link"
 msgstr "Dodaj link"
 
-#: build/blocks/read-more/index.js:1
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/read-more/edit.js:186
-#: src/blocks/selling-point/edit.js:175
+#: build/blocks/read-more/index.js:1 build/blocks/selling-point/index.js:1
+#: src/blocks/read-more/edit.js:186 src/blocks/selling-point/edit.js:175
 msgid "Edit link"
 msgstr "Edytuj link"
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:207
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:207
 msgid "Read More settings"
 msgstr "Ustawienia karty „Czytaj więcej”"
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:210
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:210
 msgid "Show image"
 msgstr "Pokaż obrazek"
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:218
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:218
 msgid "Read more badge"
 msgstr "Etykieta karty"
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:219
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:219
 msgid "Show a small label above the title."
 msgstr "Pokaż małą etykietę nad tytułem."
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:230
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:230
 msgid "Use custom title"
 msgstr "Użyj własnego tytułu"
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:231
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:231
 msgid "Otherwise the linked page title is used."
 msgstr "W przeciwnym razie używany jest tytuł podlinkowanej strony."
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:240
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:240
 #: src/blocks/read-more/edit.js:332
 msgid "Additional text"
 msgstr "Dodatkowy tekst"
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:241
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:241
 msgid "Show supporting text below the title."
 msgstr "Pokaż tekst pomocniczy pod tytułem."
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:264
-#: src/blocks/read-more/edit.js:279
-msgid "Card image"
-msgstr "Obrazek karty"
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:268
+msgid ""
+"Upload an image, or leave it empty to inherit the linked post’s featured "
+"image."
+msgstr ""
+"Prześlij obrazek lub pozostaw puste, aby użyć obrazka wyróżniającego "
+"podlinkowanego wpisu."
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:268
-msgid "Upload an image, or leave it empty to inherit the linked post’s featured image."
-msgstr "Prześlij obrazek lub pozostaw puste, aby użyć obrazka wyróżniającego podlinkowanego wpisu."
-
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:305
-msgid "Custom title"
-msgstr "Własny tytuł"
-
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:321
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:321
 msgid "Untitled"
 msgstr "Bez tytułu"
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:161
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:161
 msgid "Read More"
 msgstr "Czytaj więcej"
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:162
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:162
 msgid "Choose where this card should link to."
 msgstr "Wybierz, dokąd ma prowadzić ta karta."
 
-#: build/blocks/read-more/index.js:1
-#: src/blocks/read-more/edit.js:168
+#: build/blocks/read-more/index.js:1 src/blocks/read-more/edit.js:168
 msgid "Pick link"
 msgstr "Wybierz link"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:37
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:37
 msgid "20%"
 msgstr "20%"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:38
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:38
 msgid "25%"
 msgstr "25%"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:39
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:39
 msgid "33.33%"
 msgstr "33,33%"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:40
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:40
 msgid "50%"
 msgstr "50%"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:41
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:41
 msgid "75%"
 msgstr "75%"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:42
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:42
 msgid "100%"
 msgstr "100%"
 
-#: build/blocks/selling-point/index.js:1
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/selling-point/edit.js:120
-#: src/blocks/toggle-blocks/edit.js:205
-msgid "Default"
-msgstr "Domyślnie"
-
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:140
-msgid "Width"
-msgstr "Szerokość"
-
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:159
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:159
 msgid "Hide icon"
 msgstr "Ukryj ikonę"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:160
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:160
 #: src/blocks/selling-point/edit.js:187
 msgid "Show icon"
 msgstr "Pokaż ikonę"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:197
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:197
 msgid "Show badge"
 msgstr "Pokaż etykietę"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:209
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:209
 msgid "Show link text"
 msgstr "Pokaż tekst linku"
 
@@ -1492,43 +3030,31 @@ msgstr "Ikona"
 msgid "Select icon"
 msgstr "Wybierz ikonę"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:251
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:251
 msgid "Add badge text"
 msgstr "Dodaj tekst etykiety"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:265
-msgid "Image"
-msgstr "Obrazek"
-
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:266
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:266
 msgid "Upload an image for this point."
 msgstr "Prześlij obrazek dla tej zalety."
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:280
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:280
 msgid "Add title…"
 msgstr "Dodaj tytuł…"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:291
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:291
 msgid "Add description"
 msgstr "Dodaj opis"
 
-#: build/blocks/selling-point/index.js:1
-#: src/blocks/selling-point/edit.js:304
+#: build/blocks/selling-point/index.js:1 src/blocks/selling-point/edit.js:304
 msgid "Add link text"
 msgstr "Dodaj tekst linku"
 
-#: build/blocks/selling-points/index.js:1
-#: src/blocks/selling-points/edit.js:90
+#: build/blocks/selling-points/index.js:1 src/blocks/selling-points/edit.js:90
 msgid "Animate in"
 msgstr "Animuj pojawianie się"
 
-#: build/blocks/selling-points/index.js:1
-#: src/blocks/selling-points/edit.js:95
+#: build/blocks/selling-points/index.js:1 src/blocks/selling-points/edit.js:95
 msgid "Reveal points as they scroll into view."
 msgstr "Pokazuj zalety z animacją, gdy pojawiają się na ekranie."
 
@@ -1540,7 +3066,8 @@ msgstr "Wyświetl tytuły jako nagłówki"
 #: build/blocks/selling-points/index.js:1
 #: src/blocks/selling-points/edit.js:110
 msgid "Otherwise each title is a plain, non-heading element."
-msgstr "W przeciwnym razie każdy tytuł jest zwykłym tekstem, a nie nagłówkiem."
+msgstr ""
+"W przeciwnym razie każdy tytuł jest zwykłym tekstem, a nie nagłówkiem."
 
 #: build/blocks/selling-points/index.js:1
 #: build/extensions/button-icon/editor.js:1
@@ -1549,88 +3076,73 @@ msgstr "W przeciwnym razie każdy tytuł jest zwykłym tekstem, a nie nagłówki
 msgid "Icon size"
 msgstr "Rozmiar ikony"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/variations.js:9
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/variations.js:9
 msgid "Minimal header (no actions)"
 msgstr "Minimalny nagłówek (bez akcji)"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/variations.js:10
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/variations.js:10
 msgid "Logo and navigation only."
 msgstr "Tylko logo i nawigacja."
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:53
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:53
 msgid "Select a menu…"
 msgstr "Wybierz menu…"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:61
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:61
 msgid "Location"
 msgstr "Położenie"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:103
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:103
 msgid "Navigation source"
 msgstr "Źródło nawigacji"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:113
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:113
 msgid "Nav ARIA label"
 msgstr "Etykieta ARIA nawigacji"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:123
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:123
 msgid "Logo source"
 msgstr "Źródło logo"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:127
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:127
 msgid "Site logo / title"
 msgstr "Logo / tytuł witryny"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:134
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:134
 msgid "Custom image URL"
 msgstr "Własny adres URL obrazka"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:138
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:138
 msgid "None"
 msgstr "Brak"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:149
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:149
 msgid "Logo image URL"
 msgstr "Adres URL obrazka logo"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:158
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:158
 msgid "Behavior"
 msgstr "Zachowanie"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:160
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:160
 msgid "Sticky header"
 msgstr "Przyklejony nagłówek"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:166
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:166
 msgid "White-header body class"
 msgstr "Klasa body dla białego nagłówka"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:167
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:167
 msgid "When <body> has this class, the header is transparent until scrolled."
-msgstr "Gdy <body> ma tę klasę, nagłówek jest przezroczysty do momentu przewinięcia strony."
+msgstr ""
+"Gdy <body> ma tę klasę, nagłówek jest przezroczysty do momentu przewinięcia "
+"strony."
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:184
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:184
 msgid "(no logo)"
 msgstr "(brak logo)"
 
-#: build/blocks/site-header/index.js:1
-#: src/blocks/site-header/edit.js:190
+#: build/blocks/site-header/index.js:1 src/blocks/site-header/edit.js:190
 msgid "No menu selected"
 msgstr "Nie wybrano menu"
 
@@ -1641,8 +3153,14 @@ msgstr "Udostępnianie systemowe"
 
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:53
-msgid "Uses the native device share dialog (Web Share API), letting users choose their preferred app. Replaces platform-specific buttons. No third-party scripts — GDPR safe."
-msgstr "Używa systemowego okna udostępniania urządzenia (Web Share API), w którym użytkownik wybiera aplikację. Zastępuje przyciski poszczególnych serwisów. Bez skryptów zewnętrznych — zgodne z RODO."
+msgid ""
+"Uses the native device share dialog (Web Share API), letting users choose "
+"their preferred app. Replaces platform-specific buttons. No third-party "
+"scripts — GDPR safe."
+msgstr ""
+"Używa systemowego okna udostępniania urządzenia (Web Share API), w którym "
+"użytkownik wybiera aplikację. Zastępuje przyciski poszczególnych serwisów. "
+"Bez skryptów zewnętrznych — zgodne z RODO."
 
 #: build/blocks/social-share-network/index.js:1
 #: src/blocks/social-share-network/network-config.js:59
@@ -1694,902 +3212,90 @@ msgstr "Przed ikoną"
 msgid "After icon"
 msgstr "Za ikoną"
 
-#: build/blocks/social-share/index.js:1
-#: src/blocks/social-share/edit.js:119
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:119
 msgid "Prefix settings"
 msgstr "Ustawienia tekstu wstępnego"
 
-#: build/blocks/social-share/index.js:1
-#: src/blocks/social-share/edit.js:123
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:123
 msgid "Show prefix text"
 msgstr "Pokaż tekst wstępny"
 
-#: build/blocks/social-share/index.js:1
-#: src/blocks/social-share/edit.js:133
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:133
 msgid "Prefix position"
 msgstr "Położenie tekstu wstępnego"
 
-#: build/blocks/social-share/index.js:1
-#: src/blocks/social-share/edit.js:137
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:137
 msgid "Above icons"
 msgstr "Nad ikonami"
 
-#: build/blocks/social-share/index.js:1
-#: src/blocks/social-share/edit.js:144
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:144
 msgid "Before icons"
 msgstr "Przed ikonami"
 
-#: build/blocks/social-share/index.js:1
-#: src/blocks/social-share/edit.js:151
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:151
 msgid "After icons"
 msgstr "Za ikonami"
 
-#: build/blocks/social-share/index.js:1
-#: src/blocks/social-share/edit.js:191
-#: src/blocks/social-share/edit.js:207
-#: src/blocks/social-share/edit.js:223
+#: build/blocks/social-share/index.js:1 src/blocks/social-share/edit.js:191
+#: src/blocks/social-share/edit.js:207 src/blocks/social-share/edit.js:223
 msgid "Share:"
 msgstr "Udostępnij:"
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:110
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:110
 msgid "Enter toggle text…"
 msgstr "Wpisz tekst przycisku…"
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:133
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:133
 msgid "Close text"
 msgstr "Tekst zamykania"
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:138
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:138
 msgid "Shown on the button while the content is open."
 msgstr "Wyświetlany na przycisku, gdy treść jest otwarta."
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:145
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:145
 msgid "Open by default"
 msgstr "Domyślnie otwarte"
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:150
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:150
 msgid "Expand the content when the page loads."
 msgstr "Rozwiń treść po wczytaniu strony."
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:157
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:157
 msgid "Scroll to content"
 msgstr "Przewiń do treści"
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:162
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:162
 msgid "Scroll the content into view when it opens."
 msgstr "Przewiń do treści po jej otwarciu."
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:168
-msgid "The toggle is always open in the editor so its content can be edited. It works as expected on the frontend."
-msgstr "W edytorze przełącznik jest zawsze otwarty, aby można było edytować jego treść. Na stronie działa normalnie."
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:168
+msgid ""
+"The toggle is always open in the editor so its content can be edited. It "
+"works as expected on the frontend."
+msgstr ""
+"W edytorze przełącznik jest zawsze otwarty, aby można było edytować jego "
+"treść. Na stronie działa normalnie."
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:177
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:177
 msgid "Style"
 msgstr "Styl"
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:180
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:180
 msgid "Button placement"
 msgstr "Położenie przycisku"
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:184
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:184
 msgid "Top"
 msgstr "Na górze"
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:188
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:188
 msgid "Bottom"
 msgstr "Na dole"
 
-#: build/blocks/toggle-blocks/index.js:1
-#: src/blocks/toggle-blocks/edit.js:227
+#: build/blocks/toggle-blocks/index.js:1 src/blocks/toggle-blocks/edit.js:227
 msgid "Animation speed (ms)"
 msgstr "Szybkość animacji (ms)"
-
-#: build/blocks/agenda-accordion-item/block.json
-#: src/blocks/agenda-accordion-item/block.json
-msgctxt "block title"
-msgid "Agenda Item"
-msgstr "Punkt agendy"
-
-#: build/blocks/agenda-accordion-item/block.json
-#: src/blocks/agenda-accordion-item/block.json
-msgctxt "block description"
-msgid "One expandable item of an agenda: a title, an optional date and summary, and content that opens on click."
-msgstr "Jeden rozwijany punkt agendy: tytuł, opcjonalna data i streszczenie oraz treść otwierana po kliknięciu."
-
-#: build/blocks/agenda-accordion/block.json
-#: src/blocks/agenda-accordion/block.json
-msgctxt "block title"
-msgid "Agenda Accordion"
-msgstr "Agenda (akordeon)"
-
-#: build/blocks/agenda-accordion/block.json
-#: src/blocks/agenda-accordion/block.json
-msgctxt "block description"
-msgid "A list of items that expand and collapse on click — for agendas, schedules or FAQs."
-msgstr "Lista elementów rozwijanych i zwijanych po kliknięciu — do agend, harmonogramów i FAQ."
-
-#: build/blocks/bento-card/block.json
-#: src/blocks/bento-card/block.json
-msgctxt "block title"
-msgid "Bento Card"
-msgstr "Kafelek bento"
-
-#: build/blocks/bento-card/block.json
-#: src/blocks/bento-card/block.json
-msgctxt "block description"
-msgid "One tile of a bento grid; drag its edges to make it wider or taller."
-msgstr "Jeden kafelek siatki bento; przeciągnij jego krawędzie, aby go poszerzyć lub wydłużyć."
-
-#: build/blocks/bento-card/block.json
-#: build/blocks/bento-grid/block.json
-#: src/blocks/bento-card/block.json
-#: src/blocks/bento-grid/block.json
-msgctxt "block keyword"
-msgid "bento"
-msgstr "bento"
-
-#: build/blocks/bento-card/block.json
-#: src/blocks/bento-card/block.json
-msgctxt "block keyword"
-msgid "card"
-msgstr "kafelek"
-
-#: build/blocks/bento-card/block.json
-#: build/blocks/bento-grid/block.json
-#: src/blocks/bento-card/block.json
-#: src/blocks/bento-grid/block.json
-msgctxt "block keyword"
-msgid "grid"
-msgstr "siatka"
-
-#: build/blocks/bento-grid/block.json
-#: src/blocks/bento-grid/block.json
-msgctxt "block title"
-msgid "Bento Grid"
-msgstr "Siatka bento"
-
-#: build/blocks/bento-grid/block.json
-#: src/blocks/bento-grid/block.json
-msgctxt "block description"
-msgid "A mosaic of tiles in different sizes, arranged separately for desktop, tablet and mobile."
-msgstr "Mozaika kafelków w różnych rozmiarach, układana osobno dla komputera, tabletu i telefonu."
-
-#: build/blocks/bento-grid/block.json
-#: src/blocks/bento-grid/block.json
-msgctxt "block keyword"
-msgid "layout"
-msgstr "układ"
-
-#: build/blocks/content-sidebar-aside/block.json
-#: src/blocks/content-sidebar-aside/block.json
-msgctxt "block title"
-msgid "Sidebar"
-msgstr "Panel boczny"
-
-#: build/blocks/content-sidebar-aside/block.json
-#: src/blocks/content-sidebar-aside/block.json
-msgctxt "block description"
-msgid "The sidebar column, for related links, contact details or a call to action."
-msgstr "Kolumna panelu bocznego — na powiązane linki, dane kontaktowe lub wezwanie do działania."
-
-#: build/blocks/content-sidebar-main/block.json
-#: src/blocks/content-sidebar-main/block.json
-msgctxt "block title"
-msgid "Main content"
-msgstr "Treść główna"
-
-#: build/blocks/content-sidebar-main/block.json
-#: src/blocks/content-sidebar-main/block.json
-msgctxt "block description"
-msgid "The main column of the layout."
-msgstr "Główna kolumna układu."
-
-#: build/blocks/content-sidebar/block.json
-#: src/blocks/content-sidebar/block.json
-msgctxt "block title"
-msgid "Content with sidebar"
-msgstr "Treść z panelem bocznym"
-
-#: build/blocks/content-sidebar/block.json
-#: src/blocks/content-sidebar/block.json
-msgctxt "block description"
-msgid "A main column with a sidebar beside it that can stay in view while the page scrolls."
-msgstr "Główna kolumna z panelem bocznym obok, który może pozostawać widoczny podczas przewijania strony."
-
-#: build/blocks/content-sidebar/block.json
-#: src/blocks/content-sidebar/block.json
-msgctxt "block keyword"
-msgid "sidebar"
-msgstr "panel boczny"
-
-#: build/blocks/content-sidebar/block.json
-#: src/blocks/content-sidebar/block.json
-msgctxt "block keyword"
-msgid "aside"
-msgstr "aside"
-
-#: build/blocks/content-sidebar/block.json
-#: src/blocks/content-sidebar/block.json
-msgctxt "block keyword"
-msgid "columns"
-msgstr "kolumny"
-
-#: build/blocks/content-sidebar/block.json
-#: src/blocks/content-sidebar/block.json
-msgctxt "block keyword"
-msgid "sticky"
-msgstr "przyklejony"
-
-#: build/blocks/google-reviews-badge/block.json
-#: src/blocks/google-reviews-badge/block.json
-msgctxt "block title"
-msgid "Google Reviews Badge"
-msgstr "Odznaka opinii Google"
-
-#: build/blocks/google-reviews-badge/block.json
-#: src/blocks/google-reviews-badge/block.json
-msgctxt "block description"
-msgid "A small badge with your Google rating that links to your Google Maps profile."
-msgstr "Mała odznaka z oceną w Google, prowadząca do profilu w Mapach Google."
-
-#: build/blocks/google-reviews-badge/block.json
-#: build/blocks/google-reviews-header/block.json
-#: build/blocks/google-reviews/block.json
-#: src/blocks/google-reviews-badge/block.json
-#: src/blocks/google-reviews-header/block.json
-#: src/blocks/google-reviews/block.json
-msgctxt "block keyword"
-msgid "reviews"
-msgstr "opinie"
-
-#: build/blocks/google-reviews-badge/block.json
-#: build/blocks/google-reviews-header/block.json
-#: build/blocks/google-reviews/block.json
-#: src/blocks/google-reviews-badge/block.json
-#: src/blocks/google-reviews-header/block.json
-#: src/blocks/google-reviews/block.json
-msgctxt "block keyword"
-msgid "google"
-msgstr "google"
-
-#: build/blocks/google-reviews-badge/block.json
-#: build/blocks/google-reviews-header/block.json
-#: src/blocks/google-reviews-badge/block.json
-#: src/blocks/google-reviews-header/block.json
-msgctxt "block keyword"
-msgid "rating"
-msgstr "ocena"
-
-#: build/blocks/google-reviews-badge/block.json
-#: src/blocks/google-reviews-badge/block.json
-msgctxt "block keyword"
-msgid "badge"
-msgstr "odznaka"
-
-#: build/blocks/google-reviews-header/block.json
-#: src/blocks/google-reviews-header/block.json
-msgctxt "block title"
-msgid "Google Reviews Header"
-msgstr "Nagłówek opinii Google"
-
-#: build/blocks/google-reviews-header/block.json
-#: src/blocks/google-reviews-header/block.json
-msgctxt "block description"
-msgid "Your Google rating and logo, with a button inviting visitors to leave a review."
-msgstr "Ocena w Google i logo, z przyciskiem zachęcającym odwiedzających do wystawienia opinii."
-
-#: build/blocks/google-reviews/block.json
-#: src/blocks/google-reviews/block.json
-msgctxt "block title"
-msgid "Google Reviews"
-msgstr "Opinie Google"
-
-#: build/blocks/google-reviews/block.json
-#: src/blocks/google-reviews/block.json
-msgctxt "block description"
-msgid "Your Google reviews, shown as cards or a carousel."
-msgstr "Opinie z Google wyświetlane jako karty lub karuzela."
-
-#: build/blocks/google-reviews/block.json
-#: src/blocks/google-reviews/block.json
-msgctxt "block keyword"
-msgid "testimonials"
-msgstr "referencje"
-
-#: build/blocks/image-step-guide-step/block.json
-#: src/blocks/image-step-guide-step/block.json
-msgctxt "block title"
-msgid "Step"
-msgstr "Krok"
-
-#: build/blocks/image-step-guide-step/block.json
-#: src/blocks/image-step-guide-step/block.json
-msgctxt "block description"
-msgid "One step of a guide: an image next to its description."
-msgstr "Jeden krok przewodnika: obrazek obok opisu."
-
-#: build/blocks/image-step-guide/block.json
-#: src/blocks/image-step-guide/block.json
-msgctxt "block title"
-msgid "Image Step Guide"
-msgstr "Przewodnik krok po kroku"
-
-#: build/blocks/image-step-guide/block.json
-#: src/blocks/image-step-guide/block.json
-msgctxt "block description"
-msgid "Step-by-step instructions, each step with an image next to its description."
-msgstr "Instrukcja krok po kroku, każdy krok z obrazkiem obok opisu."
-
-#: build/blocks/read-more/block.json
-#: src/blocks/read-more/block.json
-msgctxt "block title"
-msgid "Read More"
-msgstr "Czytaj więcej"
-
-#: build/blocks/read-more/block.json
-#: src/blocks/read-more/block.json
-msgctxt "block description"
-msgid "A clickable card leading to another page, post or website, with a title, image and short text."
-msgstr "Klikalna karta prowadząca do innej strony, wpisu lub witryny, z tytułem, obrazkiem i krótkim tekstem."
-
-#: build/blocks/selling-point/block.json
-#: src/blocks/selling-point/block.json
-msgctxt "block title"
-msgid "Selling Point"
-msgstr "Zaleta"
-
-#: build/blocks/selling-point/block.json
-#: src/blocks/selling-point/block.json
-msgctxt "block description"
-msgid "One benefit: an icon or image, a title, a short description and an optional link."
-msgstr "Jedna zaleta: ikona lub obrazek, tytuł, krótki opis i opcjonalny link."
-
-#: build/blocks/selling-points/block.json
-#: src/blocks/selling-points/block.json
-msgctxt "block title"
-msgid "Selling Points"
-msgstr "Zalety"
-
-#: build/blocks/selling-points/block.json
-#: src/blocks/selling-points/block.json
-msgctxt "block description"
-msgid "A grid of your key benefits, each with an icon, title and short description."
-msgstr "Siatka najważniejszych zalet, każda z ikoną, tytułem i krótkim opisem."
-
-#: build/blocks/site-header/block.json
-#: src/blocks/site-header/block.json
-msgctxt "block title"
-msgid "Site Header"
-msgstr "Nagłówek witryny"
-
-#: build/blocks/site-header/block.json
-#: src/blocks/site-header/block.json
-msgctxt "block description"
-msgid "The top of every page: logo, navigation menu (with a mobile menu) and action buttons."
-msgstr "Górna część każdej strony: logo, menu nawigacyjne (z menu mobilnym) i przyciski akcji."
-
-#: build/blocks/social-share-network/block.json
-#: src/blocks/social-share-network/block.json
-msgctxt "block title"
-msgid "Share Button"
-msgstr "Przycisk udostępniania"
-
-#: build/blocks/social-share-network/block.json
-#: src/blocks/social-share-network/block.json
-msgctxt "block description"
-msgid "A button that shares the page on one social network."
-msgstr "Przycisk udostępniający stronę w jednym serwisie społecznościowym."
-
-#: build/blocks/social-share/block.json
-#: src/blocks/social-share/block.json
-msgctxt "block title"
-msgid "Social Share"
-msgstr "Udostępnianie"
-
-#: build/blocks/social-share/block.json
-#: src/blocks/social-share/block.json
-msgctxt "block description"
-msgid "Buttons for sharing the page on social networks."
-msgstr "Przyciski do udostępniania strony w serwisach społecznościowych."
-
-#: build/blocks/toggle-blocks/block.json
-#: src/blocks/toggle-blocks/block.json
-msgctxt "block title"
-msgid "Toggle Content"
-msgstr "Rozwijana treść"
-
-#: build/blocks/toggle-blocks/block.json
-#: src/blocks/toggle-blocks/block.json
-msgctxt "block description"
-msgid "Content hidden behind a button and shown when a visitor clicks it."
-msgstr "Treść ukryta za przyciskiem, pokazywana po jego kliknięciu."
-
-#: includes/rest.php:150
-msgid "Another change is being saved. Try again."
-msgstr "Trwa zapisywanie innej zmiany. Spróbuj ponownie."
-
-#: extensions/accessibility-statement-page/extension.php:14
-msgid "Accessibility statement page"
-msgstr "Strona deklaracji dostępności"
-
-#: extensions/accessibility-statement-page/extension.php:15
-msgid "Adds Settings → Accessibility statement, like core's Privacy page: pick the page with your accessibility statement or create a draft from a template (the Polish public-sector declaration or the EU model statement). Marks the page in the Pages list, protects it from deletion and warns in Site Health when it is missing, unpublished or older than a year."
-msgstr "Dodaje Ustawienia → Deklaracja dostępności, podobnie jak ekran Prywatność w WordPressie: wybierz stronę z deklaracją dostępności albo utwórz szkic z szablonu (deklaracja podmiotu publicznego lub wzorcowa deklaracja UE). Oznacza stronę na liście stron, chroni ją przed usunięciem i ostrzega w Kondycji witryny, gdy jej brakuje, nie jest opublikowana lub jest starsza niż rok."
-
-#: extensions/accessibility-statement-page/hooks.php:63
-msgid "ID of the page with the accessibility statement."
-msgstr "Identyfikator strony z deklaracją dostępności."
-
-#: extensions/accessibility-statement-page/hooks.php:279
-msgctxt "page label"
-msgid "Accessibility statement"
-msgstr "Deklaracja dostępności"
-
-#: extensions/accessibility-statement-page/hooks.php:292
-#: extensions/accessibility-statement-page/hooks.php:293
-#: extensions/accessibility-statement-page/hooks.php:333
-#: extensions/accessibility-statement-page/hooks.php:506
-#: extensions/accessibility-statement-page/hooks.php:622
-#: extensions/accessibility-statement-page/hooks.php:738
-msgid "Accessibility statement"
-msgstr "Deklaracja dostępności"
-
-#: extensions/accessibility-statement-page/hooks.php:327
-msgid "Poland: public-sector declaration (gov.pl structure, in Polish)"
-msgstr "Polska: deklaracja dostępności podmiotu publicznego (struktura gov.pl, po polsku)"
-
-#: extensions/accessibility-statement-page/hooks.php:332
-msgid "EU model accessibility statement"
-msgstr "Wzorcowa deklaracja dostępności UE"
-
-#: extensions/accessibility-statement-page/hooks.php:392
-msgid "Sorry, you are not allowed to manage the accessibility statement."
-msgstr "Niestety, nie masz uprawnień do zarządzania deklaracją dostępności."
-
-#: extensions/accessibility-statement-page/hooks.php:471
-msgid "Accessibility statement page updated."
-msgstr "Zaktualizowano stronę deklaracji dostępności."
-
-#: extensions/accessibility-statement-page/hooks.php:472
-msgid "Accessibility statement page removed."
-msgstr "Usunięto stronę deklaracji dostępności."
-
-#: extensions/accessibility-statement-page/hooks.php:473
-msgid "No accessibility statement page is set."
-msgstr "Nie ustawiono strony deklaracji dostępności."
-
-#: extensions/accessibility-statement-page/hooks.php:474
-msgid "That page cannot be used. Choose a page that is published or a draft."
-msgstr "Nie można użyć tej strony. Wybierz stronę opublikowaną lub szkic."
-
-#: extensions/accessibility-statement-page/hooks.php:475
-msgid "The accessibility statement page could not be created."
-msgstr "Nie udało się utworzyć strony deklaracji dostępności."
-
-#: extensions/accessibility-statement-page/hooks.php:511
-msgid "The selected accessibility statement page does not exist. Create or select another page."
-msgstr "Wybrana strona deklaracji dostępności nie istnieje. Utwórz lub wybierz inną stronę."
-
-#. translators: %s: URL of the Pages trash.
-#: extensions/accessibility-statement-page/hooks.php:516
-#, php-format
-msgid "The selected accessibility statement page is in the Trash. Create or select another page, or <a href=\"%s\">restore it</a>."
-msgstr "Wybrana strona deklaracji dostępności jest w koszu. Utwórz lub wybierz inną stronę albo <a href=\"%s\">przywróć ją</a>."
-
-#: extensions/accessibility-statement-page/hooks.php:523
-msgid "Choose the page that holds your accessibility statement, or create a draft from a template and complete it. Link to it from every page, usually in the footer."
-msgstr "Wybierz stronę z deklaracją dostępności albo utwórz szkic z szablonu i uzupełnij go. Umieść link do niej na każdej stronie, zwykle w stopce."
-
-#. translators: 1: edit URL, 2: view URL.
-#: extensions/accessibility-statement-page/hooks.php:534
-#, php-format
-msgid "<a href=\"%1$s\">Edit</a> or <a href=\"%2$s\">view</a> the accessibility statement."
-msgstr "<a href=\"%1$s\">Edytuj</a> lub <a href=\"%2$s\">zobacz</a> deklarację dostępności."
-
-#. translators: 1: edit URL, 2: preview URL.
-#: extensions/accessibility-statement-page/hooks.php:536
-#, php-format
-msgid "<a href=\"%1$s\">Edit</a> or <a href=\"%2$s\">preview</a> the accessibility statement. It is not published yet."
-msgstr "<a href=\"%1$s\">Edytuj</a> lub <a href=\"%2$s\">wyświetl podgląd</a> deklaracji dostępności. Nie została jeszcze opublikowana."
-
-#: extensions/accessibility-statement-page/hooks.php:549
-msgid "Create a new page"
-msgstr "Utwórz nową stronę"
-
-#: extensions/accessibility-statement-page/hooks.php:559
-msgid "Create draft"
-msgstr "Utwórz szkic"
-
-#: extensions/accessibility-statement-page/hooks.php:560
-msgid "Creates a draft page pre-filled from the template and opens it in the editor. Replace every placeholder in square brackets before publishing."
-msgstr "Tworzy szkic strony wypełniony szablonem i otwiera go w edytorze. Przed publikacją zastąp wszystkie fragmenty w nawiasach kwadratowych."
-
-#: extensions/accessibility-statement-page/hooks.php:565
-msgid "Use an existing page"
-msgstr "Użyj istniejącej strony"
-
-#: extensions/accessibility-statement-page/hooks.php:576
-msgid "— Select —"
-msgstr "— Wybierz —"
-
-#: extensions/accessibility-statement-page/hooks.php:583
-msgid "Use this page"
-msgstr "Użyj tej strony"
-
-#: extensions/accessibility-statement-page/hooks.php:688
-msgid "Statement URL"
-msgstr "Adres URL deklaracji"
-
-#: extensions/accessibility-statement-page/hooks.php:693
-msgid "Statement title"
-msgstr "Tytuł deklaracji"
-
-#: extensions/accessibility-statement-page/hooks.php:698
-msgid "Link to the statement"
-msgstr "Odnośnik do deklaracji"
-
-#: extensions/accessibility-statement-page/hooks.php:767
-msgid "Manage the accessibility statement"
-msgstr "Zarządzaj deklaracją dostępności"
-
-#: extensions/accessibility-statement-page/hooks.php:769
-msgid "An accessibility statement is published"
-msgstr "Deklaracja dostępności jest opublikowana"
-
-#: extensions/accessibility-statement-page/hooks.php:775
-msgid "Public-sector sites in the EU must publish an accessibility statement and review it at least once a year. Many other sites must describe the accessibility of their services under the European Accessibility Act."
-msgstr "Strony podmiotów publicznych w UE muszą publikować deklarację dostępności i aktualizować ją co najmniej raz w roku. Wiele innych witryn musi opisywać dostępność swoich usług na podstawie Europejskiego aktu o dostępności."
-
-#: extensions/accessibility-statement-page/hooks.php:785
-msgid "The accessibility statement page is not published"
-msgstr "Strona deklaracji dostępności nie jest opublikowana"
-
-#: extensions/accessibility-statement-page/hooks.php:786
-msgid "No accessibility statement page is set"
-msgstr "Nie ustawiono strony deklaracji dostępności"
-
-#: extensions/accessibility-statement-page/hooks.php:794
-msgid "The published accessibility statement still contains template placeholders"
-msgstr "Opublikowana deklaracja dostępności nadal zawiera fragmenty szablonu do uzupełnienia"
-
-#: extensions/accessibility-statement-page/hooks.php:804
-msgid "The accessibility statement has not been updated for over a year"
-msgstr "Deklaracja dostępności nie była aktualizowana od ponad roku"
-
-#: extensions/accessibility-statement-page/template.php:205
-msgid "[FILL IN: name of the organisation]"
-msgstr "[UZUPEŁNIJ: nazwa organizacji]"
-
-#: extensions/accessibility-statement-page/template.php:206
-msgid "[FILL IN: name of the website]"
-msgstr "[UZUPEŁNIJ: nazwa strony internetowej]"
-
-#: extensions/accessibility-statement-page/template.php:207
-msgid "[FILL IN: date]"
-msgstr "[UZUPEŁNIJ: data]"
-
-#: extensions/accessibility-statement-page/template.php:210
-msgid "[FILL IN: replace every placeholder in square brackets and delete these notes before publishing. Review the statement at least once a year.]"
-msgstr "[UZUPEŁNIJ: przed publikacją zastąp wszystkie fragmenty w nawiasach kwadratowych i usuń te uwagi. Aktualizuj deklarację co najmniej raz w roku.]"
-
-#. translators: 1: organisation name, 2: placeholder for the applicable law.
-#: extensions/accessibility-statement-page/template.php:215
-#, php-format
-msgid "%1$s is committed to making its website accessible, in accordance with %2$s."
-msgstr "%1$s zobowiązuje się zapewnić dostępność swojej strony internetowej zgodnie z %2$s."
-
-#: extensions/accessibility-statement-page/template.php:217
-msgid "[FILL IN: the national law transposing Directive (EU) 2016/2102, or the European Accessibility Act]"
-msgstr "[UZUPEŁNIJ: przepisy krajowe wdrażające dyrektywę (UE) 2016/2102 lub Europejski akt o dostępności]"
-
-#. translators: %s: link to the website.
-#: extensions/accessibility-statement-page/template.php:223
-#, php-format
-msgid "This accessibility statement applies to %s."
-msgstr "Niniejsza deklaracja dostępności dotyczy strony %s."
-
-#: extensions/accessibility-statement-page/template.php:228
-msgid "Compliance status"
-msgstr "Status zgodności"
-
-#: extensions/accessibility-statement-page/template.php:229
-msgid "This website is partially compliant with EN 301 549 (WCAG 2.1 level AA) due to the non-compliances and exemptions listed below."
-msgstr "Strona internetowa jest częściowo zgodna z normą EN 301 549 (WCAG 2.1 na poziomie AA) z powodu niezgodności i wyłączeń wymienionych poniżej."
-
-#: extensions/accessibility-statement-page/template.php:230
-msgid "[FILL IN: or \"fully compliant\" / \"not compliant\". When fully compliant, delete the next section.]"
-msgstr "[UZUPEŁNIJ: albo „w pełni zgodna” / „niezgodna”. Przy pełnej zgodności usuń następną sekcję.]"
-
-#: extensions/accessibility-statement-page/template.php:232
-msgid "Non-accessible content"
-msgstr "Treści niedostępne"
-
-#: extensions/accessibility-statement-page/template.php:233
-msgid "The content listed below is non-accessible for the following reasons:"
-msgstr "Wymienione poniżej treści są niedostępne z następujących powodów:"
-
-#: extensions/accessibility-statement-page/template.php:236
-msgid "[FILL IN: non-compliance with the requirements, e.g. some videos have no captions]"
-msgstr "[UZUPEŁNIJ: niezgodność z wymaganiami, np. część filmów nie ma napisów]"
-
-#: extensions/accessibility-statement-page/template.php:237
-msgid "[FILL IN: content outside the scope of the applicable legislation, e.g. maps]"
-msgstr "[UZUPEŁNIJ: treści wyłączone z zakresu obowiązujących przepisów, np. mapy]"
-
-#: extensions/accessibility-statement-page/template.php:241
-msgid "Preparation of this accessibility statement"
-msgstr "Sporządzenie deklaracji dostępności"
-
-#. translators: %s: date in YYYY-MM-DD format.
-#: extensions/accessibility-statement-page/template.php:245
-#, php-format
-msgid "This statement was prepared on %s. It is based on a self-assessment carried out by the organisation."
-msgstr "Deklarację sporządzono dnia %s na podstawie samooceny przeprowadzonej przez organizację."
-
-#: extensions/accessibility-statement-page/template.php:249
-msgid "[FILL IN: if a third party audited the website, name it here instead of the self-assessment.]"
-msgstr "[UZUPEŁNIJ: jeśli stronę zbadał podmiot zewnętrzny, podaj tu jego nazwę zamiast samooceny.]"
-
-#: extensions/accessibility-statement-page/template.php:251
-msgid "Feedback and contact information"
-msgstr "Informacje zwrotne i dane kontaktowe"
-
-#. translators: 1: contact person, 2: e-mail address, 3: phone number.
-#: extensions/accessibility-statement-page/template.php:255
-#, php-format
-msgid "If you find an accessibility problem on this website or need information in an accessible format, contact %1$s by e-mail at %2$s or by phone at %3$s."
-msgstr "Jeśli napotkasz problem z dostępnością tej strony lub potrzebujesz informacji w dostępnej formie, skontaktuj się z: %1$s, e-mail: %2$s, telefon: %3$s."
-
-#: extensions/accessibility-statement-page/template.php:256
-msgid "[FILL IN: contact person]"
-msgstr "[UZUPEŁNIJ: osoba kontaktowa]"
-
-#: extensions/accessibility-statement-page/template.php:257
-msgid "[FILL IN: e-mail address]"
-msgstr "[UZUPEŁNIJ: adres e-mail]"
-
-#: extensions/accessibility-statement-page/template.php:258
-msgid "[FILL IN: phone number]"
-msgstr "[UZUPEŁNIJ: numer telefonu]"
-
-#: extensions/accessibility-statement-page/template.php:262
-msgid "Enforcement procedure"
-msgstr "Procedura egzekwowania"
-
-#. translators: %s: placeholder for the enforcement body.
-#: extensions/accessibility-statement-page/template.php:266
-#, php-format
-msgid "If you are not satisfied with our response, you can contact %s."
-msgstr "Jeśli nasza odpowiedź Cię nie satysfakcjonuje, możesz zwrócić się do: %s."
-
-#: extensions/accessibility-statement-page/template.php:267
-msgid "[FILL IN: the national enforcement body and how to reach it]"
-msgstr "[UZUPEŁNIJ: krajowy organ nadzorczy i sposób kontaktu z nim]"
-
-#: extensions/button-icon/extension.php:14
-#: build/extensions/button-icon/editor.js:1
-#: extensions/button-icon/src/editor.js:368
-msgid "Button icon"
-msgstr "Ikona przycisku"
-
-#: extensions/button-icon/extension.php:15
-msgid "Lets editors put an icon from the library's icon set before or after the text of a Button block, choose its size, or show the icon alone with the text kept for screen readers."
-msgstr "Pozwala redaktorom dodać ikonę z zestawu ikon biblioteki przed tekstem lub za tekstem bloku Przycisk, wybrać jej rozmiar albo pokazać samą ikonę, zachowując tekst dla czytników ekranu."
-
-#: extensions/core-accordion-custom-icons/extension.php:14
-msgid "Accordion toggle icons"
-msgstr "Ikony przełącznika akordeonu"
-
-#: extensions/core-accordion-custom-icons/extension.php:15
-msgid "Replaces the \"+\" on the core Accordion block with an icon from the icon library, one for closed and one for open items. Editors pick the icons and their size per accordion; the theme sets the defaults."
-msgstr "Zastępuje znak „+” w bloku Akordeon ikoną z biblioteki ikon – osobną dla zwiniętych i rozwiniętych elementów. Redaktorzy wybierają ikony i ich rozmiar dla każdego akordeonu, a motyw ustala wartości domyślne."
-
-#: extensions/core-accordion-faq-schema/extension.php:14
-msgid "Accordion FAQ structured data"
-msgstr "Dane strukturalne FAQ dla akordeonu"
-
-#: extensions/core-accordion-faq-schema/extension.php:15
-msgid "Adds a switch to the core Accordion block that publishes its questions and answers as FAQPage structured data (JSON-LD), through Yoast SEO or Rank Math when one is active, or on its own otherwise."
-msgstr "Dodaje do bloku Akordeon przełącznik, który publikuje jego pytania i odpowiedzi jako dane strukturalne FAQPage (JSON-LD) – przez Yoast SEO lub Rank Math, jeśli jedna z tych wtyczek jest włączona, a w przeciwnym razie samodzielnie."
-
-#: extensions/core-accordion-hash-navigation/extension.php:14
-msgid "Accordion links"
-msgstr "Linki do elementów akordeonu"
-
-#: extensions/core-accordion-hash-navigation/extension.php:15
-msgid "Gives every core Accordion item a stable, readable link (#question-title, or the heading's HTML anchor). Opening an item puts its link in the address bar, and visiting a link opens and scrolls to that item."
-msgstr "Nadaje każdemu elementowi bloku Akordeon stały, czytelny link (#tytul-pytania lub kotwica HTML nagłówka). Rozwinięcie elementu umieszcza jego link w pasku adresu, a wejście z linku rozwija ten element i przewija do niego."
-
-#: extensions/disable-application-passwords/extension.php:14
-msgid "Disable application passwords"
-msgstr "Wyłącz hasła aplikacji"
-
-#: extensions/disable-application-passwords/extension.php:15
-msgid "Switches application passwords off: the profile section disappears and existing application passwords stop authenticating REST API and XML-RPC requests. Breaks apps and integrations that sign in with one."
-msgstr "Wyłącza hasła aplikacji: sekcja w profilu znika, a istniejące hasła aplikacji przestają uwierzytelniać żądania REST API i XML-RPC. Przestają działać aplikacje i integracje, które logują się za ich pomocą."
-
-#: extensions/disable-block-directory/extension.php:14
-msgid "Disable the block directory"
-msgstr "Wyłącz katalog bloków"
-
-#: extensions/disable-block-directory/extension.php:15
-msgid "Stops the block inserter from suggesting and installing blocks from WordPress.org, and closes the block directory search endpoint. Plugins can still be installed from Plugins → Add New."
-msgstr "Wyłącza podpowiadanie i instalowanie bloków z WordPress.org w oknie wstawiania bloków oraz zamyka punkt końcowy wyszukiwania w katalogu bloków. Wtyczki nadal można instalować w Wtyczki → Dodaj nową wtyczkę."
-
-#: extensions/disable-custom-css/extension.php:14
-msgid "Disable custom CSS"
-msgstr "Wyłącz własny CSS"
-
-#: extensions/disable-custom-css/extension.php:15
-msgid "Takes CSS out of editors' hands: removes Additional CSS from the Customizer, Global Styles and the block settings, and stops CSS already saved there from loading. CSS shipped by the theme keeps working."
-msgstr "Odbiera redaktorom możliwość pisania CSS: usuwa Dodatkowy CSS z Personalizacji, stylów globalnych i ustawień bloków oraz przestaje wczytywać zapisany tam już CSS. CSS dostarczany przez motyw działa nadal."
-
-#: extensions/disable-emoji/extension.php:14
-msgid "Disable emoji images"
-msgstr "Wyłącz obrazki emoji"
-
-#: extensions/disable-emoji/extension.php:15
-msgid "Stops WordPress from replacing emoji with images from WordPress.org: removes the detection script and its styles from every page, the admin and embeds. Emoji still show, drawn by the visitor's own system font."
-msgstr "Wyłącza zastępowanie emoji obrazkami z WordPress.org: usuwa skrypt wykrywający i jego style ze wszystkich stron, kokpitu i osadzeń. Emoji nadal są widoczne, wyświetlane czcionką systemową odwiedzającego."
-
-#: extensions/disable-feeds/extension.php:14
-msgid "Disable feeds"
-msgstr "Wyłącz kanały"
-
-#: extensions/disable-feeds/extension.php:15
-msgid "Switches off every RSS, RDF and Atom feed, including comment feeds: feed URLs answer with the theme's 404 page and the feed links leave the page head."
-msgstr "Wyłącza wszystkie kanały RSS, RDF i Atom, także kanały komentarzy: adresy kanałów zwracają stronę 404 motywu, a odnośniki do kanałów znikają z sekcji head strony."
-
-#: extensions/disable-fit-text/extension.php:14
-msgid "Disable fit text"
-msgstr "Wyłącz dopasowanie tekstu"
-
-#: extensions/disable-fit-text/extension.php:15
-msgid "Removes the \"Fit text\" typography option, which scales a heading or paragraph to fill its container with JavaScript and ignores the theme's font sizes. Blocks saved with it render at their normal size again."
-msgstr "Usuwa opcję typografii „Dopasuj tekst”, która za pomocą JavaScriptu skaluje nagłówek lub akapit tak, by wypełniał kontener, ignorując rozmiary czcionek motywu. Bloki zapisane z tą opcją znów wyświetlają się w normalnym rozmiarze."
-
-#: extensions/disable-openverse/extension.php:14
-msgid "Disable Openverse"
-msgstr "Wyłącz Openverse"
-
-#: extensions/disable-openverse/extension.php:15
-msgid "Removes the Openverse tab from the block inserter's Media section, so editors pick images from the Media Library only instead of hotlinking free-licence images from openverse.org."
-msgstr "Usuwa kartę Openverse z sekcji Multimedia w oknie wstawiania bloków, dzięki czemu redaktorzy wybierają obrazki wyłącznie z biblioteki multimediów, zamiast osadzać bezpośrednio obrazki na wolnych licencjach z openverse.org."
-
-#: extensions/disable-posts/extension.php:15
-msgid "Switches off the built-in Posts post type with its categories and tags: no admin menu, every post URL, archive and posts feed answers 404, and posts leave REST, XML-RPC, sitemaps and the block inserter. Set a static homepage first."
-msgstr "Wyłącza wbudowany typ treści Wpisy wraz z kategoriami i tagami: bez menu w kokpicie, każdy adres wpisu, archiwum i kanał wpisów zwraca błąd 404, a wpisy znikają z REST API, XML-RPC, map witryny i listy bloków do wstawienia. Najpierw ustaw statyczną stronę główną."
-
-#: extensions/disable-posts/hooks.php:554
-msgid "Reading settings and disabled posts"
-msgstr "Ustawienia czytania a wyłączone wpisy"
-
-#: extensions/disable-posts/hooks.php:573
-msgid "Open Settings → Reading"
-msgstr "Otwórz Ustawienia → Czytanie"
-
-#: extensions/disable-posts/hooks.php:576
-msgid "The homepage does not depend on posts"
-msgstr "Strona główna nie zależy od wpisów"
-
-#: extensions/disable-posts/hooks.php:584
-msgid "Posts are disabled, and Settings → Reading shows a static page as the homepage."
-msgstr "Wpisy są wyłączone, a w Ustawieniach → Czytanie jako strona główna wyświetlana jest strona statyczna."
-
-#: extensions/disable-posts/hooks.php:591
-msgid "The homepage shows latest posts, but posts are disabled"
-msgstr "Strona główna wyświetla najnowsze wpisy, ale wpisy są wyłączone"
-
-#: extensions/disable-posts/hooks.php:596
-msgid "With posts disabled, a homepage set to show the latest posts answers with “Page not found”. Choose a static page as the homepage."
-msgstr "Przy wyłączonych wpisach strona główna ustawiona na wyświetlanie najnowszych wpisów zwraca „Nie znaleziono strony”. Wybierz stronę statyczną jako stronę główną."
-
-#: extensions/disable-posts/hooks.php:600
-msgid "A posts page is set, but posts are disabled"
-msgstr "Ustawiono stronę z wpisami, ale wpisy są wyłączone"
-
-#. translators: %s: Page title.
-#: extensions/disable-posts/hooks.php:607
-#, php-format
-msgid "The page “%s” is set as the posts page, so it answers with “Page not found”. Set Posts page to “— Select —”."
-msgstr "Strona „%s” jest ustawiona jako strona z wpisami, więc zwraca „Nie znaleziono strony”. Ustaw stronę z wpisami na „— Wybierz —”."
-
-#: extensions/disable-xmlrpc/extension.php:14
-msgid "Disable XML-RPC"
-msgstr "Wyłącz XML-RPC"
-
-#: extensions/disable-xmlrpc/extension.php:15
-msgid "Refuses every request to xmlrpc.php with a 403 before any method runs, closing a common brute-force and pingback abuse route. Breaks Jetpack and old desktop or mobile publishing apps that still use XML-RPC."
-msgstr "Odrzuca każde żądanie do xmlrpc.php kodem 403, zanim uruchomi się jakakolwiek metoda, zamykając popularną drogę ataków siłowych i nadużyć pingbacków. Przestaje działać Jetpack oraz starsze aplikacje do publikowania na komputer lub telefon, które wciąż używają XML-RPC."
-
-#: extensions/enqueue-theme-block-styles/extension.php:14
-msgid "Load theme block styles per block"
-msgstr "Wczytuj style bloków motywu osobno dla każdego bloku"
-
-#: extensions/enqueue-theme-block-styles/extension.php:15
-msgid "Loads each stylesheet the theme builds for a block (build/blocks/<namespace>/<block>.css) only on pages where that block appears, and in the editor. For themes built on the Dekode project base."
-msgstr "Wczytuje każdy arkusz stylów zbudowany przez motyw dla bloku (build/blocks/<namespace>/<block>.css) tylko na stronach, na których ten blok występuje, oraz w edytorze. Dla motywów opartych na Dekode project base."
-
-#: extensions/redirect-authors/extension.php:16
-msgid "Hide author archives and user lists"
-msgstr "Ukryj archiwa autorów i listy użytkowników"
-
-#: extensions/redirect-authors/extension.php:17
-msgid "Author archives answer 404 instead of revealing login names, and visitors can no longer list users through the REST API, oEmbed or the users sitemap. Signed-in editors keep the editor's author picker."
-msgstr "Archiwa autorów zwracają 404 zamiast ujawniać nazwy użytkowników, a odwiedzający nie mogą już wyświetlić listy użytkowników przez REST API, oEmbed ani mapę witryny użytkowników. Zalogowani redaktorzy zachowują wybór autora w edytorze."
-
-#: extensions/redirect-authors/hooks.php:161
-msgid "Sorry, you are not allowed to list users."
-msgstr "Nie masz uprawnień do wyświetlania listy użytkowników."
-
-#: extensions/remove-core-block-styles/extension.php:14
-msgid "Remove core block styles"
-msgstr "Usuń wbudowane style bloków"
-
-#: extensions/remove-core-block-styles/extension.php:15
-msgid "Removes the styles WordPress ships for its own blocks (Outline button, Rounded image, Stripes table and the like) from the Styles panel, so editors choose only from the styles the theme registers. The theme can keep chosen ones."
-msgstr "Usuwa z panelu Style style, które WordPress dostarcza dla własnych bloków (przycisk z obramowaniem, zaokrąglony obrazek, tabela w paski itp.), dzięki czemu redaktorzy wybierają wyłącznie spośród stylów zarejestrowanych przez motyw. Motyw może zachować wybrane z nich."
-
-#: extensions/remove-core-patterns/extension.php:14
-msgid "Remove core patterns"
-msgstr "Usuń wbudowane wzorce"
-
-#: extensions/remove-core-patterns/extension.php:15
-msgid "Removes the patterns WordPress itself ships and the ones it downloads from the WordPress.org pattern directory, so the pattern inserter lists only the theme's and the site's own patterns."
-msgstr "Usuwa wzorce dostarczane przez sam WordPress oraz pobierane z katalogu wzorców WordPress.org, dzięki czemu przy wstawianiu wzorców widoczne są tylko wzorce motywu i witryny."
-
-#: extensions/remove-post-category/extension.php:14
-msgid "Remove categories from posts"
-msgstr "Usuń kategorie z wpisów"
-
-#: extensions/remove-post-category/extension.php:15
-msgid "Keeps posts but drops categories: no Categories screen or editor panel, and when nothing else uses categories, their archives answer 404 and they leave REST, sitemaps and the inserter."
-msgstr "Zachowuje wpisy, ale usuwa z nich kategorie: bez ekranu Kategorie i panelu w edytorze, a gdy nic innego nie używa kategorii, ich archiwa zwracają 404 i znikają z REST API, map witryny oraz listy bloków do wstawienia."
-
-#: extensions/remove-post-tags/extension.php:14
-msgid "Remove tags from posts"
-msgstr "Usuń tagi z wpisów"
-
-#: extensions/remove-post-tags/extension.php:15
-msgid "Keeps posts but drops tags: no Tags screen or editor panel, and when nothing else uses tags, their archives answer 404 and they leave REST, sitemaps and the inserter."
-msgstr "Zachowuje wpisy, ale usuwa z nich tagi: bez ekranu Tagi i panelu w edytorze, a gdy nic innego nie używa tagów, ich archiwa zwracają 404 i znikają z REST API, map witryny oraz listy bloków do wstawienia."
-
-#: extensions/reset-admin-dashboard/extension.php:14
-msgid "Clean up the dashboard"
-msgstr "Uporządkuj kokpit"
-
-#: extensions/reset-admin-dashboard/extension.php:15
-msgid "Removes the default widgets from the admin dashboard — Welcome, At a Glance, Activity, Quick Draft, WordPress Events and News, Site Health and common plugin widgets. Security warnings about PHP and the browser stay."
-msgstr "Usuwa domyślne widgety z kokpitu: Witaj, W skrócie, Aktywność, Szybki szkic, Wydarzenia i aktualności WordPressa, Stan witryny oraz popularne widgety wtyczek. Ostrzeżenia bezpieczeństwa dotyczące PHP i przeglądarki pozostają."
-
-#: includes/class-extensions.php:72
-msgid "Block editor"
-msgstr "Edytor bloków"
-
-#: includes/class-extensions.php:73
-msgid "Core blocks"
-msgstr "Bloki core"
-
-#: includes/class-extensions.php:74
-msgid "Security"
-msgstr "Bezpieczeństwo"
-
-#: includes/class-extensions.php:76
-#: includes/dashboard/support.php:235
-msgid "Theme"
-msgstr "Motyw"
 
 #: build/extensions/button-icon/editor.js:1
 #: extensions/button-icon/src/editor.js:250
@@ -2635,17 +3341,21 @@ msgstr "Pokaż tylko ikonę"
 #: build/extensions/button-icon/editor.js:1
 #: extensions/button-icon/src/editor.js:311
 msgid "The text is hidden on the page but still read by screen readers."
-msgstr "Tekst jest ukryty na stronie, ale nadal odczytywany przez czytniki ekranu."
+msgstr ""
+"Tekst jest ukryty na stronie, ale nadal odczytywany przez czytniki ekranu."
 
 #: build/extensions/button-icon/editor.js:1
 #: extensions/button-icon/src/editor.js:320
-msgid "Type the button text: it is the accessible label screen readers announce, and a button without text is not shown on the page."
-msgstr "Wpisz tekst przycisku: to dostępna etykieta odczytywana przez czytniki ekranu, a przycisk bez tekstu nie jest wyświetlany na stronie."
+msgid ""
+"Type the button text: it is the accessible label screen readers announce, "
+"and a button without text is not shown on the page."
+msgstr ""
+"Wpisz tekst przycisku: to dostępna etykieta odczytywana przez czytniki "
+"ekranu, a przycisk bez tekstu nie jest wyświetlany na stronie."
 
 #. translators: %s: icon name.
 #: build/extensions/core-accordion-custom-icons/editor.js:2
 #: extensions/core-accordion-custom-icons/src/editor.js:153
-#, js-format
 msgid "Default: %s"
 msgstr "Domyślnie: %s"
 
@@ -2656,8 +3366,12 @@ msgstr "Ikony przełącznika"
 
 #: build/extensions/core-accordion-custom-icons/editor.js:2
 #: extensions/core-accordion-custom-icons/src/editor.js:180
-msgid "Icons are switched off for this accordion. Turn \"Show icon\" back on to see them."
-msgstr "Ikony są wyłączone w tym akordeonie. Włącz ponownie „Pokaż ikonę”, aby je zobaczyć."
+msgid ""
+"Icons are switched off for this accordion. Turn \"Show icon\" back on to see"
+" them."
+msgstr ""
+"Ikony są wyłączone w tym akordeonie. Włącz ponownie „Pokaż ikonę”, aby je "
+"zobaczyć."
 
 #: build/extensions/core-accordion-custom-icons/editor.js:2
 #: extensions/core-accordion-custom-icons/src/editor.js:187
@@ -2686,357 +3400,518 @@ msgstr "Publikuj jako dane strukturalne FAQ"
 
 #: build/extensions/core-accordion-faq-schema/editor.js:1
 #: extensions/core-accordion-faq-schema/src/editor.js:58
-msgid "Adds every item of this accordion to the page as a question and answer in FAQPage JSON-LD. Use it only for real questions with one answer each."
-msgstr "Dodaje każdy element tego akordeonu do strony jako pytanie i odpowiedź w danych FAQPage JSON-LD. Używaj tylko dla prawdziwych pytań, z jedną odpowiedzią na każde."
-
-#: extensions/featured-image-column/extension.php:17
-msgid "Featured image column"
-msgstr "Kolumna obrazka wyróżniającego"
-
-#: extensions/featured-image-column/extension.php:18
-msgid "Shows a thumbnail of the featured image at the start of every list screen whose post type supports featured images, and the profile image on the Users screen when one is set."
-msgstr "Pokazuje miniaturę obrazka wyróżniającego na początku każdej listy treści, której typ obsługuje obrazki wyróżniające, oraz zdjęcie profilowe na ekranie Użytkownicy, jeśli je ustawiono."
-
-#: extensions/featured-image-column/hooks.php:199
-msgid "Featured image"
-msgstr "Obrazek wyróżniający"
-
-#: extensions/featured-image-column/hooks.php:305
-msgid "Profile image"
-msgstr "Zdjęcie profilowe"
-
-#: extensions/featured-image-column/extension.php:28
-msgid "Hide the column on"
-msgstr "Ukryj kolumnę na"
-
-#: extensions/featured-image-column/extension.php:33
-msgid "User image meta key"
-msgstr "Klucz meta zdjęcia użytkownika"
-
-#: extensions/featured-image-column/extension.php:34
-msgid "The user field that holds a profile image (attachment ID or URL). Empty: no column on Users."
-msgstr "Pole użytkownika ze zdjęciem profilowym (ID załącznika lub adres URL). Puste: brak kolumny na ekranie Użytkownicy."
-
-#: includes/dashboard/content-overview.php:162
-msgid "Upload"
-msgstr "Prześlij"
-
-#: includes/dashboard/content-overview.php:190
-msgid "Add new"
-msgstr "Dodaj nowy"
-
-#. translators: %s: number of posts.
-#: includes/dashboard/content-overview.php:211
-#, php-format
-msgid "%s published"
-msgid_plural "%s published"
-msgstr[0] "%s opublikowany"
-msgstr[1] "%s opublikowane"
-msgstr[2] "%s opublikowanych"
-
-#. translators: %s: number of posts.
-#: includes/dashboard/content-overview.php:214
-#, php-format
-msgid "%s draft"
-msgid_plural "%s drafts"
-msgstr[0] "%s szkic"
-msgstr[1] "%s szkice"
-msgstr[2] "%s szkiców"
-
-#. translators: %s: number of posts.
-#: includes/dashboard/content-overview.php:217
-#, php-format
-msgid "%s scheduled"
-msgid_plural "%s scheduled"
-msgstr[0] "%s zaplanowany"
-msgstr[1] "%s zaplanowane"
-msgstr[2] "%s zaplanowanych"
-
-#. translators: %s: number of posts.
-#: includes/dashboard/content-overview.php:220
-#, php-format
-msgid "%s pending review"
-msgid_plural "%s pending review"
-msgstr[0] "%s oczekuje na sprawdzenie"
-msgstr[1] "%s oczekują na sprawdzenie"
-msgstr[2] "%s oczekuje na sprawdzenie"
-
-#. translators: %s: number of posts.
-#: includes/dashboard/content-overview.php:223
-#, php-format
-msgid "%s private"
-msgid_plural "%s private"
-msgstr[0] "%s prywatny"
-msgstr[1] "%s prywatne"
-msgstr[2] "%s prywatnych"
-
-#: includes/dashboard/content-overview.php:236
-msgid "No content types to show."
-msgstr "Brak typów treści do wyświetlenia."
-
-#: includes/dashboard/content-overview.php:283
-msgid "View all"
-msgstr "Zobacz wszystkie"
-
-#. translators: %s: number of items.
-#: includes/dashboard/content-overview.php:305
-#, php-format
-msgid "%s item awaiting review"
-msgid_plural "%s items awaiting review"
-msgstr[0] "%s element czeka na sprawdzenie"
-msgstr[1] "%s elementy czekają na sprawdzenie"
-msgstr[2] "%s elementów czeka na sprawdzenie"
-
-#: includes/dashboard/content-overview.php:306
-msgid "Nothing awaiting review"
-msgstr "Nic nie czeka na sprawdzenie"
-
-#. translators: %s: number of items.
-#: includes/dashboard/content-overview.php:309
-#, php-format
-msgid "%s item total"
-msgid_plural "%s items total"
-msgstr[0] "%s element łącznie"
-msgstr[1] "%s elementy łącznie"
-msgstr[2] "%s elementów łącznie"
-
-#: includes/dashboard/settings.php:205
-#: build/admin/index.js:4
-#: src/admin/components/dashboard-tab.js:125
-msgid "Content overview"
-msgstr "Przegląd treści"
-
-#: includes/dashboard/settings.php:214
-#: build/admin/index.js:4
-#: src/admin/components/dashboard-tab.js:165
-msgid "Support"
-msgstr "Wsparcie"
-
-#: includes/dashboard/support.php:33
-msgid "Bug / something broken"
-msgstr "Błąd / coś nie działa"
-
-#: includes/dashboard/support.php:34
-msgid "Content or editing question"
-msgstr "Pytanie o treść lub edycję"
-
-#: includes/dashboard/support.php:35
-msgid "Access or login"
-msgstr "Dostęp lub logowanie"
-
-#: includes/dashboard/support.php:36
-msgid "Feature request"
-msgstr "Prośba o nową funkcję"
-
-#: includes/dashboard/support.php:37
-msgid "Other"
-msgstr "Inne"
-
-#: includes/dashboard/support.php:81
-msgid "Developer"
-msgstr "Wykonawca"
-
-#. translators: Accessibility text for a link that opens in a new tab.
-#: includes/dashboard/support.php:85
-msgid "(opens in a new tab)"
-msgstr "(otwiera się w nowej karcie)"
-
-#: includes/dashboard/support.php:113
-#: includes/dashboard/support.php:173
-msgid "Show form"
-msgstr "Pokaż formularz"
-
-#: includes/dashboard/support.php:120
-msgid "Your email"
-msgstr "Twój e-mail"
-
-#: includes/dashboard/support.php:126
-#: includes/dashboard/support.php:257
-msgid "Subject"
-msgstr "Temat"
-
-#: includes/dashboard/support.php:129
-#: includes/dashboard/support.php:258
-msgid "Problem type"
-msgstr "Rodzaj problemu"
-
-#: includes/dashboard/support.php:137
-msgid "Description"
-msgstr "Opis"
-
-#: includes/dashboard/support.php:143
-#: includes/dashboard/support.php:176
-msgid "Send request"
-msgstr "Wyślij zgłoszenie"
-
-#: includes/dashboard/support.php:144
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: includes/dashboard/support.php:174
-msgid "Hide form"
-msgstr "Ukryj formularz"
-
-#: includes/dashboard/support.php:175
-msgid "Sending…"
-msgstr "Wysyłanie…"
-
-#: includes/dashboard/support.php:177
-#: includes/dashboard/support.php:301
-msgid "Fill in your email, the subject and the description."
-msgstr "Uzupełnij e-mail, temat i opis."
-
-#: includes/dashboard/support.php:178
-#: includes/dashboard/support.php:330
-msgid "The request could not be sent. Try again, or write to us directly."
-msgstr "Nie udało się wysłać zgłoszenia. Spróbuj ponownie lub napisz do nas bezpośrednio."
-
-#: includes/dashboard/support.php:231
-#: includes/dashboard/support.php:345
-msgid "Site"
-msgstr "Witryna"
-
-#: includes/dashboard/support.php:232
-msgid "Sent by"
-msgstr "Wysłane przez"
-
-#: includes/dashboard/support.php:233
-msgid "WordPress"
-msgstr "WordPress"
-
-#: includes/dashboard/support.php:234
-msgid "PHP"
-msgstr "PHP"
-
-#: includes/dashboard/support.php:236
-msgid "Plugin"
-msgstr "Wtyczka"
-
-#: includes/dashboard/support.php:259
-msgid "Reply to"
-msgstr "Odpowiedz na"
-
-#: includes/dashboard/support.php:288
-msgid "A request was sent a moment ago. Wait a minute before sending another."
-msgstr "Zgłoszenie zostało wysłane przed chwilą. Odczekaj minutę przed wysłaniem kolejnego."
-
-#. translators: 1: site name, 2: request subject.
-#: includes/dashboard/support.php:318
-#, php-format
-msgid "[Support form] %1$s: %2$s"
-msgstr "[Formularz wsparcia] %1$s: %2$s"
-
-#. translators: %s: site name.
-#: includes/dashboard/support.php:321
-#, php-format
-msgid "Support request from %s"
-msgstr "Zgłoszenie do wsparcia z witryny %s"
-
-#: includes/dashboard/support.php:322
-msgid "Sent from the Support form on the WordPress dashboard."
-msgstr "Wysłane z formularza Wsparcie w kokpicie WordPressa."
-
-#. translators: %s: request subject.
-#: includes/dashboard/support.php:339
-#, php-format
-msgid "We received your support request: %s"
-msgstr "Otrzymaliśmy Twoje zgłoszenie: %s"
-
-#: includes/dashboard/support.php:341
-msgid "Your request has been sent"
-msgstr "Twoje zgłoszenie zostało wysłane"
-
-#. translators: %s: support email address.
-#: includes/dashboard/support.php:343
-#, php-format
-msgid "This is a copy of what you sent. We will reply to this address; you can also write to %s."
-msgstr "To kopia wysłanej wiadomości. Odpowiemy na ten adres; możesz też napisać na %s."
-
-#. translators: %s: email address.
-#: includes/dashboard/support.php:354
-#, php-format
-msgid "Thanks — your request has been sent. A copy went to %s."
-msgstr "Dziękujemy — zgłoszenie zostało wysłane. Kopia trafiła na adres %s."
-
-#. translators: %s: setting label.
-#: includes/rest.php:419
-#, php-format
-msgid "%s is not a valid email address."
-msgstr "%s nie jest prawidłowym adresem e-mail."
-
-#: build/admin/index.js:4
-#: src/admin/components/dashboard-tab.js:93
-msgid "Widgets on the WordPress dashboard for the people who run the site: what content there is, and how to reach support."
-msgstr "Widgety w kokpicie WordPressa dla osób prowadzących witrynę: jakie treści są na stronie i jak skontaktować się ze wsparciem."
-
-#: build/admin/index.js:4
-#: src/admin/components/dashboard-tab.js:108
-msgid "Dashboard widgets"
-msgstr "Widgety kokpitu"
-
-#: build/admin/index.js:4
-#: src/admin/components/dashboard-tab.js:109
-msgid "Off: nothing is added to the dashboard."
-msgstr "Wyłączone: nic nie jest dodawane do kokpitu."
-
-#: build/admin/index.js:4
-#: src/admin/components/dashboard-tab.js:128
-msgid "One row per content type with its icon, counts by status and View all / Add new."
-msgstr "Jeden wiersz na typ treści z ikoną, liczbą wpisów według statusu oraz przyciskami Zobacz wszystkie / Dodaj nowy."
-
-#: build/admin/index.js:4
-#: src/admin/components/dashboard-tab.js:135
-msgid "Show Content overview"
-msgstr "Pokaż Przegląd treści"
-
-#: build/admin/index.js:4
-#: src/admin/components/dashboard-tab.js:147
-msgid "Content types shown"
-msgstr "Wyświetlane typy treści"
-
-#. translators: 1: website, 2: email address.
-#: build/admin/index.js:5
-#: src/admin/components/dashboard-tab.js:170
-#, js-format
-msgid "Shows %1$s and %2$s, and a form that emails a request there with a copy to the sender."
-msgstr "Pokazuje %1$s i %2$s oraz formularz, który wysyła tam zgłoszenie e-mailem z kopią do nadawcy."
-
-#: build/admin/index.js:5
-#: src/admin/components/dashboard-tab.js:180
-msgid "Show Support"
-msgstr "Pokaż Wsparcie"
-
-#: build/admin/index.js:5
-#: src/admin/components/dashboard-tab.js:189
-msgid "Support request form"
-msgstr "Formularz zgłoszenia"
-
-#: build/admin/index.js:5
-#: src/admin/components/dashboard-tab.js:198
-msgid "Client email"
-msgstr "E-mail klienta"
-
-#: build/admin/index.js:5
-#: src/admin/components/dashboard-tab.js:199
-msgid "Prefilled in the form and used for the copy. Empty: the signed-in user’s own email."
-msgstr "Wstawiany do formularza i używany do wysłania kopii. Puste: e-mail zalogowanego użytkownika."
-
-#: build/admin/index.js:5
-#: src/admin/components/dashboard-tab.js:79
-msgid "Dashboard settings saved."
-msgstr "Zapisano ustawienia kokpitu."
-
-#: build/admin/index.js:5
-#: src/admin/components/dashboard-tab.js:219
-msgid "Save"
-msgstr "Zapisz"
-
-#: build/admin/index.js:5
-#: src/admin/components/extension-settings.js:133
-msgid "Save settings"
-msgstr "Zapisz ustawienia"
-
-#: build/admin/index.js:7
-#: src/admin/app.js:123
-msgid "Dashboard"
-msgstr "Kokpit"
+msgid ""
+"Adds every item of this accordion to the page as a question and answer in "
+"FAQPage JSON-LD. Use it only for real questions with one answer each."
+msgstr ""
+"Dodaje każdy element tego akordeonu do strony jako pytanie i odpowiedź w "
+"danych FAQPage JSON-LD. Używaj tylko dla prawdziwych pytań, z jedną "
+"odpowiedzią na każde."
+
+#: build/blocks/agenda-accordion-item/block.json
+#: src/blocks/agenda-accordion-item/block.json
+msgctxt "block title"
+msgid "Agenda Item"
+msgstr "Punkt agendy"
+
+#: build/blocks/agenda-accordion-item/block.json
+#: src/blocks/agenda-accordion-item/block.json
+msgctxt "block description"
+msgid ""
+"One expandable item of an agenda: a title, an optional date and summary, and"
+" content that opens on click."
+msgstr ""
+"Jeden rozwijany punkt agendy: tytuł, opcjonalna data i streszczenie oraz "
+"treść otwierana po kliknięciu."
+
+#: build/blocks/agenda-accordion/block.json
+#: src/blocks/agenda-accordion/block.json
+msgctxt "block title"
+msgid "Agenda Accordion"
+msgstr "Agenda (akordeon)"
+
+#: build/blocks/agenda-accordion/block.json
+#: src/blocks/agenda-accordion/block.json
+msgctxt "block description"
+msgid ""
+"A list of items that expand and collapse on click — for agendas, schedules "
+"or FAQs."
+msgstr ""
+"Lista elementów rozwijanych i zwijanych po kliknięciu — do agend, "
+"harmonogramów i FAQ."
+
+#: build/blocks/bento-card/block.json src/blocks/bento-card/block.json
+msgctxt "block title"
+msgid "Bento Card"
+msgstr "Kafelek bento"
+
+#: build/blocks/bento-card/block.json src/blocks/bento-card/block.json
+msgctxt "block description"
+msgid "One tile of a bento grid; drag its edges to make it wider or taller."
+msgstr ""
+"Jeden kafelek siatki bento; przeciągnij jego krawędzie, aby go poszerzyć lub"
+" wydłużyć."
+
+#: build/blocks/bento-card/block.json build/blocks/bento-grid/block.json
+#: src/blocks/bento-card/block.json src/blocks/bento-grid/block.json
+msgctxt "block keyword"
+msgid "bento"
+msgstr "bento"
+
+#: build/blocks/bento-card/block.json build/blocks/card-excerpt/block.json
+#: build/blocks/card-image/block.json build/blocks/card-slot/block.json
+#: build/blocks/card-title/block.json build/blocks/post-card/block.json
+#: src/blocks/bento-card/block.json src/blocks/card-excerpt/block.json
+#: src/blocks/card-image/block.json src/blocks/card-slot/block.json
+#: src/blocks/card-title/block.json src/blocks/post-card/block.json
+msgctxt "block keyword"
+msgid "card"
+msgstr "kafelek"
+
+#: build/blocks/bento-card/block.json build/blocks/bento-grid/block.json
+#: build/blocks/post-cards/block.json src/blocks/bento-card/block.json
+#: src/blocks/bento-grid/block.json src/blocks/post-cards/block.json
+msgctxt "block keyword"
+msgid "grid"
+msgstr "siatka"
+
+#: build/blocks/bento-grid/block.json src/blocks/bento-grid/block.json
+msgctxt "block title"
+msgid "Bento Grid"
+msgstr "Siatka bento"
+
+#: build/blocks/bento-grid/block.json src/blocks/bento-grid/block.json
+msgctxt "block description"
+msgid ""
+"A mosaic of tiles in different sizes, arranged separately for desktop, "
+"tablet and mobile."
+msgstr ""
+"Mozaika kafelków w różnych rozmiarach, układana osobno dla komputera, "
+"tabletu i telefonu."
+
+#: build/blocks/bento-grid/block.json src/blocks/bento-grid/block.json
+msgctxt "block keyword"
+msgid "layout"
+msgstr "układ"
+
+#: build/blocks/card-excerpt/block.json src/blocks/card-excerpt/block.json
+msgctxt "block title"
+msgid "Card Excerpt"
+msgstr "Zajawka karty"
+
+#: build/blocks/card-excerpt/block.json src/blocks/card-excerpt/block.json
+msgctxt "block description"
+msgid ""
+"The card's custom excerpt, or the post excerpt trimmed to a word count. "
+"Hidden by the Hide excerpt option."
+msgstr ""
+"Własna zajawka karty albo zajawka wpisu przycięta do liczby słów. Ukrywana "
+"opcją Ukryj zajawkę."
+
+#: build/blocks/card-excerpt/block.json src/blocks/card-excerpt/block.json
+msgctxt "block keyword"
+msgid "excerpt"
+msgstr "zajawka"
+
+#: build/blocks/card-excerpt/block.json src/blocks/card-excerpt/block.json
+msgctxt "block keyword"
+msgid "summary"
+msgstr "podsumowanie"
+
+#: build/blocks/card-image/block.json src/blocks/card-image/block.json
+msgctxt "block title"
+msgid "Card Image"
+msgstr "Obrazek karty"
+
+#: build/blocks/card-image/block.json src/blocks/card-image/block.json
+msgctxt "block description"
+msgid "The card's custom image, or the post's featured image."
+msgstr "Własny obrazek karty albo obrazek wyróżniający wpisu."
+
+#: build/blocks/card-image/block.json src/blocks/card-image/block.json
+msgctxt "block keyword"
+msgid "image"
+msgstr "obrazek"
+
+#: build/blocks/card-image/block.json src/blocks/card-image/block.json
+msgctxt "block keyword"
+msgid "featured image"
+msgstr "obrazek wyróżniający"
+
+#: build/blocks/card-image/block.json src/blocks/card-image/block.json
+msgctxt "block keyword"
+msgid "thumbnail"
+msgstr "miniatura"
+
+#: build/blocks/card-slot/block.json src/blocks/card-slot/block.json
+msgctxt "block title"
+msgid "Card Slot"
+msgstr "Slot karty"
+
+#: build/blocks/card-slot/block.json src/blocks/card-slot/block.json
+msgctxt "block description"
+msgid ""
+"A named place in a card template that the theme fills from PHP with the "
+"isudev_library/post_card/slot/{name} filter."
+msgstr ""
+"Nazwane miejsce w szablonie karty, które motyw wypełnia z PHP filtrem "
+"isudev_library/post_card/slot/{name}."
+
+#: build/blocks/card-slot/block.json src/blocks/card-slot/block.json
+msgctxt "block keyword"
+msgid "slot"
+msgstr "slot"
+
+#: build/blocks/card-slot/block.json src/blocks/card-slot/block.json
+msgctxt "block keyword"
+msgid "hook"
+msgstr "hak"
+
+#: build/blocks/card-slot/block.json src/blocks/card-slot/block.json
+msgctxt "block keyword"
+msgid "dynamic"
+msgstr "dynamiczny"
+
+#: build/blocks/card-title/block.json src/blocks/card-title/block.json
+msgctxt "block title"
+msgid "Card Title"
+msgstr "Tytuł karty"
+
+#: build/blocks/card-title/block.json src/blocks/card-title/block.json
+msgctxt "block description"
+msgid ""
+"The card's post title, or its custom title, linked to the post. The link "
+"covers the whole card."
+msgstr ""
+"Tytuł wpisu na karcie albo jej własny tytuł, z odnośnikiem do wpisu. "
+"Odnośnik obejmuje całą kartę."
+
+#: build/blocks/card-title/block.json src/blocks/card-title/block.json
+msgctxt "block keyword"
+msgid "title"
+msgstr "tytuł"
+
+#: build/blocks/card-title/block.json src/blocks/card-title/block.json
+msgctxt "block keyword"
+msgid "heading"
+msgstr "nagłówek"
+
+#: build/blocks/content-sidebar-aside/block.json
+#: src/blocks/content-sidebar-aside/block.json
+msgctxt "block title"
+msgid "Sidebar"
+msgstr "Panel boczny"
+
+#: build/blocks/content-sidebar-aside/block.json
+#: src/blocks/content-sidebar-aside/block.json
+msgctxt "block description"
+msgid ""
+"The sidebar column, for related links, contact details or a call to action."
+msgstr ""
+"Kolumna panelu bocznego — na powiązane linki, dane kontaktowe lub wezwanie "
+"do działania."
+
+#: build/blocks/content-sidebar-main/block.json
+#: src/blocks/content-sidebar-main/block.json
+msgctxt "block title"
+msgid "Main content"
+msgstr "Treść główna"
+
+#: build/blocks/content-sidebar-main/block.json
+#: src/blocks/content-sidebar-main/block.json
+msgctxt "block description"
+msgid "The main column of the layout."
+msgstr "Główna kolumna układu."
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block title"
+msgid "Content with sidebar"
+msgstr "Treść z panelem bocznym"
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block description"
+msgid ""
+"A main column with a sidebar beside it that can stay in view while the page "
+"scrolls."
+msgstr ""
+"Główna kolumna z panelem bocznym obok, który może pozostawać widoczny "
+"podczas przewijania strony."
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block keyword"
+msgid "sidebar"
+msgstr "panel boczny"
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block keyword"
+msgid "aside"
+msgstr "aside"
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block keyword"
+msgid "columns"
+msgstr "kolumny"
+
+#: build/blocks/content-sidebar/block.json
+#: src/blocks/content-sidebar/block.json
+msgctxt "block keyword"
+msgid "sticky"
+msgstr "przyklejony"
+
+#: build/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-badge/block.json
+msgctxt "block title"
+msgid "Google Reviews Badge"
+msgstr "Odznaka opinii Google"
+
+#: build/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-badge/block.json
+msgctxt "block description"
+msgid ""
+"A small badge with your Google rating that links to your Google Maps "
+"profile."
+msgstr "Mała odznaka z oceną w Google, prowadząca do profilu w Mapach Google."
+
+#: build/blocks/google-reviews-badge/block.json
+#: build/blocks/google-reviews-header/block.json
+#: build/blocks/google-reviews/block.json
+#: src/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews/block.json
+msgctxt "block keyword"
+msgid "reviews"
+msgstr "opinie"
+
+#: build/blocks/google-reviews-badge/block.json
+#: build/blocks/google-reviews-header/block.json
+#: build/blocks/google-reviews/block.json
+#: src/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews/block.json
+msgctxt "block keyword"
+msgid "google"
+msgstr "google"
+
+#: build/blocks/google-reviews-badge/block.json
+#: build/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-header/block.json
+msgctxt "block keyword"
+msgid "rating"
+msgstr "ocena"
+
+#: build/blocks/google-reviews-badge/block.json
+#: src/blocks/google-reviews-badge/block.json
+msgctxt "block keyword"
+msgid "badge"
+msgstr "odznaka"
+
+#: build/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews-header/block.json
+msgctxt "block title"
+msgid "Google Reviews Header"
+msgstr "Nagłówek opinii Google"
+
+#: build/blocks/google-reviews-header/block.json
+#: src/blocks/google-reviews-header/block.json
+msgctxt "block description"
+msgid ""
+"Your Google rating and logo, with a button inviting visitors to leave a "
+"review."
+msgstr ""
+"Ocena w Google i logo, z przyciskiem zachęcającym odwiedzających do "
+"wystawienia opinii."
+
+#: build/blocks/google-reviews/block.json src/blocks/google-reviews/block.json
+msgctxt "block title"
+msgid "Google Reviews"
+msgstr "Opinie Google"
+
+#: build/blocks/google-reviews/block.json src/blocks/google-reviews/block.json
+msgctxt "block description"
+msgid "Your Google reviews, shown as cards or a carousel."
+msgstr "Opinie z Google wyświetlane jako karty lub karuzela."
+
+#: build/blocks/google-reviews/block.json src/blocks/google-reviews/block.json
+msgctxt "block keyword"
+msgid "testimonials"
+msgstr "referencje"
+
+#: build/blocks/image-step-guide-step/block.json
+#: src/blocks/image-step-guide-step/block.json
+msgctxt "block title"
+msgid "Step"
+msgstr "Krok"
+
+#: build/blocks/image-step-guide-step/block.json
+#: src/blocks/image-step-guide-step/block.json
+msgctxt "block description"
+msgid "One step of a guide: an image next to its description."
+msgstr "Jeden krok przewodnika: obrazek obok opisu."
+
+#: build/blocks/image-step-guide/block.json
+#: src/blocks/image-step-guide/block.json
+msgctxt "block title"
+msgid "Image Step Guide"
+msgstr "Przewodnik krok po kroku"
+
+#: build/blocks/image-step-guide/block.json
+#: src/blocks/image-step-guide/block.json
+msgctxt "block description"
+msgid ""
+"Step-by-step instructions, each step with an image next to its description."
+msgstr "Instrukcja krok po kroku, każdy krok z obrazkiem obok opisu."
+
+#: build/blocks/post-card/block.json src/blocks/post-card/block.json
+msgctxt "block title"
+msgid "Post Card"
+msgstr "Karta wpisu"
+
+#: build/blocks/post-card/block.json src/blocks/post-card/block.json
+msgctxt "block description"
+msgid ""
+"One post as a card, drawn from the theme's card template for its post type. "
+"Works on its own, in Post Cards and in a Query Loop."
+msgstr ""
+"Jeden wpis jako karta, według szablonu karty z motywu dla jego typu treści. "
+"Działa samodzielnie, w bloku Karty wpisów i w pętli zapytania."
+
+#: build/blocks/post-card/block.json src/blocks/post-card/block.json
+msgctxt "block keyword"
+msgid "post"
+msgstr "wpis"
+
+#: build/blocks/post-card/block.json build/blocks/post-cards/block.json
+#: src/blocks/post-card/block.json src/blocks/post-cards/block.json
+msgctxt "block keyword"
+msgid "featured"
+msgstr "wyróżnione"
+
+#: build/blocks/post-card/block.json src/blocks/post-card/block.json
+msgctxt "block keyword"
+msgid "teaser"
+msgstr "zapowiedź"
+
+#: build/blocks/post-cards/block.json src/blocks/post-cards/block.json
+msgctxt "block title"
+msgid "Post Cards"
+msgstr "Karty wpisów"
+
+#: build/blocks/post-cards/block.json src/blocks/post-cards/block.json
+msgctxt "block description"
+msgid ""
+"A grid or carousel of post cards: hand-picked posts, query slots filled "
+"automatically, or both."
+msgstr ""
+"Siatka lub karuzela kart wpisów: wpisy wybrane ręcznie, sloty zapytania "
+"wypełniane automatycznie albo jedno i drugie."
+
+#: build/blocks/post-cards/block.json src/blocks/post-cards/block.json
+msgctxt "block keyword"
+msgid "cards"
+msgstr "karty"
+
+#: build/blocks/post-cards/block.json src/blocks/post-cards/block.json
+msgctxt "block keyword"
+msgid "posts"
+msgstr "wpisy"
+
+#: build/blocks/post-cards/block.json src/blocks/post-cards/block.json
+msgctxt "block keyword"
+msgid "carousel"
+msgstr "karuzela"
+
+#: build/blocks/post-cards/block.json src/blocks/post-cards/block.json
+msgctxt "block keyword"
+msgid "hand-picked"
+msgstr "wybrane ręcznie"
+
+#: build/blocks/read-more/block.json src/blocks/read-more/block.json
+msgctxt "block title"
+msgid "Read More"
+msgstr "Czytaj więcej"
+
+#: build/blocks/read-more/block.json src/blocks/read-more/block.json
+msgctxt "block description"
+msgid ""
+"A clickable card leading to another page, post or website, with a title, "
+"image and short text."
+msgstr ""
+"Klikalna karta prowadząca do innej strony, wpisu lub witryny, z tytułem, "
+"obrazkiem i krótkim tekstem."
+
+#: build/blocks/selling-point/block.json src/blocks/selling-point/block.json
+msgctxt "block title"
+msgid "Selling Point"
+msgstr "Zaleta"
+
+#: build/blocks/selling-point/block.json src/blocks/selling-point/block.json
+msgctxt "block description"
+msgid ""
+"One benefit: an icon or image, a title, a short description and an optional "
+"link."
+msgstr ""
+"Jedna zaleta: ikona lub obrazek, tytuł, krótki opis i opcjonalny link."
+
+#: build/blocks/selling-points/block.json src/blocks/selling-points/block.json
+msgctxt "block title"
+msgid "Selling Points"
+msgstr "Zalety"
+
+#: build/blocks/selling-points/block.json src/blocks/selling-points/block.json
+msgctxt "block description"
+msgid ""
+"A grid of your key benefits, each with an icon, title and short description."
+msgstr ""
+"Siatka najważniejszych zalet, każda z ikoną, tytułem i krótkim opisem."
+
+#: build/blocks/site-header/block.json src/blocks/site-header/block.json
+msgctxt "block title"
+msgid "Site Header"
+msgstr "Nagłówek witryny"
+
+#: build/blocks/site-header/block.json src/blocks/site-header/block.json
+msgctxt "block description"
+msgid ""
+"The top of every page: logo, navigation menu (with a mobile menu) and action"
+" buttons."
+msgstr ""
+"Górna część każdej strony: logo, menu nawigacyjne (z menu mobilnym) i "
+"przyciski akcji."
+
+#: build/blocks/social-share-network/block.json
+#: src/blocks/social-share-network/block.json
+msgctxt "block title"
+msgid "Share Button"
+msgstr "Przycisk udostępniania"
+
+#: build/blocks/social-share-network/block.json
+#: src/blocks/social-share-network/block.json
+msgctxt "block description"
+msgid "A button that shares the page on one social network."
+msgstr "Przycisk udostępniający stronę w jednym serwisie społecznościowym."
+
+#: build/blocks/social-share/block.json src/blocks/social-share/block.json
+msgctxt "block title"
+msgid "Social Share"
+msgstr "Udostępnianie"
+
+#: build/blocks/social-share/block.json src/blocks/social-share/block.json
+msgctxt "block description"
+msgid "Buttons for sharing the page on social networks."
+msgstr "Przyciski do udostępniania strony w serwisach społecznościowych."
+
+#: build/blocks/toggle-blocks/block.json src/blocks/toggle-blocks/block.json
+msgctxt "block title"
+msgid "Toggle Content"
+msgstr "Rozwijana treść"
+
+#: build/blocks/toggle-blocks/block.json src/blocks/toggle-blocks/block.json
+msgctxt "block description"
+msgid "Content hidden behind a button and shown when a visitor clicks it."
+msgstr "Treść ukryta za przyciskiem, pokazywana po jego kliknięciu."

@@ -1,6 +1,6 @@
 # E2E tests (Playwright)
 
-End-to-end tests for the Site Header Block, run against a **Local by Flywheel**
+End-to-end tests for the Site Header Block, the admin panel and Post Cards, run against a **Local by Flywheel**
 dev site over HTTP (default `http://isudev-library.local/`).
 
 ## Prerequisites
@@ -32,3 +32,9 @@ PLAYWRIGHT_BASE_URL="http://another.local/" npm run test:e2e
   focus trap, scroll lock, accordion.
 
 Each suite skips the viewport it doesn't apply to.
+
+## Post cards
+
+`post-cards.spec.js` creates its own posts, category and page over REST (admin
+login) and deletes them afterwards. It uses the plugin's default card template,
+so it needs no theme files.

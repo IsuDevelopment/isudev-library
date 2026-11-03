@@ -160,6 +160,28 @@ foreach ( $includes as $include_file ) {
 	$runtime[] = 'includes/' . \basename( $include_file );
 }
 
+// Feature modules under includes/ are runtime code too.
+$modules = \glob( $plugin_root . 'includes/*/*.{php,html}', GLOB_BRACE );
+$modules = \is_array( $modules ) ? $modules : array();
+
+foreach ( $modules as $module_file ) {
+	$runtime[] = \substr( $module_file, \strlen( $plugin_root ) );
+}
+
+/*
+ * Agent-facing documentation ships: agents in consuming projects read it from the
+ * installed plugin (bin/agents-init.php copies agents/README.md into their tree).
+ */
+$agent_docs = \glob( $plugin_root . 'guides/*.md' );
+$agent_docs = \is_array( $agent_docs ) ? $agent_docs : array();
+
+foreach ( $agent_docs as $guide_file ) {
+	$runtime[] = 'guides/' . \basename( $guide_file );
+}
+
+$runtime[] = 'agents/README.md';
+$runtime[] = 'bin/agents-init.php';
+
 foreach ( $runtime as $relative ) {
 	Checks::true(
 		'dist: runtime file survives .distignore — ' . $relative,
@@ -221,7 +243,6 @@ $dev_only = array(
 	'.agents/vendor/isudev-gutenberg.md',
 	'.claude/settings.json',
 	'docs/superpowers/specs/x.md',
-	'guides/bento-grid.md',
 	'composer.json',
 	'package.json',
 	'webpack.config.js',

@@ -42,10 +42,42 @@ names and descriptions, and editor strings. Rebuilding it is described in
 | [`isudev/google-reviews`](src/blocks/google-reviews/README.md) | Reviews from WP Google Review Slider, as a card grid or a carousel. |
 | [`isudev/google-reviews-header`](src/blocks/google-reviews-header/README.md) | A Google account's rating, logo and a review button. |
 | [`isudev/google-reviews-badge`](src/blocks/google-reviews-badge/README.md) | A compact Google rating badge linking to the account's Maps profile. |
+| [`isudev/post-cards`](src/blocks/post-cards/README.md) | A grid or carousel of post cards: hand-picked posts and query slots filled automatically. |
+| [`isudev/post-card`](src/blocks/post-card/README.md) | One post as a card from the theme's template for its post type — in Post Cards, on its own or in a Query Loop. |
+| [`isudev/card-title`](src/blocks/card-title/README.md), [`card-excerpt`](src/blocks/card-excerpt/README.md), [`card-image`](src/blocks/card-image/README.md), [`card-slot`](src/blocks/card-slot/README.md) | Building blocks for card templates; on whenever Post Card is. |
 
 Each block ships a `README.md` in its own directory: every setting, where to find
 it, what a theme can lock, and what to check when the block does not render.
 Deeper theme-side documentation lives in [`guides/`](guides/).
+
+Post cards replace T2 Featured Content: card templates per post type and
+variant (`isudev/cards/*.php` or Site Editor template parts), card options a
+theme registers, one PHP render for the page and the editor. See
+[`guides/post-cards.md`](guides/post-cards.md).
+
+## Using it with AI agents
+
+The library is built to be used and extended by coding agents. In a project
+that installs the plugin, run once from the project root (and again after each
+plugin update):
+
+```bash
+php wp-content/plugins/isudev-library/bin/agents-init.php
+```
+
+Adjust the path to where the plugin is installed (e.g. `public/content/plugins/…`).
+It writes `.agents/vendor/isudev-library.md` — the agent guide from
+[`agents/README.md`](agents/README.md): rules for consumers and a catalog of
+every block, extension and hook with the README or guide that explains it — and
+adds a short pointer block to the project's `AGENTS.md` (plus
+`.github/copilot-instructions.md` and `.cursor/rules/` when they exist).
+Everything outside the markers is left alone. In CI, `--check` fails when the
+vendored copy is stale.
+
+Claude Code, Codex, Cursor, Copilot and others read `AGENTS.md`; for Claude Code
+a project `CLAUDE.md` containing `use ./AGENTS.md` is enough.
+
+Working **on** this plugin instead: [`AGENTS.md`](AGENTS.md) is the contributor guide.
 
 ## Extensions
 
@@ -177,7 +209,10 @@ variation. See `isudev.json.example`.
 
 Each extension adds its own filters under
 `isudev_library/extensions/<slug>/…`, documented with examples in that
-extension's README — see the [Extensions](#extensions) table above.
+extension's README — see the [Extensions](#extensions) table above. Post cards
+add `isudev_library/post_card/…` and `isudev_library/post_cards/…`
+([`guides/post-cards.md`](guides/post-cards.md) → *Hooks*). The full list, with
+the doc for each, is the generated catalog in [`agents/README.md`](agents/README.md).
 
 Code-only mode — no panel, configuration lives entirely in `isudev.json`:
 

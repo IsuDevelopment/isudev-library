@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "isudev/card-image",
+  "version": "1.0.0",
+  "title": "Card Image",
+  "category": "theme",
+  "icon": "format-image",
+  "description": "The card's custom image, or the post's featured image.",
+  "keywords": [
+    "card",
+    "image",
+    "featured image",
+    "thumbnail"
+  ],
+  "textdomain": "isudev-library",
+  "usesContext": [
+    "postId",
+    "postType",
+    "isudev/cardOptions"
+  ],
+  "supports": {
+    "html": false,
+    "className": true
+  },
+  "attributes": {
+    "sizeSlug": {
+      "type": "string",
+      "default": "medium_large"
+    },
+    "aspectRatio": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

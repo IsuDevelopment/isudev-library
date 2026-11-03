@@ -39,10 +39,10 @@
 /playwright-report
 /playwright.config.js
 
-# Documentation that is not shipped. Per-block and per-extension READMEs live
-# inside src/ and extensions/ and DO ship — they document what the operator sees.
+# Documentation that is not shipped: design records and plans. Per-block and
+# per-extension READMEs, guides/, agents/ and bin/agents-init.php DO ship —
+# agents in consuming projects read them from the installed plugin.
 /docs
-/guides
 
 # Build and lint configuration.
 /webpack.config.js

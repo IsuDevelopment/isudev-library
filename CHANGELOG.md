@@ -1,5 +1,51 @@
 # Changelog
 
+## 1.19.0 — 2026-11-03
+
+### Added
+
+- **Post cards** — replaces T2 Featured Content. Guide: `guides/post-cards.md`.
+  - `isudev/post-cards`: grid or carousel (shared slider); hand-picked posts
+    (toolbar → *Add posts*, `@isudev/gutenberg` post picker) and query slots
+    filled by **one** query per block, skipping hand-picked posts and the
+    current post; optional *No repeats on this page*; columns per breakpoint.
+  - `isudev/post-card`: one post from the theme's template for its post type.
+    Works in Post Cards, on its own and inside a Query Loop. Template variant,
+    width per breakpoint, card options, and *Edit this card's layout* (detach
+    the template into the card as blocks).
+  - Templates: `{theme}/isudev/cards/{slug}.php` or the template part
+    `parts/card-{slug}.html` (Site Editor → Patterns → **Cards**, Site Editor
+    edits win). Slug order `{type}-{variant}`, `default-{variant}`, `{type}`,
+    `default`; `Card:` header for labels.
+  - Card options registry (`isudev_library/post_card/register_options`):
+    boolean, select, text and media options with a card → wrapper → default
+    cascade, auto-generated inspector UI, `has-card-*` classes and the
+    `isudev/cardOptions` block context. Built-ins: custom title, custom
+    excerpt, hide excerpt, custom image.
+  - Building blocks `isudev/card-title`, `card-excerpt`, `card-image`,
+    `card-slot` (filled by `isudev_library/post_card/slot/{name}`).
+  - Hooks: `isudev_library/post_card/template` (one PHP filter switches the
+    template on the page and in the editor), `…/classes`, `…/before`,
+    `…/after`, `…/render_block`, `…/excerpt`, `isudev_library/post_cards/query_args`;
+    JS `isudevLibrary.postCard.optionControl`.
+  - The editor preview is the PHP render, batched through
+    `POST isudev-library/v1/post-cards/preview` (`edit_posts`).
+  - E2E: `e2e/post-cards.spec.js` (hand-picked, query slots, no repeats,
+    Query Loop, carousel, mobile stacking, editor preview matches the page).
+- **Docs for agents in consuming projects.** `agents/README.md` (consumer rules
+  and a generated catalog of every block, extension and hook with its doc) and
+  `bin/agents-init.php`, which vendors it into a project as
+  `.agents/vendor/isudev-library.md` and adds a pointer to its `AGENTS.md`
+  (`--check` for CI). `tools/checks/320-agents-catalog.php` fails when the
+  catalog is stale or a hook is undocumented.
+
+### Changed
+
+- `guides/` now ships in the release zip.
+- `@isudev/gutenberg` ~0.2.0 (post picker suite).
+- The accessibility statement extension's README names its `url` and `link`
+  filters in full.
+
 ## 1.18.0 — 2026-10-16
 
 ### Added
