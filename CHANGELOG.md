@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.19.1 — 2026-11-03
+
+### Fixed
+
+- Release: the artifact check no longer rejects `guides/`, which ships since
+  1.19.0 with `agents/README.md` and `bin/agents-init.php` for agents in
+  consuming projects; it now requires them. 1.19.0 was tagged but never
+  published.
+
 ## 1.19.0 — 2026-11-03
 
 ### Added
