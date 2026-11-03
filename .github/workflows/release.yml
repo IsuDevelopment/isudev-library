@@ -121,7 +121,8 @@ jobs:
           ROOT="dist/isudev-library"
 
           # Runtime code. src/ and extensions/ are discovered from disk at runtime,
-          # so they are not build input and must be present.
+          # so they are not build input and must be present. guides/, agents/ and
+          # bin/agents-init.php ship too: agents in consuming projects read them.
           for required in \
             "$ROOT/isudev-library.php" \
             "$ROOT/uninstall.php" \
@@ -129,8 +130,12 @@ jobs:
             "$ROOT/build/blocks-manifest.php" \
             "$ROOT/includes/class-registry.php" \
             "$ROOT/includes/class-extensions.php" \
+            "$ROOT/includes/post-cards/boot.php" \
             "$ROOT/assets" \
-            "$ROOT/languages"; do
+            "$ROOT/languages" \
+            "$ROOT/guides/post-cards.md" \
+            "$ROOT/agents/README.md" \
+            "$ROOT/bin/agents-init.php"; do
             if [ ! -e "$required" ]; then
               echo "Artifact is missing $required"
               exit 1
@@ -148,7 +153,7 @@ jobs:
           # Development files that must never reach an install.
           LEAKED=$(find "$ROOT" \( \
               -name node_modules -o -name .git -o -name .github -o -name .agents \
-              -o -name .claude -o -name .superpowers -o -name docs -o -name guides \
+              -o -name .claude -o -name .superpowers -o -name docs \
               -o -name e2e -o -name tools -o -name AGENTS.md -o -name CLAUDE.md \
               -o -name composer.json -o -name package.json -o -name phpcs.xml.dist \
               -o -name webpack.config.js -o -name playwright.config.js \
