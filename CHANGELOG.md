@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.19.2 — 2026-11-10
+
+### Fixed
+
+- The Post Card and Post Cards pickers load posts in Site Editor template
+  parts. They now use `@isudev/gutenberg` 0.2.1, which leaves string template
+  identifiers out of REST post exclusions.
+
 ## 1.19.1 — 2026-11-03
 
 ### Fixed

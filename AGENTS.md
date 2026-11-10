@@ -225,5 +225,5 @@ that touches components, controls, fields or hooks from it, read
 every public module, its narrowest import and where the full documentation for that
 module lives. Import from the narrowest subpath; never from `dist/`.
 
-Pinned to @isudev/gutenberg@0.2.0. Refresh with `npx @isudev/gutenberg init`.
+Pinned to @isudev/gutenberg@0.2.1. Refresh with `npx @isudev/gutenberg init`.
 <!-- isudev-gutenberg:end -->

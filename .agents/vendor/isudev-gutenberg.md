@@ -1,4 +1,4 @@
-<!-- Vendored from @isudev/gutenberg@0.2.0. Do not edit.
+<!-- Vendored from @isudev/gutenberg@0.2.1. Do not edit.
      Refresh with `npx @isudev/gutenberg init` after upgrading the package. -->
 
 # `@isudev/gutenberg` — guide for coding agents
@@ -77,7 +77,7 @@ the post editor unconditionally, and `apiVersion 2` blocks stop working there.
 
 ## Module catalog
 
-`@isudev/gutenberg@0.2.0` — 33 public modules.
+`@isudev/gutenberg@0.2.1` — 33 public modules.
 Read the listed `Full docs` file before using a module; it documents every prop,
 behaviour and example. The paths are relative to the package root, so from a consumer
 project they resolve as `node_modules/@isudev/gutenberg/<path>`.
